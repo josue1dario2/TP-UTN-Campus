@@ -1,0 +1,14 @@
+[
+{
+  "directory": "E:/Estudio/2025/01-Tecnicatura/Cursada/Primer Año/Segundo Cutrimestre/Programacion_II/GitHub/TP integrador/TP-UTN-Campus/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe   -g -std=gnu++20 -o CMakeFiles\\TP_UTN_Campus.dir\\main.cpp.obj -c \"E:\\Estudio\\2025\\01-Tecnicatura\\Cursada\\Primer Año\\Segundo Cutrimestre\\Programacion_II\\GitHub\\TP integrador\\TP-UTN-Campus\\main.cpp\"",
+  "file": "E:/Estudio/2025/01-Tecnicatura/Cursada/Primer Año/Segundo Cutrimestre/Programacion_II/GitHub/TP integrador/TP-UTN-Campus/main.cpp",
+  "output": "CMakeFiles/TP_UTN_Campus.dir/main.cpp.obj"
+},
+{
+  "directory": "E:/Estudio/2025/01-Tecnicatura/Cursada/Primer Año/Segundo Cutrimestre/Programacion_II/GitHub/TP integrador/TP-UTN-Campus/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe   -g -std=gnu++20 -o CMakeFiles\\TP_UTN_Campus.dir\\Fecha.cpp.obj -c \"E:\\Estudio\\2025\\01-Tecnicatura\\Cursada\\Primer Año\\Segundo Cutrimestre\\Programacion_II\\GitHub\\TP integrador\\TP-UTN-Campus\\Fecha.cpp\"",
+  "file": "E:/Estudio/2025/01-Tecnicatura/Cursada/Primer Año/Segundo Cutrimestre/Programacion_II/GitHub/TP integrador/TP-UTN-Campus/Fecha.cpp",
+  "output": "CMakeFiles/TP_UTN_Campus.dir/Fecha.cpp.obj"
+}
+]
