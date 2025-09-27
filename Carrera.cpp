@@ -14,13 +14,13 @@ Carrera::Carrera() {
     _eliminado = false;
 }
 
-// --- Constructor con par�metros ---
+// --- Constructor con parámetros ---
 Carrera::Carrera(int idcarrera, const char* nombre, int duracionCuatrimestres, bool eliminado) {
-    _idCarrera = idcarrera;
-    strncpy(_nombre, nombre, sizeof(_nombre)-1);
-    _nombre[sizeof(_nombre)-1] = '\0';  // aseguramos terminaci�n
-    _duracionCuatrimestres = duracionCuatrimestres;
-    _eliminado = eliminado;
+    set_idCarrera(idcarrera);
+    set_nombre(nombre);
+    set_duracionCuatrimestres(duracionCuatrimestres);
+    set_eliminado(eliminado);
+
 }
 
 // --- Getters ---
@@ -47,7 +47,7 @@ void Carrera::cargar() {
     cin.getline(_nombre, 50);
     cout << "Ingrese duracion en cuatrimestres: ";
     cin >> _duracionCuatrimestres;
-    cout << "�_eliminado? (0 = No, 1 = Si): ";
+    cout << "¿_eliminado? (0 = No, 1 = Si): ";
     cin >> _eliminado;
 }
 
@@ -60,8 +60,8 @@ void Carrera::mostrar() const {
 string Carrera::toString() const {
     string s = "ID: " + to_string(_idCarrera);
     s += " | Nombre: " + string(_nombre);
-    s += " | Duraci�n: " + to_string(_duracionCuatrimestres) + " cuatrimestres";
-    s += " | Eliminado: " + string(_eliminado ? "S�" : "No");
+    s += " | Duración: " + to_string(_duracionCuatrimestres) + " cuatrimestres";
+    s += " | Eliminado: " + string(_eliminado ? "Sí" : "No");
     return s;
 }
 
