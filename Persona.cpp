@@ -1,17 +1,17 @@
 #include "Persona.h"
-// #include "Direccion.h" // 
+#include "Direccion.h" 
 #include <cstring>
 
 Persona::Persona()
-    : _dni(0) /*, _direccion()*/ {
+    : _dni(0), _direccion() {
     strcpy(_nombre, "");
     strcpy(_apellido, "");
     strcpy(_telefono, "");
     strcpy(_email, "");
 }
 
-Persona::Persona(int dni, const char* nombre, const char* apellido, const char* telefono, const char* email /*, Direccion direccion*/)
-    : _dni(dni) /*, _direccion(direccion)*/ {
+Persona::Persona(int dni, const char* nombre, const char* apellido, const char* telefono, const char* email, Direccion direccion)
+    : _dni(dni), _direccion(direccion) {
     setNombre(nombre);
     setApellido(apellido);
     setTelefono(telefono);
@@ -62,7 +62,6 @@ void Persona::setEmail(const char* email) {
     _email[sizeof(_email) - 1] = '\0';
 }
 
-/*
 Direccion Persona::getDireccion() const {
     return _direccion;
 }
@@ -70,13 +69,12 @@ Direccion Persona::getDireccion() const {
 void Persona::setDireccion(Direccion direccion) {
     _direccion = direccion;
 }
-*/
 
 std::string Persona::toString() const {
     return "DNI: " + std::to_string(_dni) +
            "\nNombre: " + _nombre +
            "\nApellido: " + _apellido +
            "\nTeléfono: " + _telefono +
-           "\nEmail: " + _email;
-           // + "\nDirección: " + _direccion.toString();
+           "\nEmail: " + _email +
+           "\nDirección: " + _direccion.toString();
 }
