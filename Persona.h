@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
-// #include "Direccion.h" // Comentado porque aún no está disponible
+#include "Direccion.h" 
 
 class Persona {
 public:
     Persona();
-    Persona(int dni, const char* nombre, const char* apellido, const char* telefono, const char* email);
+    Persona(int dni, const char* nombre, const char* apellido, const char* telefono, const char* email, Direccion direccion); 
 
     int getDni() const;
     void setDni(int dni);
@@ -22,8 +22,8 @@ public:
     const char* getEmail() const;
     void setEmail(const char* email);
 
-    // Direccion getDireccion() const;
-    // void setDireccion(Direccion direccion);
+    Direccion getDireccion() const; 
+    void setDireccion(Direccion direccion); 
 
     std::string toString() const;
 
@@ -33,5 +33,5 @@ private:
     char _apellido[50];
     char _telefono[50];
     char _email[50];
-    // Direccion _direccion;
+    Direccion _direccion; 
 };
