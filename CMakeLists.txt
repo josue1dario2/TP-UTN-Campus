@@ -4,6 +4,6 @@ project(TP_UTN_Campus)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(TP_UTN_Campus main.cpp
-        Fecha.h
-        Fecha.cpp
+        Direccion.h
+        Direccion.cpp
 )
