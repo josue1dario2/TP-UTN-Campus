@@ -1,8 +1,36 @@
+#include "Fecha.h"
 #include <iostream>
 #include <sstream>
-#include "Fecha.h"
-
 using namespace std;
+
+bool Fecha::esBisiesto(int anio) const
+{
+    return (anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0);
+}
+
+int Fecha::diasDelMes(int mes, int anio) const
+{
+    switch (mes)
+    {
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 12:
+        return 31;
+    case 4:
+    case 6:
+    case 9:
+    case 11:
+        return 30;
+    case 2:
+        return esBisiesto(anio) ? 29 : 28;
+    default:
+        return 0;
+    }
+}
 
 Fecha::Fecha()
 {
@@ -13,14 +41,15 @@ Fecha::Fecha()
 
 Fecha::Fecha(int dia, int mes, int anio)
 {
-    setDia(dia);
-    setMes(mes);
     setAnio(anio);
+    setMes(mes);
+    setDia(dia);
 }
 
 void Fecha::setDia(int dia)
 {
-    if (dia >= 1 && dia <= 31)
+    int maxDias = diasDelMes(_mes, _anio);
+    if (dia >= 1 && dia <= maxDias)
         _dia = dia;
     else
         _dia = 1;
@@ -36,7 +65,7 @@ void Fecha::setMes(int mes)
 
 void Fecha::setAnio(int anio)
 {
-    if (anio > 0)
+    if (anio >= 1900 && anio <= 2100)
         _anio = anio;
     else
         _anio = 2000;
@@ -48,17 +77,29 @@ int Fecha::getAnio() const { return _anio; }
 
 void Fecha::cargar()
 {
-    int d, m, a;
-    cout << "Ingrese dia: ";
-    cin >> d;
-    cout << "Ingrese mes: ";
-    cin >> m;
-    cout << "Ingrese anio: ";
-    cin >> a;
+    cout << "Ingrese anio (1900-2100): ";
+    cin >> _anio;
+    while (_anio < 1900 || _anio > 2100)
+    {
+        cout << "Anio invalido. Reingrese (1900-2100): ";
+        cin >> _anio;
+    }
 
-    setDia(d);
-    setMes(m);
-    setAnio(a);
+    cout << "Ingrese mes (1-12): ";
+    cin >> _mes;
+    while (_mes < 1 || _mes > 12)
+    {
+        cout << "Mes invalido. Reingrese (1-12): ";
+        cin >> _mes;
+    }
+
+    cout << "Ingrese dia (1-" << diasDelMes(_mes, _anio) << "): ";
+    cin >> _dia;
+    while (_dia < 1 || _dia > diasDelMes(_mes, _anio))
+    {
+        cout << "Dia invalido. Reingrese (1-" << diasDelMes(_mes, _anio) << "): ";
+        cin >> _dia;
+    }
 }
 
 void Fecha::mostrar() const
