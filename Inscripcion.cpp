@@ -106,7 +106,7 @@ bool Inscripcion::inscribirAFinal()
     }
 
     _intentosFinal++;
-    cout << "✅ Se inscribio correctamente al final. Intento "
+    cout << "Se inscribio correctamente al final. Intento "
          << _intentosFinal << " de 3.\n";
     return true;
 }
