@@ -3,23 +3,24 @@
 
 class Fecha
 {
-public:
-    Fecha();
-    Fecha (int dia, int mes, int anio);
-
-    int getDia();
-    void setDia(int dia);
-
-    int getMes();
-    void setMes(int mes);
-
-    int getAnio();
-    void setAnio(int anio);
-
-    std::string toString();
-
 private:
     int _dia;
     int _mes;
     int _anio;
+
+public:
+    Fecha();
+    Fecha(int dia, int mes, int anio);
+
+    void setDia(int dia);
+    void setMes(int mes);
+    void setAnio(int anio);
+
+    int getDia() const;
+    int getMes() const;
+    int getAnio() const;
+
+    void cargar();
+    void mostrar() const;
+    std::string toString() const;
 };
