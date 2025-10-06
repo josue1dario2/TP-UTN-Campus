@@ -90,4 +90,27 @@ bool Validacion::validarLongitudCadena(const string& cadena, size_t longMininaCa
 }
 
 
+bool Validacion::esAnioBisiesto(int anio){
+    return (anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0);
+}
 
+bool Validacion::esFechaValidaManual(int dia, int mes, int anio){
+    if (anio < 1 || mes < 1 || mes > 12 || dia < 1) return false;
+
+    int diasPorMes[] = {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; // Índice 0 no usado
+
+    if (mes == 2) {
+        if (esAnioBisiesto(anio)) {
+            if (dia > 29) return false;
+        } else {
+            if (dia > 28) return false;
+        }
+    } else {
+        if (dia > diasPorMes[mes]) return false;
+    }
+
+    return true;
+
+
+
+}
