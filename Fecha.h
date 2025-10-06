@@ -8,6 +8,9 @@ private:
     int _mes;
     int _anio;
 
+    bool esBisiesto(int anio) const;
+    int diasDelMes(int mes, int anio) const;
+
 public:
     Fecha();
     Fecha(int dia, int mes, int anio);
