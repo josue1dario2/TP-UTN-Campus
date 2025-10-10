@@ -2,18 +2,20 @@
 #include <sstream>
 #include <iostream>
 
-EvaluacionBase::EvaluacionBase() : _fecha(), _nota(0) {}
+EvaluacionBase::EvaluacionBase()
+    : _fecha(), _nota(1) { }
 
 EvaluacionBase::EvaluacionBase(const Fecha& fecha, int nota)
-    : _fecha(fecha), _nota(nota) {}
+    : _fecha(fecha), _nota(nota) { }
 
 void EvaluacionBase::setFecha(const Fecha& fecha) { _fecha = fecha; }
-void EvaluacionBase::setNota(int nota) { _nota = nota; }
+void EvaluacionBase::setNota(int nota)            { _nota  = nota;  }
 
 Fecha EvaluacionBase::getFecha() const { return _fecha; }
-int   EvaluacionBase::getNota()  const { return _nota; }
+int   EvaluacionBase::getNota()  const { return _nota;  }
 
 void EvaluacionBase::cargar() {
+    _nota = 1;
 }
 
 void EvaluacionBase::mostrar() const {
@@ -22,7 +24,7 @@ void EvaluacionBase::mostrar() const {
 
 std::string EvaluacionBase::toString() const {
     std::ostringstream os;
-    os << "EvaluacionBase{fecha=" << _fecha.toString()
-       << ", nota=" << _nota << "}";
+    os << "[EvaluacionBase] fecha=" << _fecha.toString()
+       << " | nota=" << _nota;
     return os.str();
 }
