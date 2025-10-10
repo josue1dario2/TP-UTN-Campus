@@ -3,8 +3,16 @@
   <component name="BackendCodeEditorSettings">
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003ADireccion_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003ADireccion_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
+    <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AEvaluacionBase_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
+    <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AEvaluacionBase_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AFecha_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AFecha_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
+    <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AInscripcionMesa_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
+    <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AInscripcionMesa_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
+    <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AInstanciaEvaluacion_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
+    <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AInstanciaEvaluacion_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
+    <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AMesaDocente_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
+    <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AMesaDocente_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003Amain_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/Highlighting/InspectionSeverities/=CDeclarationWithImplicitIntType/@EntryIndexedValue" value="WARNING" type="string" />
     <option name="/Default/CodeInspection/Highlighting/InspectionSeverities/=CommentTypo/@EntryIndexedValue" value="DO_NOT_SHOW" type="string" />
