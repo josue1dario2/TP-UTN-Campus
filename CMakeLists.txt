@@ -6,6 +6,9 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(TP_UTN_Campus
         main.cpp
         Direccion.cpp
-        MesaDocente.h
         MesaDocente.cpp
+        MesaExamen.cpp
+        Fecha.cpp
+        OfertaAcademica.cpp
+        Validacion.cpp   # <-- agregar
 )
