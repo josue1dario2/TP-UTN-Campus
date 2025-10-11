@@ -10,5 +10,7 @@ add_executable(TP_UTN_Campus
         MesaExamen.cpp
         Fecha.cpp
         OfertaAcademica.cpp
-        Validacion.cpp   # <-- agregar
+        Validacion.cpp
+        Cuota.h
+        Cuota.cpp   # <-- agregar
 )
