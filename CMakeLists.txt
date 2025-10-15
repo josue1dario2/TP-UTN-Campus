@@ -12,5 +12,11 @@ add_executable(TP_UTN_Campus
         OfertaAcademica.cpp
         Validacion.cpp
         Cuota.h
-        Cuota.cpp   # <-- agregar
+        Cuota.cpp
+        Alumno_menu.h
+        Alumno_menu.cpp
+        Profesor_menu.h
+        Profesor_menu.cpp
+        Tesoreria_menu.h
+        Tesoreria_menu.cpp   # <-- agregar
 )

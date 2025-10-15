@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BackendCodeEditorSettings">
+    <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AAlumno_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
+    <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AAlumno_005Fmenu_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
+    <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003AAlumno_005Fmenu_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
+    <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003ACuota_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003ACuota_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003ADireccion_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=B590C7A2_002DE65E_002D53A2_002DB80B_002DA083EE747ABC_002Ff_003ADireccion_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
