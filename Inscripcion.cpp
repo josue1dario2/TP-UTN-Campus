@@ -13,11 +13,12 @@ Inscripcion::Inscripcion()
     strcpy(_estado, "ACTIVA");
     _notaCursada = 1;
     _intentosFinal = 0;
+    _eliminado = false;
 }
 
 Inscripcion::Inscripcion(int idInscripcion, int idAlumno, int idComision,
                          const Fecha &fechaInscripcion, int opcionEstado,
-                         int notaCursada, int intentosFinal)
+                         int notaCursada, int intentosFinal,bool eliminado = false)
 {
     setIdInscripcion(idInscripcion);
     setIdAlumno(idAlumno);
@@ -26,6 +27,7 @@ Inscripcion::Inscripcion(int idInscripcion, int idAlumno, int idComision,
     setEstadoPorOpcion(opcionEstado);
     setNotaCursada(notaCursada);
     setIntentosFinal(intentosFinal);
+    setEliminado(eliminado);
 }
 
 void Inscripcion::setIdInscripcion(int v) { _idInscripcion = (v >= 0 ? v : 0); }
@@ -77,6 +79,7 @@ void Inscripcion::setIntentosFinal(int intentos)
         intentos = 3;
     _intentosFinal = (_notaCursada >= 6) ? intentos : 0;
 }
+void Inscripcion::setEliminado(bool eliminado){ _eliminado = eliminado;}
 
 int Inscripcion::getIdInscripcion() const { return _idInscripcion; }
 int Inscripcion::getIdAlumno() const { return _idAlumno; }
@@ -85,6 +88,7 @@ Fecha Inscripcion::getFechaInscripcion() const { return _fechaInscripcion; }
 const char *Inscripcion::getEstado() const { return _estado; }
 int Inscripcion::getNotaCursada() const { return _notaCursada; }
 int Inscripcion::getIntentosFinal() const { return _intentosFinal; }
+bool Inscripcion::getEliminado() const { return _eliminado; }
 
 bool Inscripcion::puedeInscribirseAFinal() const
 {

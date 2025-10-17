@@ -1,83 +1,67 @@
+// MesaExamen.cpp
 #include "MesaExamen.h"
 #include <iostream>
+#include <limits>
 #include <sstream>
-#include <cstring>
+
 using namespace std;
 
-MesaExamen::MesaExamen() : OfertaAcademica() {
-    _idMesa = 0;
-    _fecha  = Fecha();      // 01/01/1900 por tu ctor default o el que uses
-    _turno  = 1;            // FEBRERO por defecto
-}
-
-MesaExamen::MesaExamen(int idMesa, const Fecha& fecha, int turno)
-: OfertaAcademica()
-{
-    setIdMesa(idMesa);
-    setFecha(fecha);
-    setTurno(turno);
-}
-
-void MesaExamen::setIdMesa(int v) {
-    _idMesa = (v >= 0 ? v : 0);
-}
-
-void MesaExamen::setFecha(const Fecha& f) {
-    _fecha = f;
-}
-
-void MesaExamen::setTurno(int t) {
-    if (t < 1) t = 1;
-    if (t > 3) t = 3;
-    _turno = t;
-}
-
-int   MesaExamen::getIdMesa()  const { return _idMesa; }
-Fecha MesaExamen::getFecha()   const { return _fecha; }
-int   MesaExamen::getTurno()   const { return _turno; }
-
-const char* MesaExamen::turnoTexto() const {
-    switch (_turno) {
+static const char* turnoToText(int t) {
+    switch (t) {
         case 1: return "FEBRERO";
         case 2: return "JULIO";
         case 3: return "DICIEMBRE";
-        default: return "-";
+        default: return "DESCONOCIDO";
     }
+}
+
+MesaExamen::MesaExamen()
+: _idMesa(0), _fecha(), _turno(0), _eliminado(false) {}
+
+MesaExamen::MesaExamen(int idMesa, const Fecha& fecha, int turno, bool eliminado)
+: _idMesa(idMesa), _fecha(fecha), _turno(turno), _eliminado(eliminado) {}
+
+void MesaExamen::setIdMesa(int v)          { _idMesa = v; }
+void MesaExamen::setFecha(const Fecha& f)  { _fecha = f; }
+void MesaExamen::setTurno(int t)           { _turno = t; }
+void MesaExamen::setEliminado(bool e)      { _eliminado = e; }
+
+int   MesaExamen::getIdMesa() const        { return _idMesa; }
+Fecha MesaExamen::getFecha() const         { return _fecha; }
+int   MesaExamen::getTurno() const         { return _turno; }
+bool  MesaExamen::getEliminado() const     { return _eliminado; }
+
+const char* MesaExamen::turnoTexto() const {
+    return turnoToText(_turno);
 }
 
 void MesaExamen::cargar() {
-    cout << "=== Cargar Mesa de Examen ===\n";
-
-    cout << "ID Mesa: ";
+    cout << "ID de la mesa: ";
     cin >> _idMesa;
-    while (_idMesa < 0) {
-        cout << "Invalido. Reingrese (>=0): ";
-        cin >> _idMesa;
-    }
 
-    cout << "Fecha de mesa:\n";
+    cout << "Turno (1=FEBRERO, 2=JULIO, 3=DICIEMBRE): ";
+    cin >> _turno;
+
+    cout << "Fecha de la mesa:\n";
     _fecha.cargar();
 
-    cout << "Turno:\n";
-    cout << "  1) FEBRERO\n";
-    cout << "  2) JULIO\n";
-    cout << "  3) DICIEMBRE\n";
-    cout << "Elegir opcion (1-3): ";
-    cin >> _turno;
-    while (_turno < 1 || _turno > 3) {
-        cout << "Opcion invalida. Reingrese (1-3): ";
-        cin >> _turno;
-    }
+    _eliminado = false;
+
 }
 
 void MesaExamen::mostrar() const {
-    cout << toString() << endl;
+    cout << "Mesa de Examen\n";
+    cout << "  ID: " << _idMesa << "\n";
+    cout << "  Turno: " << turnoTexto() << " (" << _turno << ")\n";
+    cout << "  Fecha: "; _fecha.mostrar();
+    cout << "  Estado: " << (_eliminado ? "Eliminada" : "Activa") << "\n";
 }
 
 std::string MesaExamen::toString() const {
-    stringstream ss;
-    ss << "Mesa #" << _idMesa
-       << " | Fecha: " << _fecha.toString()
-       << " | Turno: " << turnoTexto();
-    return ss.str();
+    ostringstream os;
+    os << " | ID: " << _idMesa << "\n"
+       << " | Turno: " << turnoTexto() << " (" << _turno << ")\n"
+       << " | Fecha: " << _fecha.toString() << "\n"
+       << " | Estado: " << (_eliminado ? "Eliminada" : "Activa") << "\n";
+    return os.str();
 }

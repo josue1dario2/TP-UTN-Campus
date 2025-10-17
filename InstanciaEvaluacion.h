@@ -1,8 +1,8 @@
 #pragma once
-#include "EvaluacionBase.h"
+#include "Evaluacion.h"
 #include <string>
 
-class InstanciaEvaluacion : public EvaluacionBase {
+class InstanciaEvaluacion : public Evaluacion {
 private:
     int  _idEvaluacion{0};
     int  _idInscripcion{0};
