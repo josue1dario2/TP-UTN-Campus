@@ -3,14 +3,14 @@
 #include <sstream>
 
 InstanciaEvaluacion::InstanciaEvaluacion()
-    : EvaluacionBase(), _idEvaluacion(0), _idInscripcion(0) {
+    : Evaluacion(), _idEvaluacion(0), _idInscripcion(0) {
     _tipo[0] = '\0';
 }
 
 InstanciaEvaluacion::InstanciaEvaluacion(const Fecha& fecha, int nota,
                                          int idEvaluacion, int idInscripcion,
                                          const std::string& tipo)
-    : EvaluacionBase(fecha, nota),
+    : Evaluacion(fecha, nota),
       _idEvaluacion(idEvaluacion),
       _idInscripcion(idInscripcion) {
     std::strncpy(_tipo, tipo.c_str(), sizeof(_tipo) - 1);
@@ -34,7 +34,7 @@ std::string InstanciaEvaluacion::toString() const {
        << "idEvaluacion="   << _idEvaluacion
        << ", idInscripcion="<< _idInscripcion
        << ", tipo=\""       << _tipo << "\""
-       << ", base="         << EvaluacionBase::toString()
+       << ", base="         << Evaluacion::toString()
        << "}";
     return os.str();
 }

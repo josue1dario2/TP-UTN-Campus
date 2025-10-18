@@ -6,24 +6,17 @@
 
 Docente::Docente() : Persona()
 {
-    _idDocente = 0;
     _legajo = 0;
     strcpy(_rol, "");
     _eliminado = false;
 }
 
-Docente::Docente(int idDocente, int legajo, const char *rol, bool eliminado, const char *nombre, const char *apellido, int dni)
+Docente::Docente(int legajo, const char *rol, bool eliminado, const char *nombre, const char *apellido, int dni)
     : Persona(nombre, apellido, dni)
 {
-    _idDocente = idDocente;
     _legajo = legajo;
     strcpy(_rol, rol);
     _eliminado = eliminado;
-}
-
-void Docente::setIdDocente(int idDocente)
-{
-    _idDocente = idDocente;
 }
 
 void Docente::setLegajo(int legajo)
@@ -39,11 +32,6 @@ void Docente::setRol(const char *rol)
 void Docente::setEliminado(bool eliminado)
 {
     _eliminado = eliminado;
-}
-
-int Docente::getIdDocente() const
-{
-    return _idDocente;
 }
 
 int Docente::getLegajo() const

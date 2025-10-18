@@ -6,7 +6,6 @@
 
 using namespace std;
 
-// Constructor por defecto
 Materia::Materia() {
     setIdMateria(0);
     setIdCarrera(0);
@@ -16,17 +15,16 @@ Materia::Materia() {
     setEliminado(false);
 }
 
-    // Constructor parametrizado
-Materia::Materia(int idMateria, int idCarrera, const char* codigo, const char* nombre, int cuatrimestreSugerido, bool eliminado) {
+Materia::Materia(int idMateria, int idCarrera, const char* codigo, const char* nombre, int cuatrimestreSugerido,const char* estado, bool eliminado = false) {
     setIdMateria(idMateria);
     setIdCarrera(idCarrera);
     setCodigo(codigo);
     setNombre(nombre);
     setCuatrimestreSugerido(cuatrimestreSugerido);
+    setEstado(estado);
     setEliminado(eliminado);
     }
 
-    // Setters
 void Materia::setIdMateria(int idMateria) {
     _IdMateria = idMateria;
     }
@@ -49,11 +47,15 @@ void Materia::setCuatrimestreSugerido(int cuatrimestreSugerido) {
     _cuatrimestreSugerido = cuatrimestreSugerido;
     }
 
+void Materia::setEstado(const char* estado) {
+    strncpy(_estado, estado, sizeof(_estado));
+    _estado[sizeof(_estado) - 1] = '\0'; // Para asegurar que termine en null
+}
+
 void Materia::setEliminado(bool eliminado) {
     _eliminado = eliminado;
     }
 
-    // Getters
 int Materia::getIdMateria() const {
     return _IdMateria;
     }
@@ -74,11 +76,14 @@ int Materia::getCuatrimestreSugerido() const {
     return _cuatrimestreSugerido;
     }
 
+const char* Materia::getEstado() const {
+    return _estado;
+}
+
 bool Materia::getEliminado() const {
     return _eliminado;
     }
 
-    // Método para cargar datos por consola
 void Materia::cargar() {
     int idMateria, idCarrera, cuatrimestreSugerido;
     char codigo[10], nombre[50];
@@ -101,23 +106,18 @@ void Materia::cargar() {
     cout << "Cuatrimestre sugerido: ";
     cin >> cuatrimestreSugerido;
 
-    cout << "¿Está _eliminado? (1 = Sí, 0 = No): ";
-    cin >> eliminado;
-
-    // Usar setters
     setIdMateria(idMateria);
     setIdCarrera(idCarrera);
     setCodigo(codigo);
     setNombre(nombre);
     setCuatrimestreSugerido(cuatrimestreSugerido);
-    setEliminado(eliminado);
+    setEliminado(false);
     }
 
 void Materia::mostrar() const {
         cout << toString() << endl;
 }
 
-    // Método para mostrar datos por consola
 string Materia::toString() const {
     string s= "\n | ID de Materia: " + to_string(_IdMateria)+"\n";
     s+= " | ID de Carrera: " + to_string(_idCarrera)+"\n";

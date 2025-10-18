@@ -1,38 +1,34 @@
 #pragma once
 #include <iostream>
 
-class Correlativa 
-{
-public:
-    // Constructor por defecto
-    Correlativa();
-
-    // Constructor con parámetros
-    Correlativa(int idCorrelativa, int plan, int idObjetivo, int idReq, int tipo);
-
-    // Setters
-    void setIdCorrelativa(int id);
-    void setPlan(int plan);
-    void setIdPlanMateriaObjetivo(int idObjetivo);
-    void setIdPlanMateriaReq(int idReq);
-    void setTipoCorrelativa(int tipo);
-
-    // Getters
-    int getIdCorrelativa() const;
-    int getPlan() const;
-    int getIdPlanMateriaObjetivo() const;
-    int getIdPlanMateriaReq() const;
-    int getTipoCorrelativa() const;
-
-    // Métodos
-    void mostrar() const;
-    void cargar();
-
+class Correlativa {
 private:
-int _idCorrelativa;
-int _plan;
-int _idPlanMateriaObjetivo;
-int _idPlanMateriaReq;
-int _tipoCorrelativa;
+    int  _idCorrelativa;
+    int  _idCarrera;
+    int  _idMateriaObjetivo;
+    int  _idMateriaRequisito;
+    int  _tipoCorrelativa;     // 1=Regularizada, 2=Aprobada, etc.
+    bool _eliminado;
 
+public:
+    Correlativa();
+    Correlativa(int idCorrelativa, int idCarrera, int idMateriaObjetivo,
+                int idMateriaRequisito, int tipoCorrelativa, bool eliminado = false);
+
+    void setIdCorrelativa(int idCorrelativa);
+    void setIdCarrera(int idCarrera);
+    void setIdMateriaObjetivo(int idMateriaObjetivo);
+    void setIdMateriaRequisito(int idMateriaRequisito);
+    void setTipoCorrelativa(int tipoCorrelativa);
+    void setEliminado(bool eliminado);
+
+    int  getIdCorrelativa() const;
+    int  getIdCarrera() const;
+    int  getIdMateriaObjetivo() const;
+    int  getIdMateriaRequisito() const;
+    int  getTipoCorrelativa() const;
+    bool getEliminado() const;
+
+    void cargar();
+    void mostrar() const;
 };

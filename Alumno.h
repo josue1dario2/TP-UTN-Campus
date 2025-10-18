@@ -4,13 +4,6 @@
 
 class Alumno : public Persona
 {
-private:
-    int _idAlumno;
-    int _legajo;
-    Fecha _fechaIngreso;
-    bool _esBecado;
-    bool _eliminado;
-
 public:
     Alumno();
     Alumno(int idAlumno, int legajo, Fecha fechaIngreso, bool esBecado, bool eliminado);
@@ -28,4 +21,11 @@ public:
     bool getEliminado() const;
 
     void mostrar() const;
+
+private:
+    int _idAlumno;
+    int _legajo;
+    Fecha _fechaIngreso;
+    bool _eliminado;
+
 };
