@@ -1,40 +1,43 @@
 #pragma once
 #include <string>
+#include <cstring>
+#include <iostream>
 
 class Comision {
 public:
     Comision();
-    Comision(int idComision, int idCursada, const char* codigo, const char* turno, const char* modalidad, const char* aula, int cupo);
+    Comision(int idComision, int idMateria,
+             const char* turno, const char* modalidad,
+             int cuatrimestre, bool eliminado = false);
 
-    void setIdComision(int id);
-    void setIdCursada(int id);
-    void setCodigo(const char* cod);
-    void setTurno(const char* t);
-    void setModalidad(const char* m);
-    void setAula(const char* a);
-    void setCupo(int c);
+    int  getIdComision() const;
+    void setIdComision(int v);
 
-    int getIdComision() const;
-    int getIdCursada() const;
-    const char* getCodigo() const;
+    int  getIdMateria() const;
+    void setIdMateria(int v);
+
     const char* getTurno() const;
+    void setTurno(const char* v);
+
     const char* getModalidad() const;
-    const char* getAula() const;
-    int getCupo() const;
+    void setModalidad(const char* v);
+
+    int  getCuatrimestre() const;
+    void setCuatrimestre(int v);
+
     bool getEliminado() const;
+    void setEliminado(bool v);
+
+    std::string toString() const;
 
     void cargar();
     void mostrar() const;
-    std::string toString() const;
-
 
 private:
-    int _idComision;
-    int _idCursada;
-    char _codigo[20];
-    char _turno[10];          // "Mañana"/"Tarde"/"Noche"
-    char _modalidad[10];      // "Presencial"/"Virtual"/"Híbrida"
-    char _aula[20];
-    int _cupo;
+    int  _idComision;
+    int  _idMateria;
+    char _turno[10];     // "Mañana", "Tarde", "Noche"
+    char _modalidad[10]; // "Presencial", "Virtual", "Híbrida"
+    int  _cuatrimestre;
     bool _eliminado;
 };

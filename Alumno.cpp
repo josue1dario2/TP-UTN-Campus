@@ -1,40 +1,35 @@
-#include <iostream>
 #include "Alumno.h"
+#include <string>
 
-using namespace std;
-
-Alumno::Alumno() : Persona()
-{
-    _idAlumno = 0;
-    _legajo = 0;
-    _fechaIngreso = Fecha();
-    _eliminado = false;
+Alumno::Alumno()
+    : Persona(), _legajo(0), _fechaIngreso() {
 }
 
-Alumno::Alumno(int idAlumno, int legajo, Fecha fechaIngreso, bool eliminado)
-    : Persona()
-{
-    _idAlumno = idAlumno;
+Alumno::Alumno(int legajo, int dni, const char* nombre, const char* apellido,
+               const char* telefono, const char* email, Direccion direccion,
+               Fecha fechaIngreso, bool eliminado)
+    : Persona(dni, nombre, apellido, telefono, email, direccion, eliminado),
+      _legajo(legajo), _fechaIngreso(fechaIngreso) {
+}
+
+int Alumno::getLegajo() const {
+    return _legajo;
+}
+
+void Alumno::setLegajo(int legajo) {
     _legajo = legajo;
-    _fechaIngreso = fechaIngreso;
-    _eliminado = eliminado;
 }
 
-void Alumno::setIdAlumno(int idAlumno) { _idAlumno = idAlumno; }
-void Alumno::setLegajo(int legajo) { _legajo = legajo; }
-void Alumno::setFechaIngreso(const Fecha &fechaIngreso) { _fechaIngreso = fechaIngreso; }
-void Alumno::setEliminado(bool eliminado) { _eliminado = eliminado; }
+Fecha Alumno::getFechaIngreso() const {
+    return _fechaIngreso;
+}
 
-int Alumno::getIdAlumno() const { return _idAlumno; }
-int Alumno::getLegajo() const { return _legajo; }
-Fecha Alumno::getFechaIngreso() const { return _fechaIngreso; }
-bool Alumno::getEliminado() const { return _eliminado; }
+void Alumno::setFechaIngreso(Fecha fechaIngreso) {
+    _fechaIngreso = fechaIngreso;
+}
 
-void Alumno::mostrar() const
-{
-    cout << "ID Alumno: " << _idAlumno << endl;
-    cout << "Legajo: " << _legajo << endl;
-    cout << "Fecha de Ingreso: ";
-    _fechaIngreso.mostrar();
-    cout << "Eliminado: " << (_eliminado ? "Si" : "No") << endl;
+std::string Alumno::toString() const {
+    return Persona::toString() +
+           "\nLegajo: " + std::to_string(_legajo) +
+           "\nFecha de ingreso: " + _fechaIngreso.toString();
 }

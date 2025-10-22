@@ -1,64 +1,53 @@
 #include "Correlativa.h"
-using namespace std;
+#include <iostream>
 
-Correlativa::Correlativa() {
-    _idCorrelativa      = 0;
-    _idCarrera          = 0;
-    _idMateriaObjetivo  = 0;
-    _idMateriaRequisito = 0;
-    _tipoCorrelativa    = 0;
-    _eliminado          = false;
+using std::cin; using std::cout; using std::string;
+
+Correlativa::Correlativa()
+    : _idCarrera(0), _idMateriaObjetivo(0), _idMateriaRequisito(0),
+      _tipo(0), _eliminado(false) {}
+
+Correlativa::Correlativa(int idCarrera, int idMateriaObjetivo, int idMateriaRequisito,
+                         int tipo, bool eliminado)
+    : _idCarrera(idCarrera), _idMateriaObjetivo(idMateriaObjetivo),
+      _idMateriaRequisito(idMateriaRequisito), _tipo(tipo), _eliminado(eliminado) {}
+
+int  Correlativa::getIdCarrera() const { return _idCarrera; }
+void Correlativa::setIdCarrera(int v) { _idCarrera = v; }
+
+int  Correlativa::getIdMateriaObjetivo() const { return _idMateriaObjetivo; }
+void Correlativa::setIdMateriaObjetivo(int v) { _idMateriaObjetivo = v; }
+
+int  Correlativa::getIdMateriaRequisito() const { return _idMateriaRequisito; }
+void Correlativa::setIdMateriaRequisito(int v) { _idMateriaRequisito = v; }
+
+int  Correlativa::getTipo() const { return _tipo; }
+void Correlativa::setTipo(int v) { _tipo = v; }
+
+bool Correlativa::getEliminado() const { return _eliminado; }
+void Correlativa::setEliminado(bool v) { _eliminado = v; }
+
+std::string Correlativa::toString() const {
+    string tipoStr = (_tipo == 1 ? "Regularizada" :
+                      _tipo == 2 ? "Aprobada" : "Otro");
+    return "Carrera ID: " + std::to_string(_idCarrera) +
+           "\nMateria Objetivo ID: " + std::to_string(_idMateriaObjetivo) +
+           "\nMateria Requisito ID: " + std::to_string(_idMateriaRequisito) +
+           "\nTipo: " + tipoStr +
+           "\nEliminado: " + string(_eliminado ? "Sí" : "No");
 }
 
-Correlativa::Correlativa(int idCorrelativa, int idCarrera, int idMateriaObjetivo,
-                         int idMateriaRequisito, int tipoCorrelativa, bool eliminado = false) {
-    _idCorrelativa      = idCorrelativa;
-    _idCarrera          = idCarrera;
-    _idMateriaObjetivo  = idMateriaObjetivo;
-    _idMateriaRequisito = idMateriaRequisito;
-    _tipoCorrelativa    = tipoCorrelativa;
-    _eliminado          = eliminado;
+void Correlativa::cargar(){
+    cout << "ID Carrera: ";            cin >> _idCarrera;           cin.ignore(10000, '\n');
+    cout << "ID Materia Objetivo: ";   cin >> _idMateriaObjetivo;   cin.ignore(10000, '\n');
+    cout << "ID Materia Requisito: ";  cin >> _idMateriaRequisito;  cin.ignore(10000, '\n');
+    cout << "Tipo (1=Regularizada, 2=Aprobada): ";
+    cin >> _tipo;                      cin.ignore(10000, '\n');
+    int e = 0; cout << "Eliminado (0/1): ";
+    cin >> e;                          cin.ignore(10000, '\n');
+    _eliminado = (e != 0);
 }
 
-void Correlativa::setIdCorrelativa(int idCorrelativa)        { _idCorrelativa = idCorrelativa; }
-void Correlativa::setIdCarrera(int idCarrera)                 { _idCarrera = idCarrera; }
-void Correlativa::setIdMateriaObjetivo(int idMateriaObjetivo) { _idMateriaObjetivo = idMateriaObjetivo; }
-void Correlativa::setIdMateriaRequisito(int idMateriaRequisito) { _idMateriaRequisito = idMateriaRequisito; }
-void Correlativa::setTipoCorrelativa(int tipoCorrelativa)     { _tipoCorrelativa = tipoCorrelativa; }
-void Correlativa::setEliminado(bool eliminado)                { _eliminado = eliminado; }
-
-int  Correlativa::getIdCorrelativa() const       { return _idCorrelativa; }
-int  Correlativa::getIdCarrera() const           { return _idCarrera; }
-int  Correlativa::getIdMateriaObjetivo() const   { return _idMateriaObjetivo; }
-int  Correlativa::getIdMateriaRequisito() const  { return _idMateriaRequisito; }
-int  Correlativa::getTipoCorrelativa() const     { return _tipoCorrelativa; }
-bool Correlativa::getEliminado() const           { return _eliminado; }
-
-
-void Correlativa::cargar() {
-    cout << "ID Correlativa: ";
-    cin  >> _idCorrelativa;
-
-    cout << "ID Carrera: ";
-    cin  >> _idCarrera;
-
-    cout << "ID Materia Objetivo: ";
-    cin  >> _idMateriaObjetivo;
-
-    cout << "ID Materia Requisito: ";
-    cin  >> _idMateriaRequisito;
-
-    cout << "Tipo Correlativa (1=Regularizada, 2=Aprobada, etc.): ";
-    cin  >> _tipoCorrelativa;
-
-    _eliminado = false;
-}
-
-void Correlativa::mostrar() const {
-    cout << "IdCorrelativa:      " << _idCorrelativa      << '\n';
-    cout << "IdCarrera:          " << _idCarrera          << '\n';
-    cout << "IdMateriaObjetivo:  " << _idMateriaObjetivo  << '\n';
-    cout << "IdMateriaRequisito: " << _idMateriaRequisito << '\n';
-    cout << "TipoCorrelativa:    " << _tipoCorrelativa    << '\n';
-    cout << "Eliminado:          " << (_eliminado ? "Si" : "No") << '\n';
+void Correlativa::mostrar() const{
+    cout << toString() << "\n";
 }

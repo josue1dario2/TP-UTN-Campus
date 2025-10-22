@@ -117,7 +117,6 @@ void Materia::cargar() {
 void Materia::mostrar() const {
         cout << toString() << endl;
 }
-
 string Materia::toString() const {
     string s= "\n | ID de Materia: " + to_string(_IdMateria)+"\n";
     s+= " | ID de Carrera: " + to_string(_idCarrera)+"\n";
