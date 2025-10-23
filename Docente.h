@@ -1,27 +1,22 @@
 #pragma once
 #include "Persona.h"
-#include <string>
 
-class Docente : public Persona
-{
+class Docente : public Persona {
 public:
     Docente();
-    Docente(int legajo, const char *rol, bool eliminado, const char *nombre, const char *apellido, int dni);
-
-    void setLegajo(int legajo);
-    void setRol(const char *rol);
-    void setEliminado(bool eliminado);
+    Docente(int legajo, int dni, const char* nombre, const char* apellido,
+            const char* telefono, const char* email, Direccion direccion,
+            const char* rol, bool eliminado = false);
 
     int getLegajo() const;
-    const char *getRol() const;
-    bool getEliminado() const;
+    void setLegajo(int legajo);
 
-    void cargar();
-    void mostrar() const;
+    const char* getRol() const;
+    void setRol(const char* rol);
+
     std::string toString() const;
 
 private:
     int _legajo;
     char _rol[20];
-    bool _eliminado;
 };

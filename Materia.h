@@ -35,3 +35,4 @@ private:
     char _estado[20];
     bool _eliminado;
 };
+

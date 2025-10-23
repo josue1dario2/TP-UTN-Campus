@@ -6,10 +6,11 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(TP_UTN_Campus
         main.cpp
         Direccion.cpp
-        MesaExamen.cpp
         Fecha.cpp
         Validacion.cpp
-        Calificacion.h
-        Calificacion.cpp
+        Correlativa.h
+        Correlativa.cpp
+        Examen.h
+        Examen.cpp
         # <-- agregar
 )

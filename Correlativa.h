@@ -1,34 +1,27 @@
 #pragma once
-#include <iostream>
+#include <string>
 
 class Correlativa {
-private:
-    int  _idCorrelativa;
-    int  _idCarrera;
-    int  _idMateriaObjetivo;
-    int  _idMateriaRequisito;
-    int  _tipoCorrelativa;     // 1=Regularizada, 2=Aprobada, etc.
-    bool _eliminado;
-
 public:
     Correlativa();
-    Correlativa(int idCorrelativa, int idCarrera, int idMateriaObjetivo,
-                int idMateriaRequisito, int tipoCorrelativa, bool eliminado = false);
+    Correlativa(int idCarrera, int idMateriaObjetivo, int idMateriaRequisito,
+                int tipo, bool eliminado = false);
 
-    void setIdCorrelativa(int idCorrelativa);
-    void setIdCarrera(int idCarrera);
-    void setIdMateriaObjetivo(int idMateriaObjetivo);
-    void setIdMateriaRequisito(int idMateriaRequisito);
-    void setTipoCorrelativa(int tipoCorrelativa);
-    void setEliminado(bool eliminado);
+    int  getIdCarrera() const;          void setIdCarrera(int idCarrera);
+    int  getIdMateriaObjetivo() const;  void setIdMateriaObjetivo(int idMateriaObjetivo);
+    int  getIdMateriaRequisito() const; void setIdMateriaRequisito(int idMateriaRequisito);
+    int  getTipo() const;               void setTipo(int tipo); // 1=Regularizada, 2=Aprobada
+    bool getEliminado() const;          void setEliminado(bool eliminado);
 
-    int  getIdCorrelativa() const;
-    int  getIdCarrera() const;
-    int  getIdMateriaObjetivo() const;
-    int  getIdMateriaRequisito() const;
-    int  getTipoCorrelativa() const;
-    bool getEliminado() const;
+    std::string toString() const;
 
     void cargar();
     void mostrar() const;
+
+private:
+    int  _idCarrera;
+    int  _idMateriaObjetivo;
+    int  _idMateriaRequisito;
+    int  _tipo;      // 1=Regularizada, 2=Aprobada
+    bool _eliminado;
 };
