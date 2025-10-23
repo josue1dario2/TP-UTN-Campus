@@ -8,7 +8,7 @@ public:
     Comision();
     Comision(int idComision, int idMateria,
              const char* turno, const char* modalidad,
-             int cuatrimestre, bool eliminado = false);
+             int cuatrimestre,int anio, bool eliminado = false);
 
     int  getIdComision() const;
     void setIdComision(int v);
@@ -25,6 +25,9 @@ public:
     int  getCuatrimestre() const;
     void setCuatrimestre(int v);
 
+    int getAnio() const;
+    void setAnio(int anio);
+
     bool getEliminado() const;
     void setEliminado(bool v);
 
@@ -37,5 +40,6 @@ private:
     char _turno[10];     // "Mañana", "Tarde", "Noche"
     char _modalidad[10]; // "Presencial", "Virtual", "Híbrida"
     int  _cuatrimestre;
+    int  _anio;
     bool _eliminado;
 };
