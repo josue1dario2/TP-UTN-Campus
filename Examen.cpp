@@ -46,55 +46,60 @@ void Examen::setCorregido(bool v){ _corregido = v; }
 bool Examen::getEliminado() const { return _eliminado; }
 void Examen::setEliminado(bool v){ _eliminado = v; }
 
-void Examen::inscribir(){
+void Examen::cargar() {
+    cout << "=== Crear nuevo Examen ===\n";
+    cout << "ID Examen: ";
+    cin >> _idExamen;
+
+    cout << "ID Comision: ";
+    cin >> _idComision;
+
+    cout << "Tipo (Parcial/Final): ";
+    cin >> _tipo;
+
+    if (strcmp(_tipo, "Parcial") == 0 || strcmp(_tipo, "parcial") == 0) {
+        cout << "Numero de parcial (1-3): ";
+        cin >> _numero;
+    } else {
+        _numero = 0;
+    }
+
+    cout << "Fecha del examen:\n";
+    _fecha.cargar();
+
     _nota = -1;
     _corregido = false;
+    _eliminado = false;
 }
 
-void Examen::corregir(int nota){
+void Examen::inscribir() {
+    cout << "=== Inscripcion a Examen ===\n";
+    cout << "Legajo del alumno: ";
+    cin >> _legajoAlumno;
+    _corregido = false;
+    _nota = -1;
+}
+
+void Examen::corregir(int nota) {
     _nota = nota;
     _corregido = true;
 }
 
-std::string Examen::toString() const {
-    return "Examen ID: " + std::to_string(_idExamen) +
-           "\nComisión ID: " + std::to_string(_idComision) +
-           "\nLegajo Alumno: " + std::to_string(_legajoAlumno) +
-           "\nTipo: " + std::string(_tipo) +
-           "\nNúmero: " + std::to_string(_numero) +
-           "\nFecha: " + _fecha.toString() +
-           "\nNota: " + (_nota >= 0 ? std::to_string(_nota) : std::string("Sin corregir")) +
-           "\nCorregido: " + std::string(_corregido ? "Sí" : "No") +
-           "\nEliminado: " + std::string(_eliminado ? "Sí" : "No");
-}
-
-void Examen::cargar(){
-    cout << "ID Examen: ";
-    cin >> _idExamen; cin.ignore(10000,'\n');
-
-    cout << "ID Comisión: ";
-    cin >> _idComision; cin.ignore(10000,'\n');
-
-    cout << "Legajo Alumno: ";
-    cin >> _legajoAlumno; cin.ignore(10000,'\n');
-
-    cout << "Tipo (Parcial/Final): ";
-    cin.getline(_tipo, sizeof(_tipo));
-
-    if(std::string(_tipo) == "Parcial"){
-        cout << "Número de Parcial (1-3): ";
-        cin >> _numero; cin.ignore(10000,'\n');
-    } else {
-        _numero = 0; // Final
-    }
-
-    cout << "[Fecha del examen]\n";
-    _fecha.cargar();
-
-    inscribir();      // nota=-1, corregido=false
-    _eliminado = false;
-}
-
 void Examen::mostrar() const {
-    cout << toString() << "\n";
+    cout << "=== Datos del Examen ===\n";
+    cout << "ID Examen: " << _idExamen << "\n";
+    cout << "ID Comision: " << _idComision << "\n";
+    cout << "Legajo Alumno: " << _legajoAlumno << "\n";
+    cout << "Tipo: " << _tipo << "\n";
+    if (strcmp(_tipo, "Parcial") == 0 || strcmp(_tipo, "parcial") == 0)
+        cout << "Numero: " << _numero << "\n";
+    cout << "Fecha: ";
+    _fecha.mostrar();
+    cout << "Nota: ";
+    if (_nota == -1)
+        cout << "Sin corregir\n";
+    else
+        cout << _nota << "\n";
+    cout << "Corregido: " << (_corregido ? "Sí" : "No") << "\n";
+    cout << "Eliminado: " << (_eliminado ? "Sí" : "No") << "\n\n";
 }

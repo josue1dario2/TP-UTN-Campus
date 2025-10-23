@@ -18,7 +18,6 @@ public:
     const char* getEstado() const;   void setEstado(const char* v); // "Regular", "Libre", "Aprobada", "Baja"
     bool  getEliminado() const;      void setEliminado(bool v);
 
-    std::string toString() const;
     void cargar();
     void mostrar() const;
 

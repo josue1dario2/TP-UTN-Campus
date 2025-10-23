@@ -28,8 +28,27 @@ void Alumno::setFechaIngreso(Fecha fechaIngreso) {
     _fechaIngreso = fechaIngreso;
 }
 
-std::string Alumno::toString() const {
-    return Persona::toString() +
-           "\nLegajo: " + std::to_string(_legajo) +
-           "\nFecha de ingreso: " + _fechaIngreso.toString();
+void Alumno::cargar() {
+    cout << "=== Cargar Alumno ===\n";
+
+    Persona::cargar();
+
+    cout << "Legajo: ";
+    cin >> _legajo;
+
+    cout << "Fecha de ingreso:\n";
+    _fechaIngreso.cargar();
+
+    setEliminado(false);
+}
+
+void Alumno::mostrar() const {
+    cout << "=== Datos del Alumno ===\n";
+
+    Persona::mostrar();
+
+    cout << "Legajo: " << _legajo << "\n";
+    cout << "Fecha de ingreso: ";
+    _fechaIngreso.mostrar();
+    cout << "\n";
 }

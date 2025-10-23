@@ -15,7 +15,8 @@ public:
     Fecha getFechaIngreso() const;
     void setFechaIngreso(Fecha fechaIngreso);
 
-    std::string toString() const;
+    void cargar();
+    void mostrar() const;
 
 private:
     int _legajo;

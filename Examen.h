@@ -26,7 +26,6 @@ public:
     void inscribir();
     void corregir(int nota);
 
-    std::string toString() const;
     void cargar();                 // alumno se inscribe (sin nota)
     void mostrar() const;          // imprime
 
