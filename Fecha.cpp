@@ -102,16 +102,8 @@ void Fecha::cargar()
     }
 }
 
-void Fecha::mostrar() const
-{
-    cout << toString() << endl;
-}
-
-string Fecha::toString() const
-{
-    stringstream ss;
-    ss << (_dia < 10 ? "0" : "") << _dia << "/"
-       << (_mes < 10 ? "0" : "") << _mes << "/"
-       << _anio;
-    return ss.str();
+void Fecha::mostrar() const {
+    cout << (_dia < 10 ? "0" : "") << _dia << "/"
+         << (_mes < 10 ? "0" : "") << _mes << "/"
+         << _anio << endl;
 }

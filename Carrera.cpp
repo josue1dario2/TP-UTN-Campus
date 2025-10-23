@@ -25,26 +25,26 @@ void Carrera::setDuracionCuatrimestres(int duracion) { _duracionCuatrimestres = 
 bool Carrera::getEliminado() const { return _eliminado; }
 void Carrera::setEliminado(bool eliminado) { _eliminado = eliminado; }
 
-std::string Carrera::toString() const {
-    return "Carrera ID: " + std::to_string(_idCarrera) +
-           "\nNombre: " + std::string(_nombre) +
-           "\nDuración (cuatrimestres): " + std::to_string(_duracionCuatrimestres) +
-           "\nEliminado: " + std::string(_eliminado ? "Sí" : "No");
-}
-
 void Carrera::cargar() {
-    cout << "ID Carrera: ";
-    cin >> _idCarrera; cin.ignore(10000, '\n');
+    cout << "=== Cargar Carrera ===\n";
+    cout << "ID de Carrera: ";
+    cin >> _idCarrera;
+    cin.ignore(10000, '\n');
 
     cout << "Nombre: ";
     cin.getline(_nombre, sizeof(_nombre));
 
-    cout << "Duración en cuatrimestres: ";
-    cin >> _duracionCuatrimestres; cin.ignore(10000, '\n');
+    cout << "Duración (en cuatrimestres): ";
+    cin >> _duracionCuatrimestres;
+    cin.ignore(10000, '\n');
 
-    _eliminado = (false);
+    _eliminado = false;
 }
 
 void Carrera::mostrar() const {
-    cout << toString() << "\n";
+    cout << "=== Datos de la Carrera ===\n";
+    cout << "ID Carrera: " << _idCarrera << "\n";
+    cout << "Nombre: " << _nombre << "\n";
+    cout << "Duración: " << _duracionCuatrimestres << " cuatrimestres\n";
+    cout << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n\n";
 }

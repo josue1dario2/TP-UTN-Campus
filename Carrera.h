@@ -20,8 +20,6 @@ public:
     bool getEliminado() const;
     void setEliminado(bool eliminado);
 
-    std::string toString() const;
-
     void cargar();
     void mostrar() const;
 

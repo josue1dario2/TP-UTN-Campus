@@ -48,10 +48,8 @@ public:
     bool getEliminado() const { return _eliminado; }
     void setEliminado(bool eliminado) { _eliminado = eliminado; }
 
-    std::string toString() const {
-        return std::string(_nombre) + " " + _apellido +
-               " - DNI: " + std::to_string(_dni);
-    }
+    void cargar();
+    void mostrar() const;
 
 private:
     int _dni;

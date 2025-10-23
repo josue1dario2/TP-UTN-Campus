@@ -14,7 +14,8 @@ public:
     const char* getRol() const;
     void setRol(const char* rol);
 
-    std::string toString() const;
+    void cargar();
+    void mostrar() const;
 
 private:
     int _legajo;

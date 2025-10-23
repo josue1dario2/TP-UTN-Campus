@@ -28,8 +28,6 @@ public:
     bool getEliminado() const;
     void setEliminado(bool v);
 
-    std::string toString() const;
-
     void cargar();
     void mostrar() const;
 

@@ -41,34 +41,32 @@ void Comision::setCuatrimestre(int v){ _cuatrimestre = v; }
 bool Comision::getEliminado() const { return _eliminado; }
 void Comision::setEliminado(bool v){ _eliminado = v; }
 
-std::string Comision::toString() const {
-    return "Comisión ID: " + std::to_string(_idComision) +
-           "\nMateria ID: " + std::to_string(_idMateria) +
-           "\nTurno: " + std::string(_turno) +
-           "\nModalidad: " + std::string(_modalidad) +
-           "\nCuatrimestre: " + std::to_string(_cuatrimestre) +
-           "\nEliminado: " + std::string(_eliminado ? "Sí" : "No");
-}
-
-void Comision::cargar(){
-    cout << "ID Comisión: ";
-    cin >> _idComision; cin.ignore(10000,'\n');
+void Comision::cargar() {
+    cout << "=== Cargar Comision ===\n";
+    cout << "ID Comision: ";
+    cin >> _idComision;
 
     cout << "ID Materia: ";
-    cin >> _idMateria; cin.ignore(10000,'\n');
+    cin >> _idMateria;
 
-    cout << "Turno (Manana/Tarde/Noche): ";
-    cin.getline(_turno, sizeof(_turno));
+    cout << "Turno (Maniana/Tarde/Noche): ";
+    cin >> _turno;
 
     cout << "Modalidad (Presencial/Virtual/Hibrida): ";
-    cin.getline(_modalidad, sizeof(_modalidad));
+    cin >> _modalidad;
 
-    cout << "Cuatrimestre (numero): ";
-    cin >> _cuatrimestre; cin.ignore(10000,'\n');
+    cout << "Cuatrimestre: ";
+    cin >> _cuatrimestre;
 
     _eliminado = false;
 }
 
-void Comision::mostrar() const{
-    cout << toString() << "\n";
+void Comision::mostrar() const {
+    cout << "=== Datos de la Comision ===\n";
+    cout << "ID Comision: " << _idComision << "\n";
+    cout << "ID Materia: " << _idMateria << "\n";
+    cout << "Turno: " << _turno << "\n";
+    cout << "Modalidad: " << _modalidad << "\n";
+    cout << "Cuatrimestre: " << _cuatrimestre << "\n";
+    cout << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n\n";
 }

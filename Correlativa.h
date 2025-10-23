@@ -13,8 +13,6 @@ public:
     int  getTipo() const;               void setTipo(int tipo); // 1=Regularizada, 2=Aprobada
     bool getEliminado() const;          void setEliminado(bool eliminado);
 
-    std::string toString() const;
-
     void cargar();
     void mostrar() const;
 

@@ -85,47 +85,39 @@ bool Materia::getEliminado() const {
     }
 
 void Materia::cargar() {
-    int idMateria, idCarrera, cuatrimestreSugerido;
-    char codigo[10], nombre[50];
-    bool eliminado;
+    cout << "=== Cargar Materia ===\n";
+    cout << "ID Materia: ";
+    cin >> _idMateria;
 
-    cout << "ID de materia: ";
-    cin >> idMateria;
-    cin.ignore();
-
-    cout << "ID de Carrera: ";
-    cin >> idCarrera;
-    cin.ignore();
+    cout << "ID Carrera: ";
+    cin >> _idCarrera;
+    cin.ignore(10000, '\n');
 
     cout << "Código: ";
-    cin.getline(codigo, sizeof(codigo));
+    cin.getline(_codigo, sizeof(_codigo));
 
     cout << "Nombre: ";
-    cin.getline(nombre, sizeof(nombre));
+    cin.getline(_nombre, sizeof(_nombre));
 
     cout << "Cuatrimestre sugerido: ";
-    cin >> cuatrimestreSugerido;
+    cin >> _cuatrimestreSugerido;
+    cin.ignore(10000, '\n');
 
-    setIdMateria(idMateria);
-    setIdCarrera(idCarrera);
-    setCodigo(codigo);
-    setNombre(nombre);
-    setCuatrimestreSugerido(cuatrimestreSugerido);
-    setEliminado(false);
-    }
+    cout << "Estado (Activa / Inactiva): ";
+    cin.getline(_estado, sizeof(_estado));
+
+    _eliminado = false;
+}
 
 void Materia::mostrar() const {
-        cout << toString() << endl;
+    cout << "=== Datos de la Materia ===\n";
+    cout << "ID Materia: " << _idMateria << "\n";
+    cout << "ID Carrera: " << _idCarrera << "\n";
+    cout << "Código: " << _codigo << "\n";
+    cout << "Nombre: " << _nombre << "\n";
+    cout << "Cuatrimestre sugerido: " << _cuatrimestreSugerido << "\n";
+    cout << "Estado: " << _estado << "\n";
+    cout << "Eliminado: " << (_eliminado ? "Sí" : "No") << "\n\n";
 }
-string Materia::toString() const {
-    string s= "\n | ID de Materia: " + to_string(_IdMateria)+"\n";
-    s+= " | ID de Carrera: " + to_string(_idCarrera)+"\n";
-    s+= " | Código: " + string(_codigo)+"\n";
-    s+= " | Nombre: " + string(_nombre)+"\n";
-    s+= " | Cuatrimestre sugerido: " + to_string(_cuatrimestreSugerido)+"\n";
-    s+= " | Eliminado: " + string((_eliminado ? "Sí" : "No"))+"\n";
-
-    return s;
-    }
 
 

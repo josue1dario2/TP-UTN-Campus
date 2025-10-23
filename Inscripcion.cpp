@@ -36,34 +36,33 @@ void        Inscripcion::setEstado(const char* v){
 bool Inscripcion::getEliminado() const { return _eliminado; }
 void Inscripcion::setEliminado(bool v){ _eliminado = v; }
 
-std::string Inscripcion::toString() const {
-    return "Inscripción ID: " + std::to_string(_idInscripcion) +
-           "\nLegajo Alumno: " + std::to_string(_legajoAlumno) +
-           "\nComisión ID: " + std::to_string(_idComision) +
-           "\nFecha Inscripción: " + _fechaInscripcion.toString() +
-           "\nEstado: " + std::string(_estado) +
-           "\nEliminado: " + std::string(_eliminado ? "Sí" : "No");
-}
+void Inscripcion::cargar() {
+    cout << "=== Cargar Inscripción ===\n";
+    cout << "ID de Inscripción: ";
+    cin >> _idInscripcion;
 
-void Inscripcion::cargar(){
-    cout << "ID Inscripción: ";
-    cin >> _idInscripcion; cin.ignore(10000,'\n');
+    cout << "Legajo del Alumno: ";
+    cin >> _legajoAlumno;
 
-    cout << "Legajo Alumno: ";
-    cin >> _legajoAlumno; cin.ignore(10000,'\n');
+    cout << "ID de Comisión: ";
+    cin >> _idComision;
 
-    cout << "ID Comisión: ";
-    cin >> _idComision; cin.ignore(10000,'\n');
-
-    cout << "[Fecha de inscripción]\n";
+    cout << "Fecha de inscripción:\n";
     _fechaInscripcion.cargar();
 
-    cout << "Estado (Regular/Libre/Aprobada/Baja): ";
-    cin.getline(_estado, sizeof(_estado));
+    cout << "Estado (Regular / Libre / Aprobada / Baja): ";
+    cin >> _estado;
 
     _eliminado = false;
 }
 
-void Inscripcion::mostrar() const{
-    cout << toString() << "\n";
+void Inscripcion::mostrar() const {
+    cout << "=== Datos de la Inscripción ===\n";
+    cout << "ID Inscripción: " << _idInscripcion << "\n";
+    cout << "Legajo Alumno: " << _legajoAlumno << "\n";
+    cout << "ID Comisión: " << _idComision << "\n";
+    cout << "Fecha de Inscripción: ";
+    _fechaInscripcion.mostrar();
+    cout << "Estado: " << _estado << "\n";
+    cout << "Eliminado: " << (_eliminado ? "Sí" : "No") << "\n\n";
 }

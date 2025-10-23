@@ -80,11 +80,34 @@ void Persona::setEliminado(bool eliminado) {
     _eliminado = eliminado;
 }
 
-std::string Persona::toString() const {
-    return "DNI: " + std::to_string(_dni) +
-           "\nNombre: " + _nombre +
-           "\nApellido: " + _apellido +
-           "\nTeléfono: " + _telefono +
-           "\nEmail: " + _email +
-           "\nDirección: " + _direccion.toString();
+void Persona::cargar(){
+    cout << "DNI: ";
+    cin >> _dni;
+
+    cout << "Nombre: ";
+    cin >> _nombre;
+
+    cout << "Apellido: ";
+    cin >> _apellido;
+
+    cout << "Telefono: ";
+    cin >> _telefono;
+
+    cout << "Email: ";
+    cin >> _email;
+
+    cout << "Direccion:\n";
+    _direccion.cargar();
+
+    _eliminado = false;
+}
+
+void Persona::mostrar() const{
+    cout << "DNI: "      << _dni      << "\n"
+         << "Nombre: "   << _nombre   << "\n"
+         << "Apellido: " << _apellido << "\n"
+         << "Telefono: " << _telefono << "\n"
+         << "Email: "    << _email    << "\n"
+         << "Direccion: " << _direccion.mostrar() << "\n"
+         << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n";
 }

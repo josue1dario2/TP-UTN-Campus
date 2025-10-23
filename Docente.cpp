@@ -32,8 +32,27 @@ void Docente::setRol(const char* rol) {
     _rol[sizeof(_rol) - 1] = '\0';
 }
 
-std::string Docente::toString() const {
-    return Persona::toString() +
-           "\nLegajo: " + std::to_string(_legajo) +
-           "\nRol: " + std::string(_rol);
+void Docente::cargar() {
+    cout << "=== Cargar Docente ===\n";
+
+    Persona::cargar();
+
+    cout << "Legajo: ";
+    cin >> _legajo;
+    cin.ignore(10000, '\n');
+
+    cout << "Rol (Ej: Profesor, JTP, Ayudante): ";
+    cin.getline(_rol, sizeof(_rol));
+
+    setEliminado(false);
+}
+
+void Docente::mostrar() const {
+    cout << "=== Datos del Docente ===\n";
+
+    Persona::mostrar();
+
+    cout << "Legajo: " << _legajo << "\n";
+    cout << "Rol: " << _rol << "\n";
+    cout << "\n";
 }
