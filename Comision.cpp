@@ -1,20 +1,26 @@
 #include "Comision.h"
 using std::cin; using std::cout;
 
-Comision::Comision()
-    : _idComision(0), _idMateria(0),
-      _cuatrimestre(0), _eliminado(false) {
+Comision::Comision() {
+    _idComision = 0;
+    _idMateria = 0;
     strcpy(_turno, "");
     strcpy(_modalidad, "");
+    _cuatrimestre = 0;
+    _anio = 0;
+    _eliminado = false;
 }
 
 Comision::Comision(int idComision, int idMateria,
                    const char* turno, const char* modalidad,
-                   int cuatrimestre, bool eliminado)
-    : _idComision(idComision), _idMateria(idMateria),
-      _cuatrimestre(cuatrimestre), _eliminado(eliminado) {
-    setTurno(turno);
-    setModalidad(modalidad);
+                   int cuatrimestre, int anio, bool eliminado) {
+    _idComision = idComision;
+    _idMateria = idMateria;
+    strcpy(_turno, turno);
+    strcpy(_modalidad, modalidad);
+    _cuatrimestre = cuatrimestre;
+    _anio = anio;
+    _eliminado = eliminado;
 }
 
 int Comision::getIdComision() const { return _idComision; }
@@ -38,6 +44,9 @@ void Comision::setModalidad(const char* v){
 int Comision::getCuatrimestre() const { return _cuatrimestre; }
 void Comision::setCuatrimestre(int v){ _cuatrimestre = v; }
 
+int Comision::getAnio() const { return _anio; }
+void Comision::setAnio(int anio) { _anio = anio; }
+
 bool Comision::getEliminado() const { return _eliminado; }
 void Comision::setEliminado(bool v){ _eliminado = v; }
 
@@ -58,6 +67,9 @@ void Comision::cargar() {
     cout << "Cuatrimestre: ";
     cin >> _cuatrimestre;
 
+    cout << "Año de cursada: ";
+    cin >> _anio;
+
     _eliminado = false;
 }
 
@@ -68,5 +80,6 @@ void Comision::mostrar() const {
     cout << "Turno: " << _turno << "\n";
     cout << "Modalidad: " << _modalidad << "\n";
     cout << "Cuatrimestre: " << _cuatrimestre << "\n";
+    cout << "Año: " << _anio << "\n";
     cout << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n\n";
 }
