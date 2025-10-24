@@ -12,5 +12,13 @@ add_executable(TP_UTN_Campus
         Correlativa.cpp
         Examen.h
         Examen.cpp
+        ArchivoAlumno.h
+        ArchivoAlumno.cpp
+        ArchivoDocente.h
+        ArchivoDocente.cpp
+        ArchivoCarrera.h
+        ArchivoCarrera.cpp
+        ArchivoMateria.h
+        ArchivoMateria.cpp
         # <-- agregar
 )
