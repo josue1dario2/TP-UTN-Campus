@@ -57,6 +57,10 @@ add_executable(runTests
         ArchivoComision.cpp
         ArchivoInscripcion.h
         ArchivoInscripcion.cpp
+        ArchivoExamen.h
+        ArchivoExamen.cpp
+        ArchivoCorrelativa.h
+        ArchivoCorrelativa.cpp
 )
 
 target_link_libraries(runTests GTest::gtest_main)
