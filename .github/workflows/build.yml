@@ -3,7 +3,7 @@ name: Build Campus App (PR Check)
 on:
   pull_request:
     branches:
-      - main
+      - master
     types:
       - opened
       - synchronize
