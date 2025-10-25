@@ -26,7 +26,7 @@ public:
     void mostrar() const;
 
 private:
-    int _IdMateria;
+    int _idMateria;
     int _idCarrera;
     char _codigo[10];
     char _nombre[50];

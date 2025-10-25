@@ -5,20 +5,20 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(TP_UTN_Campus
         main.cpp
-        Direccion.cpp
-        Fecha.cpp
-        Validacion.cpp
-        Correlativa.h
-        Correlativa.cpp
-        Examen.h
-        Examen.cpp
-        ArchivoAlumno.h
+        Alumno.cpp
         ArchivoAlumno.cpp
-        ArchivoDocente.h
         ArchivoDocente.cpp
-        ArchivoCarrera.h
         ArchivoCarrera.cpp
-        ArchivoMateria.h
         ArchivoMateria.cpp
-        # <-- agregar
+        Carrera.cpp
+        Comision.cpp
+        Correlativa.cpp
+        Direccion.cpp
+        Docente.cpp
+        Examen.cpp
+        Fecha.cpp
+        Inscripcion.cpp
+        Materia.cpp
+        Persona.cpp
+        Validacion.cpp
 )
