@@ -20,7 +20,7 @@ protected:
     MenuABMMaterias menuMaterias;
 private:
     //PersonalManager _personalManager;
-    mostrarMenuPrincipal();
+    //mostrarMenuPrincipal();
     int _cantidadOpciones;
 };
 
