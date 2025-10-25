@@ -5,48 +5,31 @@
 
 class Persona {
 public:
-    Persona() {
-        _dni = 0;
-        _eliminado = false;
-        strcpy(_nombre, "");
-        strcpy(_apellido, "");
-        strcpy(_telefono, "");
-        strcpy(_email, "");
-        _direccion = Direccion();
-    }
-
+    Persona();
     Persona(int dni, const char* nombre, const char* apellido,
             const char* telefono, const char* email,
-            Direccion direccion, bool eliminado = false) {
-        _dni = dni;
-        strcpy(_nombre, nombre);
-        strcpy(_apellido, apellido);
-        strcpy(_telefono, telefono);
-        strcpy(_email, email);
-        _direccion = direccion;
-        _eliminado = eliminado;
-    }
+            Direccion direccion, bool eliminado = false);
 
-    int getDni() const { return _dni; }
-    void setDni(int dni) { _dni = dni; }
+    int getDni() const;
+    void setDni(int dni);
 
-    const char* getNombre() const { return _nombre; }
-    void setNombre(const char* nombre) { strcpy(_nombre, nombre); }
+    const char* getNombre() const;
+    void setNombre(const char* nombre);
 
-    const char* getApellido() const { return _apellido; }
-    void setApellido(const char* apellido) { strcpy(_apellido, apellido); }
+    const char* getApellido() const;
+    void setApellido(const char* apellido);
 
-    const char* getTelefono() const { return _telefono; }
-    void setTelefono(const char* telefono) { strcpy(_telefono, telefono); }
+    const char* getTelefono() const;
+    void setTelefono(const char* telefono);
 
-    const char* getEmail() const { return _email; }
-    void setEmail(const char* email) { strcpy(_email, email); }
+    const char* getEmail() const;
+    void setEmail(const char* email);
 
-    Direccion getDireccion() const { return _direccion; }
-    void setDireccion(Direccion direccion) { _direccion = direccion; }
+    Direccion getDireccion() const;
+    void setDireccion(Direccion direccion);
 
-    bool getEliminado() const { return _eliminado; }
-    void setEliminado(bool eliminado) { _eliminado = eliminado; }
+    bool getEliminado() const;
+    void setEliminado(bool eliminado);
 
     void cargar();
     void mostrar() const;

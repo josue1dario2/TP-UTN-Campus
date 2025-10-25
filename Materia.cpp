@@ -26,7 +26,7 @@ Materia::Materia(int idMateria, int idCarrera, const char* codigo, const char* n
     }
 
 void Materia::setIdMateria(int idMateria) {
-    _IdMateria = idMateria;
+    _idMateria = idMateria;
     }
 
 void Materia::setIdCarrera(int idCarrera) {
@@ -57,7 +57,7 @@ void Materia::setEliminado(bool eliminado) {
     }
 
 int Materia::getIdMateria() const {
-    return _IdMateria;
+    return _idMateria;
     }
 
     int Materia::getIdCarrera() const {

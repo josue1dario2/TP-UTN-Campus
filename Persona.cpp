@@ -102,12 +102,13 @@ void Persona::cargar(){
     _eliminado = false;
 }
 
-void Persona::mostrar() const{
+void Persona::mostrar() const {
     cout << "DNI: "      << _dni      << "\n"
          << "Nombre: "   << _nombre   << "\n"
          << "Apellido: " << _apellido << "\n"
          << "Telefono: " << _telefono << "\n"
          << "Email: "    << _email    << "\n"
-         << "Direccion: " << _direccion.mostrar() << "\n"
-         << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n";
+         << "Direccion: ";
+    _direccion.mostrar();
+    cout << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n";
 }
