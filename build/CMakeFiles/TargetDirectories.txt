@@ -1,0 +1,3 @@
+E:/Estudio/2025/01-Tecnicatura/Cursada/Primer Año/Segundo Cutrimestre/Programacion_II/GitHub/TP integrador/TP-UTN-Campus/build/CMakeFiles/TP_UTN_Campus.dir
+E:/Estudio/2025/01-Tecnicatura/Cursada/Primer Año/Segundo Cutrimestre/Programacion_II/GitHub/TP integrador/TP-UTN-Campus/build/CMakeFiles/edit_cache.dir
+E:/Estudio/2025/01-Tecnicatura/Cursada/Primer Año/Segundo Cutrimestre/Programacion_II/GitHub/TP integrador/TP-UTN-Campus/build/CMakeFiles/rebuild_cache.dir
