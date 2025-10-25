@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MenuAbmCarreras.h"
+#include "MenuAdmin.h"
 
 class MenuABMCarreras{
 public:
