@@ -1,0 +1,28 @@
+name: Build Campus App (PR Check)
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  build:
+    name: 🧱 Compilar proyecto en Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clonar el repositorio
+        uses: actions/checkout@v4
+
+      - name: 🐳 Configurar entorno Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🔧 Compilar imagen campus-app
+        run: docker build -t campus-app .
+
+      - name: ✅ Mostrar imágenes generadas
+        run: docker images
