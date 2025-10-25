@@ -25,7 +25,7 @@ TEST(AlumnoTest, SetAndGetFechaIngreso) {
 
 // --- TEST 3: Constructor parametrizado ---
 TEST(AlumnoTest, ConstructorCompleto) {
-    Direccion dir("San Martín", 123, "Rosario", "Santa Fe");
+    Direccion dir("San Martín", "123", "Rosario", 2000, 1);
     Fecha fecha(1, 2, 2023);
 
     Alumno a(100, 12345678, "Josue", "Solis", "3415555555", "josue@mail.com", dir, fecha, false);
