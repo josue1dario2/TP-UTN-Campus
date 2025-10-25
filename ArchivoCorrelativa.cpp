@@ -31,14 +31,31 @@ bool ArchivoCorrelativa::listarRegistros() {
     return true;
 }
 
-int ArchivoCorrelativa::buscarRegistro(int id) {
+int ArchivoCorrelativa::buscarPorMateriaObjetivo(int idMateriaObjetivo) {
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return -1;
 
     Correlativa reg;
     int pos = 0;
     while (fread(&reg, _tamanioRegistro, 1, p)) {
-        if (reg.getIdCorrelativa() == id) {
+        if (reg.getIdMateriaObjetivo() == idMateriaObjetivo) {
+            fclose(p);
+            return pos;
+        }
+        pos++;
+    }
+    fclose(p);
+    return -1;
+}
+
+int ArchivoCorrelativa::buscarPorMateriaRequisito(int idMateriaRequisito) {
+    FILE *p = fopen(_nombre, "rb");
+    if (p == nullptr) return -1;
+
+    Correlativa reg;
+    int pos = 0;
+    while (fread(&reg, _tamanioRegistro, 1, p)) {
+        if (reg.getIdMateriaRequisito() == idMateriaRequisito) {
             fclose(p);
             return pos;
         }
