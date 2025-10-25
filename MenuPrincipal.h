@@ -2,7 +2,7 @@
 
 #include "MenuAdmin.h"
 #include "MenuAlumno.h"
-#include "menu_docente.h"
+#include "MenuDocente.h"
 #include "MenuUtilitarios.h"
 #include "PrincipalManager.h"
 
