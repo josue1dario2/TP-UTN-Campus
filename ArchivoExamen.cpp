@@ -91,7 +91,7 @@ bool ArchivoExamen::activarRegistro(int pos) {
     return modificarRegistro(reg, pos);
 }
 
-bool ArchivoExamen::inscribirExamen(Examen examen) {
+bool ArchivoExamen::inscribirExamen(Examen& examen) {
     examen.inscribir();
     return agregarRegistro(examen) == 1;
 }
