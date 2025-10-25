@@ -55,6 +55,8 @@ add_executable(runTests
         Validacion.cpp
         ArchivoComision.h
         ArchivoComision.cpp
+        ArchivoInscripcion.h
+        ArchivoInscripcion.cpp
 )
 
 target_link_libraries(runTests GTest::gtest_main)
