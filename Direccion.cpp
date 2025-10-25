@@ -95,31 +95,26 @@ void Direccion::setCodigoPostal(int codigoPostal)
     _codigoPostal = (codigoPostal > 0) ? codigoPostal : 0;
 }
 
-void Direccion::cargar(const char *calle,
-                       const char *provincia,
-                       const char *ciudad,
-                       int numero,
-                       int codigoPostal)
-{
-    setCalle(calle);
-    setProvincia(provincia);
-    setCiudad(ciudad);
-    setNumero(numero);
-    setCodigoPostal(codigoPostal);
+void Direccion::cargar() {
+    cout << "Calle: ";
+    cin >> _calle;
+
+    cout << "Numero: ";
+    cin >> _numero;
+
+    cout << "Ciudad: ";
+    cin >> _ciudad;
+
+    cout << "Provincia: ";
+    cin >> _provincia;
+
+    cout << "Codigo Postal: ";
+    cin >> _codigoPostal;
 }
 
-string Direccion::toString() const
-{
-    stringstream ss;
-    ss << "Calle: " << _calle
-       << ", Número: " << _numero
-       << ", Ciudad: " << _ciudad
-       << ", Provincia: " << _provincia
-       << ", CP: " << _codigoPostal;
-    return ss.str();
-}
-
-void Direccion::mostrar() const
-{
-    cout << toString() << endl;
+void Direccion::mostrar() const {
+    cout << "Calle: " << _calle << " " << _numero << "\n"
+         << "Ciudad: " << _ciudad << "\n"
+         << "Provincia: " << _provincia << "\n"
+         << "Codigo Postal: " << _codigoPostal << "\n";
 }

@@ -1,89 +1,49 @@
 #include "Correlativa.h"
+#include <iostream>
+
+using std::cin; using std::cout; using std::string;
 
 Correlativa::Correlativa()
-    : _idCorrelativa(0),
-      _plan(0),
-      _idPlanMateriaObjetivo(0),
-      _idPlanMateriaReq(0),
-      _tipoCorrelativa(0) {
-}
+    : _idMateriaObjetivo(0), _idMateriaRequisito(0),
+      _tipo(0), _eliminado(false) {}
 
+Correlativa::Correlativa(int idMateriaObjetivo, int idMateriaRequisito,
+                         int tipo, bool eliminado)
+    : _idMateriaObjetivo(idMateriaObjetivo),
+      _idMateriaRequisito(idMateriaRequisito), _tipo(tipo), _eliminado(eliminado) {}
 
-Correlativa::Correlativa(int idCorrelativa, int plan, int idObjetivo, int idReq, int tipo)
-    : _idCorrelativa(idCorrelativa),
-      _plan(plan),
-      _idPlanMateriaObjetivo(idObjetivo),
-      _idPlanMateriaReq(idReq),
-      _tipoCorrelativa(tipo) {
-}
+int  Correlativa::getIdMateriaObjetivo() const { return _idMateriaObjetivo; }
+void Correlativa::setIdMateriaObjetivo(int v) { _idMateriaObjetivo = v; }
 
+int  Correlativa::getIdMateriaRequisito() const { return _idMateriaRequisito; }
+void Correlativa::setIdMateriaRequisito(int v) { _idMateriaRequisito = v; }
 
-// Setters
-void Correlativa::setIdCorrelativa(int id) {
-    _idCorrelativa = id;
-}
+int  Correlativa::getTipo() const { return _tipo; }
+void Correlativa::setTipo(int v) { _tipo = v; }
 
-void Correlativa::setPlan(int plan) {
-    _plan = plan;
-}
-
-void Correlativa::setIdPlanMateriaObjetivo(int idObjetivo) {
-    _idPlanMateriaObjetivo = idObjetivo;
-}
-
-void Correlativa::setIdPlanMateriaReq(int idReq) {
-    _idPlanMateriaReq = idReq;
-}
-
-void Correlativa::setTipoCorrelativa(int tipo) {
-    _tipoCorrelativa = tipo;
-}
-
-
-// Getters
-int Correlativa::getIdCorrelativa() const {
-    return _idCorrelativa;
-}
-
-int Correlativa::getPlan() const {
-    return _plan;
-}
-
-int Correlativa::getIdPlanMateriaObjetivo() const {
-    return _idPlanMateriaObjetivo;
-}
-
-int Correlativa::getIdPlanMateriaReq() const {
-    return _idPlanMateriaReq;
-}
-
-int Correlativa::getTipoCorrelativa() const {
-    return _tipoCorrelativa;
-}
-
-
-void Correlativa::mostrar() const {
-    std::cout << "ID Correlativa: " << _idCorrelativa << std::endl;
-    std::cout << "Plan: " << _plan << std::endl;
-    std::cout << "ID Materia Objetivo: " << _idPlanMateriaObjetivo << std::endl;
-    std::cout << "ID Materia Requisito: " << _idPlanMateriaReq << std::endl;
-    std::cout << "Tipo de Correlativa: " << _tipoCorrelativa << std::endl;
-}
-
+bool Correlativa::getEliminado() const { return _eliminado; }
+void Correlativa::setEliminado(bool v) { _eliminado = v; }
 
 void Correlativa::cargar() {
-    std::cout << "Ingrese ID Correlativa: ";
-    std::cin >> _idCorrelativa;
+    cout << "=== Cargar Correlativa ===\n";
 
-    std::cout << "Ingrese Plan: ";
-    std::cin >> _plan;
+    cout << "ID Materia Objetivo: ";
+    cin >> _idMateriaObjetivo;
 
-    std::cout << "Ingrese ID Materia Objetivo: ";
-    std::cin >> _idPlanMateriaObjetivo;
+    cout << "ID Materia Requisito: ";
+    cin >> _idMateriaRequisito;
 
-    std::cout << "Ingrese ID Materia Requisito: ";
-    std::cin >> _idPlanMateriaReq;
+    cout << "Tipo de correlativa (1=Regularizada, 2=Aprobada): ";
+    cin >> _tipo;
 
-    std::cout << "Ingrese Tipo de Correlativa: ";
-    std::cin >> _tipoCorrelativa;
+    _eliminado = false;
+}
+
+void Correlativa::mostrar() const {
+    cout << "=== Datos de la Correlativa ===\n";
+    cout << "Materia Objetivo: " << _idMateriaObjetivo << "\n";
+    cout << "Materia Requisito: " << _idMateriaRequisito << "\n";
+    cout << "Tipo: " << (_tipo == 1 ? "Regularizada" :
+                        _tipo == 2 ? "Aprobada" : "Desconocido") << "\n";
+    cout << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n\n";
 }

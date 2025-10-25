@@ -3,20 +3,23 @@
 #include <cstring>
 
 Persona::Persona()
-    : _dni(0), _direccion() {
+    : _dni(0), _direccion(), _eliminado(false) {
     strcpy(_nombre, "");
     strcpy(_apellido, "");
     strcpy(_telefono, "");
     strcpy(_email, "");
 }
 
-Persona::Persona(int dni, const char* nombre, const char* apellido, const char* telefono, const char* email, Direccion direccion)
-    : _dni(dni), _direccion(direccion) {
+Persona::Persona(int dni, const char* nombre, const char* apellido,
+                 const char* telefono, const char* email,
+                 Direccion direccion, bool eliminado)
+    : _dni(dni), _direccion(direccion), _eliminado(eliminado) {
     setNombre(nombre);
     setApellido(apellido);
     setTelefono(telefono);
     setEmail(email);
 }
+
 
 int Persona::getDni() const {
     return _dni;
@@ -69,12 +72,43 @@ Direccion Persona::getDireccion() const {
 void Persona::setDireccion(Direccion direccion) {
     _direccion = direccion;
 }
+bool Persona::getEliminado() const {
+    return _eliminado;
+}
 
-std::string Persona::toString() const {
-    return "DNI: " + std::to_string(_dni) +
-           "\nNombre: " + _nombre +
-           "\nApellido: " + _apellido +
-           "\nTeléfono: " + _telefono +
-           "\nEmail: " + _email +
-           "\nDirección: " + _direccion.toString();
+void Persona::setEliminado(bool eliminado) {
+    _eliminado = eliminado;
+}
+
+void Persona::cargar(){
+    cout << "DNI: ";
+    cin >> _dni;
+
+    cout << "Nombre: ";
+    cin >> _nombre;
+
+    cout << "Apellido: ";
+    cin >> _apellido;
+
+    cout << "Telefono: ";
+    cin >> _telefono;
+
+    cout << "Email: ";
+    cin >> _email;
+
+    cout << "Direccion:\n";
+    _direccion.cargar();
+
+    _eliminado = false;
+}
+
+void Persona::mostrar() const {
+    cout << "DNI: "      << _dni      << "\n"
+         << "Nombre: "   << _nombre   << "\n"
+         << "Apellido: " << _apellido << "\n"
+         << "Telefono: " << _telefono << "\n"
+         << "Email: "    << _email    << "\n"
+         << "Direccion: ";
+    _direccion.mostrar();
+    cout << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n";
 }

@@ -31,7 +31,7 @@ public:
                 int numero,
                 int codigoPostal);
 
-    string toString() const;
+    void cargar();
     void mostrar() const;
 
 private:

@@ -1,38 +1,23 @@
 #pragma once
-#include <iostream>
+#include <string>
 
-class Correlativa 
-{
+class Correlativa {
 public:
-    // Constructor por defecto
     Correlativa();
+    Correlativa(int idMateriaObjetivo, int idMateriaRequisito,
+                int tipo, bool eliminado = false);
 
-    // Constructor con parámetros
-    Correlativa(int idCorrelativa, int plan, int idObjetivo, int idReq, int tipo);
+    int  getIdMateriaObjetivo() const;  void setIdMateriaObjetivo(int idMateriaObjetivo);
+    int  getIdMateriaRequisito() const; void setIdMateriaRequisito(int idMateriaRequisito);
+    int  getTipo() const;               void setTipo(int tipo); // 1=Regularizada, 2=Aprobada
+    bool getEliminado() const;          void setEliminado(bool eliminado);
 
-    // Setters
-    void setIdCorrelativa(int id);
-    void setPlan(int plan);
-    void setIdPlanMateriaObjetivo(int idObjetivo);
-    void setIdPlanMateriaReq(int idReq);
-    void setTipoCorrelativa(int tipo);
-
-    // Getters
-    int getIdCorrelativa() const;
-    int getPlan() const;
-    int getIdPlanMateriaObjetivo() const;
-    int getIdPlanMateriaReq() const;
-    int getTipoCorrelativa() const;
-
-    // Métodos
-    void mostrar() const;
     void cargar();
+    void mostrar() const;
 
 private:
-int _idCorrelativa;
-int _plan;
-int _idPlanMateriaObjetivo;
-int _idPlanMateriaReq;
-int _tipoCorrelativa;
-
+    int  _idMateriaObjetivo;
+    int  _idMateriaRequisito;
+    int  _tipo;      // 1=Regularizada, 2=Aprobada
+    bool _eliminado;
 };

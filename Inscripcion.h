@@ -1,44 +1,31 @@
 #pragma once
-#include "Fecha.h"
 #include <string>
+#include <cstring>
+#include <iostream>
+#include "Fecha.h"
 
-class Inscripcion
-{
-private:
-    int _idInscripcion;
-    int _idAlumno;
-    int _idComision;
-    Fecha _fechaInscripcion;
-    char _estado[20];
-    int _notaCursada;
-    int _intentosFinal;
-
+class Inscripcion {
 public:
     Inscripcion();
-    Inscripcion(int idInscripcion, int idAlumno, int idComision,
-                const Fecha &fechaInscripcion, int opcionEstado,
-                int notaCursada, int intentosFinal);
+    Inscripcion(int idInscripcion, int legajoAlumno, int idComision,
+                Fecha fechaInscripcion, const char* estado, bool eliminado = false);
 
-    void setIdInscripcion(int v);
-    void setIdAlumno(int v);
-    void setIdComision(int v);
-    void setFechaInscripcion(const Fecha &f);
-    void setEstadoPorOpcion(int opcion);
-    void setNotaCursada(int nota);
-    void setIntentosFinal(int intentos);
+    int   getIdInscripcion() const;  void setIdInscripcion(int v);
+    int   getLegajoAlumno() const;   void setLegajoAlumno(int v);
+    int   getIdComision() const;     void setIdComision(int v);
+    Fecha getFechaInscripcion() const; void setFechaInscripcion(Fecha f);
 
-    int getIdInscripcion() const;
-    int getIdAlumno() const;
-    int getIdComision() const;
-    Fecha getFechaInscripcion() const;
-    const char *getEstado() const;
-    int getNotaCursada() const;
-    int getIntentosFinal() const;
-
-    bool puedeInscribirseAFinal() const;
-    bool inscribirAFinal();
+    const char* getEstado() const;   void setEstado(const char* v); // "Regular", "Libre", "Aprobada", "Baja"
+    bool  getEliminado() const;      void setEliminado(bool v);
 
     void cargar();
     void mostrar() const;
-    std::string toString() const;
+
+private:
+    int   _idInscripcion;
+    int   _legajoAlumno;
+    int   _idComision;
+    Fecha _fechaInscripcion;
+    char  _estado[20];
+    bool  _eliminado;
 };

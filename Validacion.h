@@ -1,20 +1,28 @@
 #pragma once
 #include <string>
 
-using namespace std;
-
 class Validacion {
 public:
+    static int  validarEntero(const std::string& mensaje);
+    static int  validarEnteroNoNegativo(const std::string& mensaje);
+    static int  validarEnteroEnRango(const std::string& mensaje, int minV, int maxV);
 
-    static int validarEntero(const string& mensaje);
+    static bool validarBool(const std::string& mensaje);
 
-    static bool validarBool(const string& mensaje);
+    static bool validarLongitudCadena(const std::string& cadena,
+                                      std::size_t longMininaCadena,
+                                      std::size_t longMaximaCadena);
 
-    static bool validarCadena(const string& cadena, size_t longMininaCadena, size_t longMaximaCadena);
-    static bool validarLongitudCadena(const string& cadena, size_t longMininaCadena, size_t longMaximaCadena);
-    static bool validadCaracteresProhibidos(const string& cadena, const string& caracteresProhibidos);
+    static bool validadCaracteresProhibidos(const std::string& cadena,
+                                            const std::string& caracteresProhibidos);
 
-    //No usado
-    static string pedirEntradaCadena(const string& mensaje, size_t longMininaCadena, size_t longMaximaCadena);
+    static bool validarCadena(const std::string& cadena,
+                              std::size_t longMininaCadena,
+                              std::size_t longMaximaCadena,
+                              const std::string& caracteresProhibidos = "");
 
+    static std::string pedirEntradaCadena(const std::string& mensaje,
+                                          std::size_t longMininaCadena,
+                                          std::size_t longMaximaCadena,
+                                          const std::string& caracteresProhibidos = "");
 };

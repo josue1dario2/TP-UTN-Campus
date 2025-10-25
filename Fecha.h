@@ -25,5 +25,4 @@ public:
 
     void cargar();
     void mostrar() const;
-    std::string toString() const;
 };

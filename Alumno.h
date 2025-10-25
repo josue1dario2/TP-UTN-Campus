@@ -2,30 +2,23 @@
 #include "Persona.h"
 #include "Fecha.h"
 
-class Alumno : public Persona
-{
-private:
-    int _idAlumno;
-    int _legajo;
-    Fecha _fechaIngreso;
-    bool _esBecado;
-    bool _eliminado;
-
+class Alumno : public Persona {
 public:
     Alumno();
-    Alumno(int idAlumno, int legajo, Fecha fechaIngreso, bool esBecado, bool eliminado);
+    Alumno(int legajo, int dni, const char* nombre, const char* apellido,
+           const char* telefono, const char* email, Direccion direccion,
+           Fecha fechaIngreso, bool eliminado = false);
 
-    void setIdAlumno(int idAlumno);
-    void setLegajo(int legajo);
-    void setFechaIngreso(const Fecha &fechaIngreso);
-    void setEsBecado(bool esBecado);
-    void setEliminado(bool eliminado);
-
-    int getIdAlumno() const;
     int getLegajo() const;
-    Fecha getFechaIngreso() const;
-    bool getEsBecado() const;
-    bool getEliminado() const;
+    void setLegajo(int legajo);
 
+    Fecha getFechaIngreso() const;
+    void setFechaIngreso(Fecha fechaIngreso);
+
+    void cargar();
     void mostrar() const;
+
+private:
+    int _legajo;
+    Fecha _fechaIngreso;
 };

@@ -1,0 +1,15 @@
+# Archivos de compilación
+build/
+cmake-build-debug/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+compile_commands.json
+
+# IDE
+.vscode/
+.idea/
+
+# Archivos temporales
+*.log
+*.tmp

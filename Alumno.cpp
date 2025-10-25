@@ -1,45 +1,54 @@
-#include <iostream>
 #include "Alumno.h"
+#include <string>
 
-using namespace std;
-
-Alumno::Alumno() : Persona()
-{
-    _idAlumno = 0;
-    _legajo = 0;
-    _fechaIngreso = Fecha();
-    _esBecado = false;
-    _eliminado = false;
+Alumno::Alumno()
+    : Persona(), _legajo(0), _fechaIngreso() {
 }
 
-Alumno::Alumno(int idAlumno, int legajo, Fecha fechaIngreso, bool esBecado, bool eliminado)
-    : Persona()
-{
-    _idAlumno = idAlumno;
+Alumno::Alumno(int legajo, int dni, const char* nombre, const char* apellido,
+               const char* telefono, const char* email, Direccion direccion,
+               Fecha fechaIngreso, bool eliminado)
+    : Persona(dni, nombre, apellido, telefono, email, direccion, eliminado),
+      _legajo(legajo), _fechaIngreso(fechaIngreso) {
+}
+
+int Alumno::getLegajo() const {
+    return _legajo;
+}
+
+void Alumno::setLegajo(int legajo) {
     _legajo = legajo;
-    _fechaIngreso = fechaIngreso;
-    _esBecado = esBecado;
-    _eliminado = eliminado;
 }
 
-void Alumno::setIdAlumno(int idAlumno) { _idAlumno = idAlumno; }
-void Alumno::setLegajo(int legajo) { _legajo = legajo; }
-void Alumno::setFechaIngreso(const Fecha &fechaIngreso) { _fechaIngreso = fechaIngreso; }
-void Alumno::setEsBecado(bool esBecado) { _esBecado = esBecado; }
-void Alumno::setEliminado(bool eliminado) { _eliminado = eliminado; }
+Fecha Alumno::getFechaIngreso() const {
+    return _fechaIngreso;
+}
 
-int Alumno::getIdAlumno() const { return _idAlumno; }
-int Alumno::getLegajo() const { return _legajo; }
-Fecha Alumno::getFechaIngreso() const { return _fechaIngreso; }
-bool Alumno::getEsBecado() const { return _esBecado; }
-bool Alumno::getEliminado() const { return _eliminado; }
+void Alumno::setFechaIngreso(Fecha fechaIngreso) {
+    _fechaIngreso = fechaIngreso;
+}
 
-void Alumno::mostrar() const
-{
-    cout << "ID Alumno: " << _idAlumno << endl;
-    cout << "Legajo: " << _legajo << endl;
-    cout << "Fecha de Ingreso: ";
+void Alumno::cargar() {
+    cout << "=== Cargar Alumno ===\n";
+
+    Persona::cargar();
+
+    cout << "Legajo: ";
+    cin >> _legajo;
+
+    cout << "Fecha de ingreso:\n";
+    _fechaIngreso.cargar();
+
+    setEliminado(false);
+}
+
+void Alumno::mostrar() const {
+    cout << "=== Datos del Alumno ===\n";
+
+    Persona::mostrar();
+
+    cout << "Legajo: " << _legajo << "\n";
+    cout << "Fecha de ingreso: ";
     _fechaIngreso.mostrar();
-    cout << "Es Becado: " << (_esBecado ? "Si" : "No") << endl;
-    cout << "Eliminado: " << (_eliminado ? "Si" : "No") << endl;
+    cout << "\n";
 }

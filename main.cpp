@@ -14,8 +14,6 @@
 
 using namespace std;
 
-// Declaración de funciones (prototipos)
-
 int main() {
     system("cls");
     MenuPrincipal menuPrincipal;
