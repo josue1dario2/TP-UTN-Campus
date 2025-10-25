@@ -3,6 +3,8 @@ name: Build and Push Campus App 🐳
 on:
   push:
     branches: [ master ]
+    tags:
+      - 'v*.*.*' # ejemplo: v1.0.0
   pull_request:
     branches: [ master ]
 
@@ -23,9 +25,20 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
+      - name: Extract version from tag
+        id: vars
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build and Push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/campus-app:latest
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/campus-app:latest
+            ${{ secrets.DOCKER_USERNAME }}/campus-app:${{ steps.vars.outputs.tag }}
