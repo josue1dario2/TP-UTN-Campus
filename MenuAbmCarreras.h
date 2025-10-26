@@ -1,12 +1,10 @@
 #pragma once
 
 #include "MenuAbmCarreras.h"
-#include "MenuAdmin.h"
 
 class MenuABMCarreras{
 public:
     MenuABMCarreras();
-    MenuAdministrador();
     void mostrar();
 protected:
     void mostrarOpciones();

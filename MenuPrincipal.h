@@ -26,7 +26,7 @@ protected:
 
 private:
     PrincipalManager _principalManager;
-    mostrarMenuPrincipal();
+    //mostrarMenuPrincipal();
     int _cantidadOpciones;
 };
 

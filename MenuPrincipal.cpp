@@ -1,5 +1,5 @@
 
-#include "menu_principal.h"
+#include "MenuPrincipal.h"
 
 #include <iostream>
 #include <cstdlib>
