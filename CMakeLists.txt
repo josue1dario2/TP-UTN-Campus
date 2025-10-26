@@ -61,6 +61,8 @@ add_executable(runTests
         ArchivoExamen.cpp
         ArchivoCorrelativa.h
         ArchivoCorrelativa.cpp
+        ArchivoPersona.h
+        ArchivoPersona.cpp
 )
 
 target_link_libraries(runTests GTest::gtest_main)
