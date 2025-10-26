@@ -22,6 +22,15 @@ add_executable(TP_UTN_Campus
         Materia.cpp
         Persona.cpp
         Validacion.cpp
+        MenuPrincipal.cpp
+        MenuAdmin.cpp
+        MenuAbmCarreras.cpp
+        MenuAbmComisiones.cpp
+        MenuAbmMaterias.cpp
+        MenuAlumno.cpp
+        MenuDocente.cpp
+        MenuUtilitarios.cpp
+        PrincipalManager.cpp
 )
 
 # --- GoogleTest setup ---
