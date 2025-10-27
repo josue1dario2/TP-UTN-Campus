@@ -49,28 +49,28 @@ void MenuDocente::ejecutarOpcion(int opcion)
       //_personalManager.mostrar();
     break;
     case 3:
-
+       //manager
     break;
     case 4:
-
+        //manager
     break;
     case 5:
-
+        //manager
     break;
     case 6:
-
+        //manager
     break;
     case 7:
-
+        //manager
     break;
     case 8:
-
+        //manager
     break;
     case 9:
-
+        //manager
     break;
     case 10:
-
+        //manager
     break;
     }
 }
