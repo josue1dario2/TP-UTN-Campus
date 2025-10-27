@@ -22,6 +22,15 @@ add_executable(TP_UTN_Campus
         Materia.cpp
         Persona.cpp
         Validacion.cpp
+        MenuPrincipal.cpp
+        MenuAdmin.cpp
+        MenuAbmCarreras.cpp
+        MenuAbmComisiones.cpp
+        MenuAbmMaterias.cpp
+        MenuAlumno.cpp
+        MenuDocente.cpp
+        MenuUtilitarios.cpp
+        PrincipalManager.cpp
 )
 
 # --- GoogleTest setup ---
@@ -53,6 +62,16 @@ add_executable(runTests
         Materia.cpp
         Persona.cpp
         Validacion.cpp
+        ArchivoComision.h
+        ArchivoComision.cpp
+        ArchivoInscripcion.h
+        ArchivoInscripcion.cpp
+        ArchivoExamen.h
+        ArchivoExamen.cpp
+        ArchivoCorrelativa.h
+        ArchivoCorrelativa.cpp
+        ArchivoPersona.h
+        ArchivoPersona.cpp
 )
 
 target_link_libraries(runTests GTest::gtest_main)
