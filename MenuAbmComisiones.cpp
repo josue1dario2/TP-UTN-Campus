@@ -1,4 +1,4 @@
-#include "MenuAbmComisiones.h"
+#include "MenuABMComisiones.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -70,12 +70,12 @@ int MenuABMComisiones::seleccionOpcion()
     mostrarOpciones();
     cout << "\t--------------------------------" << endl;
     cout << "\tOpción: ";
-    cin >> opcion;
+    opcion = validar.validarEntero("");
 
     while(opcion < 0 || opcion > _cantidadOpciones){
         cout << "Opcion incorrecta..."<<endl;
         cout << "Opcion: ";
-        cin >> opcion;
+        opcion = validar.validarEntero("");
     }
     return opcion;
 

@@ -5,6 +5,7 @@
 class MenuABMCarreras{
 public:
     MenuABMCarreras();
+    MenuAdministrador();
     void mostrar();
 protected:
     void mostrarOpciones();
@@ -19,7 +20,7 @@ protected:
     */
 private:
     //PersonalManager _personalManager;
-    //mostrarMenuPrincipal();
+    mostrarMenuPrincipal();
     int _cantidadOpciones;
 };
 
