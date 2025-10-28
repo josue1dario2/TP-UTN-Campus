@@ -5,7 +5,7 @@
 class MenuABMCarreras{
 public:
     MenuABMCarreras();
-    MenuAdministrador();
+    //MenuAdministrador();
     void mostrar();
 protected:
     void mostrarOpciones();
