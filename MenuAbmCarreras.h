@@ -2,10 +2,10 @@
 
 #include "MenuAbmCarreras.h"
 
-class MenuABMCarreras{
+class MenuAbmCarreras{
 public:
-    MenuABMCarreras();
-    MenuAdministrador();
+    MenuAbmCarreras();
+    //MenuAdministrador();
     void mostrar();
 protected:
     void mostrarOpciones();
@@ -20,7 +20,7 @@ protected:
     */
 private:
     //PersonalManager _personalManager;
-    mostrarMenuPrincipal();
+    //mostrarMenuPrincipal();
     int _cantidadOpciones;
 };
 

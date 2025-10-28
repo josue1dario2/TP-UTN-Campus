@@ -1,9 +1,9 @@
 #pragma once
 #include "Validacion.h"
 
-class MenuABMComisiones{
+class MenuAbmComisiones{
 public:
-    MenuABMComisiones();
+    MenuAbmComisiones();
     void mostrar();
 
 protected:

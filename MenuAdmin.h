@@ -16,13 +16,13 @@ protected:
 
 
 
-    MenuABMCarreras menuCarreras;
-    MenuABMComisiones menuComisiones;
+    MenuAbmCarreras menuCarreras;
+    MenuAbmComisiones menuComisiones;
     MenuABMMaterias menuMaterias;
 private:
     Validacion validar;
     //PersonalManager _personalManager;
-    mostrarMenuPrincipal();
+    //mostrarMenuPrincipal();
     int _cantidadOpciones;
 };
 
