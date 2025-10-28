@@ -26,7 +26,7 @@ protected:
 private:
     Validacion validar;
     PrincipalManager _principalManager;
-    mostrarMenuPrincipal();
+    //mostrarMenuPrincipal();
     int _cantidadOpciones;
 };
 
