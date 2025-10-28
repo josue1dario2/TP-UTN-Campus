@@ -16,9 +16,9 @@ protected:
 
 
 
-    MenuABMCarreras menuCarreras;
-    MenuABMComisiones menuComisiones;
-    MenuABMMaterias menuMaterias;
+    MenuAbmCarreras menuCarreras;
+    MenuAbmComisiones menuComisiones;
+    MenuAbmMaterias menuMaterias;
 private:
     Validacion validar;
     //PersonalManager _personalManager;
