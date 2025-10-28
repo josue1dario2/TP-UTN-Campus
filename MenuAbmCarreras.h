@@ -2,9 +2,9 @@
 
 #include "MenuAbmCarreras.h"
 
-class MenuABMCarreras{
+class MenuAbmCarreras{
 public:
-    MenuABMCarreras();
+    MenuAbmCarreras();
     //MenuAdministrador();
     void mostrar();
 protected:
