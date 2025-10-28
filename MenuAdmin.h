@@ -22,7 +22,7 @@ protected:
 private:
     Validacion validar;
     //PersonalManager _personalManager;
-    mostrarMenuPrincipal();
+    //mostrarMenuPrincipal();
     int _cantidadOpciones;
 };
 
