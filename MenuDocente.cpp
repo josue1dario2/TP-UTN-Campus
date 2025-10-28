@@ -49,28 +49,28 @@ void MenuDocente::ejecutarOpcion(int opcion)
       //_personalManager.mostrar();
     break;
     case 3:
-       //manager
+
     break;
     case 4:
-        //manager
+
     break;
     case 5:
-        //manager
+
     break;
     case 6:
-        //manager
+
     break;
     case 7:
-        //manager
+
     break;
     case 8:
-        //manager
+
     break;
     case 9:
-        //manager
+
     break;
     case 10:
-        //manager
+
     break;
     }
 }
@@ -78,15 +78,12 @@ int MenuDocente::seleccionOpcion()
 {
     int opcion;
     mostrarOpciones();
-    cout << "\t--------------------------------" << endl;
-    cout << "\tOpción: ";
-    cin >> opcion;
 
-    while(opcion < 0 || opcion > _cantidadOpciones){
-      cout << "\tOpcion incorrecta..."<<endl;
-      cout << "\tOpción: ";
-      cin >> opcion;
-    }
+    string mensaje="\t----------------------------------------------\n";
+    mensaje+="\tOpción: ";
+    opcion = validar.validarEnteroEnRango(mensaje,0,_cantidadOpciones);
+
+
     return opcion;
 
 }

@@ -46,37 +46,37 @@ void MenuAlumno::ejecutarOpcion(int opcion)
 {
     switch(opcion){
     case 1:
-    //_personalManager.cargar();
+      //_personalManager.cargar();
     break;
     case 2:
-    //_personalManager.mostrar();
+      //_personalManager.mostrar();
     break;
     case 3:
-    //manager
+
     break;
     case 4:
-    //manager
+
     break;
     case 5:
-    //manager
+
     break;
     case 6:
-    //manager
+
     break;
     case 7:
-    //manager
+
     break;
     case 8:
-    //manager
+
     break;
     case 9:
-    //manager
+
     break;
     case 10:
-    //manager
+
     break;
     case 11:
-    //manager
+
     break;
   }
 
@@ -85,6 +85,13 @@ void MenuAlumno::ejecutarOpcion(int opcion)
 int MenuAlumno::seleccionOpcion() {
     int opcion;
     mostrarOpciones();
+
+    string mensaje="\t----------------------------------------------\n";
+    mensaje+="\tOpción: ";
+    opcion = validar.validarEnteroEnRango(mensaje,0,_cantidadOpciones);
+
+
+    /*
     cout << "\t--------------------------------" << endl;
     cout << "\tOpción: ";
     cin >> opcion;
@@ -94,6 +101,7 @@ int MenuAlumno::seleccionOpcion() {
       cout << "\tOpcion: ";
       cin >> opcion;
     }
+    */
     return opcion;
 
 }
