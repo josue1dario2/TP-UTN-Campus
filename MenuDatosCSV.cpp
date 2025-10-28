@@ -1,16 +1,16 @@
 #include <iostream>
-#include "MenuUtilitarios.h"
+#include "MenuDatosCSV.h"
 #include <cstdlib>
 
 using namespace std;
 
-MenuUtilitarios::MenuUtilitarios()
+MenuDatosCSV::MenuDatosCSV()
 {
-    _cantidadOpciones=3;
-    _cantidadOpcionesSeguridad=11;
+    _cantidadOpciones=11;
+
 }
 
-void MenuUtilitarios::mostrar()
+void MenuDatosCSV::mostrar()
 {
     int opcion;
     do{
@@ -23,22 +23,12 @@ void MenuUtilitarios::mostrar()
     system("pause");
 }
 
-void MenuUtilitarios::mostrarOpciones()
+void MenuDatosCSV::mostrarOpciones()
 {
     system("cls");
     cout << endl;
-    cout << "\n\tMENÚ UTILITARIOS\n";
+    cout << "\n\tEXPORTAR DATOS A ARCHIVO CSV\n";
     cout << "\t--------------------------------------\n";
-    cout << "\t1 - Realizar copia de seguridad\n";
-    cout << "\t2 - Restaurar copia de seguridad\n";
-    cout << "\t3 - Exportar datos (CSV)\n";
-    cout << "\t--------------------------------------\n";
-    cout << "\t0 - Volver\n";
-
-}
-/*
-void MenuUtilitarios::mostrarOpcionesSeguridad()
-{
     cout << "\t 1 - ALUMNOS\n";
     cout << "\t 2 - DOCENTES\n";
     cout << "\t 3 - CARRERAS\n";
@@ -51,23 +41,22 @@ void MenuUtilitarios::mostrarOpcionesSeguridad()
     cout << "\t10 - CORRELATIVAS\n";
     cout << "\t--------------------------------------\n";
     cout << "\t11 - TODOS LOS ARCHIVOS\n";
+    cout << "\t--------------------------------------\n";
+    cout << "\t0 - Volver\n";
+
 }
-*/
-void MenuUtilitarios::ejecutarOpcion(int opcion)
+
+void MenuDatosCSV::ejecutarOpcion(int opcion)
 {
-    switch(opcion){
-    case 1:
-        menuCopiaSeg.mostrar(opcion);
-    break;
-    case 2:
-        menuCopiaSeg.mostrar(opcion);
-    break;
-    case 3:
-        menuDatosCSV.mostrar();
-    break;
+    // Borrar y reemplazar por manager
+    if (opcion !=0){
+        cout << "\n\tBorrar y reemplazar por manager, opcion: " << opcion << endl;
+        // managerExportardatos(opcion)
     }
+
 }
-int MenuUtilitarios::seleccionOpcion()
+
+int MenuDatosCSV::seleccionOpcion()
 {
     int opcion;
     mostrarOpciones();
@@ -77,7 +66,6 @@ int MenuUtilitarios::seleccionOpcion()
     return opcion;
 
 }
-
 
 
 

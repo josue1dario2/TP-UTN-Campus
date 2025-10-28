@@ -1,19 +1,17 @@
 #pragma once
 
 #include "Validacion.h"
-#include "MenuCopiaSeguridad.h"
-#include "MenuDatosCSV.h"
 
 
-class MenuUtilitarios {
+class MenuDatosCSV {
 public:
-    MenuUtilitarios();
+    MenuDatosCSV();
     void mostrar();
 
 protected:
     void mostrarOpciones();
-    int seleccionOpcion();
     void ejecutarOpcion(int opcion);
+    int seleccionOpcion();
 
     //void realizarCopiaSeguridad();
     //void mostrarOpcionesSeguridad();
@@ -23,11 +21,9 @@ protected:
 
 private:
     Validacion validar;
-    MenuCopiaSeguridad menuCopiaSeg;
-    MenuDatosCSV menuDatosCSV;
     // Manager
     int _cantidadOpciones;
-    int _cantidadOpcionesSeguridad;
+
 };
 
 
