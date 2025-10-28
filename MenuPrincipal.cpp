@@ -18,17 +18,15 @@ MenuPrincipal::MenuPrincipal(){
 void MenuPrincipal::mostrar()  {
     int opcion;
 
-
-
     do {
         system("cls");
         opcion = seleccionOpcion();
         system("cls");
         ejecutarOpcion(opcion);
-        system("pause");
+
 
     } while (opcion !=0);
-
+    system("pause");
 
 }
 
