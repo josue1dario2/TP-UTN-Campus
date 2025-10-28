@@ -31,6 +31,8 @@ add_executable(TP_UTN_Campus
         MenuDocente.cpp
         MenuUtilitarios.cpp
         PrincipalManager.cpp
+        **MenuCopiaSeguridad.cpp**
+        **MenuDatosCSV.cpp**
 )
 
 # --- GoogleTest setup ---
