@@ -20,7 +20,7 @@ protected:
     */
 private:
     //PersonalManager _personalManager;
-    mostrarMenuPrincipal();
+    //mostrarMenuPrincipal();
     int _cantidadOpciones;
 };
 
