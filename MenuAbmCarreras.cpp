@@ -4,11 +4,11 @@
 
 using namespace std;
 
-MenuABMCarreras::MenuABMCarreras(){
+MenuAbmCarreras::MenuAbmCarreras(){
     _cantidadOpciones=4;
 }
 
-void MenuABMCarreras::mostrar(){
+void MenuAbmCarreras::mostrar(){
 int opcion;
 
   do{
@@ -21,7 +21,7 @@ int opcion;
 }
 
 
-void MenuABMCarreras::mostrarOpciones() {
+void MenuAbmCarreras::mostrarOpciones() {
     cout << endl;
     cout << "\n\tABM CARRERAS\n";
     cout << "\t--------------------------------\n";
@@ -34,7 +34,7 @@ void MenuABMCarreras::mostrarOpciones() {
 
 }
 
-void MenuABMCarreras::ejecutarOpcion(int opcion){
+void MenuAbmCarreras::ejecutarOpcion(int opcion){
   switch(opcion){
   case 1:
     //_personalManager.cargar();
@@ -52,7 +52,7 @@ void MenuABMCarreras::ejecutarOpcion(int opcion){
 }
 
 
-int MenuABMCarreras::seleccionOpcion(){
+int MenuAbmCarreras::seleccionOpcion(){
 
     int opcion;
     mostrarOpciones();
