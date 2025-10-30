@@ -9,16 +9,14 @@ using namespace std;
 Materia::Materia() {
     setIdMateria(0);
     setIdCarrera(0);
-    setCodigo("");
     setNombre("");
     setCuatrimestreSugerido(0);
     setEliminado(false);
 }
 
-Materia::Materia(int idMateria, int idCarrera, const char* codigo, const char* nombre, int cuatrimestreSugerido,const char* estado, bool eliminado = false) {
+Materia::Materia(int idMateria, int idCarrera, const char* nombre, int cuatrimestreSugerido,const char* estado, bool eliminado = false) {
     setIdMateria(idMateria);
     setIdCarrera(idCarrera);
-    setCodigo(codigo);
     setNombre(nombre);
     setCuatrimestreSugerido(cuatrimestreSugerido);
     setEstado(estado);
@@ -31,11 +29,6 @@ void Materia::setIdMateria(int idMateria) {
 
 void Materia::setIdCarrera(int idCarrera) {
     _idCarrera = idCarrera;
-    }
-
-void Materia::setCodigo(const char* codigo) {
-    strncpy(_codigo, codigo, sizeof(_codigo));
-    _codigo[sizeof(_codigo) - 1] = '\0'; // Para asegurar que termine en null
     }
 
 void Materia::setNombre(const char* nombre) {
@@ -64,10 +57,6 @@ int Materia::getIdMateria() const {
         return _idCarrera;
     }
 
-const char* Materia::getCodigo() const {
-    return _codigo;
-    }
-
 const char* Materia::getNombre() const {
     return _nombre;
     }
@@ -93,9 +82,6 @@ void Materia::cargar() {
     cin >> _idCarrera;
     cin.ignore(10000, '\n');
 
-    cout << "Código: ";
-    cin.getline(_codigo, sizeof(_codigo));
-
     cout << "Nombre: ";
     cin.getline(_nombre, sizeof(_nombre));
 
@@ -113,9 +99,8 @@ void Materia::mostrar() const {
     cout << "=== Datos de la Materia ===\n";
     cout << "ID Materia: " << _idMateria << "\n";
     cout << "ID Carrera: " << _idCarrera << "\n";
-    cout << "Código: " << _codigo << "\n";
     cout << "Nombre: " << _nombre << "\n";
-    cout << "Cuatrimestre sugerido: " << _cuatrimestreSugerido << "\n";
+    cout << "Cuatrimestre: " << _cuatrimestreSugerido << "\n";
     cout << "Estado: " << _estado << "\n";
     cout << "Eliminado: " << (_eliminado ? "Sí" : "No") << "\n\n";
 }
