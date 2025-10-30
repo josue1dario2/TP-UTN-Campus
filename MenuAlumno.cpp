@@ -42,18 +42,17 @@ int MenuAlumno::seleccionOpcion() {
 
     string mensaje="\t----------------------------------------------\n";
     mensaje+="\tOpción: ";
-    opcion = validar.validarEnteroEnRango(mensaje,0,_cantidadOpciones);
-    cout << "\tOpción: ";
-    cin >> opcion;
+    opcion = validar.validarEnteroEnRango(mensaje, 0, _cantidadOpciones);
 
     while (opcion < 0 || opcion > _cantidadOpciones) {
         cout << "\tOpción incorrecta...\n";
         cout << "\tOpción: ";
         cin >> opcion;
     }
-    *
+
     return opcion;
 }
+
 
 void MenuAlumno::ejecutarOpcion(int opcion) {
     int legajo, idMateria;
