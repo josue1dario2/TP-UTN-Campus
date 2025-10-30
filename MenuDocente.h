@@ -13,7 +13,8 @@ protected:
 private:
     //PersonalManager _personalManager;
     int _cantidadOpciones;
-
+    void mostrarSubmenuNotas();
+    int seleccionarSubopcionNotas();
 };
 
 
