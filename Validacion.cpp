@@ -22,23 +22,24 @@ static string tolower_copy(string s) {
 }
 
 // ------------- enteros -------------
-int Validacion::validarEntero(const string& mensaje) {
+int Validacion::validarEntero(const string& mensaje = "") {
     while (true) {
-        cout << mensaje;
+        if (!mensaje.empty())
+            cout << mensaje;
         string entrada;
         if (!getline(cin, entrada)) { cin.clear(); continue; }
         entrada = trim(entrada);
 
         // permitir +/-
-        if (entrada.empty()) { cout << "Entrada invalida.\n"; continue; }
+        if (entrada.empty()) { cout << "\n\tEntrada invalida.\n"; continue; }
         size_t k = (entrada[0] == '+' || entrada[0] == '-') ? 1u : 0u;
         bool ok = (k < entrada.size());
         for (; k < entrada.size(); ++k)
             if (!isdigit((unsigned char)entrada[k])) { ok = false; break; }
-        if (!ok) { cout << "Debe ser un numero entero.\n"; continue; }
+        if (!ok) { cout << "\n\tDebe ser un numero entero.\n"; continue; }
 
         try { return stoi(entrada); }
-        catch (...) { cout << "Formato invalido.\n"; }
+        catch (...) { cout << "\n\tFormato invalido.\n"; }
     }
 }
 
@@ -46,7 +47,7 @@ int Validacion::validarEnteroNoNegativo(const string& mensaje) {
     while (true) {
         int v = validarEntero(mensaje);
         if (v >= 0) return v;
-        cout << "Debe ser >= 0.\n";
+        cout << "\n\tDebe ser >= 0.\n";
     }
 }
 
@@ -55,7 +56,7 @@ int Validacion::validarEnteroEnRango(const string& mensaje, int minV, int maxV) 
     while (true) {
         int v = validarEntero(mensaje);
         if (v >= minV && v <= maxV) return v;
-        cout << "Fuera de rango [" << minV << "," << maxV << "].\n";
+        cout << "\n\tEl valor debe estar entre: " << minV << " y " << maxV << ".\n";
     }
 }
 

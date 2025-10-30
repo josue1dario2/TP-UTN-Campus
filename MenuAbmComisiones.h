@@ -1,8 +1,9 @@
 #pragma once
+#include "Validacion.h"
 
-class MenuABMComisiones{
+class MenuAbmComisiones{
 public:
-    MenuABMComisiones();
+    MenuAbmComisiones();
     void mostrar();
 
 protected:
@@ -19,6 +20,7 @@ protected:
     */
 
 private:
+    Validacion validar;
     //PrincipalManager _principalManager;
     //mostrarMenuPrincipal();
     int _cantidadOpciones;

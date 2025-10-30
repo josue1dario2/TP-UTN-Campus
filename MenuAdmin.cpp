@@ -60,14 +60,20 @@ int MenuAdministrador::seleccionOpcion()
 {
     int opcion;
     mostrarOpciones();
+
+    string mensaje="\t----------------------------------------------\n";
+    mensaje+="\tOpción: ";
+    opcion = validar.validarEnteroEnRango(mensaje,0,_cantidadOpciones);
+    /*
     cout << "\t--------------------------------\n";
     cout << "\tOpción: ";
-    cin >> opcion;
+    opcion = validar.validarEntero("");
 
     while(opcion < 0 || opcion > _cantidadOpciones){
-    cout << "\tOpcion incorrecta..."<<endl;
-    cout << "\tOpción: ";
-    cin >> opcion;
+        cout << "\tOpcion incorrecta..."<<endl;
+        cout << "\tOpción: ";
+        opcion = validar.validarEntero("");
   }
+  */
   return opcion;
 }
