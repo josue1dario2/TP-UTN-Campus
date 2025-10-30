@@ -37,6 +37,9 @@ add_executable(TP_UTN_Campus
         AlumnoManager.cpp
         ExamenManager.cpp
         ComisionManager.cpp
+        MenuCopiaSeguridad.cpp
+        MenuDatosCSV.cpp
+
 )
 
 

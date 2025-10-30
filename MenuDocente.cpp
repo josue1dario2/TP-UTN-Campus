@@ -39,18 +39,15 @@ void MenuDocente::mostrarOpciones() {
     cout << "\t0) Volver\n";
 }
 
-int MenuDocente::seleccionOpcion() {
+int MenuDocente::seleccionOpcion()
+{
     int opcion;
     mostrarOpciones();
-    cout << "\t--------------------------------" << endl;
-    cout << "\tOpción: ";
-    cin >> opcion;
 
-    while (opcion < 0 || opcion > _cantidadOpciones) {
-        cout << "\tOpción incorrecta..." << endl;
-        cout << "\tOpción: ";
-        cin >> opcion;
-    }
+    string mensaje="\t----------------------------------------------\n";
+    mensaje+="\tOpción: ";
+    opcion = validar.validarEnteroEnRango(mensaje,0,_cantidadOpciones);
+
     return opcion;
 }
 

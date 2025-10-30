@@ -39,7 +39,10 @@ void MenuAlumno::mostrarOpciones() {
 int MenuAlumno::seleccionOpcion() {
     int opcion;
     mostrarOpciones();
-    cout << "\t--------------------------------\n";
+
+    string mensaje="\t----------------------------------------------\n";
+    mensaje+="\tOpción: ";
+    opcion = validar.validarEnteroEnRango(mensaje,0,_cantidadOpciones);
     cout << "\tOpción: ";
     cin >> opcion;
 
@@ -48,6 +51,7 @@ int MenuAlumno::seleccionOpcion() {
         cout << "\tOpción: ";
         cin >> opcion;
     }
+    *
     return opcion;
 }
 
