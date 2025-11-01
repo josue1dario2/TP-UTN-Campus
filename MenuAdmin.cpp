@@ -1,5 +1,5 @@
 #include "MenuAdmin.h"
-
+#include "MenuABMMaterias.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -35,24 +35,34 @@ void MenuAdministrador::mostrarOpciones()
 
 
 }
+
 void MenuAdministrador::ejecutarOpcion(int opcion)
 {
     switch (opcion) {
         case 1:
             //menuCarreras.mostrarMenuABMCarreras();
             break;
-        case 2:
-            //menuABMMaterias();
+
+        case 2: {
+            MenuABMMaterias menuMaterias;     // <--- creamos objeto
+            menuMaterias.mostrarMenuABMMaterias();  // <--- mostramos menú
             break;
+        }
+
         case 3:
             //menuABMComisiones();
             break;
+
         case 4:
-            //menuABMComisiones();
+            //menuSolicitudes();
             break; // Cambiar Solicitudes
+
         case 0:
             break;
-        default: cout << "Opción inválida.\n"; break;
+
+        default:
+            cout << "Opción inválida.\n";
+            break;
     }
 }
 
