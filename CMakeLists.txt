@@ -13,7 +13,6 @@ add_executable(TP_UTN_Campus
         ArchivoMateria.cpp
         ArchivoExamen.cpp
         ArchivoComision.cpp
-        ArchivoInscripcion.cpp
         Carrera.cpp
         Comision.cpp
         Correlativa.cpp
@@ -21,7 +20,6 @@ add_executable(TP_UTN_Campus
         Docente.cpp
         Examen.cpp
         Fecha.cpp
-        Inscripcion.cpp
         Materia.cpp
         Persona.cpp
         Validacion.cpp
@@ -68,14 +66,11 @@ add_executable(runTests
         Docente.cpp
         Examen.cpp
         Fecha.cpp
-        Inscripcion.cpp
         Materia.cpp
         Persona.cpp
         Validacion.cpp
         ArchivoComision.h
         ArchivoComision.cpp
-        ArchivoInscripcion.h
-        ArchivoInscripcion.cpp
         ArchivoExamen.h
         ArchivoExamen.cpp
         ArchivoCorrelativa.h
