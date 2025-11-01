@@ -4,11 +4,11 @@
 #include <iostream>
 using namespace std;
 
-MenuABMComisiones::MenuABMComisiones(){
+MenuAbmComisiones::MenuAbmComisiones(){
     _cantidadOpciones = 7;
 }
 
-void MenuABMComisiones::mostrar()
+void MenuAbmComisiones::mostrar()
 {
     int opcion;
     do {
@@ -20,7 +20,7 @@ void MenuABMComisiones::mostrar()
     } while (opcion !=0);
 }
 
-void MenuABMComisiones::mostrarOpciones()
+void MenuAbmComisiones::mostrarOpciones()
 {
     cout << endl;
     cout << "\n\tABM COMISIONES\n";
@@ -35,7 +35,7 @@ void MenuABMComisiones::mostrarOpciones()
     cout << "\t0) Volver\n";
 }
 
-void MenuABMComisiones::ejecutarOpcion(int opcion)
+void MenuAbmComisiones::ejecutarOpcion(int opcion)
 {
     switch(opcion){
         case 1:
@@ -64,18 +64,18 @@ void MenuABMComisiones::ejecutarOpcion(int opcion)
 
 }
 
-int MenuABMComisiones::seleccionOpcion()
+int MenuAbmComisiones::seleccionOpcion()
 {
     int opcion;
     mostrarOpciones();
     cout << "\t--------------------------------" << endl;
     cout << "\tOpción: ";
-    cin >> opcion;
+    opcion = validar.validarEntero("");
 
     while(opcion < 0 || opcion > _cantidadOpciones){
         cout << "Opcion incorrecta..."<<endl;
         cout << "Opcion: ";
-        cin >> opcion;
+        opcion = validar.validarEntero("");
     }
     return opcion;
 
