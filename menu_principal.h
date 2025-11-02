@@ -1,6 +1,6 @@
 #pragma once
 
-#include "menu_admin.h"
+#include "MenuAdmin.h"
 #include "menu_alumno.h"
 #include "menu_docente.h"
 #include "MenuUtilitarios.h"

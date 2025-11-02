@@ -1,33 +1,11 @@
 #pragma once
 
-#include "Validacion.h"
-#include "MenuCopiaSeguridad.h"
-#include "MenuDatosCSV.h"
-
-
 class MenuUtilitarios {
 public:
-    MenuUtilitarios();
-    void mostrar();
-
-protected:
-    void mostrarOpciones();
-    int seleccionOpcion();
-    void ejecutarOpcion(int opcion);
-
-    //void realizarCopiaSeguridad();
-    //void mostrarOpcionesSeguridad();
-    //void restaurarCopiaSeguridad();
-    //void exportarDatosCSV();
-
-
-private:
-    Validacion validar;
-    MenuCopiaSeguridad menuCopiaSeg;
-    MenuDatosCSV menuDatosCSV;
-    // Manager
-    int _cantidadOpciones;
-    int _cantidadOpcionesSeguridad;
+    void mostrarMenuPrincipal();
+    void realizarCopiaSeguridad();
+    void restaurarCopiaSeguridad();
+    void exportarDatosCSV();
 };
 
 

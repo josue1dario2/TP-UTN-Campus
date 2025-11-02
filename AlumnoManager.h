@@ -1,16 +1,16 @@
 #pragma once
 #include "ArchivoAlumno.h"
 #include "ArchivoMateria.h"
-#include "ArchivoInscripcion.h"
 #include "ExamenManager.h"
-#include "Inscripcion.h"
+#include "ArchivoInscripcionComision.h"
+#include "InscripcionComision.h"
 
 class AlumnoManager {
 private:
     ArchivoAlumno _archivoAlumnos;
     ArchivoMateria _archivoMaterias;
-    ArchivoInscripcion _archivoInscripciones;
     ExamenManager _examenManager;
+    ArchivoInscripcionComision _archivoInscripcionesComision;
 
 public:
     AlumnoManager();
@@ -32,11 +32,13 @@ public:
     void solicitarBaja(int legajo);
     void reactivarAlumno(int legajo);
 
-    // --- Inscripciones ---
+    // --- Inscripciones a comisiones ---
+    void inscribirseAComision(int legajo);
     void verMisComisiones(int legajo);
-    void verMisMesas(int legajo);
-    void bajaInscripcionMateria(int legajo, int idComision);
-    void bajaInscripcionMesaFinal(int legajo, int idComision);
-    void inscribirseAMateria(int legajo, int idComision);
+    void bajaInscripcionComision(int legajo, int idComision); // opcional
 
+    // --- Exámenes y mesas ---
+    void verMisMesas(int legajo);
+    void verMisInscripciones(int legajo);
+    void bajaInscripcionMesaFinal(int legajo, int idComision); // baja de final
 };

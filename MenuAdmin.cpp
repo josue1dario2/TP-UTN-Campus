@@ -1,5 +1,6 @@
 #include "MenuAdmin.h"
-#include "MenuABMMaterias.h"
+#include "MenuAbmCarreras.h"
+#include "Validacion.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -40,7 +41,7 @@ void MenuAdministrador::ejecutarOpcion(int opcion)
 {
     switch (opcion) {
         case 1:
-            //menuCarreras.mostrarMenuABMCarreras();
+            menuCarreras.mostrar();
             break;
 
         case 2: {
@@ -70,20 +71,11 @@ int MenuAdministrador::seleccionOpcion()
 {
     int opcion;
     mostrarOpciones();
-
-    string mensaje="\t----------------------------------------------\n";
-    mensaje+="\tOpción: ";
-    opcion = validar.validarEnteroEnRango(mensaje,0,_cantidadOpciones);
-    /*
     cout << "\t--------------------------------\n";
     cout << "\tOpción: ";
-    opcion = validar.validarEntero("");
 
-    while(opcion < 0 || opcion > _cantidadOpciones){
-        cout << "\tOpcion incorrecta..."<<endl;
-        cout << "\tOpción: ";
-        opcion = validar.validarEntero("");
-  }
-  */
+    opcion = Validacion::validarEnteroEnRango("",0,_cantidadOpciones);
+
+
   return opcion;
 }
