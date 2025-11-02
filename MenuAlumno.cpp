@@ -14,64 +14,53 @@ void MenuAlumno::mostrar() {
         opcion = seleccionOpcion();
         system("cls");
         ejecutarOpcion(opcion);
-        system("pause");
+        if (opcion != 0) system("pause");
     } while (opcion != 0);
 }
 
 void MenuAlumno::mostrarOpciones() {
     cout << endl;
-    cout << "\n\tMENÚ DEL ALUMNO\n";
+    cout << "\n\t===== MENÚ DEL ALUMNO =====\n";
     cout << "\t--------------------------------\n";
-    cout << "\t1) Inscripción a Materia (Comisión)\n";
-    cout << "\t2) Inscripción a Examen Final\n";
-    cout << "\t3) Ver Materias Aprobadas\n";
-    cout << "\t4) Ver Materias Pendientes\n";
-    cout << "\t5) Ver Mis Comisiones (pendiente)\n";
-    cout << "\t6) Ver Mis Mesas (pendiente)\n";
-    cout << "\t7) Dar de Baja Inscripción a Materia (pendiente)\n";
-    cout << "\t8) Dar de Baja Inscripción a Mesa/Final (pendiente)\n";
-    cout << "\t9) Ver Mis Notas / Historial\n";
-    cout << "\t10) Solicitud de baja\n";
-    cout << "\t11) Reactivar mi legajo\n";
+    cout << "\t1) Ver mis datos personales\n";
+    cout << "\t2) Ver historial de notas\n";
+    cout << "\t3) Ver materias aprobadas\n";
+    cout << "\t4) Ver materias pendientes\n";
+    cout << "\t5) Ver mis inscripciones (comisiones y exámenes)\n";
+    cout << "\t6) Inscribirme a comisión\n";                // NUEVO
+    cout << "\t7) Dar de baja inscripción a comisión\n";    // NUEVO
+    cout << "\t8) Inscribirme a examen final\n";
+    cout << "\t9) Dar de baja inscripción a final\n";
+    cout << "\t10) Solicitar baja de legajo\n";
+    cout << "\t11) Reactivar legajo\n";
     cout << "\t0) Volver\n";
+    cout << "\t--------------------------------\n";
 }
 
 int MenuAlumno::seleccionOpcion() {
     int opcion;
     mostrarOpciones();
 
-    string mensaje="\t----------------------------------------------\n";
-    mensaje+="\tOpción: ";
+    string mensaje = "\t----------------------------------------------\n";
+    mensaje += "\tOpción: ";
     opcion = validar.validarEnteroEnRango(mensaje, 0, _cantidadOpciones);
-
-    while (opcion < 0 || opcion > _cantidadOpciones) {
-        cout << "\tOpción incorrecta...\n";
-        cout << "\tOpción: ";
-        cin >> opcion;
-    }
-
     return opcion;
 }
 
-
 void MenuAlumno::ejecutarOpcion(int opcion) {
-    int legajo, idMateria;
+    int legajo, idMateria, idComision;
 
     switch (opcion) {
         case 1:
             cout << "Ingrese su legajo: ";
             cin >> legajo;
-            cout << "Ingrese ID de la comisión a inscribirse: ";
-            cin >> idMateria; // o idComision
-            _alumnoManager.inscribirseAMateria(legajo, idMateria);
+            _alumnoManager.mostrarAlumnoPorLegajo(legajo);
             break;
 
         case 2:
             cout << "Ingrese su legajo: ";
             cin >> legajo;
-            cout << "Ingrese ID de la materia: ";
-            cin >> idMateria;
-            _alumnoManager.inscribirseAFinal(legajo, idMateria);
+            _alumnoManager.mostrarHistorialNotas(legajo);
             break;
 
         case 3:
@@ -89,35 +78,37 @@ void MenuAlumno::ejecutarOpcion(int opcion) {
         case 5:
             cout << "Ingrese su legajo: ";
             cin >> legajo;
-            _alumnoManager.verMisComisiones(legajo);
+            _alumnoManager.verMisInscripciones(legajo);
             break;
 
         case 6:
             cout << "Ingrese su legajo: ";
             cin >> legajo;
-            _alumnoManager.verMisMesas(legajo);
+            _alumnoManager.inscribirseAComision(legajo);
             break;
 
         case 7:
             cout << "Ingrese su legajo: ";
             cin >> legajo;
-            cout << "Ingrese ID de comisión a dar de baja: ";
-            cin >> idMateria;
-            _alumnoManager.bajaInscripcionMateria(legajo, idMateria);
+            cout << "Ingrese ID de la comisión a dar de baja: ";
+            cin >> idComision;
+            _alumnoManager.bajaInscripcionComision(legajo, idComision);
             break;
 
         case 8:
             cout << "Ingrese su legajo: ";
             cin >> legajo;
-            cout << "Ingrese ID de comisión de la mesa a dar de baja: ";
-            cin >> idMateria;  // o idComision
-            _alumnoManager.bajaInscripcionMesaFinal(legajo, idMateria);
+            cout << "Ingrese ID de la materia (para examen final): ";
+            cin >> idMateria;
+            _alumnoManager.inscribirseAFinal(legajo, idMateria);
             break;
 
         case 9:
             cout << "Ingrese su legajo: ";
             cin >> legajo;
-            _alumnoManager.mostrarHistorialNotas(legajo);
+            cout << "Ingrese ID de la comisión del examen final: ";
+            cin >> idComision;
+            _alumnoManager.bajaInscripcionMesaFinal(legajo, idComision);
             break;
 
         case 10:

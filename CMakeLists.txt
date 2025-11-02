@@ -83,6 +83,10 @@ add_executable(runTests
         ExamenManager.cpp
         ComisionManager.h
         ComisionManager.cpp
+        InscripcionComision.h
+        InscripcionComision.cpp
+        ArchivoInscripcionComision.h
+        ArchivoInscripcionComision.cpp
 )
 
 target_link_libraries(runTests GTest::gtest_main)
