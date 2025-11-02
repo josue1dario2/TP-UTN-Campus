@@ -1,5 +1,8 @@
 #include "Carrera.h"
-using std::cin; using std::cout;
+#include <iostream>
+#include <string>
+
+using namespace std;
 
 Carrera::Carrera() : _idCarrera(0), _duracionCuatrimestres(0), _eliminado(false) {
     strcpy(_nombre, "");
@@ -24,7 +27,7 @@ void Carrera::setDuracionCuatrimestres(int duracion) { _duracionCuatrimestres = 
 
 bool Carrera::getEliminado() const { return _eliminado; }
 void Carrera::setEliminado(bool eliminado) { _eliminado = eliminado; }
-
+/*
 void Carrera::cargar() {
     cout << "=== Cargar Carrera ===\n";
     cout << "ID de Carrera: ";
@@ -40,11 +43,13 @@ void Carrera::cargar() {
 
     _eliminado = false;
 }
-
+*/
 void Carrera::mostrar() const {
-    cout << "=== Datos de la Carrera ===\n";
-    cout << "ID Carrera: " << _idCarrera << "\n";
-    cout << "Nombre: " << _nombre << "\n";
-    cout << "Duración: " << _duracionCuatrimestres << " cuatrimestres\n";
-    cout << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n\n";
+    cout << "\n\t=== Datos de la Carrera ===";
+    cout << "\n\tID Carrera: " << _idCarrera;
+    cout << "\n\tNombre: " << _nombre;
+    string cuatrimestres = (getDuracionCuatrimestres() > 1 ? " cuatrimestres":" cuatrimestre");
+    cout << "\n\tDuración: " << _duracionCuatrimestres << cuatrimestres;
+    cout << "\n\tEliminado: " << (_eliminado ? "Si" : "No") << "\n";
 }
+

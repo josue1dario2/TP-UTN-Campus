@@ -5,7 +5,6 @@
 #include "MenuDocente.h"
 #include "MenuUtilitarios.h"
 #include "PrincipalManager.h"
-#include "Validacion.h"
 
 class MenuPrincipal{
 public:
@@ -17,14 +16,15 @@ protected:
     int seleccionOpcion();
     void ejecutarOpcion(int opcion);
 
-    MenuUtilitarios menuUtil;
+
+
+    MenuUtilitarios menu;
     MenuAlumno menuAlumno;
     MenuDocente menuDocente;
     MenuAdministrador menuAdministrador;
 
 
 private:
-    Validacion validar;
     PrincipalManager _principalManager;
     //mostrarMenuPrincipal();
     int _cantidadOpciones;
