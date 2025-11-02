@@ -10,11 +10,11 @@ private:
 public:
     ArchivoComision(const char *nombre = "Comisiones.dat");
 
-    int agregarRegistro(const Comision& reg);
+    int agregarRegistro(Comision reg);
     bool listarRegistros();
     int buscarRegistro(int id);
     Comision leerRegistro(int pos);
-    bool modificarRegistro(const Comision& reg, int pos);
+    bool modificarRegistro(Comision reg, int pos);
     int contarRegistros();
     bool bajaLogica(int pos);
     bool activarRegistro(int pos);

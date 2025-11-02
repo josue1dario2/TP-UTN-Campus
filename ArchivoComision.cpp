@@ -1,17 +1,19 @@
 #include "ArchivoComision.h"
+#include <iostream>
+using namespace std;
 
 ArchivoComision::ArchivoComision(const char *nombre) {
     strcpy(_nombre, nombre);
     _tamanioRegistro = sizeof(Comision);
 }
 
-int ArchivoComision::agregarRegistro(const Comision& reg) {
+int ArchivoComision::agregarRegistro(Comision reg) {
     FILE *p = fopen(_nombre, "ab");
     if (p == nullptr) return -1;
 
-    int result = fwrite(&reg, _tamanioRegistro, 1, p);
+    int escribio = fwrite(&reg, _tamanioRegistro, 1, p);
     fclose(p);
-    return result;
+    return escribio;
 }
 
 bool ArchivoComision::listarRegistros() {
@@ -22,20 +24,21 @@ bool ArchivoComision::listarRegistros() {
     while (fread(&reg, _tamanioRegistro, 1, p)) {
         if (!reg.getEliminado()) {
             reg.mostrar();
+            cout << "------------------------" << endl;
         }
     }
     fclose(p);
     return true;
 }
 
-int ArchivoComision::buscarRegistro(int idComision) {
+int ArchivoComision::buscarRegistro(int id) {
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return -1;
 
     Comision reg;
     int pos = 0;
     while (fread(&reg, _tamanioRegistro, 1, p)) {
-        if (reg.getIdComision() == idComision) {
+        if (reg.getIdComision() == id) {
             fclose(p);
             return pos;
         }
@@ -56,14 +59,14 @@ Comision ArchivoComision::leerRegistro(int pos) {
     return reg;
 }
 
-bool ArchivoComision::modificarRegistro(const Comision& reg, int pos) {
+bool ArchivoComision::modificarRegistro(Comision reg, int pos) {
     FILE *p = fopen(_nombre, "rb+");
     if (p == nullptr) return false;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
-    bool ok = fwrite(&reg, _tamanioRegistro, 1, p);
+    bool escribio = fwrite(&reg, _tamanioRegistro, 1, p);
     fclose(p);
-    return ok;
+    return escribio;
 }
 
 int ArchivoComision::contarRegistros() {

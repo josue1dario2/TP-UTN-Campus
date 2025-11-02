@@ -3,7 +3,6 @@
 #include "MenuAbmCarreras.h"
 #include "MenuAbmComisiones.h"
 #include "MenuAbmMaterias.h"
-#include "Validacion.h"
 
 class MenuAdministrador{
 public:
@@ -16,11 +15,10 @@ protected:
 
 
 
-    MenuAbmCarreras menuCarreras;
-    MenuAbmComisiones menuComisiones;
+    MenuABMCarreras menuCarreras;
+    MenuABMComisiones menuComisiones;
     MenuABMMaterias menuMaterias;
 private:
-    Validacion validar;
     //PersonalManager _personalManager;
     //mostrarMenuPrincipal();
     int _cantidadOpciones;

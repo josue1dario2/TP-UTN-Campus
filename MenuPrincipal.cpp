@@ -1,8 +1,5 @@
-
+#include "Validacion.h"
 #include "MenuPrincipal.h"
-
-
-
 
 #include <iostream>
 #include <cstdlib>
@@ -10,7 +7,6 @@ using namespace std;
 
 MenuPrincipal::MenuPrincipal(){
     _cantidadOpciones=4;
-
 
 }
 
@@ -23,10 +19,8 @@ void MenuPrincipal::mostrar()  {
         opcion = seleccionOpcion();
         system("cls");
         ejecutarOpcion(opcion);
-
-
+        system("pause");
     } while (opcion !=0);
-    system("pause");
 
 }
 
@@ -50,21 +44,18 @@ void MenuPrincipal::ejecutarOpcion(int opcion){
         case 1: menuAlumno.mostrar(); break;
         case 2: menuDocente.mostrar(); break;
         case 3: menuAdministrador.mostrar(); break;
-        case 4: menuUtil.mostrar(); break;
+        case 4: menu.mostrarMenuPrincipal(); break;
         case 0: cout << "Saliendo...\n"; break;
         default: cout << "Opción inválida.\n"; break;
         }
-
 }
 
 int MenuPrincipal::seleccionOpcion(){
     int opcion;
     mostrarOpciones();
-    string mensaje="\t----------------------------------------------\n";
-    mensaje+="\tOpción: ";
-    opcion = validar.validarEnteroEnRango(mensaje,0,_cantidadOpciones);
-
-
+    cout << "\t----------------------------------------------"<<endl;
+    cout << "\tOpción: ";
+    opcion = Validacion::validarEnteroEnRango("",0,_cantidadOpciones);
     return opcion;
 
 

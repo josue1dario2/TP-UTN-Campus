@@ -24,9 +24,11 @@ bool ArchivoCarrera::listarRegistros() {
     while (fread(&obj, _tamanioRegistro, 1, p) == 1) {
         if (!obj.getEliminado()) {
             obj.mostrar();
-            cout << endl;
+
         }
+
     }
+    cout << endl;
 
     fclose(p);
     return true;
@@ -62,6 +64,21 @@ Carrera ArchivoCarrera::leerRegistro(int pos) {
 }
 
 bool ArchivoCarrera::modificarRegistro(Carrera reg, int pos) {
+    FILE *pCarrera;
+    pCarrera=fopen(_nombre,"rb+");
+    if(pCarrera==nullptr){
+        return -1;
+    }
+
+    fseek(pCarrera, pos * sizeof reg, 0);
+    bool escribio = fwrite(&reg, sizeof reg, 1, pCarrera);
+    fclose(pCarrera);
+    return escribio;
+
+    /*
+
+
+
     FILE *p = fopen(_nombre, "rb+");
     if (p == nullptr) return false;
 
@@ -69,6 +86,7 @@ bool ArchivoCarrera::modificarRegistro(Carrera reg, int pos) {
     bool ok = fwrite(&reg, _tamanioRegistro, 1, p);
     fclose(p);
     return ok;
+    */
 }
 
 int ArchivoCarrera::contarRegistros() {
@@ -92,3 +110,32 @@ bool ArchivoCarrera::activarRegistro(int pos) {
     reg.setEliminado(false);
     return modificarRegistro(reg, pos);
 }
+int ArchivoCarrera::getNuevoID(){
+    if(contarRegistros() == 0){
+        return 1;
+    }
+
+    return leerRegistro(contarRegistros() - 1).getIdCarrera()+1;
+
+
+}
+
+int ArchivoCarrera::buscarPosicion(int idCarrera){
+    FILE *pCarrera;
+    int pos=0;
+    Carrera _carrera;
+    pCarrera=fopen(_nombre, "rb"); ///"rb" sirve solo para leer
+    if(pCarrera==nullptr) return -1;
+
+    while(fread(&_carrera, sizeof _carrera, 1, pCarrera)==1){
+        if(_carrera.getIdCarrera()==idCarrera){
+            fclose(pCarrera);
+            return pos;
+        }
+        pos++;
+    }
+
+    fclose(pCarrera);
+    return -2;
+}
+
