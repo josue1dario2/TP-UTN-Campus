@@ -10,6 +10,7 @@ private:
 
 public:
     ArchivoInscripcionComision(const char *nombre = "InscripcionesComision.dat");
+
     int agregarRegistro(InscripcionComision reg);
     bool listarRegistros();
     int contarRegistros();

@@ -37,6 +37,8 @@ add_executable(TP_UTN_Campus
         ComisionManager.cpp
         MenuCopiaSeguridad.cpp
         MenuDatosCSV.cpp
+        InscripcionComision.cpp
+        ArchivoInscripcionComision.cpp
 
 )
 

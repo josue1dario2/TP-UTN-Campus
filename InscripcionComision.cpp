@@ -30,6 +30,7 @@ void InscripcionComision::cargar() {
     cin >> _legajoAlumno;
     cout << "ID de la comisión: ";
     cin >> _idComision;
+    cout << "Fecha de inscripción:\n";
     _fecha.cargar();
     _eliminado = false;
 }
@@ -39,5 +40,6 @@ void InscripcionComision::mostrar() const {
          << " | Comisión: " << _idComision
          << " | Fecha: ";
     _fecha.mostrar();
+    cout << " | Estado: " << (_eliminado ? "Inactiva" : "Activa") << endl;
     cout << endl;
 }
