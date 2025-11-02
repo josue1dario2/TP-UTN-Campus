@@ -171,7 +171,7 @@ void AlumnoManager::inscribirseAComision(int legajo) {
         if (c.getIdMateria() == idMateria && !c.getEliminado()) {
             cout << "ID Comisión: " << c.getIdComision()
                  << " | Turno: " << c.getTurno()
-                 << " | Docente: " << c.getIdDocente() << endl;
+                 << " | Docente: " << c.getLegajoDocente() << endl;
             hayComisiones = true;
         }
     }
