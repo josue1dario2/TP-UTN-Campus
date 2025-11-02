@@ -1,16 +1,14 @@
 #include "MenuAbmMaterias.h"
-
 #include <iostream>
-#include <cstdlib>
 #include <cstdlib>
 using namespace std;
 
 void MenuABMMaterias::mostrarMenuABMMaterias() {
-
+    MateriaManager manager;
     int op;
+
     do {
         system("cls");
-        cout << endl;
         cout << "\n\tABM MATERIAS\n";
         cout << "\t--------------------------------\n";
         cout << "\t1) Alta de Materia\n";
@@ -23,6 +21,30 @@ void MenuABMMaterias::mostrarMenuABMMaterias() {
         cout << "\t--------------------------------\n";
         cout << "\tOpción: ";
         cin >> op;
-    } while (op != 0);
+  
+        system("cls");
 
+        switch (op) {
+            case 1:
+                manager.alta();
+                break;
+            case 2:
+                manager.modificacion();
+                break;
+            case 3:
+                manager.baja();
+                break;
+            case 4:
+                manager.listarTodas();
+                break;
+            case 5:
+                cout << "Funcionalidad opcional (Docente Titular)\n";
+                break;
+            case 6:
+                cout << "Funcionalidad opcional (Correlativas)\n";
+                break;
+        }
+
+        if (op != 0) system("pause");
+    } while (op != 0);
 }

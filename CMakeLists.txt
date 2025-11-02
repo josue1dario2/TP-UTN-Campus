@@ -32,7 +32,7 @@ add_executable(TP_UTN_Campus
         MenuUtilitarios.cpp
         PrincipalManager.cpp
         CarreraManager.cpp
-
+        MateriaManager.cpp
 )
 
 # --- GoogleTest setup ---
