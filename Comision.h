@@ -1,45 +1,37 @@
 #pragma once
-#include <string>
 #include <cstring>
 #include <iostream>
 
 class Comision {
+private:
+    int _idComision;
+    int _idMateria;
+    int _legajoDocente;
+    int _anio;
+    char _turno[20];
+    bool _eliminado;
+
 public:
     Comision();
-    Comision(int idComision, int idMateria,
-             const char* turno, const char* modalidad,
-             int cuatrimestre,int anio, bool eliminado = false);
+    Comision(int idComision, int idMateria, int legajoDocente, int anio, const char* turno, bool eliminado = false);
 
-    int  getIdComision() const;
-    void setIdComision(int v);
-
-    int  getIdMateria() const;
-    void setIdMateria(int v);
-
-    const char* getTurno() const;
-    void setTurno(const char* v);
-
-    const char* getModalidad() const;
-    void setModalidad(const char* v);
-
-    int  getCuatrimestre() const;
-    void setCuatrimestre(int v);
-
+    // Getters
+    int getIdComision() const;
+    int getIdMateria() const;
+    int getLegajoDocente() const;
     int getAnio() const;
-    void setAnio(int anio);
-
+    const char* getTurno() const;
     bool getEliminado() const;
-    void setEliminado(bool v);
 
+    // Setters
+    void setIdComision(int v);
+    void setIdMateria(int v);
+    void setLegajoDocente(int v);
+    void setAnio(int v);
+    void setTurno(const char* t);
+    void setEliminado(bool e);
+
+    // Métodos
     void cargar();
     void mostrar() const;
-
-private:
-    int  _idComision;
-    int  _idMateria;
-    char _turno[10];     // "Mañana", "Tarde", "Noche"
-    char _modalidad[10]; // "Presencial", "Virtual", "Híbrida"
-    int  _cuatrimestre;
-    int  _anio;
-    bool _eliminado;
 };
