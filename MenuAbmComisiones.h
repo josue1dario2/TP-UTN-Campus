@@ -1,5 +1,6 @@
 #pragma once
 #include "Validacion.h"
+#include "ArchivoComision.h"
 
 class MenuAbmComisiones{
 public:
@@ -20,6 +21,7 @@ protected:
     */
 
 private:
+    ArchivoComision _archivoComision;
     Validacion validar;
     //PrincipalManager _principalManager;
     //mostrarMenuPrincipal();

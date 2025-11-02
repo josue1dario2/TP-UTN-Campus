@@ -13,7 +13,6 @@ add_executable(TP_UTN_Campus
         ArchivoMateria.cpp
         ArchivoExamen.cpp
         ArchivoComision.cpp
-        ArchivoInscripcion.cpp
         Carrera.cpp
         Comision.cpp
         Correlativa.cpp
@@ -21,7 +20,6 @@ add_executable(TP_UTN_Campus
         Docente.cpp
         Examen.cpp
         Fecha.cpp
-        Inscripcion.cpp
         Materia.cpp
         Persona.cpp
         Validacion.cpp
@@ -39,6 +37,8 @@ add_executable(TP_UTN_Campus
         ComisionManager.cpp
         MenuCopiaSeguridad.cpp
         MenuDatosCSV.cpp
+        InscripcionComision.cpp
+        ArchivoInscripcionComision.cpp
 
 )
 
@@ -68,14 +68,11 @@ add_executable(runTests
         Docente.cpp
         Examen.cpp
         Fecha.cpp
-        Inscripcion.cpp
         Materia.cpp
         Persona.cpp
         Validacion.cpp
         ArchivoComision.h
         ArchivoComision.cpp
-        ArchivoInscripcion.h
-        ArchivoInscripcion.cpp
         ArchivoExamen.h
         ArchivoExamen.cpp
         ArchivoCorrelativa.h
@@ -88,6 +85,10 @@ add_executable(runTests
         ExamenManager.cpp
         ComisionManager.h
         ComisionManager.cpp
+        InscripcionComision.h
+        InscripcionComision.cpp
+        ArchivoInscripcionComision.h
+        ArchivoInscripcionComision.cpp
 )
 
 target_link_libraries(runTests GTest::gtest_main)
