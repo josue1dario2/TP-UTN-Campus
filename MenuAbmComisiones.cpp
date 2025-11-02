@@ -1,14 +1,15 @@
 #include "MenuAbmComisiones.h"
+#include "Validacion.h"
 
 #include <cstdlib>
 #include <iostream>
 using namespace std;
 
-MenuAbmComisiones::MenuAbmComisiones(){
+MenuABMComisiones::MenuABMComisiones(){
     _cantidadOpciones = 7;
 }
 
-void MenuAbmComisiones::mostrar()
+void MenuABMComisiones::mostrar()
 {
     int opcion;
     do {
@@ -20,7 +21,7 @@ void MenuAbmComisiones::mostrar()
     } while (opcion !=0);
 }
 
-void MenuAbmComisiones::mostrarOpciones()
+void MenuABMComisiones::mostrarOpciones()
 {
     cout << endl;
     cout << "\n\tABM COMISIONES\n";
@@ -35,7 +36,7 @@ void MenuAbmComisiones::mostrarOpciones()
     cout << "\t0) Volver\n";
 }
 
-void MenuAbmComisiones::ejecutarOpcion(int opcion)
+void MenuABMComisiones::ejecutarOpcion(int opcion)
 {
     switch(opcion){
         case 1:
@@ -64,19 +65,15 @@ void MenuAbmComisiones::ejecutarOpcion(int opcion)
 
 }
 
-int MenuAbmComisiones::seleccionOpcion()
+int MenuABMComisiones::seleccionOpcion()
 {
     int opcion;
     mostrarOpciones();
     cout << "\t--------------------------------" << endl;
     cout << "\tOpción: ";
-    opcion = validar.validarEntero("");
 
-    while(opcion < 0 || opcion > _cantidadOpciones){
-        cout << "Opcion incorrecta..."<<endl;
-        cout << "Opcion: ";
-        opcion = validar.validarEntero("");
-    }
+    opcion = Validacion::validarEnteroEnRango("",0,_cantidadOpciones);
+
     return opcion;
 
 }

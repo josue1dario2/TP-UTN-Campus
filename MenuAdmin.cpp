@@ -1,5 +1,6 @@
 #include "MenuAdmin.h"
-
+#include "MenuAbmCarreras.h"
+#include "Validacion.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -35,24 +36,34 @@ void MenuAdministrador::mostrarOpciones()
 
 
 }
+
 void MenuAdministrador::ejecutarOpcion(int opcion)
 {
     switch (opcion) {
         case 1:
-            //menuCarreras.mostrarMenuABMCarreras();
+            menuCarreras.mostrar();
             break;
-        case 2:
-            //menuABMMaterias();
+
+        case 2: {
+            MenuABMMaterias menuMaterias;     // <--- creamos objeto
+            menuMaterias.mostrarMenuABMMaterias();  // <--- mostramos menú
             break;
+        }
+
         case 3:
             //menuABMComisiones();
             break;
+
         case 4:
-            //menuABMComisiones();
+            //menuSolicitudes();
             break; // Cambiar Solicitudes
+
         case 0:
             break;
-        default: cout << "Opción inválida.\n"; break;
+
+        default:
+            cout << "Opción inválida.\n";
+            break;
     }
 }
 
@@ -60,20 +71,11 @@ int MenuAdministrador::seleccionOpcion()
 {
     int opcion;
     mostrarOpciones();
-
-    string mensaje="\t----------------------------------------------\n";
-    mensaje+="\tOpción: ";
-    opcion = validar.validarEnteroEnRango(mensaje,0,_cantidadOpciones);
-    /*
     cout << "\t--------------------------------\n";
     cout << "\tOpción: ";
-    opcion = validar.validarEntero("");
 
-    while(opcion < 0 || opcion > _cantidadOpciones){
-        cout << "\tOpcion incorrecta..."<<endl;
-        cout << "\tOpción: ";
-        opcion = validar.validarEntero("");
-  }
-  */
+    opcion = Validacion::validarEnteroEnRango("",0,_cantidadOpciones);
+
+
   return opcion;
 }

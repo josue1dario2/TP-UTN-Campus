@@ -1,70 +1,70 @@
 #include "MenuAbmCarreras.h"
+#include "CarreraManager.h"
+#include "Validacion.h"
 #include <iostream>
 #include <cstdlib>
 
 using namespace std;
 
-MenuAbmCarreras::MenuAbmCarreras(){
-    _cantidadOpciones=4;
+MenuABMCarreras::MenuABMCarreras(){
+    _cantidadOpciones=5;
 }
 
-void MenuAbmCarreras::mostrar(){
-int opcion;
-
-  do{
-    system("cls");
-    opcion = seleccionOpcion();
-    system("cls");
-    ejecutarOpcion(opcion);
-    system("pause");
-  }while(opcion != 0);
+void MenuABMCarreras::mostrar(){
+    int opcion;
+    do{
+        system("cls");
+        //cin.ignore(10000, '\n');
+        opcion = seleccionOpcion();
+        system("cls");
+        ejecutarOpcion(opcion);
+        system("pause");
+    }while(opcion != 0);
 }
 
 
-void MenuAbmCarreras::mostrarOpciones() {
+void MenuABMCarreras::mostrarOpciones() {
     cout << endl;
     cout << "\n\tABM CARRERAS\n";
     cout << "\t--------------------------------\n";
     cout << "\t1) Alta de Carrera\n";
     cout << "\t2) Modificar Carrera\n";
     cout << "\t3) Baja lógica de Carrera\n";
-    cout << "\t4) Listar Carreras\n";
+    cout << "\t4) Activar Carrera\n";
+    cout << "\t5) Listar Carreras\n";
     cout << "\t0) Volver\n";
-
-
 }
 
-void MenuAbmCarreras::ejecutarOpcion(int opcion){
+void MenuABMCarreras::ejecutarOpcion(int opcion){
   switch(opcion){
-  case 1:
-    //_personalManager.cargar();
-  break;
-  case 2:
-   //_personalManager.mostrar();
-  break;
-  case 3:
-
-  break;
-  case 4:
-
-  break;
+    case 1:
+        _carreraManager.cargar();
+        break;
+    case 2:
+        _carreraManager.modificar();
+        break;
+    case 3:
+        _carreraManager.borrar();
+        break;
+    case 4:
+        _carreraManager.activar();
+        break;
+    case 5:
+        _carreraManager.listar();
+        break;
   }
 }
 
 
-int MenuAbmCarreras::seleccionOpcion(){
+int MenuABMCarreras::seleccionOpcion(){
 
     int opcion;
     mostrarOpciones();
     cout << "\t--------------------------------\n" << endl;
     cout << "\tOpcion: ";
-    cin >> opcion;
 
-    while(opcion < 0 || opcion > _cantidadOpciones){
-      cout << "\tOpcion incorrecta..."<<endl;
-      cout << "\tOpcion: ";
-      cin >> opcion;
-    }
+    opcion = Validacion::validarEnteroEnRango("",0,_cantidadOpciones);
+
     return opcion;
 }
 

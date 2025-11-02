@@ -1,4 +1,5 @@
 #include "AlumnoManager.h"
+#include "ArchivoComision.h"
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
@@ -6,7 +7,8 @@ using namespace std;
 
 AlumnoManager::AlumnoManager()
     : _archivoAlumnos("Alumnos.dat"),
-      _archivoMaterias("Materias.dat") {}
+      _archivoMaterias("Materias.dat"),
+      _archivoInscripcionesComision("InscripcionesComision.dat") {}
 
 void AlumnoManager::registrarAlumno() {
     Alumno nuevo;
@@ -93,24 +95,19 @@ void AlumnoManager::inscribirseAFinal(int legajo, int idMateria) {
 
     if (!_examenManager.puedeRendirFinal(legajo, idMateria)) {
         cout << "No cumple los requisitos para rendir final.\n";
-        cout << "Debe tener todos los parciales aprobados (nota >=6).\n";
+        cout << "Debe tener los parciales aprobados (nota >=4).\n";
         return;
     }
 
-    Examen examen;
-    examen.setLegajoAlumno(legajo);
-    examen.setIdComision(idMateria);
-    examen.setTipoExamen(7);
-    examen.setNota(-1);
-    examen.setCorregido(false);
-    examen.setEliminado(false);
+    Fecha hoy;
+    hoy.cargar();
+    Examen examen(0, idMateria, legajo, 7, hoy, false);
 
     ArchivoExamen archEx("Examenes.dat");
-    if (archEx.inscribirExamen(examen)) {
-        cout << "Inscripción registrada correctamente.\n";
-    } else {
+    if (archEx.inscribirExamen(examen))
+        cout << "Inscripción al final realizada correctamente.\n";
+    else
         cout << "No se pudo registrar la inscripción.\n";
-    }
 }
 
 void AlumnoManager::solicitarBaja(int legajo) {
@@ -120,11 +117,10 @@ void AlumnoManager::solicitarBaja(int legajo) {
         return;
     }
 
-    if (_archivoAlumnos.bajaLogica(pos)) {
+    if (_archivoAlumnos.bajaLogica(pos))
         cout << "Alumno dado de baja correctamente.\n";
-    } else {
+    else
         cout << "Error al dar de baja.\n";
-    }
 }
 
 void AlumnoManager::reactivarAlumno(int legajo) {
@@ -134,139 +130,176 @@ void AlumnoManager::reactivarAlumno(int legajo) {
         return;
     }
 
-    if (_archivoAlumnos.activarRegistro(pos)) {
+    if (_archivoAlumnos.activarRegistro(pos))
         cout << "Alumno reactivado correctamente.\n";
-    } else {
+    else
         cout << "Error al reactivar el alumno.\n";
-    }
 }
+
 // ----------------------------------------------------------
-// NUEVAS FUNCIONES - OPCIONES 5, 6 Y 7 DEL MENÚ ALUMNO
+// INSCRIPCIÓN A COMISIONES
 // ----------------------------------------------------------
 
-void AlumnoManager::verMisComisiones(int legajo) {
-    cout << "\nCOMISIONES INSCRIPTAS - Legajo " << legajo << "\n";
-    cout << "--------------------------------------\n";
+void AlumnoManager::inscribirseAComision(int legajo) {
+    ArchivoMateria archMat("Materias.dat");
+    ArchivoComision archCom("Comisiones.dat");
 
-    int total = _archivoInscripciones.contarRegistros();
-    bool encontrado = false;
+    int totalMat = archMat.contarRegistros();
+    if (totalMat == 0) {
+        cout << "No hay materias disponibles.\n";
+        return;
+    }
 
-    for (int i = 0; i < total; i++) {
-        Inscripcion ins = _archivoInscripciones.leerRegistro(i);
-        if (ins.getLegajoAlumno() == legajo && !ins.getEliminado()) {
-            cout << "Comisión ID: " << ins.getIdComision()
-                 << " | Estado: " << ins.getEstado()
-                 << " | Fecha: ";
-            ins.getFechaInscripcion().mostrar();
-            cout << endl;
-            encontrado = true;
+    cout << "\n=== MATERIAS DISPONIBLES ===\n";
+    for (int i = 0; i < totalMat; i++) {
+        Materia m = archMat.leerRegistro(i);
+        if (!m.getEliminado()) {
+            cout << m.getIdMateria() << ") " << m.getNombre() << endl;
         }
     }
 
-    if (!encontrado)
-        cout << "No hay comisiones activas para este alumno.\n";
-}
+    int idMateria;
+    cout << "\nIngrese el ID de la materia: ";
+    cin >> idMateria;
 
-void AlumnoManager::verMisMesas(int legajo) {
-    cout << "\nMESAS DE EXAMEN FINAL - Legajo " << legajo << "\n";
-    cout << "--------------------------------------\n";
+    cout << "\n=== COMISIONES DISPONIBLES ===\n";
+    int totalCom = archCom.contarRegistros();
+    bool hayComisiones = false;
 
-    ArchivoExamen archivoExamen("Examenes.dat");
-    int total = archivoExamen.contarRegistros();
-    bool encontrado = false;
-
-    for (int i = 0; i < total; i++) {
-        Examen ex = archivoExamen.leerRegistro(i);
-        if (ex.getLegajoAlumno() == legajo &&
-            ex.getTipoExamen() == 7 &&
-            !ex.getEliminado()) {
-            cout << "Mesa Final (ID Comisión: " << ex.getIdComision() << ")\n";
-            encontrado = true;
-            }
+    for (int i = 0; i < totalCom; i++) {
+        Comision c = archCom.leerRegistro(i);
+        if (c.getIdMateria() == idMateria && !c.getEliminado()) {
+            cout << "ID Comisión: " << c.getIdComision()
+                 << " | Turno: " << c.getTurno()
+                 << " | Docente: " << c.getLegajoDocente() << endl;
+            hayComisiones = true;
+        }
     }
 
-    if (!encontrado)
-        cout << "No estás inscripto en ninguna mesa final.\n";
-}
+    if (!hayComisiones) {
+        cout << "No hay comisiones disponibles para esta materia.\n";
+        return;
+    }
 
-void AlumnoManager::bajaInscripcionMateria(int legajo, int idComision) {
-    cout << "\nDAR DE BAJA INSCRIPCIÓN A MATERIA\n";
-    int total = _archivoInscripciones.contarRegistros();
+    int idComision;
+    cout << "\nIngrese el ID de la comisión a inscribirse: ";
+    cin >> idComision;
 
-    for (int i = 0; i < total; i++) {
-        Inscripcion ins = _archivoInscripciones.leerRegistro(i);
+    // Validar duplicado
+    int totalIns = _archivoInscripcionesComision.contarRegistros();
+    for (int i = 0; i < totalIns; i++) {
+        InscripcionComision ins = _archivoInscripcionesComision.leerRegistro(i);
         if (ins.getLegajoAlumno() == legajo &&
             ins.getIdComision() == idComision &&
             !ins.getEliminado()) {
-            _archivoInscripciones.bajaLogica(i);
-            cout << "Inscripción a la comisión " << idComision << " dada de baja.\n";
+            cout << "Ya estás inscripto en esta comisión.\n";
+            return;
+        }
+    }
+
+    // Crear nueva inscripción
+    InscripcionComision nueva(legajo, idComision);
+    Fecha hoy;
+    hoy.cargar();
+    nueva.setFecha(hoy);
+
+    if (_archivoInscripcionesComision.agregarRegistro(nueva))
+        cout << "\nInscripción realizada correctamente.\n";
+    else
+        cout << "\nError al registrar la inscripción.\n";
+}
+
+void AlumnoManager::verMisComisiones(int legajo) {
+    int total = _archivoInscripcionesComision.contarRegistros();
+    if (total == 0) {
+        cout << "No hay inscripciones registradas.\n";
+        return;
+    }
+
+    cout << "\n=== COMISIONES INSCRIPTAS ===\n";
+    bool hay = false;
+
+    for (int i = 0; i < total; i++) {
+        InscripcionComision ins = _archivoInscripcionesComision.leerRegistro(i);
+        if (ins.getLegajoAlumno() == legajo && !ins.getEliminado()) {
+            cout << "Comisión ID: " << ins.getIdComision() << " | Fecha: ";
+            ins.getFecha().mostrar();
+            cout << endl;
+            hay = true;
+        }
+    }
+
+    if (!hay)
+        cout << "No estás inscripto en ninguna comisión.\n";
+}
+
+void AlumnoManager::bajaInscripcionComision(int legajo, int idComision) {
+    int total = _archivoInscripcionesComision.contarRegistros();
+
+    for (int i = 0; i < total; i++) {
+        InscripcionComision ins = _archivoInscripcionesComision.leerRegistro(i);
+        if (ins.getLegajoAlumno() == legajo &&
+            ins.getIdComision() == idComision &&
+            !ins.getEliminado()) {
+            _archivoInscripcionesComision.bajaLogica(i);
+            cout << "Inscripción dada de baja correctamente.\n";
             return;
         }
     }
 
     cout << "No se encontró una inscripción activa para esa comisión.\n";
 }
-void AlumnoManager::bajaInscripcionMesaFinal(int legajo, int idComision) {
-    cout << "\nDAR DE BAJA INSCRIPCIÓN A MESA FINAL\n";
-    ArchivoExamen archivo("Examenes.dat");
-    int total = archivo.contarRegistros();
-    bool encontrado = false;
+
+// ----------------------------------------------------------
+// EXÁMENES Y MESAS FINALES
+// ----------------------------------------------------------
+
+void AlumnoManager::verMisMesas(int legajo) {
+    cout << "\n=== MESAS DE EXAMEN FINAL ===\n";
+    ArchivoExamen arch("Examenes.dat");
+    int total = arch.contarRegistros();
+    bool hay = false;
 
     for (int i = 0; i < total; i++) {
-        Examen ex = archivo.leerRegistro(i);
+        Examen ex = arch.leerRegistro(i);
+        if (ex.getLegajoAlumno() == legajo &&
+            ex.getTipoExamen() == 7 &&
+            !ex.getEliminado()) {
+            cout << "Mesa Final - Comisión ID: " << ex.getIdComision() << " | Fecha: ";
+            ex.getFecha().mostrar();
+            cout << endl;
+            hay = true;
+        }
+    }
+
+    if (!hay)
+        cout << "No estás inscripto en ninguna mesa de examen final.\n";
+}
+
+void AlumnoManager::verMisInscripciones(int legajo) {
+    cout << "\n=== INSCRIPCIONES DEL ALUMNO ===\n";
+    cout << "1) Comisiones en curso:\n";
+    verMisComisiones(legajo);
+    cout << "\n2) Exámenes / Mesas finales:\n";
+    _examenManager.mostrarHistorial(legajo);
+}
+
+void AlumnoManager::bajaInscripcionMesaFinal(int legajo, int idComision) {
+    cout << "\nDAR DE BAJA INSCRIPCIÓN A MESA FINAL\n";
+    ArchivoExamen arch("Examenes.dat");
+    int total = arch.contarRegistros();
+
+    for (int i = 0; i < total; i++) {
+        Examen ex = arch.leerRegistro(i);
         if (ex.getLegajoAlumno() == legajo &&
             ex.getIdComision() == idComision &&
             ex.getTipoExamen() == 7 &&
             !ex.getEliminado()) {
-
-            archivo.bajaLogica(i);
-            cout << "Inscripción a mesa final (Comisión " << idComision << ") dada de baja.\n";
-            encontrado = true;
-            break;
-            }
-    }
-
-    if (!encontrado) {
-        cout << "No se encontró una inscripción activa a mesa final para esa comisión.\n";
-    }
-}
-void AlumnoManager::inscribirseAMateria(int legajo, int idComision) {
-    cout << "\nINSCRIPCIÓN A MATERIA (COMISIÓN)\n";
-
-    // 1. Verificar que el alumno exista
-    int posAlumno = _archivoAlumnos.buscarRegistro(legajo);
-    if (posAlumno == -1) {
-        cout << "No existe un alumno con ese legajo.\n";
-        return;
-    }
-
-    // 2. Verificar si ya está inscripto en la comisión
-    int total = _archivoInscripciones.contarRegistros();
-    for (int i = 0; i < total; i++) {
-        Inscripcion ins = _archivoInscripciones.leerRegistro(i);
-        if (ins.getLegajoAlumno() == legajo &&
-            ins.getIdComision() == idComision &&
-            !ins.getEliminado()) {
-            cout << "Ya estás inscripto en esta comisión.\n";
+            arch.bajaLogica(i);
+            cout << "Inscripción al examen final dada de baja.\n";
             return;
-            }
+        }
     }
 
-    // 3. Crear nueva inscripción
-    Inscripcion nueva;
-    Fecha hoy;
-    hoy.cargar();
-
-    nueva.setIdInscripcion(total + 1);
-    nueva.setLegajoAlumno(legajo);
-    nueva.setIdComision(idComision);
-    nueva.setFechaInscripcion(hoy);
-    nueva.setEstado("Regular");
-    nueva.setEliminado(false);
-
-    if (_archivoInscripciones.agregarRegistro(nueva)) {
-        cout << "Inscripción realizada correctamente.\n";
-    } else {
-        cout << "Error al registrar la inscripción.\n";
-    }
+    cout << "No se encontró una inscripción activa a mesa final para esa comisión.\n";
 }
