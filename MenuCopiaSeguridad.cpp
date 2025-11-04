@@ -1,5 +1,6 @@
 #include <iostream>
 #include "MenuCopiaSeguridad.h"
+#include "utils.h"
 #include <cstdlib>
 
 using namespace std;
@@ -12,14 +13,13 @@ MenuCopiaSeguridad::MenuCopiaSeguridad()
 void MenuCopiaSeguridad::mostrar(int eleccion)
 {
     int opcion;
-    do{
-        system("cls");
-        opcion = seleccionOpcion(eleccion);
-        system("cls");
-        ejecutarOpcion(opcion,eleccion);
-
-    }while(opcion != 0);
-    system("pause");
+    do {
+        clearScreen();
+        opcion = seleccionOpcion();
+        clearScreen();
+        ejecutarOpcion(opcion);
+        pauseScreen();
+    } while (opcion != 0);
 }
 
 void MenuCopiaSeguridad::mostrarOpciones(int eleccion)

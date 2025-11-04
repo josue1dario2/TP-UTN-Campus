@@ -1,5 +1,8 @@
 #include <iostream>
+#include <cstdlib>
 #include "utils.h"
+#include "Validacion.h"
+using namespace std;
 
 std::string cargarCadena()
 {
@@ -26,3 +29,24 @@ int buscarMaximo(int vec[], int cant){
   
   return indexMax;
 }
+
+void clearScreen()
+{
+#ifdef _WIN32
+  system("cls");
+#else
+  system("clear");
+#endif
+}
+
+void pauseScreen()
+{
+#ifdef _WIN32
+  system("pause");
+#else
+  cout << "Presione ENTER para continuar...";
+  if (cin.peek() == '\n') cin.ignore();
+  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+#endif
+}
+

@@ -1,6 +1,7 @@
 #include "MenuAbmCarreras.h"
 #include "CarreraManager.h"
 #include "Validacion.h"
+#include "utils.h"
 #include <iostream>
 #include <cstdlib>
 
@@ -12,14 +13,13 @@ MenuABMCarreras::MenuABMCarreras(){
 
 void MenuABMCarreras::mostrar(){
     int opcion;
-    do{
-        system("cls");
-        //cin.ignore(10000, '\n');
+    do {
+        clearScreen();
         opcion = seleccionOpcion();
-        system("cls");
+        clearScreen();
         ejecutarOpcion(opcion);
-        system("pause");
-    }while(opcion != 0);
+        pauseScreen();
+    } while (opcion != 0);
 }
 
 

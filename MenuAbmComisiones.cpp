@@ -1,5 +1,6 @@
 #include "MenuAbmComisiones.h"
 #include "Validacion.h"
+#include "utils.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -13,12 +14,12 @@ void MenuABMComisiones::mostrar()
 {
     int opcion;
     do {
-        system("cls");
+        clearScreen();
         opcion = seleccionOpcion();
-        system("cls");
+        clearScreen();
         ejecutarOpcion(opcion);
-        system("pause");
-    } while (opcion !=0);
+        pauseScreen();
+    } while (opcion != 0);
 }
 
 void MenuABMComisiones::mostrarOpciones()

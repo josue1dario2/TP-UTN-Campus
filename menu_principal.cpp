@@ -1,5 +1,6 @@
 
 #include "menu_principal.h"
+#include "utils.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -7,20 +8,19 @@ using namespace std;
 
 MenuPrincipal::MenuPrincipal(){
     _cantidadOpciones=4;
-
 }
-
 
 void MenuPrincipal::mostrar()  {
     int opcion;
-
     do {
-        system("cls");
+        clearScreen();
         opcion = seleccionOpcion();
-        system("cls");
+        clearScreen();
         ejecutarOpcion(opcion);
-        system("pause");
-    } while (opcion !=0);
+        pauseScreen();
+    } while (opcion != 0);
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 }
 
@@ -63,12 +63,6 @@ int MenuPrincipal::seleccionOpcion(){
         cin >> opcion;
     }
     return opcion;
-
-
-
-
-
-
 }
 
 

@@ -1,5 +1,6 @@
 #include "Validacion.h"
 #include "MenuDocente.h"
+#include "utils.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -13,13 +14,13 @@ MenuDocente::MenuDocente()
 void MenuDocente::mostrar()
 {
     int opcion;
-    do{
-        system("cls");
+    do {
+        clearScreen();
         opcion = seleccionOpcion();
-        system("cls");
+        clearScreen();
         ejecutarOpcion(opcion);
-        system("pause");
-    }while(opcion != 0);
+        pauseScreen();
+    } while (opcion != 0);
 }
 
 void MenuDocente::mostrarOpciones()

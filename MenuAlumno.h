@@ -1,4 +1,6 @@
 #pragma once
+#include "AlumnoManager.h"
+#include "Validacion.h"
 
 class MenuAlumno{
 public:
@@ -13,6 +15,6 @@ protected:
 private:
     //PersonalManager _personalManager;
     int _cantidadOpciones;
-
+    AlumnoManager _alumnoManager;
 };
 

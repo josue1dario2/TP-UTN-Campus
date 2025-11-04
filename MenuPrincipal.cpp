@@ -1,6 +1,6 @@
 #include "Validacion.h"
 #include "MenuPrincipal.h"
-
+#include "utils.h"
 #include <iostream>
 #include <cstdlib>
 using namespace std;
@@ -13,15 +13,21 @@ MenuPrincipal::MenuPrincipal(){
 
 void MenuPrincipal::mostrar()  {
     int opcion;
-
     do {
-        system("cls");
+        clearScreen();
         opcion = seleccionOpcion();
-        system("cls");
-        ejecutarOpcion(opcion);
-        system("pause");
-    } while (opcion !=0);
+        clearScreen();
 
+        if (opcion == 1 || opcion == 2 || opcion == 3 || opcion == 4) {
+            ejecutarOpcion(opcion);
+        } else if (opcion == 0) {
+            cout << "Saliendo...\n";
+            pauseScreen();
+        } else {
+            cout << "Opción inválida.\n";
+            pauseScreen();
+        }
+    } while (opcion != 0);
 }
 
 void MenuPrincipal::mostrarOpciones()

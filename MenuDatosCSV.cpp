@@ -1,5 +1,6 @@
 #include <iostream>
 #include "MenuDatosCSV.h"
+#include "utils.h"
 #include <cstdlib>
 
 using namespace std;
@@ -13,14 +14,13 @@ MenuDatosCSV::MenuDatosCSV()
 void MenuDatosCSV::mostrar()
 {
     int opcion;
-    do{
-        system("cls");
+    do {
+        clearScreen();
         opcion = seleccionOpcion();
-        system("cls");
+        clearScreen();
         ejecutarOpcion(opcion);
-
-    }while(opcion != 0);
-    system("pause");
+        pauseScreen();
+    } while (opcion != 0);
 }
 
 void MenuDatosCSV::mostrarOpciones()

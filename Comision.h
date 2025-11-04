@@ -8,7 +8,7 @@ public:
     Comision();
     Comision(int idComision, int idMateria,
              const char* turno, const char* modalidad,
-             int cuatrimestre,int anio, bool eliminado = false);
+             int cuatrimestre,int anio,int legajoDocente, bool eliminado = false);
 
     int  getIdComision() const;
     void setIdComision(int v);
@@ -28,6 +28,9 @@ public:
     int getAnio() const;
     void setAnio(int anio);
 
+    int  getLegajoDocente() const;
+    void setLegajoDocente(int legajo);
+
     bool getEliminado() const;
     void setEliminado(bool v);
 
@@ -41,5 +44,6 @@ private:
     char _modalidad[10]; // "Presencial", "Virtual", "Híbrida"
     int  _cuatrimestre;
     int  _anio;
+    int  _legajoDocente;
     bool _eliminado;
 };

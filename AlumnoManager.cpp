@@ -101,7 +101,7 @@ void AlumnoManager::inscribirseAFinal(int legajo, int idMateria) {
 
     Fecha hoy;
     hoy.cargar();
-    Examen examen(0, idMateria, legajo, 7, hoy, false);
+    Examen examen(0, idMateria, legajo, "Final", 0, hoy, false);
 
     ArchivoExamen archEx("Examenes.dat");
     if (archEx.inscribirExamen(examen))
@@ -263,7 +263,7 @@ void AlumnoManager::verMisMesas(int legajo) {
     for (int i = 0; i < total; i++) {
         Examen ex = arch.leerRegistro(i);
         if (ex.getLegajoAlumno() == legajo &&
-            ex.getTipoExamen() == 7 &&
+            strcmp(ex.getTipo(), "Final") == 0 &&
             !ex.getEliminado()) {
             cout << "Mesa Final - Comisión ID: " << ex.getIdComision() << " | Fecha: ";
             ex.getFecha().mostrar();
@@ -293,7 +293,7 @@ void AlumnoManager::bajaInscripcionMesaFinal(int legajo, int idComision) {
         Examen ex = arch.leerRegistro(i);
         if (ex.getLegajoAlumno() == legajo &&
             ex.getIdComision() == idComision &&
-            ex.getTipoExamen() == 7 &&
+            strcmp(ex.getTipo(), "Final") == 0 &&
             !ex.getEliminado()) {
             arch.bajaLogica(i);
             cout << "Inscripción al examen final dada de baja.\n";
