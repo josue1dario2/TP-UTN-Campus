@@ -1,30 +1,28 @@
 #include "Validacion.h"
 #include "MenuDocente.h"
+#include "DocenteManager.h"
 #include "utils.h"
-
 #include <iostream>
 #include <cstdlib>
+#include <limits>
 using namespace std;
 
-MenuDocente::MenuDocente()
-{
-    _cantidadOpciones=10;
+MenuDocente::MenuDocente() {
+    _cantidadOpciones = 10;
 }
 
-void MenuDocente::mostrar()
-{
+void MenuDocente::mostrar() {
     int opcion;
     do {
         clearScreen();
         opcion = seleccionOpcion();
         clearScreen();
         ejecutarOpcion(opcion);
-        pauseScreen();
+        if (opcion != 0) pauseScreen();
     } while (opcion != 0);
 }
 
-void MenuDocente::mostrarOpciones()
-{
+void MenuDocente::mostrarOpciones() {
     cout << endl;
     cout << "\n\tMENÚ DEL DOCENTE\n";
     cout << "\t--------------------------------\n";
@@ -39,55 +37,78 @@ void MenuDocente::mostrarOpciones()
     cout << "\t9) Solicitar baja (cerrar legajo)\n";
     cout << "\t10) Editar mis datos\n";
     cout << "\t0) Volver\n";
+    cout << "\t--------------------------------\n";
 }
 
-void MenuDocente::ejecutarOpcion(int opcion)
-{
-    switch(opcion){
-    case 1:
-      //_personalManager.cargar();
-    break;
-    case 2:
-      //_personalManager.mostrar();
-    break;
-    case 3:
-       //manager
-    break;
-    case 4:
-        //manager
-    break;
-    case 5:
-        //manager
-    break;
-    case 6:
-        //manager
-    break;
-    case 7:
-        //manager
-    break;
-    case 8:
-        //manager
-    break;
-    case 9:
-        //manager
-    break;
-    case 10:
-        //manager
-    break;
-    }
-}
-int MenuDocente::seleccionOpcion()
-{
+int MenuDocente::seleccionOpcion() {
     int opcion;
     mostrarOpciones();
-    cout << "\t--------------------------------" << endl;
     cout << "\tOpción: ";
-
-    opcion = Validacion::validarEnteroEnRango("",0,_cantidadOpciones);
-
+    opcion = Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
     return opcion;
-
 }
 
+void MenuDocente::ejecutarOpcion(int opcion) {
+    DocenteManager docenteManager;
+    int legajo = 0;
+    int idComision = 0;
 
-
+    switch (opcion) {
+        case 1:
+            cout << "Ingrese su legajo: ";
+            cin >> legajo;
+            docenteManager.verMisComisiones(legajo);
+            break;
+        case 2:
+            cout << "Ingrese ID de comisión: ";
+            cin >> idComision;
+            docenteManager.verAlumnosDeComision(idComision);
+            break;
+        case 3:
+            cout << "Ingrese su legajo: ";
+            cin >> legajo;
+            docenteManager.cargarNotasParcialTP(legajo);
+            break;
+        case 4:
+            cout << "Ingrese su legajo: ";
+            cin >> legajo;
+            docenteManager.publicarNotasCursada(legajo);
+            break;
+        case 5:
+            cout << "Ingrese su legajo: ";
+            cin >> legajo;
+            docenteManager.cerrarActaCursada(legajo);
+            break;
+        case 6:
+            cout << "Ingrese su legajo: ";
+            cin >> legajo;
+            docenteManager.verMisComisiones(legajo);
+            break;
+        case 7:
+            cout << "Ingrese su legajo: ";
+            cin >> legajo;
+            docenteManager.cargarNotasFinal(legajo);
+            break;
+        case 8:
+            cout << "Ingrese su legajo: ";
+            cin >> legajo;
+            docenteManager.exportarCSV(legajo);
+            break;
+        case 9:
+            cout << "Ingrese su legajo: ";
+            cin >> legajo;
+            docenteManager.solicitarBaja(legajo);
+            break;
+        case 10:
+            cout << "Ingrese su legajo: ";
+            cin >> legajo;
+            docenteManager.editarDocente(legajo);
+            break;
+        case 0:
+            cout << "Volviendo al menú principal...\n";
+            break;
+        default:
+            cout << "Opción inválida.\n";
+            break;
+    }
+}

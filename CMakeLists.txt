@@ -40,6 +40,7 @@ add_executable(TP_UTN_Campus
         ArchivoExamen.cpp
         InscripcionComision.cpp
         ExamenManager.cpp
+        DocenteManager.cpp
 )
 
 # --- GoogleTest setup ---
@@ -82,6 +83,8 @@ add_executable(runTests
         ArchivoPersona.h
         ArchivoPersona.cpp
         utils.cpp
+        DocenteManager.h
+        DocenteManager.cpp
 
 )
 
