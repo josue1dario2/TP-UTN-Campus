@@ -17,6 +17,11 @@ void MenuAdministrador::mostrar() {
         clearScreen();
         opcion = seleccionOpcion();
         clearScreen();
+
+        if (opcion == 0) {
+            return;
+        }
+
         ejecutarOpcion(opcion);
         pauseScreen();
     } while (opcion != 0);

@@ -1,13 +1,14 @@
 #include <iostream>
+#include <limits>
 #include "MenuUtilitarios.h"
-#include <cstdlib>
+#include "utils.h"
 
 using namespace std;
 
 void MenuUtilitarios::mostrarMenuPrincipal() {
     int opcion;
     do {
-        system("cls");
+        clearScreen();
         cout << "\n\tMENÚ UTILITARIOS\n";
         cout << "\t---------------------------\n";
         cout << "\t1 - Realizar copia de seguridad\n";
@@ -17,7 +18,9 @@ void MenuUtilitarios::mostrarMenuPrincipal() {
         cout << "\t0 - Volver\n";
         cout << "\tSeleccione una opción: ";
         cin >> opcion;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+        clearScreen();
         switch (opcion) {
             case 1: realizarCopiaSeguridad(); break;
             case 2: restaurarCopiaSeguridad(); break;
@@ -25,13 +28,15 @@ void MenuUtilitarios::mostrarMenuPrincipal() {
             case 0: cout << "Volviendo al menú anterior...\n"; break;
             default: cout << "Opción inválida. Intente nuevamente.\n"; break;
         }
+
+        if (opcion != 0) pauseScreen();
     } while (opcion != 0);
 }
 
 void MenuUtilitarios::realizarCopiaSeguridad() {
     int opcion;
     do {
-        system("cls");
+        clearScreen();
         cout << "\n\tREALIZAR COPIA DE SEGURIDAD\n";
         cout << "\t--------------------------------------\n";
         cout << "\t 1 - ALUMNOS\n";
@@ -50,20 +55,22 @@ void MenuUtilitarios::realizarCopiaSeguridad() {
         cout << "\t 0 - SALIR\n";
         cout << "\tSeleccione una opción: ";
         cin >> opcion;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        // Aquí podrías agregar la lógica específica para cada tipo de copia
         if (opcion >= 1 && opcion <= 11) {
             cout << "Realizando copia de seguridad para opción " << opcion << "...\n";
         } else if (opcion != 0) {
             cout << "Opción inválida. Intente nuevamente.\n";
         }
+
+        if (opcion != 0) pauseScreen();
     } while (opcion != 0);
 }
 
 void MenuUtilitarios::restaurarCopiaSeguridad() {
     int opcion;
     do {
-        system("cls");
+        clearScreen();
         cout << "\n\tRESTAURAR COPIA DE SEGURIDAD\n";
         cout << "\t--------------------------------------\n";
         cout << "\t 1 - ALUMNOS\n";
@@ -82,20 +89,22 @@ void MenuUtilitarios::restaurarCopiaSeguridad() {
         cout << "\t 0 - SALIR\n";
         cout << "\tSeleccione una opción: ";
         cin >> opcion;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        // Aquí podrías agregar la lógica específica para restaurar cada tipo
         if (opcion >= 1 && opcion <= 11) {
             cout << "Restaurando copia de seguridad para opción " << opcion << "...\n";
         } else if (opcion != 0) {
             cout << "Opción inválida. Intente nuevamente.\n";
         }
+
+        if (opcion != 0) pauseScreen();
     } while (opcion != 0);
 }
 
 void MenuUtilitarios::exportarDatosCSV() {
     int opcion;
     do {
-        system("cls");
+        clearScreen();
         cout << "\n\tEXPORTAR ARCHIVOS CSV\n";
         cout << "\t--------------------------------------\n";
         cout << "\t 1 - ALUMNOS\n";
@@ -114,15 +123,14 @@ void MenuUtilitarios::exportarDatosCSV() {
         cout << "\t 0 - SALIR\n";
         cout << "\tSeleccione una opción: ";
         cin >> opcion;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        // Aquí podrías agregar la lógica específica para restaurar cada tipo
         if (opcion >= 1 && opcion <= 11) {
-            cout << "Restaurando copia de seguridad para opción " << opcion << "...\n";
+            cout << "Exportando datos CSV para opción " << opcion << "...\n";
         } else if (opcion != 0) {
             cout << "Opción inválida. Intente nuevamente.\n";
         }
+
+        if (opcion != 0) pauseScreen();
     } while (opcion != 0);
-
-
-
 }

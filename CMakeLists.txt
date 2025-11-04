@@ -18,7 +18,6 @@ add_executable(TP_UTN_Campus
         Docente.cpp
         Examen.cpp
         Fecha.cpp
-        Inscripcion.cpp
         Materia.cpp
         Persona.cpp
         Validacion.cpp
@@ -68,7 +67,6 @@ add_executable(runTests
         Docente.cpp
         Examen.cpp
         Fecha.cpp
-        Inscripcion.cpp
         Materia.cpp
         Persona.cpp
         Validacion.cpp
