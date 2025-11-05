@@ -1,26 +1,27 @@
 #include "Examen.h"
 #include <iostream>
-using std::cin; using std::cout;
+#include <cstring>
+using std::cin;
+using std::cout;
 
 Examen::Examen()
-    : _idExamen(0), _idComision(0), _legajoAlumno(0),
-      _numero(0), _nota(-1), _corregido(false), _eliminado(false) {
+    : _idExamen(0), _idMateria(0), _legajoAlumno(0),
+      _nota(-1), _corregido(false), _eliminado(false) {
     std::strcpy(_tipo, "");
-    // _fecha por defecto
 }
 
-Examen::Examen(int idExamen, int idComision, int legajoAlumno,
-               const char* tipo, int numero, Fecha fecha, bool eliminado)
-    : _idExamen(idExamen), _idComision(idComision), _legajoAlumno(legajoAlumno),
-      _numero(numero), _fecha(fecha), _nota(-1), _corregido(false), _eliminado(eliminado) {
+Examen::Examen(int idExamen, int idMateria, int legajoAlumno,
+               const char* tipo, Fecha fecha, bool eliminado)
+    : _idExamen(idExamen), _idMateria(idMateria), _legajoAlumno(legajoAlumno),
+      _fecha(fecha), _nota(-1), _corregido(false), _eliminado(eliminado) {
     setTipo(tipo);
 }
 
 int  Examen::getIdExamen() const { return _idExamen; }
 void Examen::setIdExamen(int v){ _idExamen = v; }
 
-int  Examen::getIdComision() const { return _idComision; }
-void Examen::setIdComision(int v){ _idComision = v; }
+int  Examen::getIdMateria() const { return _idMateria; }
+void Examen::setIdMateria(int v){ _idMateria = v; }
 
 int  Examen::getLegajoAlumno() const { return _legajoAlumno; }
 void Examen::setLegajoAlumno(int v){ _legajoAlumno = v; }
@@ -28,11 +29,8 @@ void Examen::setLegajoAlumno(int v){ _legajoAlumno = v; }
 const char* Examen::getTipo() const { return _tipo; }
 void Examen::setTipo(const char* v){
     std::strncpy(_tipo, v, sizeof(_tipo));
-    _tipo[sizeof(_tipo)-1] = '\0';
+    _tipo[sizeof(_tipo) - 1] = '\0';
 }
-
-int  Examen::getNumero() const { return _numero; }
-void Examen::setNumero(int v){ _numero = v; }
 
 Fecha Examen::getFecha() const { return _fecha; }
 void  Examen::setFecha(Fecha f){ _fecha = f; }
@@ -47,33 +45,55 @@ bool Examen::getEliminado() const { return _eliminado; }
 void Examen::setEliminado(bool v){ _eliminado = v; }
 
 void Examen::cargar() {
-    cout << "=== Crear nuevo Examen ===\n";
+    cout << "=== Cargar Examen ===\n";
     cout << "ID Examen: ";
     cin >> _idExamen;
 
-    cout << "ID Comision: ";
-    cin >> _idComision;
+    cout << "ID Materia: ";
+    cin >> _idMateria;
 
-    cout << "Tipo (Parcial/Final): ";
-    cin >> _tipo;
+    cout << "Legajo del Alumno: ";
+    cin >> _legajoAlumno;
 
-    if (strcmp(_tipo, "Parcial") == 0 || strcmp(_tipo, "parcial") == 0) {
-        cout << "Numero de parcial (1-3): ";
-        cin >> _numero;
-    } else {
-        _numero = 0;
+    cout << "\nSeleccione el tipo de examen:\n";
+    cout << "1) Parcial 1\n";
+    cout << "2) Parcial 2\n";
+    cout << "3) Parcial 3\n";
+    cout << "4) Recuperatorio 1\n";
+    cout << "5) Recuperatorio 2\n";
+    cout << "6) Recuperatorio 3\n";
+    cout << "7) Final 1\n";
+    cout << "8) Final 2\n";
+    cout << "Opción: ";
+
+    int opcion;
+    cin >> opcion;
+    cin.ignore(10000, '\n');
+
+    switch (opcion) {
+        case 1: strcpy(_tipo, "Parcial1"); break;
+        case 2: strcpy(_tipo, "Parcial2"); break;
+        case 3: strcpy(_tipo, "Parcial3"); break;
+        case 4: strcpy(_tipo, "Recuperatorio1"); break;
+        case 5: strcpy(_tipo, "Recuperatorio2"); break;
+        case 6: strcpy(_tipo, "Recuperatorio3"); break;
+        case 7: strcpy(_tipo, "Final1"); break;
+        case 8: strcpy(_tipo, "Final2"); break;
+        default: strcpy(_tipo, "Desconocido"); break;
     }
 
-    cout << "Fecha del examen:\n";
+    cout << "\nFecha del examen:\n";
     _fecha.cargar();
 
     _nota = -1;
     _corregido = false;
     _eliminado = false;
+
+    cout << "\nExamen cargado correctamente.\n";
 }
 
 void Examen::inscribir() {
-    cout << "=== Inscripcion a Examen ===\n";
+    cout << "=== Inscripción a Examen ===\n";
     cout << "Legajo del alumno: ";
     cin >> _legajoAlumno;
     _corregido = false;
@@ -88,18 +108,12 @@ void Examen::corregir(int nota) {
 void Examen::mostrar() const {
     cout << "=== Datos del Examen ===\n";
     cout << "ID Examen: " << _idExamen << "\n";
-    cout << "ID Comision: " << _idComision << "\n";
+    cout << "ID Materia: " << _idMateria << "\n";
     cout << "Legajo Alumno: " << _legajoAlumno << "\n";
     cout << "Tipo: " << _tipo << "\n";
-    if (strcmp(_tipo, "Parcial") == 0 || strcmp(_tipo, "parcial") == 0)
-        cout << "Numero: " << _numero << "\n";
     cout << "Fecha: ";
     _fecha.mostrar();
-    cout << "Nota: ";
-    if (_nota == -1)
-        cout << "Sin corregir\n";
-    else
-        cout << _nota << "\n";
+    cout << "Nota: " << (_nota == -1 ? "Sin corregir" : std::to_string(_nota)) << "\n";
     cout << "Corregido: " << (_corregido ? "Sí" : "No") << "\n";
     cout << "Eliminado: " << (_eliminado ? "Sí" : "No") << "\n\n";
 }

@@ -2,14 +2,14 @@
 #include <string>
 
 Alumno::Alumno()
-    : Persona(), _legajo(0), _fechaIngreso() {
+    : Persona(), _legajo(0), _fechaNacimiento() {
 }
 
 Alumno::Alumno(int legajo, int dni, const char* nombre, const char* apellido,
                const char* telefono, const char* email, Direccion direccion,
-               Fecha fechaIngreso, bool eliminado)
+               Fecha fechaNacimiento, bool eliminado)
     : Persona(dni, nombre, apellido, telefono, email, direccion, eliminado),
-      _legajo(legajo), _fechaIngreso(fechaIngreso) {
+      _legajo(legajo), _fechaNacimiento(fechaNacimiento) {
 }
 
 int Alumno::getLegajo() const {
@@ -20,12 +20,12 @@ void Alumno::setLegajo(int legajo) {
     _legajo = legajo;
 }
 
-Fecha Alumno::getFechaIngreso() const {
-    return _fechaIngreso;
+Fecha Alumno::getFechaNacimiento() const {
+    return _fechaNacimiento;
 }
 
-void Alumno::setFechaIngreso(Fecha fechaIngreso) {
-    _fechaIngreso = fechaIngreso;
+void Alumno::setFechaNacimiento(Fecha fechaNacimiento) {
+    _fechaNacimiento = fechaNacimiento;
 }
 
 void Alumno::cargar() {
@@ -36,8 +36,8 @@ void Alumno::cargar() {
     cout << "Legajo: ";
     cin >> _legajo;
 
-    cout << "Fecha de ingreso:\n";
-    _fechaIngreso.cargar();
+    cout << "Fecha de nacimiento:\n";
+    _fechaNacimiento.cargar();
 
     setEliminado(false);
 }
@@ -48,7 +48,7 @@ void Alumno::mostrar() const {
     Persona::mostrar();
 
     cout << "Legajo: " << _legajo << "\n";
-    cout << "Fecha de ingreso: ";
-    _fechaIngreso.mostrar();
+    cout << "Fecha de nacimiento: ";
+    _fechaNacimiento.mostrar();
     cout << "\n";
 }
