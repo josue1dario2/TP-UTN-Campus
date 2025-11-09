@@ -42,12 +42,12 @@ int ArchivoMateria::buscarRegistro(int idMateria) {
         fread(&obj, _tamanioRegistro, 1, p);
         if (!obj.getEliminado() && obj.getIdMateria() == idMateria) {
             fclose(p);
-            return i; // posición encontrada
+            return i;
         }
     }
 
     fclose(p);
-    return -2; // no encontrado
+    return -2;
 }
 
 Materia ArchivoMateria::leerRegistro(int pos) {
@@ -66,9 +66,9 @@ bool ArchivoMateria::modificarRegistro(Materia reg, int pos) {
     if (p == nullptr) return false;
 
     fseek(p, pos * _tamanioRegistro, 0);
-    bool ok = fwrite(&reg, _tamanioRegistro, 1, p);
+    bool escribio = fwrite(&reg, _tamanioRegistro, 1, p);
     fclose(p);
-    return ok;
+    return escribio;
 }
 
 int ArchivoMateria::contarRegistros() {

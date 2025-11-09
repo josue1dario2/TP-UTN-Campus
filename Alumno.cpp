@@ -1,54 +1,41 @@
 #include "Alumno.h"
-#include <string>
+#include <iostream>
+using namespace std;
 
 Alumno::Alumno()
-    : Persona(), _legajo(0), _fechaNacimiento() {
-}
+    : Persona(), _legajo(0), _fechaIngreso() {}
 
 Alumno::Alumno(int legajo, int dni, const char* nombre, const char* apellido,
                const char* telefono, const char* email, Direccion direccion,
-               Fecha fechaNacimiento, bool eliminado)
-    : Persona(dni, nombre, apellido, telefono, email, direccion, eliminado),
-      _legajo(legajo), _fechaNacimiento(fechaNacimiento) {
-}
+               Fecha fechaNacimiento, Fecha fechaIngreso, bool eliminado)
+    : Persona(dni, nombre, apellido, telefono, email, direccion, fechaNacimiento, eliminado),
+      _legajo(legajo), _fechaIngreso(fechaIngreso) {}
 
-int Alumno::getLegajo() const {
-    return _legajo;
-}
+int Alumno::getLegajo() const { return _legajo; }
+void Alumno::setLegajo(int legajo) { _legajo = legajo; }
 
-void Alumno::setLegajo(int legajo) {
-    _legajo = legajo;
-}
-
-Fecha Alumno::getFechaNacimiento() const {
-    return _fechaNacimiento;
-}
-
-void Alumno::setFechaNacimiento(Fecha fechaNacimiento) {
-    _fechaNacimiento = fechaNacimiento;
-}
+Fecha Alumno::getFechaIngreso() const { return _fechaIngreso; }
+void Alumno::setFechaIngreso(Fecha fechaIngreso) { _fechaIngreso = fechaIngreso; }
 
 void Alumno::cargar() {
-    cout << "=== Cargar Alumno ===\n";
-
+    cout << "\n=== Cargar Alumno ===\n";
     Persona::cargar();
 
     cout << "Legajo: ";
     cin >> _legajo;
+    cin.ignore();
 
-    cout << "Fecha de nacimiento:\n";
-    _fechaNacimiento.cargar();
+    cout << "Fecha de ingreso:\n";
+    _fechaIngreso.cargar();
 
     setEliminado(false);
 }
 
 void Alumno::mostrar() const {
-    cout << "=== Datos del Alumno ===\n";
-
+    cout << "\n=== Datos del Alumno ===\n";
     Persona::mostrar();
-
     cout << "Legajo: " << _legajo << "\n";
-    cout << "Fecha de nacimiento: ";
-    _fechaNacimiento.mostrar();
-    cout << "\n";
+    cout << "Fecha de ingreso: ";
+    _fechaIngreso.mostrar();
+    cout << "---------------------------\n";
 }

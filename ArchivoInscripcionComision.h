@@ -15,5 +15,6 @@ public:
     bool listarRegistros();
     int contarRegistros();
     InscripcionComision leerRegistro(int pos);
+    int buscarRegistro(int legajo, int idComision);
     bool bajaLogica(int pos);
 };

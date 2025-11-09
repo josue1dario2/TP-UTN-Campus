@@ -75,18 +75,6 @@ bool ArchivoCarrera::modificarRegistro(Carrera reg, int pos) {
     fclose(pCarrera);
     return escribio;
 
-    /*
-
-
-
-    FILE *p = fopen(_nombre, "rb+");
-    if (p == nullptr) return false;
-
-    fseek(p, pos * _tamanioRegistro, 0);
-    bool ok = fwrite(&reg, _tamanioRegistro, 1, p);
-    fclose(p);
-    return ok;
-    */
 }
 
 int ArchivoCarrera::contarRegistros() {

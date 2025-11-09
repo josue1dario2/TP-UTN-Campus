@@ -1,5 +1,6 @@
 #include "ArchivoInscripcionComision.h"
 #include <iostream>
+using namespace std;
 
 ArchivoInscripcionComision::ArchivoInscripcionComision(const char *nombre) {
     strcpy(_nombre, nombre);
@@ -22,7 +23,7 @@ bool ArchivoInscripcionComision::listarRegistros() {
     int i = 0;
     while (fread(&reg, _tamanioRegistro, 1, p)) {
         if (!reg.getEliminado()) {
-            std::cout << ++i << ") ";
+            cout << ++i << ") ";
             reg.mostrar();
         }
     }
@@ -67,4 +68,24 @@ bool ArchivoInscripcionComision::bajaLogica(int pos) {
 
     fclose(p);
     return ok;
+}
+
+int ArchivoInscripcionComision::buscarRegistro(int legajo, int idComision) {
+    FILE *p = fopen(_nombre, "rb");
+    if (p == nullptr) return -1;
+
+    InscripcionComision reg;
+    int pos = 0;
+    while (fread(&reg, _tamanioRegistro, 1, p)) {
+        if (!reg.getEliminado() &&
+            reg.getLegajoAlumno() == legajo &&
+            reg.getIdComision() == idComision) {
+            fclose(p);
+            return pos;
+        }
+        pos++;
+    }
+
+    fclose(p);
+    return -2;
 }

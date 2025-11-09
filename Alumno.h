@@ -7,18 +7,18 @@ public:
     Alumno();
     Alumno(int legajo, int dni, const char* nombre, const char* apellido,
            const char* telefono, const char* email, Direccion direccion,
-           Fecha fechaNacimiento, bool eliminado = false);
+           Fecha fechaNacimiento, Fecha fechaIngreso, bool eliminado = false);
 
     int getLegajo() const;
     void setLegajo(int legajo);
 
-    Fecha getFechaNacimiento() const;
-    void setFechaNacimiento(Fecha fechaNacimiento);
+    Fecha getFechaIngreso() const;
+    void setFechaIngreso(Fecha fechaIngreso);
 
     void cargar();
     void mostrar() const;
 
 private:
     int _legajo;
-    Fecha _fechaNacimiento;
+    Fecha _fechaIngreso;
 };
