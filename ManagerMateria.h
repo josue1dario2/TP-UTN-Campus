@@ -2,7 +2,7 @@
 #include "ArchivoMateria.h"
 #include "Materia.h"
 
-class MateriaManager {
+class ManagerMateria {
 private:
     ArchivoMateria _archivo;
 

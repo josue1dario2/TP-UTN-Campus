@@ -2,25 +2,30 @@
 #include "Docente.h"
 #include "ArchivoDocente.h"
 #include "ArchivoComision.h"
-#include "ExamenManager.h"
+#include "ArchivoInscripcionComision.h"
 #include "ArchivoExamen.h"
 #include "ArchivoMateria.h"
-#include "ArchivoInscripcionComision.h"
+#include "ManagerExamen.h"
 #include <iostream>
 
-class DocenteManager {
+class ManagerDocente {
 private:
     ArchivoDocente _archivoDocentes;
     ArchivoComision _archivoComisiones;
     ArchivoInscripcionComision _archivoInscripciones;
     ArchivoExamen _archivoExamen;
     ArchivoMateria _archivoMaterias;
-    ExamenManager _examenManager;
+    ManagerExamen _examenManager;
+
+    // Métodos auxiliares para presentación
+    void mostrarEncabezado();
+    void mostrarRegistro(const Docente& doc);
+    void mostrarPie();
 
 public:
-    DocenteManager();
+    ManagerDocente();
 
-    // CRUD y gestión del docente
+    // CRUD y gestión
     void listarDocentes();
     void mostrarDocentePorLegajo(int legajo);
     void editarDocente(int legajo);

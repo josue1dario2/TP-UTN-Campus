@@ -21,12 +21,18 @@ bool ArchivoExamen::listarRegistros() {
     if (p == nullptr) return false;
 
     Examen reg;
+    bool hay = false;
+
     while (fread(&reg, _tamanioRegistro, 1, p)) {
         if (!reg.getEliminado()) {
             reg.mostrar();
             cout << "------------------------" << endl;
+            hay = true;
         }
     }
+
+    if (!hay) cout << "No hay exámenes activos.\n";
+
     fclose(p);
     return true;
 }
@@ -44,12 +50,15 @@ int ArchivoExamen::buscarRegistro(int id) {
         }
         pos++;
     }
+
     fclose(p);
-    return -1;
+    return -2;
 }
 
 Examen ArchivoExamen::leerRegistro(int pos) {
     Examen reg;
+    if (pos < 0 || pos >= contarRegistros()) return reg;
+
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return reg;
 
@@ -60,6 +69,8 @@ Examen ArchivoExamen::leerRegistro(int pos) {
 }
 
 bool ArchivoExamen::modificarRegistro(Examen reg, int pos) {
+    if (pos < 0 || pos >= contarRegistros()) return false;
+
     FILE *p = fopen(_nombre, "rb+");
     if (p == nullptr) return false;
 
@@ -97,8 +108,9 @@ bool ArchivoExamen::inscribirExamen(Examen& examen) {
 }
 
 bool ArchivoExamen::corregirExamen(int idExamen, int nota) {
+    if (nota < 0 || nota > 10) return false;
     int pos = buscarRegistro(idExamen);
-    if (pos == -1) return false;
+    if (pos < 0) return false;
 
     Examen reg = leerRegistro(pos);
     reg.corregir(nota);

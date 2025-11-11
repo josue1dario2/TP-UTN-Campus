@@ -4,7 +4,7 @@
 #include "MenuAlumno.h"
 #include "MenuDocente.h"
 #include "MenuUtilitarios.h"
-#include "PrincipalManager.h"
+#include "ManagerPrincipal.h"
 
 class MenuPrincipal{
 public:
@@ -25,7 +25,7 @@ protected:
 
 
 private:
-    PrincipalManager _principalManager;
+    ManagerPrincipal _principalManager;
     //mostrarMenuPrincipal();
     int _cantidadOpciones;
 };

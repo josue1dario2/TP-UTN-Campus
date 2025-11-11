@@ -19,9 +19,8 @@ public:
 
     bool getEliminado() const;
     void setEliminado(bool eliminado);
-    /*
+
     void cargar();
-    */
     void mostrar() const;
 
 private:

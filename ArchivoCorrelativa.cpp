@@ -21,12 +21,18 @@ bool ArchivoCorrelativa::listarRegistros() {
     if (p == nullptr) return false;
 
     Correlativa reg;
+    bool hay = false;
+
     while (fread(&reg, _tamanioRegistro, 1, p)) {
         if (!reg.getEliminado()) {
             reg.mostrar();
             cout << "------------------------" << endl;
+            hay = true;
         }
     }
+
+    if (!hay) cout << "No hay correlativas activas.\n";
+
     fclose(p);
     return true;
 }
@@ -44,8 +50,9 @@ int ArchivoCorrelativa::buscarPorMateriaObjetivo(int idMateriaObjetivo) {
         }
         pos++;
     }
+
     fclose(p);
-    return -1;
+    return -2;
 }
 
 int ArchivoCorrelativa::buscarPorMateriaRequisito(int idMateriaRequisito) {
@@ -61,12 +68,15 @@ int ArchivoCorrelativa::buscarPorMateriaRequisito(int idMateriaRequisito) {
         }
         pos++;
     }
+
     fclose(p);
-    return -1;
+    return -2;
 }
 
 Correlativa ArchivoCorrelativa::leerRegistro(int pos) {
     Correlativa reg;
+    if (pos < 0 || pos >= contarRegistros()) return reg;
+
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return reg;
 
@@ -77,6 +87,8 @@ Correlativa ArchivoCorrelativa::leerRegistro(int pos) {
 }
 
 bool ArchivoCorrelativa::modificarRegistro(Correlativa reg, int pos) {
+    if (pos < 0 || pos >= contarRegistros()) return false;
+
     FILE *p = fopen(_nombre, "rb+");
     if (p == nullptr) return false;
 

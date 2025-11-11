@@ -1,17 +1,16 @@
 #include "MenuAbmComisiones.h"
+#include "ManagerComision.h"
 #include "Validacion.h"
 #include "utils.h"
-
 #include <cstdlib>
 #include <iostream>
 using namespace std;
 
-MenuABMComisiones::MenuABMComisiones(){
+MenuABMComisiones::MenuABMComisiones() {
     _cantidadOpciones = 7;
 }
 
-void MenuABMComisiones::mostrar()
-{
+void MenuABMComisiones::mostrar() {
     int opcion;
     do {
         clearScreen();
@@ -22,8 +21,7 @@ void MenuABMComisiones::mostrar()
     } while (opcion != 0);
 }
 
-void MenuABMComisiones::mostrarOpciones()
-{
+void MenuABMComisiones::mostrarOpciones() {
     cout << endl;
     cout << "\n\tABM COMISIONES\n";
     cout << "\t--------------------------------\n";
@@ -32,50 +30,61 @@ void MenuABMComisiones::mostrarOpciones()
     cout << "\t3) Baja lógica de Comisión\n";
     cout << "\t4) Listar Comisiones\n";
     cout << "\t5) Listar por Materia\n";
-    cout << "\t6) Cambiar Cupo\n";
-    cout << "\t7) Cambiar Turno/Modalidad/Aula\n";
+    cout << "\t6) Reactivar Comisión\n";
     cout << "\t0) Volver\n";
 }
 
-void MenuABMComisiones::ejecutarOpcion(int opcion)
-{
-    switch(opcion){
+void MenuABMComisiones::ejecutarOpcion(int opcion) {
+    ManagerComision manager;
+
+    switch (opcion) {
         case 1:
+            cout << "\n\t=== ALTA DE COMISIÓN ===\n";
+            manager.cargar();
+            break;
 
-        break;
         case 2:
+            cout << "\n\t=== MODIFICAR COMISIÓN ===\n";
+            manager.modificar();
+            break;
 
-        break;
         case 3:
+            cout << "\n\t=== BAJA LÓGICA DE COMISIÓN ===\n";
+            manager.borrar();
+            break;
 
-        break;
         case 4:
+            cout << "\n\t=== LISTADO DE COMISIONES ===\n";
+            manager.listar();
+            break;
 
-        break;
-        case 5:
+        case 5: {
+            cout << "\n\t=== LISTAR COMISIONES POR MATERIA ===\n";
+            int idMateria = Validacion::validarEnteroEnRango("\tIngrese el ID de la materia: ", 1, 9999);
+            manager.mostrarComisionesPorMateria(idMateria);
+            break;
+        }
 
-        break;
         case 6:
+            cout << "\n\t=== REACTIVAR COMISIÓN ===\n";
+            manager.activar();
+            break;
 
-        break;
-        case 7:
+        case 0:
+            cout << "\n\tVolviendo al menú anterior...\n";
+            break;
 
-        break;
-
+        default:
+            cout << "\n\tOpción inválida.\n";
+            break;
     }
-
 }
 
-int MenuABMComisiones::seleccionOpcion()
-{
+int MenuABMComisiones::seleccionOpcion() {
     int opcion;
     mostrarOpciones();
     cout << "\t--------------------------------" << endl;
     cout << "\tOpción: ";
-
-    opcion = Validacion::validarEnteroEnRango("",0,_cantidadOpciones);
-
+    opcion = Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
     return opcion;
-
 }
-

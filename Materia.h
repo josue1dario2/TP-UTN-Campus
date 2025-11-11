@@ -4,21 +4,19 @@
 class Materia {
 public:
     Materia();
-    Materia(int idMateria, int idCarrera, const char* codigo, const char* nombre, int cuatrimestreSugerido,const char* estado, bool eliminado);
+    Materia(int idMateria, int idCarrera, const char* nombre, int cuatrimestre, const char* estado, bool eliminado = false);
 
     void setIdMateria(int idMateria);
-    void setIdCarrera(int idMateria);
-    void setCodigo(const char* codigo);
+    void setIdCarrera(int idCarrera);
     void setNombre(const char* nombre);
-    void setCuatrimestreSugerido(int cuatrimestreSugerido);
+    void setCuatrimestre(int cuatrimestre);
     void setEstado(const char* estado);
     void setEliminado(bool eliminado);
 
     int getIdMateria() const;
     int getIdCarrera() const;
-    const char* getCodigo() const;
     const char* getNombre() const;
-    int getCuatrimestreSugerido() const;
+    int getCuatrimestre() const;
     const char* getEstado() const;
     bool getEliminado() const;
 
@@ -26,12 +24,10 @@ public:
     void mostrar() const;
 
 private:
-    int _idMateria;
-    int _idCarrera;
-    char _codigo[10];
+    int  _idMateria;
+    int  _idCarrera;
     char _nombre[50];
-    int _cuatrimestreSugerido;
+    int  _cuatrimestre;
     char _estado[20];
     bool _eliminado;
 };
-

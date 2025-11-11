@@ -21,12 +21,18 @@ bool ArchivoComision::listarRegistros() {
     if (p == nullptr) return false;
 
     Comision reg;
+    bool hay = false;
+
     while (fread(&reg, _tamanioRegistro, 1, p)) {
         if (!reg.getEliminado()) {
             reg.mostrar();
             cout << "------------------------" << endl;
+            hay = true;
         }
     }
+
+    if (!hay) cout << "No hay comisiones activas.\n";
+
     fclose(p);
     return true;
 }
@@ -44,8 +50,9 @@ int ArchivoComision::buscarRegistro(int id) {
         }
         pos++;
     }
+
     fclose(p);
-    return -1;
+    return -2;
 }
 
 Comision ArchivoComision::leerRegistro(int pos) {

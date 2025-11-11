@@ -1,58 +1,42 @@
 #include "Docente.h"
-#include <cstring>
-#include <string>
+#include <iostream>
+using namespace std;
 
 Docente::Docente()
-    : Persona(), _legajo(0) {
-    strcpy(_rol, "");
-}
+    : Persona(), _legajo(0), _fechaIngreso() {}
 
 Docente::Docente(int legajo, int dni, const char* nombre, const char* apellido,
-                 const char* telefono, const char* email, Direccion direccion,
-                 const char* rol, bool eliminado)
-    : Persona(dni, nombre, apellido, telefono, email, direccion, eliminado),
-      _legajo(legajo) {
-    setRol(rol);
-}
+                 const char* telefono, const char* email,
+                 Direccion direccion, Fecha fechaNacimiento,
+                 Fecha fechaIngreso, bool eliminado)
+    : Persona(dni, nombre, apellido, telefono, email, direccion, fechaNacimiento, eliminado),
+      _legajo(legajo), _fechaIngreso(fechaIngreso) {}
 
-int Docente::getLegajo() const {
-    return _legajo;
-}
+int Docente::getLegajo() const { return _legajo; }
+void Docente::setLegajo(int legajo) { _legajo = legajo; }
 
-void Docente::setLegajo(int legajo) {
-    _legajo = legajo;
-}
-
-const char* Docente::getRol() const {
-    return _rol;
-}
-
-void Docente::setRol(const char* rol) {
-    strncpy(_rol, rol, sizeof(_rol));
-    _rol[sizeof(_rol) - 1] = '\0';
-}
+Fecha Docente::getFechaIngreso() const { return _fechaIngreso; }
+void Docente::setFechaIngreso(Fecha fechaIngreso) { _fechaIngreso = fechaIngreso; }
 
 void Docente::cargar() {
-    cout << "=== Cargar Docente ===\n";
-
+    cout << "\n=== Cargar Docente ===\n";
     Persona::cargar();
 
     cout << "Legajo: ";
     cin >> _legajo;
-    cin.ignore(10000, '\n');
+    cin.ignore();
 
-    cout << "Rol (Ej: Profesor, JTP, Ayudante): ";
-    cin.getline(_rol, sizeof(_rol));
+    cout << "Fecha de ingreso:\n";
+    _fechaIngreso.cargar();
 
     setEliminado(false);
 }
 
 void Docente::mostrar() const {
-    cout << "=== Datos del Docente ===\n";
-
+    cout << "\n=== Datos del Docente ===\n";
     Persona::mostrar();
-
     cout << "Legajo: " << _legajo << "\n";
-    cout << "Rol: " << _rol << "\n";
-    cout << "\n";
+    cout << "Fecha de ingreso: ";
+    _fechaIngreso.mostrar();
+    cout << "---------------------------\n";
 }

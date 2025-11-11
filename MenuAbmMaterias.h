@@ -1,5 +1,5 @@
 #pragma once
-#include "MateriaManager.h"
+#include "ManagerMateria.h"
 
 class MenuABMMaterias {
 public:

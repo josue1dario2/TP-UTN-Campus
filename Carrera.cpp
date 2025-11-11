@@ -27,7 +27,7 @@ void Carrera::setDuracionCuatrimestres(int duracion) { _duracionCuatrimestres = 
 
 bool Carrera::getEliminado() const { return _eliminado; }
 void Carrera::setEliminado(bool eliminado) { _eliminado = eliminado; }
-/*
+
 void Carrera::cargar() {
     cout << "=== Cargar Carrera ===\n";
     cout << "ID de Carrera: ";
@@ -43,7 +43,7 @@ void Carrera::cargar() {
 
     _eliminado = false;
 }
-*/
+
 void Carrera::mostrar() const {
     cout << "\n\t=== Datos de la Carrera ===";
     cout << "\n\tID Carrera: " << _idCarrera;

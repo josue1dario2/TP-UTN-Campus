@@ -1,5 +1,5 @@
 #include "MenuAbmCarreras.h"
-#include "CarreraManager.h"
+#include "ManagerCarrera.h"
 #include "Validacion.h"
 #include "utils.h"
 #include <iostream>

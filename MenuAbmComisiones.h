@@ -10,17 +10,7 @@ protected:
     int seleccionOpcion();
     void ejecutarOpcion(int opcion);
 
-
-    /*
-    MenuUtilitarios menu;
-    MenuAlumno menuAlumno;
-    MenuDocente menuDocente;
-    MenuAdministrador menuAdministrador;
-    */
-
 private:
-    //PrincipalManager _principalManager;
-    //mostrarMenuPrincipal();
     int _cantidadOpciones;
 };
 
