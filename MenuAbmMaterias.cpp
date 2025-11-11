@@ -4,7 +4,7 @@
 using namespace std;
 
 void MenuABMMaterias::mostrarMenuABMMaterias() {
-    MateriaManager manager;
+    ManagerMateria manager;
     int op;
 
     do {

@@ -1,20 +1,20 @@
-#include "CarreraManager.h"
+#include "ManagerCarrera.h"
 #include "Validacion.h"
 #include <iomanip>
 using namespace std;
 
 
-CarreraManager::CarreraManager()
+ManagerCarrera::ManagerCarrera()
 {
 
 }
 
-Carrera CarreraManager::ingresarDatos(int idCarrera)
+Carrera ManagerCarrera::ingresarDatos(int idCarrera)
 {
     const int minNombre = 2, maxNombre = 50;
     string nombre = Validacion::pedirEntradaCadena("\n\tNombre: ", minNombre, maxNombre);
 
-    int duracion = Validacion::validarEnteroEnRango("\tDuración (1-30 cuatrimestres): ", 1, 30);
+    int duracion = Validacion::validarEnteroEnRango("\tDuración (1-4 cuatrimestres): ", 1, 4);
 
     Carrera nuevaCarrera(idCarrera, nombre.c_str(), duracion, false);
     return nuevaCarrera;
@@ -22,7 +22,7 @@ Carrera CarreraManager::ingresarDatos(int idCarrera)
 
 
 
-void CarreraManager::cargar()
+void ManagerCarrera::cargar()
 {
     cout << "\n\t=== Cargar Carrera ===\n";
 
@@ -41,7 +41,7 @@ void CarreraManager::cargar()
 }
 
 
-void CarreraManager::modificar()
+void ManagerCarrera::modificar()
 {
     cout << "\n\t=== Modificar Carrera ===\n";
     int idCarrera = Validacion::validarEnteroEnRango("\n\tID de Carrera: ", 0, 10000);
@@ -69,7 +69,7 @@ void CarreraManager::modificar()
 }
 
 
-void CarreraManager::cambiarEstado(bool activar)
+void ManagerCarrera::cambiarEstado(bool activar)
 {
     int _idCarrera;
     string mensaje, accion, resultado;
@@ -123,18 +123,18 @@ void CarreraManager::cambiarEstado(bool activar)
 
 
 
-void CarreraManager::activar(){
+void ManagerCarrera::activar(){
     cambiarEstado(true);
 }
 
 
 
-void CarreraManager::borrar()
+void ManagerCarrera::borrar()
 {
     cambiarEstado(false);
 }
 
-void CarreraManager::listar()
+void ManagerCarrera::listar()
 {
     bool incluirBorrados = Validacion::desearGuardar("\n\t¿Desea incluir los registros borrados? (s/n): ");
 
@@ -156,7 +156,7 @@ void CarreraManager::listar()
 
 
 
-void CarreraManager::mostrar(Carrera _carrera) const
+void ManagerCarrera::mostrar(Carrera _carrera) const
 {
     cout << "\n\t=== Datos de la Carrera ===";
     cout << "\n\tID Carrera: " << _carrera.getIdCarrera();
@@ -167,13 +167,13 @@ void CarreraManager::mostrar(Carrera _carrera) const
 }
 
 
-void CarreraManager::mostrarEncabezado(){
+void ManagerCarrera::mostrarEncabezado(){
     cout << "\t+-------+--------------------------------+------------+---------+" << endl;
     cout << "\t| ID    | Nombre                         | Duración   | Borrado |" << endl;
     cout << "\t+-------+--------------------------------+------------+---------+" << endl;
 }
 
-void CarreraManager::mostrarRegistro(const Carrera& carrera) {
+void ManagerCarrera::mostrarRegistro(const Carrera& carrera) {
     cout << "\t| " << setw(5)  << right << carrera.getIdCarrera()
          << " | " << setw(30) << left  << carrera.getNombre()
          << " | " << setw(10) << right << carrera.getDuracionCuatrimestres()
@@ -183,7 +183,7 @@ void CarreraManager::mostrarRegistro(const Carrera& carrera) {
 
 
 
-void CarreraManager::mostrarPie(){
+void ManagerCarrera::mostrarPie(){
     cout << "\t+-------+--------------------------------+------------+---------+" << endl;
 }
 

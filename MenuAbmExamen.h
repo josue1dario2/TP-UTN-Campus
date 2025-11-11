@@ -1,21 +1,17 @@
 #pragma once
+#include "ManagerExamen.h"
 
-#include "MenuAbmCarreras.h"
-#include "ManagerCarrera.h"
-
-class MenuABMCarreras{
+class MenuAbmExamen {
 public:
-    MenuABMCarreras();
+    MenuAbmExamen();
     void mostrar();
+
 protected:
     void mostrarOpciones();
     int seleccionOpcion();
     void ejecutarOpcion(int opcion);
 
-
 private:
-    //PersonalManager _personalManager;
-    ManagerCarrera _carreraManager;
+    ManagerExamen _managerExamen;
     int _cantidadOpciones;
 };
-

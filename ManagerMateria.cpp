@@ -1,8 +1,8 @@
-#include "MateriaManager.h"
+#include "ManagerMateria.h"
 #include <iostream>
 using namespace std;
 
-void MateriaManager::alta() {
+void ManagerMateria::alta() {
     Materia reg;
     reg.cargar();
 
@@ -16,7 +16,7 @@ void MateriaManager::alta() {
     }
 }
 
-void MateriaManager::baja() {
+void ManagerMateria::baja() {
     int id;
     cout << "Ingrese el ID de la materia a eliminar: ";
     cin >> id;
@@ -34,7 +34,7 @@ void MateriaManager::baja() {
     }
 }
 
-void MateriaManager::modificacion() {
+void ManagerMateria::modificacion() {
     int id;
     cout << "Ingrese el ID de la materia a modificar: ";
     cin >> id;
@@ -59,7 +59,7 @@ void MateriaManager::modificacion() {
     }
 }
 
-void MateriaManager::listarTodas() {
+void ManagerMateria::listarTodas() {
     int cantidad = _archivo.contarRegistros();
     if (cantidad == 0) {
         cout << "No hay materias registradas.\n";
@@ -75,10 +75,10 @@ void MateriaManager::listarTodas() {
     }
 }
 
-int MateriaManager::buscarPorId(int idMateria) {
+int ManagerMateria::buscarPorId(int idMateria) {
     return _archivo.buscarRegistro(idMateria);
 }
 
-int MateriaManager::generarIdNuevo() {
+int ManagerMateria::generarIdNuevo() {
     return _archivo.contarRegistros() + 1;
 }

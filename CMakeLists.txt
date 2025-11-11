@@ -29,17 +29,16 @@ add_executable(TP_UTN_Campus
         MenuAlumno.cpp
         MenuDocente.cpp
         MenuUtilitarios.cpp
-        PrincipalManager.cpp
-        CarreraManager.cpp
-        MateriaManager.cpp
-        AlumnoManager.cpp
+        ManagerCarrera.cpp
+        ManagerMateria.cpp
+        ManagerAlumno.cpp
         utils.cpp
         ArchivoComision.cpp
         ArchivoInscripcionComision.cpp
         ArchivoExamen.cpp
         InscripcionComision.cpp
-        ExamenManager.cpp
-        DocenteManager.cpp
+        ManagerExamen.cpp
+        ManagerDocente.cpp
 )
 
 # --- GoogleTest setup ---
@@ -81,8 +80,14 @@ add_executable(runTests
         ArchivoPersona.h
         ArchivoPersona.cpp
         utils.cpp
-        DocenteManager.h
-        DocenteManager.cpp
+        ManagerDocente.h
+        ManagerDocente.cpp
+        ManagerCorrelativa.h
+        ManagerCorrelativa.cpp
+        ManagerInscripcionComision.h
+        ManagerInscripcionComision.cpp
+        MenuABMExamen.h
+        MenuAbmExamen.cpp
 
 )
 

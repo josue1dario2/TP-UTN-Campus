@@ -1,6 +1,7 @@
 #pragma once
+#include "ManagerDocente.h"
 
-class MenuDocente{
+class MenuDocente {
 public:
     MenuDocente();
     void mostrar();
@@ -11,9 +12,6 @@ protected:
     void ejecutarOpcion(int opcion);
 
 private:
-    //PersonalManager _personalManager;
     int _cantidadOpciones;
-
+    ManagerDocente _docenteManager;
 };
-
-

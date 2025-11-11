@@ -3,7 +3,7 @@
 #include "Examen.h"
 #include "Fecha.h"
 
-class ExamenManager {
+class ManagerExamen {
 private:
     ArchivoExamen _archivoExamen;
 
@@ -12,7 +12,7 @@ private:
     bool _existeExamen(int legajoAlumno, int idComision, const char* tipo, int numero);
 
 public:
-    ExamenManager();
+    ManagerExamen();
 
     // Altas de exámenes
     void cargarParcial(int legajoAlumno, int idComision, int numeroParcial, int nota);

@@ -3,10 +3,10 @@
 #include "Carrera.h"
 #include <iostream>
 
-class CarreraManager
+class ManagerCarrera
 {
 public:
-    CarreraManager();
+    ManagerCarrera();
 
     // --- Métodos públicos de gestión ---
     void buscar();      ///< Buscar carrera por ID (implementación futura)
