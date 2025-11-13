@@ -26,9 +26,11 @@ TEST(AlumnoTest, SetAndGetFechaIngreso) {
 // --- TEST 3: Constructor parametrizado ---
 TEST(AlumnoTest, ConstructorCompleto) {
     Direccion dir("San Martín", "123", "Rosario", 2000, 1);
-    Fecha fecha(1, 2, 2023);
+    Fecha nacimiento(15, 7, 1991);
+    Fecha ingreso(1, 3, 2024);
 
-    Alumno a(100, 12345678, "Josue", "Solis", "3415555555", "josue@mail.com", dir, fecha, false);
+    Alumno a(100, 12345678, "Josue", "Solis", "3415555555", "josue@mail.com",
+             dir, nacimiento, ingreso, false);
 
     EXPECT_EQ(a.getLegajo(), 100);
     EXPECT_EQ(a.getDni(), 12345678);
@@ -36,7 +38,8 @@ TEST(AlumnoTest, ConstructorCompleto) {
     EXPECT_STREQ(a.getApellido(), "Solis");
     EXPECT_STREQ(a.getTelefono(), "3415555555");
     EXPECT_STREQ(a.getEmail(), "josue@mail.com");
-    EXPECT_EQ(a.getFechaIngreso().getAnio(), 2023);
+    EXPECT_EQ(a.getFechaIngreso().getAnio(), 2024);
+    EXPECT_EQ(a.getFechaNacimiento().getAnio(), 1991);
 }
 
 // --- TEST 4: mostrar() no lanza excepciones ---
@@ -50,8 +53,6 @@ TEST(AlumnoTest, MostrarNoFalla) {
 
 // --- TEST 5: cargar() no rompe el flujo ---
 TEST(AlumnoTest, CargarNoFalla) {
-    // Este test no ingresa datos, pero valida que el método exista y se pueda invocar.
-    // Si querés automatizar entradas, se puede simular con istringstream.
     Alumno a;
     EXPECT_NO_THROW(a.cargar());
 }

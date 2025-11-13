@@ -134,18 +134,16 @@ void ManagerDocente::verAlumnosDeComision(int idComision) {
 }
 
 void ManagerDocente::cargarNotasParcialTP(int legajoDocente) {
-    int idComision, legajoAlumno, nota, numeroParcial;
+    int idMateria, legajoAlumno, nota;
     cout << "\n\t=== CARGA DE NOTAS PARCIALES / TP ===\n";
-    cout << "\tID Comisión: ";
-    cin >> idComision;
+    cout << "\tID Materia: ";
+    cin >> idMateria;
     cout << "\tLegajo Alumno: ";
     cin >> legajoAlumno;
-    cout << "\tNúmero de parcial (1-3): ";
-    cin >> numeroParcial;
     cout << "\tNota (0-10): ";
     cin >> nota;
 
-    _examenManager.cargarParcial(legajoAlumno, idComision, numeroParcial, nota);
+    _examenManager.cargarParcial(legajoAlumno, idMateria, nota);
 }
 
 void ManagerDocente::cargarNotasFinal(int legajoDocente) {

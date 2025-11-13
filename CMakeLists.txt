@@ -3,7 +3,7 @@ project(TP_UTN_Campus)
 
 set(CMAKE_CXX_STANDARD 20)
 
-# --- ejecutable principal ---
+# --- Ejecutable principal ---
 add_executable(TP_UTN_Campus
         main.cpp
         Alumno.cpp
@@ -32,13 +32,14 @@ add_executable(TP_UTN_Campus
         ManagerCarrera.cpp
         ManagerMateria.cpp
         ManagerAlumno.cpp
-        utils.cpp
+        ManagerExamen.cpp
+        ManagerDocente.cpp
+        ManagerComision.cpp
         ArchivoComision.cpp
         ArchivoInscripcionComision.cpp
         ArchivoExamen.cpp
         InscripcionComision.cpp
-        ManagerExamen.cpp
-        ManagerDocente.cpp
+        utils.cpp
 )
 
 # --- GoogleTest setup ---
@@ -51,7 +52,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-# --- ejecutable de tests ---
+# --- Ejecutable de tests ---
 add_executable(runTests
         tests/test_alumno.cpp
         Alumno.cpp
@@ -69,26 +70,18 @@ add_executable(runTests
         Materia.cpp
         Persona.cpp
         Validacion.cpp
-        ArchivoComision.h
         ArchivoComision.cpp
-        ArchivoInscripcion.h
-        ArchivoInscripcion.cpp
-        ArchivoExamen.h
+        ArchivoInscripcionComision.cpp
         ArchivoExamen.cpp
-        ArchivoCorrelativa.h
         ArchivoCorrelativa.cpp
-        ArchivoPersona.h
         ArchivoPersona.cpp
         utils.cpp
-        ManagerDocente.h
         ManagerDocente.cpp
-        ManagerCorrelativa.h
         ManagerCorrelativa.cpp
-        ManagerInscripcionComision.h
         ManagerInscripcionComision.cpp
-        MenuABMExamen.h
-        MenuAbmExamen.cpp
-
+        ManagerExamen.cpp
+        ManagerComision.cpp
+        InscripcionComision.cpp
 )
 
 target_link_libraries(runTests GTest::gtest_main)

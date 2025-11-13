@@ -1,34 +1,51 @@
 #pragma once
-#include <cstring>
-#include "Fecha.h"
-#include "Direccion.h"
+#include "ArchivoAlumno.h"
+#include "ArchivoMateria.h"
+#include "ManagerExamen.h"
+#include "ArchivoInscripcionComision.h"
+#include "InscripcionComision.h"
+#include "ArchivoExamen.h"
+#include "Alumno.h"
+#include <iostream>
 
-class Persona {
+class ManagerAlumno {
+private:
+    ArchivoAlumno _archivoAlumnos;
+    ArchivoMateria _archivoMaterias;
+    ArchivoInscripcionComision _archivoInscripcionesComision;
+    ManagerExamen _examenManager;
+
+    // Métodos privados de presentación
+    void mostrarEncabezado();
+    void mostrarRegistro(const Alumno& alu);
+    void mostrarPie();
+
 public:
-    Persona();
-    Persona(int dni, const char* nombre, const char* apellido,
-            const char* telefono, const char* email,
-            Direccion direccion, Fecha fechaNacimiento, bool eliminado = false);
+    ManagerAlumno();
 
-    int getDni() const;                void setDni(int dni);
-    const char* getNombre() const;     void setNombre(const char* nombre);
-    const char* getApellido() const;   void setApellido(const char* apellido);
-    const char* getTelefono() const;   void setTelefono(const char* telefono);
-    const char* getEmail() const;      void setEmail(const char* email);
-    Direccion getDireccion() const;    void setDireccion(Direccion direccion);
-    Fecha getFechaNacimiento() const;  void setFechaNacimiento(Fecha f);
-    bool getEliminado() const;         void setEliminado(bool eliminado);
+    // --- Gestión básica ---
+    void registrarAlumno();
+    void listarAlumnos();
+    void mostrarAlumnoPorLegajo(int legajo);
+    int buscarAlumno(int legajo);
 
-    void cargar();
-    void mostrar() const;
+    // --- Consultas académicas ---
+    void mostrarHistorialNotas(int legajo);
+    void mostrarMateriasAprobadas(int legajo);
+    void mostrarMateriasPendientes(int legajo);
+    void verCondicionMateria(int legajo, int idMateria);
 
-protected:
-    int _dni;
-    char _nombre[50];
-    char _apellido[50];
-    char _telefono[50];
-    char _email[50];
-    Direccion _direccion;
-    Fecha _fechaNacimiento;
-    bool _eliminado;
+    // --- Acciones académicas ---
+    void inscribirseAFinal(int legajo, int idMateria);
+    void solicitarBaja(int legajo);
+    void reactivarAlumno(int legajo);
+
+    // --- Inscripciones a comisiones ---
+    void inscribirseAComision(int legajo);
+    void verMisComisiones(int legajo);
+    void bajaInscripcionComision(int legajo, int idComision);
+
+    // --- Exámenes y mesas ---
+    void verMisMesas(int legajo);
+    void bajaInscripcionExamenFinal(int legajo, int idMateria);
 };

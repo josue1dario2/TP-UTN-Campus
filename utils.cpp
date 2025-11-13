@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include "utils.h"
 #include "Validacion.h"
+#include <limits>
 using namespace std;
 
 std::string cargarCadena()
