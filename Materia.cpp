@@ -2,6 +2,7 @@
 #include <cstring>
 #include <string>
 #include "Materia.h"
+#include <limits>
 
 using namespace std;
 
