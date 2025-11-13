@@ -3,7 +3,7 @@ project(TP_UTN_Campus)
 
 set(CMAKE_CXX_STANDARD 20)
 
-# --- ejecutable principal ---
+# --- Ejecutable principal ---
 add_executable(TP_UTN_Campus
         main.cpp
         Alumno.cpp
@@ -52,7 +52,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-# --- ejecutable de tests ---
+# --- Ejecutable de tests ---
 add_executable(runTests
         tests/test_alumno.cpp
         Alumno.cpp
@@ -79,6 +79,9 @@ add_executable(runTests
         ManagerDocente.cpp
         ManagerCorrelativa.cpp
         ManagerInscripcionComision.cpp
+        ManagerExamen.cpp
+        ManagerComision.cpp
+        InscripcionComision.cpp
 )
 
 target_link_libraries(runTests GTest::gtest_main)
