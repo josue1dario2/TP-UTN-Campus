@@ -39,6 +39,7 @@ add_executable(TP_UTN_Campus
         InscripcionComision.cpp
         ManagerExamen.cpp
         ManagerDocente.cpp
+        ManagerComision.cpp
 )
 
 # --- GoogleTest setup ---

@@ -1,7 +1,7 @@
 #include "ManagerExamen.h"
 #include <iostream>
-#include <cstring>
 #include <iomanip>
+#include <cstring>
 using namespace std;
 
 // ----------------------------------------------------------
@@ -11,105 +11,49 @@ ManagerExamen::ManagerExamen() : _archivoExamen("Examenes.dat") {}
 
 
 // ----------------------------------------------------------
-// MÉTODOS AUXILIARES DE BÚSQUEDA Y VALIDACIÓN
-// ----------------------------------------------------------
-
-// Verifica si el alumno ya usó un recuperatorio para un parcial específico
-bool ManagerExamen::_yaUsoRecuperatorio(int legajoAlumno, int idComision, int numeroParcial) {
-    int total = _archivoExamen.contarRegistros();
-    for (int i = 0; i < total; i++) {
-        Examen reg = _archivoExamen.leerRegistro(i);
-        if (reg.getLegajoAlumno() == legajoAlumno &&
-            reg.getIdComision() == idComision &&
-            strcmp(reg.getTipo(), "Recuperatorio") == 0 &&
-            reg.getNumero() == numeroParcial &&
-            !reg.getEliminado()) {
-            return true;
-        }
-    }
-    return false;
-}
-
-// Verifica si ya existe un examen de cierto tipo
-bool ManagerExamen::_existeExamen(int legajoAlumno, int idComision, const char* tipo, int numero) {
-    int total = _archivoExamen.contarRegistros();
-    for (int i = 0; i < total; i++) {
-        Examen reg = _archivoExamen.leerRegistro(i);
-        if (reg.getLegajoAlumno() == legajoAlumno &&
-            reg.getIdComision() == idComision &&
-            strcmp(reg.getTipo(), tipo) == 0 &&
-            reg.getNumero() == numero &&
-            !reg.getEliminado()) {
-            return true;
-        }
-    }
-    return false;
-}
-
-
-// ----------------------------------------------------------
 // ALTAS DE EXÁMENES
 // ----------------------------------------------------------
 
-void ManagerExamen::cargarParcial(int legajoAlumno, int idComision, int numeroParcial, int nota) {
-    if (numeroParcial < 1 || numeroParcial > 3) {
-        cout << "Número de parcial inválido.\n";
-        return;
-    }
-
-    if (_existeExamen(legajoAlumno, idComision, "Parcial", numeroParcial)) {
-        cout << "El alumno ya tiene registrado ese parcial.\n";
-        return;
-    }
-
+void ManagerExamen::cargarParcial(int legajoAlumno, int idMateria, int nota) {
     Fecha hoy;
     hoy.cargar();
-    Examen ex(0, idComision, legajoAlumno, "Parcial", numeroParcial, hoy, false);
-    ex.corregir(nota);
+
+    Examen ex(0, idMateria, legajoAlumno, "Parcial", hoy, false);
+    ex.setNota(nota);
+    ex.setCorregido(true);
 
     if (_archivoExamen.agregarRegistro(ex))
-        cout << "Parcial registrado correctamente.\n";
+        cout << "\nParcial registrado correctamente.\n";
     else
-        cout << "Error al registrar el parcial.\n";
+        cout << "\nError al registrar el parcial.\n";
 }
 
-void ManagerExamen::cargarRecuperatorio(int legajoAlumno, int idComision, int numeroParcial, int nota) {
-    if (numeroParcial < 1 || numeroParcial > 3) {
-        cout << "Número de parcial inválido.\n";
-        return;
-    }
-
-    if (_yaUsoRecuperatorio(legajoAlumno, idComision, numeroParcial)) {
-        cout << "El alumno ya usó un recuperatorio para este parcial.\n";
-        return;
-    }
-
+void ManagerExamen::cargarRecuperatorio(int legajoAlumno, int idMateria, int nota) {
     Fecha hoy;
     hoy.cargar();
-    Examen ex(0, idComision, legajoAlumno, "Recuperatorio", numeroParcial, hoy, false);
-    ex.corregir(nota);
+
+    Examen ex(0, idMateria, legajoAlumno, "Recuperatorio", hoy, false);
+    ex.setNota(nota);
+    ex.setCorregido(true);
 
     if (_archivoExamen.agregarRegistro(ex))
-        cout << "Recuperatorio registrado correctamente.\n";
+        cout << "\nRecuperatorio registrado correctamente.\n";
     else
-        cout << "Error al registrar el recuperatorio.\n";
+        cout << "\nError al registrar el recuperatorio.\n";
 }
 
-void ManagerExamen::cargarFinal(int legajoAlumno, int idComision, int nota) {
-    if (_existeExamen(legajoAlumno, idComision, "Final", 0)) {
-        cout << "El alumno ya tiene un examen final registrado.\n";
-        return;
-    }
-
+void ManagerExamen::cargarFinal(int legajoAlumno, int idMateria, int nota) {
     Fecha hoy;
     hoy.cargar();
-    Examen ex(0, idComision, legajoAlumno, "Final", 0, hoy, false);
-    ex.corregir(nota);
+
+    Examen ex(0, idMateria, legajoAlumno, "Final", hoy, false);
+    ex.setNota(nota);
+    ex.setCorregido(true);
 
     if (_archivoExamen.agregarRegistro(ex))
-        cout << "Final registrado correctamente.\n";
+        cout << "\nFinal registrado correctamente.\n";
     else
-        cout << "Error al registrar el final.\n";
+        cout << "\nError al registrar el final.\n";
 }
 
 
@@ -117,50 +61,48 @@ void ManagerExamen::cargarFinal(int legajoAlumno, int idComision, int nota) {
 // CONSULTAS ACADÉMICAS
 // ----------------------------------------------------------
 
-bool ManagerExamen::puedeRendirFinal(int legajoAlumno, int idComision) {
+bool ManagerExamen::puedeRendirFinal(int legajoAlumno, int idMateria) {
     int total = _archivoExamen.contarRegistros();
     int aprobados = 0;
 
     for (int i = 0; i < total; i++) {
         Examen ex = _archivoExamen.leerRegistro(i);
         if (ex.getLegajoAlumno() == legajoAlumno &&
-            ex.getIdComision() == idComision &&
+            ex.getIdMateria() == idMateria &&
             strcmp(ex.getTipo(), "Parcial") == 0 &&
             ex.getNota() >= 4) {
             aprobados++;
         }
     }
-    return aprobados >= 2; // necesita al menos 2 parciales aprobados
+
+    return aprobados >= 2;
 }
 
-bool ManagerExamen::estaPromocionado(int legajoAlumno, int idComision) {
+bool ManagerExamen::estaPromocionado(int legajoAlumno, int idMateria) {
     int total = _archivoExamen.contarRegistros();
     int suma = 0, cantidad = 0;
-    bool usoRecuperatorio = false;
 
     for (int i = 0; i < total; i++) {
         Examen ex = _archivoExamen.leerRegistro(i);
-        if (ex.getLegajoAlumno() == legajoAlumno && ex.getIdComision() == idComision) {
+        if (ex.getLegajoAlumno() == legajoAlumno && ex.getIdMateria() == idMateria) {
             if ((strcmp(ex.getTipo(), "Parcial") == 0 || strcmp(ex.getTipo(), "Recuperatorio") == 0) && ex.getNota() >= 0) {
                 suma += ex.getNota();
                 cantidad++;
-                if (strcmp(ex.getTipo(), "Recuperatorio") == 0)
-                    usoRecuperatorio = true;
             }
         }
     }
 
     if (cantidad == 0) return false;
     float promedio = static_cast<float>(suma) / cantidad;
-    return promedio >= 7 && !usoRecuperatorio;
+    return promedio >= 7;
 }
 
-bool ManagerExamen::estaRegular(int legajoAlumno, int idComision) {
-    return puedeRendirFinal(legajoAlumno, idComision) && !estaPromocionado(legajoAlumno, idComision);
+bool ManagerExamen::estaRegular(int legajoAlumno, int idMateria) {
+    return puedeRendirFinal(legajoAlumno, idMateria) && !estaPromocionado(legajoAlumno, idMateria);
 }
 
-bool ManagerExamen::estaLibre(int legajoAlumno, int idComision) {
-    return !puedeRendirFinal(legajoAlumno, idComision);
+bool ManagerExamen::estaLibre(int legajoAlumno, int idMateria) {
+    return !puedeRendirFinal(legajoAlumno, idMateria);
 }
 
 
@@ -173,56 +115,38 @@ void ManagerExamen::mostrarHistorial(int legajoAlumno) {
     bool encontrado = false;
 
     cout << "\n\t=== HISTORIAL DE EXÁMENES ===\n";
-    mostrarEncabezado();
+    cout << "\t+-----------+-----------+--------------+--------+-----------+\n";
+    cout << "\t| Legajo    | Materia   | Tipo         | Nota   | Fecha     |\n";
+    cout << "\t+-----------+-----------+--------------+--------+-----------+\n";
 
     for (int i = 0; i < total; i++) {
         Examen ex = _archivoExamen.leerRegistro(i);
         if (ex.getLegajoAlumno() == legajoAlumno && !ex.getEliminado()) {
-            mostrarRegistro(ex);
+            cout << "\t| " << setw(9) << right << ex.getLegajoAlumno()
+                 << " | " << setw(9) << right << ex.getIdMateria()
+                 << " | " << setw(12) << left << ex.getTipo()
+                 << " | " << setw(6) << right << (ex.getCorregido() ? to_string(ex.getNota()) : "-")
+                 << " | ";
+            ex.getFecha().mostrar();
+            cout << " |\n";
             encontrado = true;
         }
     }
 
-    mostrarPie();
+    cout << "\t+-----------+-----------+--------------+--------+-----------+\n";
 
     if (!encontrado)
         cout << "\tNo hay exámenes registrados para este alumno.\n";
 }
 
-
-void ManagerExamen::recalcularCondicion(int legajoAlumno, int idComision) {
+void ManagerExamen::recalcularCondicion(int legajoAlumno, int idMateria) {
     cout << "\nRecalculando condición académica del alumno " << legajoAlumno << "...\n";
 
-    if (estaPromocionado(legajoAlumno, idComision))
+    if (estaPromocionado(legajoAlumno, idMateria))
         cout << "Condición: PROMOCIONADO\n";
-    else if (estaRegular(legajoAlumno, idComision))
+    else if (estaRegular(legajoAlumno, idMateria))
         cout << "Condición: REGULAR\n";
     else
         cout << "Condición: LIBRE\n";
 }
 
-
-// ----------------------------------------------------------
-// PRESENTACIÓN TABULAR DE EXÁMENES
-// ----------------------------------------------------------
-
-void ManagerExamen::mostrarEncabezado() {
-    cout << "\t+-----------+-----------+-------------+---------------+--------+-----------+-----------+\n";
-    cout << "\t| Legajo    | Comisión  | Tipo        | Nº Parcial    | Nota   | Fecha     | Eliminado |\n";
-    cout << "\t+-----------+-----------+-------------+---------------+--------+-----------+-----------+\n";
-}
-
-void ManagerExamen::mostrarRegistro(const Examen& e) {
-    cout << "\t| " << setw(9) << right << e.getLegajoAlumno()
-         << " | " << setw(9) << right << e.getIdComision()
-         << " | " << setw(11) << left  << e.getTipo()
-         << " | " << setw(13) << right << e.getNumero()
-         << " | " << setw(6)  << right << (e.getCorregido() ? to_string(e.getNota()) : "-")
-         << " | ";
-    e.getFecha().mostrar();
-    cout << " | " << setw(9) << right << (e.getEliminado() ? "Sí" : "No") << " |\n";
-}
-
-void ManagerExamen::mostrarPie() {
-    cout << "\t+-----------+-----------+-------------+---------------+--------+-----------+-----------+\n";
-}

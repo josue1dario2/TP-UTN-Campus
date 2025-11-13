@@ -117,7 +117,7 @@ void ManagerAlumno::inscribirseAFinal(int legajo, int idMateria) {
 
     Fecha hoy;
     hoy.cargar();
-    Examen examen(0, idMateria, legajo, "Final", 0, hoy, false);
+    Examen examen(0, idMateria, legajo, "Final", hoy, false);
 
     ArchivoExamen archEx("Examenes.dat");
     if (archEx.agregarRegistro(examen))
@@ -262,17 +262,18 @@ void ManagerAlumno::verMisMesas(int legajo) {
         if (ex.getLegajoAlumno() == legajo &&
             strcmp(ex.getTipo(), "Final") == 0 &&
             !ex.getEliminado()) {
-            cout << "\tMesa Final - Comisión: " << ex.getIdComision()
+            cout << "\tMesa Final - Materia: " << ex.getIdMateria()
                  << " | Fecha: ";
             ex.getFecha().mostrar();
             cout << endl;
             hay = true;
-        }
+            }
     }
 
     if (!hay)
         cout << "\tNo estás inscripto en ninguna mesa final.\n";
 }
+
 
 // ----------------------------------------------------------
 // PRESENTACIÓN EN TABLA
@@ -295,4 +296,30 @@ void ManagerAlumno::mostrarRegistro(const Alumno& alu) {
 
 void ManagerAlumno::mostrarPie() {
     cout << "\t+--------+---------------------------+---------------------------+-------------+---------+\n";
+}
+void ManagerAlumno::bajaInscripcionExamenFinal(int legajo, int idMateria) {
+    ArchivoExamen archEx("Examenes.dat");
+    int total = archEx.contarRegistros();
+    bool encontrado = false;
+
+    for (int i = 0; i < total; i++) {
+        Examen ex = archEx.leerRegistro(i);
+        if (ex.getLegajoAlumno() == legajo &&
+            strcmp(ex.getTipo(), "Final") == 0 &&
+            ex.getIdMateria() == idMateria &&
+            !ex.getEliminado()) {
+
+            ex.setEliminado(true);
+            if (archEx.modificarRegistro(ex, i)) {
+                cout << "\n\tBaja del examen final realizada correctamente.\n";
+            } else {
+                cout << "\n\tError al dar de baja el examen final.\n";
+            }
+            encontrado = true;
+            break;
+            }
+    }
+
+    if (!encontrado)
+        cout << "\n\tNo se encontró un examen final activo para esa materia.\n";
 }

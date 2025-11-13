@@ -94,7 +94,7 @@ void MenuAlumno::ejecutarOpcion(int opcion) {
             cin >> legajo;
             cout << "Ingrese ID de comisión: ";
             cin >> idComision;
-            _alumnoManager.bajaInscripcionComision(legajo, idComision);
+            _alumnoManager.bajaInscripcionExamenFinal(legajo, idMateria);
             break;
 
         case 8:
@@ -102,7 +102,7 @@ void MenuAlumno::ejecutarOpcion(int opcion) {
             cin >> legajo;
             cout << "Ingrese ID de comisión: ";
             cin >> idComision;
-            _alumnoManager.bajaInscripcionMesaFinal(legajo, idComision);
+            _alumnoManager.bajaInscripcionExamenFinal(legajo, idMateria);
             break;
 
         case 9:
