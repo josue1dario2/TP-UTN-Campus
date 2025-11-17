@@ -20,4 +20,6 @@ public:
     int contarRegistros();
     bool bajaLogica(int pos);
     bool activarRegistro(int pos);
+    int getNuevoID();
+    int buscarPosicion(int idCarrera);
 };

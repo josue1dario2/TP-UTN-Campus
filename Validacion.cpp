@@ -4,6 +4,7 @@
 #include <limits>
 #include <algorithm>
 #include <cctype>
+#include <cctype>
 
 using namespace std;
 
@@ -22,24 +23,24 @@ static string tolower_copy(string s) {
 }
 
 // ------------- enteros -------------
-int Validacion::validarEntero(const string& mensaje = "") {
+int Validacion::validarEntero(const string& mensaje) {
     while (true) {
-        if (!mensaje.empty())
-            cout << mensaje;
+        cout << mensaje;
         string entrada;
+
         if (!getline(cin, entrada)) { cin.clear(); continue; }
         entrada = trim(entrada);
 
         // permitir +/-
-        if (entrada.empty()) { cout << "\n\tEntrada invalida.\n"; continue; }
+        if (entrada.empty()) { cout << "\tEntrada invalida.\n"; continue; }
         size_t k = (entrada[0] == '+' || entrada[0] == '-') ? 1u : 0u;
         bool ok = (k < entrada.size());
         for (; k < entrada.size(); ++k)
             if (!isdigit((unsigned char)entrada[k])) { ok = false; break; }
-        if (!ok) { cout << "\n\tDebe ser un numero entero.\n"; continue; }
+        if (!ok) { cout << "\tDebe ser un numero entero.\n"; continue; }
 
         try { return stoi(entrada); }
-        catch (...) { cout << "\n\tFormato invalido.\n"; }
+        catch (...) { cout << "\tFormato invalido.\n"; }
     }
 }
 
@@ -47,7 +48,7 @@ int Validacion::validarEnteroNoNegativo(const string& mensaje) {
     while (true) {
         int v = validarEntero(mensaje);
         if (v >= 0) return v;
-        cout << "\n\tDebe ser >= 0.\n";
+        cout << "\tDebe ser >= 0.\n";
     }
 }
 
@@ -56,7 +57,7 @@ int Validacion::validarEnteroEnRango(const string& mensaje, int minV, int maxV) 
     while (true) {
         int v = validarEntero(mensaje);
         if (v >= minV && v <= maxV) return v;
-        cout << "\n\tEl valor debe estar entre: " << minV << " y " << maxV << ".\n";
+        cout << "\tFuera de rango [" << minV << "," << maxV << "].\n";
     }
 }
 
@@ -71,7 +72,7 @@ bool Validacion::validarBool(const string& mensaje){
         if (s == "s" || s == "si" || s == "1" || s == "true")  return true;
         if (s == "n" || s == "no" || s == "0" || s == "false") return false;
 
-        cout << "Responda si/no (s/n, 1/0, true/false).\n";
+        cout << "\tResponda si/no (s/n, 1/0, true/false).\n";
     }
 }
 
@@ -113,11 +114,31 @@ std::string Validacion::pedirEntradaCadena(const std::string& mensaje,
         entrada = trim(entrada);
 
         if (!validarCadena(entrada, longMininaCadena, longMaximaCadena, caracteresProhibidos)) {
-            cout << "Error: longitud [" << longMininaCadena << "," << longMaximaCadena << "]";
+            cout << "\tError: longitud [" << longMininaCadena << "," << longMaximaCadena << "]";
             if (!caracteresProhibidos.empty()) cout << " y sin caracteres prohibidos";
-            cout << ". Reintente.\n";
+            cout << "\t. Reintente.\n";
             continue;
         }
         return entrada;
     }
+}
+
+bool Validacion::desearGuardar(string mensaje=""){
+    char pregunta;
+    char bajo;
+    if (mensaje !=""){
+        cout << mensaje;
+    }
+    else {
+        cout << "\n\t¿Desea guardar los datos? s/n: ";
+    }
+
+    do{
+        cin >> pregunta;
+        bajo= tolower(pregunta);
+    }
+    while (bajo !='s' && bajo !='n');
+    bool respuesta = (pregunta =='s')? true: false;
+    return respuesta;
+
 }

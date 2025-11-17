@@ -1,75 +1,67 @@
 #include "MenuAlumno.h"
+#include "Validacion.h"
+#include "utils.h"
+
 #include <iostream>
 #include <cstdlib>
 using namespace std;
 
-MenuAlumno::MenuAlumno() {
-    _cantidadOpciones = 11;
+MenuAlumno::MenuAlumno()
+    : _cantidadOpciones(11)
+{
+
 }
 
-void MenuAlumno::mostrar() {
+void MenuAlumno::mostrar()
+{
     int opcion;
     do {
-        system("cls");
+        clearScreen();
         opcion = seleccionOpcion();
-        system("cls");
+        clearScreen();
+
+        if (opcion == 0) {
+            return;
+        }
+
         ejecutarOpcion(opcion);
-        system("pause");
+        pauseScreen();
     } while (opcion != 0);
 }
 
-void MenuAlumno::mostrarOpciones() {
+void MenuAlumno::mostrarOpciones()
+{
     cout << endl;
     cout << "\n\tMENÚ DEL ALUMNO\n";
     cout << "\t--------------------------------\n";
     cout << "\t1) Inscripción a Materia (Comisión)\n";
-    cout << "\t2) Inscripción a Examen Final\n";
+    cout << "\t2) Inscripción a Examen\n";
     cout << "\t3) Ver Materias Aprobadas\n";
     cout << "\t4) Ver Materias Pendientes\n";
-    cout << "\t5) Ver Mis Comisiones (pendiente)\n";
-    cout << "\t6) Ver Mis Mesas (pendiente)\n";
-    cout << "\t7) Dar de Baja Inscripción a Materia (pendiente)\n";
-    cout << "\t8) Dar de Baja Inscripción a Mesa/Final (pendiente)\n";
+    cout << "\t5) Ver Mis Comisiones\n";
+    cout << "\t6) Ver Mis Mesas\n";
+    cout << "\t7) Dar de Baja Inscripción a Materia\n";
+    cout << "\t8) Dar de Baja Inscripción a Mesa/Final\n";
     cout << "\t9) Ver Mis Notas / Historial\n";
     cout << "\t10) Solicitud de baja\n";
-    cout << "\t11) Reactivar mi legajo\n";
+    cout << "\t11) Editar mis datos\n";
     cout << "\t0) Volver\n";
 }
 
-int MenuAlumno::seleccionOpcion() {
-    int opcion;
-    mostrarOpciones();
-
-    string mensaje="\t----------------------------------------------\n";
-    mensaje+="\tOpción: ";
-    opcion = validar.validarEnteroEnRango(mensaje, 0, _cantidadOpciones);
-
-    while (opcion < 0 || opcion > _cantidadOpciones) {
-        cout << "\tOpción incorrecta...\n";
-        cout << "\tOpción: ";
-        cin >> opcion;
-    }
-
-    return opcion;
-}
-
-
 void MenuAlumno::ejecutarOpcion(int opcion) {
-    int legajo, idMateria;
+    int legajo, idMateria, idComision;
 
     switch (opcion) {
         case 1:
             cout << "Ingrese su legajo: ";
             cin >> legajo;
-            cout << "Ingrese ID de la comisión a inscribirse: ";
-            cin >> idMateria; // o idComision
-            _alumnoManager.inscribirseAMateria(legajo, idMateria);
+            _alumnoManager.inscribirseAComision(legajo);
             break;
 
         case 2:
             cout << "Ingrese su legajo: ";
             cin >> legajo;
-            cout << "Ingrese ID de la materia: ";
+            cout << "Ingrese el ID de la materia: ";
             cin >> idMateria;
             _alumnoManager.inscribirseAFinal(legajo, idMateria);
             break;
@@ -101,17 +93,17 @@ void MenuAlumno::ejecutarOpcion(int opcion) {
         case 7:
             cout << "Ingrese su legajo: ";
             cin >> legajo;
-            cout << "Ingrese ID de comisión a dar de baja: ";
-            cin >> idMateria;
-            _alumnoManager.bajaInscripcionMateria(legajo, idMateria);
+            cout << "Ingrese ID de comisión: ";
+            cin >> idComision;
+            _alumnoManager.bajaInscripcionComision(legajo, idComision);
             break;
 
         case 8:
             cout << "Ingrese su legajo: ";
             cin >> legajo;
-            cout << "Ingrese ID de comisión de la mesa a dar de baja: ";
-            cin >> idMateria;  // o idComision
-            _alumnoManager.bajaInscripcionMesaFinal(legajo, idMateria);
+            cout << "Ingrese ID de comisión: ";
+            cin >> idComision;
+            _alumnoManager.bajaInscripcionMesaFinal(legajo, idComision);
             break;
 
         case 9:
@@ -127,17 +119,20 @@ void MenuAlumno::ejecutarOpcion(int opcion) {
             break;
 
         case 11:
-            cout << "Ingrese su legajo: ";
-            cin >> legajo;
-            _alumnoManager.reactivarAlumno(legajo);
-            break;
-
-        case 0:
-            cout << "Volviendo al menú principal...\n";
+            cout << "Funcionalidad en desarrollo.\n";
             break;
 
         default:
-            cout << "Opción no válida.\n";
+            cout << "Opción inválida.\n";
             break;
     }
+}
+
+int MenuAlumno::seleccionOpcion() {
+    int opcion;
+    mostrarOpciones();
+    cout << "\t--------------------------------" << endl;
+    cout << "\tOpción: ";
+    opcion = Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
+    return opcion;
 }

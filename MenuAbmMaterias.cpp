@@ -1,50 +1,76 @@
-#include "MenuABMMaterias.h"
+#include "MenuAbmMaterias.h"
+#include "Validacion.h"
+#include "utils.h"
 #include <iostream>
 #include <cstdlib>
+
 using namespace std;
 
-void MenuABMMaterias::mostrarMenuABMMaterias() {
-    MateriaManager manager;
-    int op;
+MenuABMMaterias::MenuABMMaterias() {
+    _cantidadOpciones = 7;
+}
 
+void MenuABMMaterias::mostrar() {
+    int opcion;
     do {
-        system("cls");
-        cout << "\n\tABM MATERIAS\n";
-        cout << "\t--------------------------------\n";
-        cout << "\t1) Alta de Materia\n";
-        cout << "\t2) Modificar Materia\n";
-        cout << "\t3) Baja lógica de Materia\n";
-        cout << "\t4) Listar Materias\n";
-        cout << "\t5) Asignar/Modificar Docente Titular (opcional)\n";
-        cout << "\t6) Configurar Correlativas (opcional)\n";
-        cout << "\t0) Volver\n";
-        cout << "\t--------------------------------\n";
-        cout << "\tOpción: ";
-        cin >> op;
-  
-        system("cls");
+        clearScreen();
+        opcion = seleccionOpcion();
+        clearScreen();
+        ejecutarOpcion(opcion);
+        if (opcion != 0) pauseScreen();
+    } while (opcion != 0);
+}
 
-        switch (op) {
-            case 1:
-                manager.alta();
-                break;
-            case 2:
-                manager.modificacion();
-                break;
-            case 3:
-                manager.baja();
-                break;
-            case 4:
-                manager.listarTodas();
-                break;
-            case 5:
-                cout << "Funcionalidad opcional (Docente Titular)\n";
-                break;
-            case 6:
-                cout << "Funcionalidad opcional (Correlativas)\n";
-                break;
-        }
+void MenuABMMaterias::mostrarOpciones() {
+    cout << endl;
+    cout << "\n\tABM MATERIAS\n";
+    cout << "\t--------------------------------\n";
+    cout << "\t1) Alta de Materia\n";
+    cout << "\t2) Modificar Materia\n";
+    cout << "\t3) Baja lógica de Materia\n";
+    cout << "\t4) Activar materia dada de baja\n";
+    cout << "\t5) Listar Materias\n";
+    cout << "\t6) Asignar/Modificar Docente Titular (opcional)\n";
+    cout << "\t7) Configurar Correlativas (opcional)\n";
+    cout << "\t0) Volver\n";
+}
 
-        if (op != 0) system("pause");
-    } while (op != 0);
+void MenuABMMaterias::ejecutarOpcion(int opcion) {
+    switch (opcion) {
+        case 1:
+            _materiaManager.cargar();
+            break;
+        case 2:
+            _materiaManager.modificar();
+            break;
+        case 3:
+            _materiaManager.borrar();
+            break;
+        case 4:
+            _materiaManager.activar();
+            break;
+        case 5:
+            _materiaManager.listar();
+            break;
+        case 6:
+            cout << "Funcionalidad opcional (Docente Titular)\n";
+            break;
+        case 7:
+            cout << "Funcionalidad opcional (Correlativas)\n";
+            break;
+        case 0:
+            break;
+        default:
+            cout << "Opción inválida.\n";
+            break;
+    }
+}
+
+int MenuABMMaterias::seleccionOpcion() {
+    int opcion;
+    mostrarOpciones();
+    cout << "\t--------------------------------\n" << endl;
+    cout << "\tOpcion: ";
+    opcion = Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
+    return opcion;
 }

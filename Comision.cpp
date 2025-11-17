@@ -8,47 +8,75 @@ Comision::Comision() {
     strcpy(_modalidad, "");
     _cuatrimestre = 0;
     _anio = 0;
+    _legajoDocente = 0;
     _eliminado = false;
 }
 
 Comision::Comision(int idComision, int idMateria,
                    const char* turno, const char* modalidad,
-                   int cuatrimestre, int anio, bool eliminado) {
+                   int cuatrimestre, int anio,int legajoDocente, bool eliminado) {
     _idComision = idComision;
     _idMateria = idMateria;
     strcpy(_turno, turno);
     strcpy(_modalidad, modalidad);
     _cuatrimestre = cuatrimestre;
     _anio = anio;
+    _legajoDocente = legajoDocente;
     _eliminado = eliminado;
 }
 
-int Comision::getIdComision() const { return _idComision; }
-void Comision::setIdComision(int v){ _idComision = v; }
+int Comision::getIdComision() const {
+    return _idComision;
+}
+void Comision::setIdComision(int v){
+    _idComision = v;
+}
 
-int Comision::getIdMateria() const { return _idMateria; }
-void Comision::setIdMateria(int v){ _idMateria = v; }
+int Comision::getIdMateria() const {
+    return _idMateria;
+}
+void Comision::setIdMateria(int v){
+    _idMateria = v;
+}
 
-const char* Comision::getTurno() const { return _turno; }
+const char* Comision::getTurno() const {
+    return _turno;
+}
+
 void Comision::setTurno(const char* v){
     std::strncpy(_turno, v, sizeof(_turno));
     _turno[sizeof(_turno)-1] = '\0';
 }
 
-const char* Comision::getModalidad() const { return _modalidad; }
+const char* Comision::getModalidad() const {
+    return _modalidad;
+}
+
 void Comision::setModalidad(const char* v){
     std::strncpy(_modalidad, v, sizeof(_modalidad));
     _modalidad[sizeof(_modalidad)-1] = '\0';
 }
 
-int Comision::getCuatrimestre() const { return _cuatrimestre; }
-void Comision::setCuatrimestre(int v){ _cuatrimestre = v; }
+int Comision::getCuatrimestre() const {
+    return _cuatrimestre;
+}
+void Comision::setCuatrimestre(int v){
+    _cuatrimestre = v; }
 
-int Comision::getAnio() const { return _anio; }
-void Comision::setAnio(int anio) { _anio = anio; }
+int Comision::getAnio() const {
+    return _anio; }
+void Comision::setAnio(int anio) {
+    _anio = anio; }
 
-bool Comision::getEliminado() const { return _eliminado; }
-void Comision::setEliminado(bool v){ _eliminado = v; }
+int Comision::getLegajoDocente() const {
+    return _legajoDocente; }
+void Comision::setLegajoDocente(int legajo) {
+    _legajoDocente = legajo; }
+
+bool Comision::getEliminado() const {
+    return _eliminado; }
+void Comision::setEliminado(bool v){
+    _eliminado = v; }
 
 void Comision::cargar() {
     cout << "=== Cargar Comision ===\n";
@@ -70,6 +98,9 @@ void Comision::cargar() {
     cout << "Año de cursada: ";
     cin >> _anio;
 
+    cout << "Legajo del Docente: ";
+    cin >> _legajoDocente;
+
     _eliminado = false;
 }
 
@@ -81,5 +112,6 @@ void Comision::mostrar() const {
     cout << "Modalidad: " << _modalidad << "\n";
     cout << "Cuatrimestre: " << _cuatrimestre << "\n";
     cout << "Año: " << _anio << "\n";
+    cout << "Legajo Docente: " << _legajoDocente << "\n";
     cout << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n\n";
 }

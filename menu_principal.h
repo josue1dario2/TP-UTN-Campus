@@ -1,11 +1,10 @@
 #pragma once
 
 #include "MenuAdmin.h"
-#include "MenuAlumno.h"
-#include "MenuDocente.h"
+#include "menu_alumno.h"
+#include "menu_docente.h"
 #include "MenuUtilitarios.h"
-#include "utils.h"
-//#include "PrincipalManager.h"
+#include "PrincipalManager.h"
 
 class MenuPrincipal{
 public:
@@ -26,8 +25,8 @@ protected:
 
 
 private:
-    //PrincipalManager _principalManager;
-    //mostrarMenuPrincipal();
+    PrincipalManager _principalManager;
+    mostrarMenuPrincipal();
     int _cantidadOpciones;
 };
 

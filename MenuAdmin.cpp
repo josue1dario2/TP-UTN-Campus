@@ -1,25 +1,27 @@
 #include "MenuAdmin.h"
-#include "MenuABMMaterias.h"
+#include "MenuAbmCarreras.h"
+#include "Validacion.h"
+#include "utils.h"
 
 #include <iostream>
 #include <cstdlib>
 using namespace std;
 
-MenuAdministrador::MenuAdministrador(){
-    _cantidadOpciones = 5;
+MenuAdministrador::MenuAdministrador()
+    : _cantidadOpciones(4)
+{
+
 }
 
 void MenuAdministrador::mostrar() {
     int opcion;
-
-    do{
-        system("cls");
+    do {
+        clearScreen();
         opcion = seleccionOpcion();
-        system("cls");
+        clearScreen();
         ejecutarOpcion(opcion);
-        system("pause");
-    }while(opcion != 0);
-
+        pauseScreen();
+    } while (opcion != 0);
 }
 
 void MenuAdministrador::mostrarOpciones()
@@ -40,12 +42,12 @@ void MenuAdministrador::ejecutarOpcion(int opcion)
 {
     switch (opcion) {
         case 1:
-            //menuCarreras.mostrarMenuABMCarreras();
+            menuCarreras.mostrar();
             break;
 
         case 2: {
             MenuABMMaterias menuMaterias;     // <--- creamos objeto
-            menuMaterias.mostrarMenuABMMaterias();  // <--- mostramos menú
+            menuMaterias.mostrar();  // <--- mostramos menú
             break;
         }
 
@@ -70,20 +72,11 @@ int MenuAdministrador::seleccionOpcion()
 {
     int opcion;
     mostrarOpciones();
-
-    string mensaje="\t----------------------------------------------\n";
-    mensaje+="\tOpción: ";
-    opcion = validar.validarEnteroEnRango(mensaje,0,_cantidadOpciones);
-    /*
     cout << "\t--------------------------------\n";
     cout << "\tOpción: ";
-    opcion = validar.validarEntero("");
 
-    while(opcion < 0 || opcion > _cantidadOpciones){
-        cout << "\tOpcion incorrecta..."<<endl;
-        cout << "\tOpción: ";
-        opcion = validar.validarEntero("");
-  }
-  */
+    opcion = Validacion::validarEnteroEnRango("",0,_cantidadOpciones);
+
+
   return opcion;
 }

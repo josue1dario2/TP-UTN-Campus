@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Master" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="Materia/;Administrador/;Docente/;Alumno/;Carrera/;Correlativa/;Persona/;Comisiones/;Utilitarios/;Validacion/;Examen/;Direccion/;Inscripcion/;Varios/" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Master" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Master" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="Alumno.cpp">
+			<Option virtualFolder="Alumno/" />
+		</Unit>
+		<Unit filename="Alumno.h">
+			<Option virtualFolder="Alumno/" />
+		</Unit>
+		<Unit filename="AlumnoManager.cpp">
+			<Option virtualFolder="Alumno/" />
+		</Unit>
+		<Unit filename="AlumnoManager.h">
+			<Option virtualFolder="Alumno/" />
+		</Unit>
+		<Unit filename="ArchivoAlumno.cpp">
+			<Option virtualFolder="Alumno/" />
+		</Unit>
+		<Unit filename="ArchivoAlumno.h">
+			<Option virtualFolder="Alumno/" />
+		</Unit>
+		<Unit filename="ArchivoCarrera.cpp">
+			<Option virtualFolder="Carrera/" />
+		</Unit>
+		<Unit filename="ArchivoCarrera.h">
+			<Option virtualFolder="Carrera/" />
+		</Unit>
+		<Unit filename="ArchivoComision.cpp">
+			<Option virtualFolder="Comisiones/" />
+		</Unit>
+		<Unit filename="ArchivoComision.h">
+			<Option virtualFolder="Comisiones/" />
+		</Unit>
+		<Unit filename="ArchivoCorrelativa.cpp">
+			<Option virtualFolder="Correlativa/" />
+		</Unit>
+		<Unit filename="ArchivoCorrelativa.h">
+			<Option virtualFolder="Correlativa/" />
+		</Unit>
+		<Unit filename="ArchivoDocente.cpp">
+			<Option virtualFolder="Docente/" />
+		</Unit>
+		<Unit filename="ArchivoDocente.h">
+			<Option virtualFolder="Docente/" />
+		</Unit>
+		<Unit filename="ArchivoExamen.cpp">
+			<Option virtualFolder="Examen/" />
+		</Unit>
+		<Unit filename="ArchivoExamen.h">
+			<Option virtualFolder="Examen/" />
+		</Unit>
+		<Unit filename="ArchivoInscripcion.cpp">
+			<Option virtualFolder="Inscripcion/" />
+		</Unit>
+		<Unit filename="ArchivoInscripcion.h">
+			<Option virtualFolder="Inscripcion/" />
+		</Unit>
+		<Unit filename="ArchivoInscripcionComision.cpp">
+			<Option virtualFolder="Comisiones/" />
+		</Unit>
+		<Unit filename="ArchivoInscripcionComision.h">
+			<Option virtualFolder="Comisiones/" />
+		</Unit>
+		<Unit filename="ArchivoMateria.cpp">
+			<Option virtualFolder="Materia/" />
+		</Unit>
+		<Unit filename="ArchivoMateria.h">
+			<Option virtualFolder="Materia/" />
+		</Unit>
+		<Unit filename="ArchivoPersona.cpp">
+			<Option virtualFolder="Persona/" />
+		</Unit>
+		<Unit filename="ArchivoPersona.h">
+			<Option virtualFolder="Persona/" />
+		</Unit>
+		<Unit filename="Carrera.cpp">
+			<Option virtualFolder="Carrera/" />
+		</Unit>
+		<Unit filename="Carrera.h">
+			<Option virtualFolder="Carrera/" />
+		</Unit>
+		<Unit filename="CarreraManager.cpp">
+			<Option virtualFolder="Carrera/" />
+		</Unit>
+		<Unit filename="CarreraManager.h">
+			<Option virtualFolder="Carrera/" />
+		</Unit>
+		<Unit filename="Comision.cpp">
+			<Option virtualFolder="Comisiones/" />
+		</Unit>
+		<Unit filename="Comision.h">
+			<Option virtualFolder="Comisiones/" />
+		</Unit>
+		<Unit filename="Correlativa.cpp">
+			<Option virtualFolder="Correlativa/" />
+		</Unit>
+		<Unit filename="Correlativa.h">
+			<Option virtualFolder="Correlativa/" />
+		</Unit>
+		<Unit filename="Direccion.cpp">
+			<Option virtualFolder="Direccion/" />
+		</Unit>
+		<Unit filename="Direccion.h">
+			<Option virtualFolder="Direccion/" />
+		</Unit>
+		<Unit filename="Docente.cpp">
+			<Option virtualFolder="Docente/" />
+		</Unit>
+		<Unit filename="Docente.h">
+			<Option virtualFolder="Docente/" />
+		</Unit>
+		<Unit filename="DocenteManager.cpp">
+			<Option virtualFolder="Docente/" />
+		</Unit>
+		<Unit filename="DocenteManager.h">
+			<Option virtualFolder="Docente/" />
+		</Unit>
+		<Unit filename="Examen.cpp">
+			<Option virtualFolder="Examen/" />
+		</Unit>
+		<Unit filename="Examen.h">
+			<Option virtualFolder="Examen/" />
+		</Unit>
+		<Unit filename="ExamenManager.cpp">
+			<Option virtualFolder="Examen/" />
+		</Unit>
+		<Unit filename="ExamenManager.h">
+			<Option virtualFolder="Examen/" />
+		</Unit>
+		<Unit filename="Fecha.cpp">
+			<Option virtualFolder="Varios/" />
+		</Unit>
+		<Unit filename="Fecha.h">
+			<Option virtualFolder="Varios/" />
+		</Unit>
+		<Unit filename="Inscripcion.cpp">
+			<Option virtualFolder="Inscripcion/" />
+		</Unit>
+		<Unit filename="Inscripcion.h">
+			<Option virtualFolder="Inscripcion/" />
+		</Unit>
+		<Unit filename="InscripcionComision.cpp">
+			<Option virtualFolder="Comisiones/" />
+		</Unit>
+		<Unit filename="InscripcionComision.h">
+			<Option virtualFolder="Comisiones/" />
+		</Unit>
+		<Unit filename="Materia.cpp">
+			<Option virtualFolder="Materia/" />
+		</Unit>
+		<Unit filename="Materia.h">
+			<Option virtualFolder="Materia/" />
+		</Unit>
+		<Unit filename="MateriaManager.cpp">
+			<Option virtualFolder="Materia/" />
+		</Unit>
+		<Unit filename="MateriaManager.h">
+			<Option virtualFolder="Materia/" />
+		</Unit>
+		<Unit filename="MenuAbmCarreras.cpp">
+			<Option virtualFolder="Carrera/" />
+		</Unit>
+		<Unit filename="MenuAbmCarreras.h">
+			<Option virtualFolder="Carrera/" />
+		</Unit>
+		<Unit filename="MenuAbmComisiones.cpp">
+			<Option virtualFolder="Comisiones/" />
+		</Unit>
+		<Unit filename="MenuAbmComisiones.h">
+			<Option virtualFolder="Comisiones/" />
+		</Unit>
+		<Unit filename="MenuAbmMaterias.cpp">
+			<Option virtualFolder="Materia/" />
+		</Unit>
+		<Unit filename="MenuAbmMaterias.h">
+			<Option virtualFolder="Materia/" />
+		</Unit>
+		<Unit filename="MenuAdmin.cpp">
+			<Option virtualFolder="Administrador/" />
+		</Unit>
+		<Unit filename="MenuAdmin.h">
+			<Option virtualFolder="Administrador/" />
+		</Unit>
+		<Unit filename="MenuAlumno.cpp">
+			<Option virtualFolder="Alumno/" />
+		</Unit>
+		<Unit filename="MenuAlumno.h">
+			<Option virtualFolder="Alumno/" />
+		</Unit>
+		<Unit filename="MenuDocente.cpp">
+			<Option virtualFolder="Docente/" />
+		</Unit>
+		<Unit filename="MenuDocente.h">
+			<Option virtualFolder="Docente/" />
+		</Unit>
+		<Unit filename="MenuGeneral.h">
+			<Option virtualFolder="Varios/" />
+		</Unit>
+		<Unit filename="MenuPrincipal.cpp">
+			<Option virtualFolder="Varios/" />
+		</Unit>
+		<Unit filename="MenuPrincipal.h">
+			<Option virtualFolder="Varios/" />
+		</Unit>
+		<Unit filename="MenuUtilitarios.cpp">
+			<Option virtualFolder="Utilitarios/" />
+		</Unit>
+		<Unit filename="MenuUtilitarios.h">
+			<Option virtualFolder="Utilitarios/" />
+		</Unit>
+		<Unit filename="Persona.cpp">
+			<Option virtualFolder="Persona/" />
+		</Unit>
+		<Unit filename="Persona.h">
+			<Option virtualFolder="Persona/" />
+		</Unit>
+		<Unit filename="Validacion.cpp">
+			<Option virtualFolder="Validacion/" />
+		</Unit>
+		<Unit filename="Validacion.h">
+			<Option virtualFolder="Validacion/" />
+		</Unit>
+		<Unit filename="app.cpp">
+			<Option virtualFolder="Varios/" />
+		</Unit>
+		<Unit filename="app.h">
+			<Option virtualFolder="Varios/" />
+		</Unit>
+		<Unit filename="main.cpp">
+			<Option virtualFolder="Varios/" />
+		</Unit>
+		<Unit filename="utils.cpp">
+			<Option virtualFolder="Varios/" />
+		</Unit>
+		<Unit filename="utils.h">
+			<Option virtualFolder="Varios/" />
+		</Unit>
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>

@@ -19,8 +19,6 @@ void ComisionManager::mostrarTodasLasComisiones() {
             std::cout << "ID Comision: " << c.getIdComision() << std::endl;
             std::cout << "ID Materia: " << c.getIdMateria() << std::endl;
             std::cout << "Turno: " << c.getTurno() << std::endl;
-            std::cout << "Modalidad: " << c.getModalidad() << std::endl;
-            std::cout << "Cuatrimestre: " << c.getCuatrimestre() << std::endl;
             std::cout << "Año: " << c.getAnio() << std::endl;
             std::cout << "-----------------------------\n";
         }
@@ -40,8 +38,6 @@ void ComisionManager::mostrarComisionesPorMateria(int idMateria) {
             encontrado = true;
             std::cout << "ID Comision: " << c.getIdComision() << std::endl;
             std::cout << "Turno: " << c.getTurno() << std::endl;
-            std::cout << "Modalidad: " << c.getModalidad() << std::endl;
-            std::cout << "Cuatrimestre: " << c.getCuatrimestre() << std::endl;
             std::cout << "Año: " << c.getAnio() << std::endl;
             std::cout << "-----------------------------\n";
         }
