@@ -43,7 +43,8 @@ public:
     // --- Inscripciones a comisiones ---
     void inscribirseAComision(int legajo);
     void verMisComisiones(int legajo);
-    void bajaInscripcionComision(int legajo, int idComision);
+    void solicitarBajaComision(int legajo, int idComision);
+    void bajaInscripcionComision(int legajo, int idComision); // BAJA DEFINITIVA
 
     // --- Exámenes y mesas ---
     void verMisMesas(int legajo);

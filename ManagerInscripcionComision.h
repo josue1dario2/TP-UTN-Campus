@@ -15,9 +15,9 @@ private:
 public:
     ManagerInscripcionComision();
 
-    void cargar();
-    void listar();
-    void borrar();
+    void cargar();     // Crear inscripción
+    void listar();     // Mostrar inscripciones activas y pendientes
+    void borrar();     // Baja definitiva (estado = 2)
 
     bool estaInscripto(int legajo, int idComision);
 };

@@ -119,7 +119,9 @@ void ManagerDocente::verAlumnosDeComision(int idComision) {
 
     for (int i = 0; i < total; i++) {
         InscripcionComision ins = _archivoInscripciones.leerRegistro(i);
-        if (ins.getIdComision() == idComision && !ins.getEliminado()) {
+
+        // SOLO alumnos activos (estado = 0)
+        if (ins.getIdComision() == idComision && ins.getEstado() == 0) {
             hayAlumnos = true;
             cout << "\t| " << setw(12) << right << ins.getLegajoAlumno() << " | ";
             ins.getFecha().mostrar();
@@ -165,7 +167,7 @@ void ManagerDocente::publicarNotasCursada(int legajoDocente) {
 }
 
 void ManagerDocente::cerrarActaCursada(int legajoDocente) {
-    cout << "\n\tCerrando acta de cursada...\n";
+    cout << "\n\tCerrando actta de cursada...\n";
     cout << "\tFuncionalidad pendiente de implementación real.\n";
 }
 
@@ -195,7 +197,7 @@ void ManagerDocente::exportarCSV(int legajoDocente) {
 }
 
 // --------------------------------------------------
-// PRESENTACIÓN EN TABLA
+// PRESENTACIÓN
 // --------------------------------------------------
 
 void ManagerDocente::mostrarEncabezado() {

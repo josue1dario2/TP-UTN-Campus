@@ -3,28 +3,25 @@
 #include "MenuAbmCarreras.h"
 #include "MenuAbmComisiones.h"
 #include "MenuAbmMaterias.h"
+#include "ManagerAlumno.h"
 
-class MenuAdministrador{
+class MenuAdministrador {
 public:
     MenuAdministrador();
     void mostrar();
+
 protected:
     void mostrarOpciones();
     int seleccionOpcion();
     void ejecutarOpcion(int opcion);
 
-
+private:
+    int _cantidadOpciones;
 
     MenuABMCarreras menuCarreras;
     MenuABMComisiones menuComisiones;
     MenuABMMaterias menuMaterias;
-private:
-    //PersonalManager _personalManager;
-    //mostrarMenuPrincipal();
-    int _cantidadOpciones;
+
+    // Para aprobar / rechazar solicitudes de baja
+    ManagerAlumno _managerAlumno;
 };
-
-
-
-
-

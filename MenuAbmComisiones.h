@@ -1,6 +1,8 @@
 #pragma once
 
-class MenuABMComisiones{
+#include "ManagerComision.h"
+
+class MenuABMComisiones {
 public:
     MenuABMComisiones();
     void mostrar();
@@ -13,5 +15,3 @@ protected:
 private:
     int _cantidadOpciones;
 };
-
-

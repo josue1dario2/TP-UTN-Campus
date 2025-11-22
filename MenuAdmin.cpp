@@ -1,14 +1,15 @@
 #include "MenuAdmin.h"
-#include "MenuAbmCarreras.h"
 #include "Validacion.h"
 #include "utils.h"
 
+#include "ArchivoInscripcionComision.h"
+#include "InscripcionComision.h"
+
 #include <iostream>
-#include <cstdlib>
 using namespace std;
 
-MenuAdministrador::MenuAdministrador(){
-    _cantidadOpciones = 5;
+MenuAdministrador::MenuAdministrador() {
+    _cantidadOpciones = 4;
 }
 
 void MenuAdministrador::mostrar() {
@@ -18,68 +19,101 @@ void MenuAdministrador::mostrar() {
         opcion = seleccionOpcion();
         clearScreen();
 
-        if (opcion == 0) {
-            return;
-        }
+        if (opcion == 0) return;
 
         ejecutarOpcion(opcion);
         pauseScreen();
+
     } while (opcion != 0);
 }
 
-void MenuAdministrador::mostrarOpciones()
-{
-    cout << endl;
-    cout << "\n\tMENÚ ADMINISTRADOR – ABM\n";
-    cout << "\t--------------------------------\n";
-    cout << "\t1) Carreras\n";
-    cout << "\t2) Materias\n";
-    cout << "\t3) Comisiones\n";
-    cout << "\t4) Solicitudes\n";
+void MenuAdministrador::mostrarOpciones() {
+    cout << "\n\tMENÚ ADMINISTRADOR\n";
+    cout << "\t-----------------------------------------\n";
+    cout << "\t1) ABM Carreras\n";
+    cout << "\t2) ABM Materias\n";
+    cout << "\t3) ABM Comisiones\n";
+    cout << "\t4) Solicitudes de Baja de Comisiones\n";
     cout << "\t0) Volver\n";
-
-
 }
 
-void MenuAdministrador::ejecutarOpcion(int opcion)
-{
+int MenuAdministrador::seleccionOpcion() {
+    mostrarOpciones();
+    cout << "\t-----------------------------------------\n";
+    cout << "\tOpción: ";
+    return Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
+}
+
+void MenuAdministrador::ejecutarOpcion(int opcion) {
     switch (opcion) {
+
         case 1:
             menuCarreras.mostrar();
             break;
 
-        case 2: {
-            MenuABMMaterias menuMaterias;     // <--- creamos objeto
-            menuMaterias.mostrarMenuABMMaterias();  // <--- mostramos menú
+        case 2:
+            menuMaterias.mostrarMenuABMMaterias();
+            break;
+
+        case 3:
+            menuComisiones.mostrar();
+            break;
+
+        case 4: {
+
+            clearScreen();
+            cout << "\n\t=== Solicitudes PENDIENTES de baja ===\n";
+
+            ArchivoInscripcionComision arch("InscripcionesComision.dat");
+            int total = arch.contarRegistros();
+
+            bool hayPendientes = false;
+
+            for (int i = 0; i < total; i++) {
+
+                InscripcionComision ins = arch.leerRegistro(i);
+
+                if (ins.getEstado() == 1) {  // 1 = Pendiente de baja
+
+                    hayPendientes = true;
+
+                    cout << "\n------------------------------------------\n";
+                    cout << "Legajo Alumno: " << ins.getLegajoAlumno() << endl;
+                    cout << "ID Comisión : " << ins.getIdComision() << endl;
+                    cout << "Fecha Inscripción: ";
+                    ins.getFecha().mostrar();
+                    cout << endl;
+
+                    cout << "\n¿Aprobar baja? (1 = Aprobar / 2 = Rechazar / 0 = Omitir): ";
+                    int accion;
+                    cin >> accion;
+
+                    if (accion == 1) {
+                        _managerAlumno.bajaInscripcionComision(
+                            ins.getLegajoAlumno(),
+                            ins.getIdComision()
+                        );
+                    }
+                    else if (accion == 2) {
+                        ins.setEstado(0); // Rechazada → vuelve a Activa
+                        arch.modificarRegistro(ins, i);
+                        cout << "\nSolicitud rechazada.\n";
+                    }
+                }
+            }
+
+            if (!hayPendientes) {
+                cout << "\nNo hay solicitudes pendientes.\n";
+            }
+
             break;
         }
 
-        case 3:
-            //menuABMComisiones();
-            break;
-
-        case 4:
-            //menuSolicitudes();
-            break; // Cambiar Solicitudes
-
         case 0:
-            break;
+            return;
 
         default:
             cout << "Opción inválida.\n";
             break;
     }
-}
-
-int MenuAdministrador::seleccionOpcion()
-{
-    int opcion;
-    mostrarOpciones();
-    cout << "\t--------------------------------\n";
-    cout << "\tOpción: ";
-
-    opcion = Validacion::validarEnteroEnRango("",0,_cantidadOpciones);
-
-
-  return opcion;
 }

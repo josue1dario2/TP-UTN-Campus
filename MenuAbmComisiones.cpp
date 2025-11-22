@@ -2,12 +2,12 @@
 #include "ManagerComision.h"
 #include "Validacion.h"
 #include "utils.h"
-#include <cstdlib>
+
 #include <iostream>
 using namespace std;
 
 MenuABMComisiones::MenuABMComisiones() {
-    _cantidadOpciones = 7;
+    _cantidadOpciones = 6;
 }
 
 void MenuABMComisiones::mostrar() {
@@ -16,13 +16,19 @@ void MenuABMComisiones::mostrar() {
         clearScreen();
         opcion = seleccionOpcion();
         clearScreen();
+
+        if (opcion == 0) {
+            cout << "\n\tVolviendo...\n";
+            return;
+        }
+
         ejecutarOpcion(opcion);
         pauseScreen();
+
     } while (opcion != 0);
 }
 
 void MenuABMComisiones::mostrarOpciones() {
-    cout << endl;
     cout << "\n\tABM COMISIONES\n";
     cout << "\t--------------------------------\n";
     cout << "\t1) Alta de Comisión\n";
@@ -34,10 +40,18 @@ void MenuABMComisiones::mostrarOpciones() {
     cout << "\t0) Volver\n";
 }
 
+int MenuABMComisiones::seleccionOpcion() {
+    mostrarOpciones();
+    cout << "\t--------------------------------\n";
+    cout << "\tOpción: ";
+    return Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
+}
+
 void MenuABMComisiones::ejecutarOpcion(int opcion) {
     ManagerComision manager;
 
     switch (opcion) {
+
         case 1:
             cout << "\n\t=== ALTA DE COMISIÓN ===\n";
             manager.cargar();
@@ -60,7 +74,9 @@ void MenuABMComisiones::ejecutarOpcion(int opcion) {
 
         case 5: {
             cout << "\n\t=== LISTAR COMISIONES POR MATERIA ===\n";
-            int idMateria = Validacion::validarEnteroEnRango("\tIngrese el ID de la materia: ", 1, 9999);
+            int idMateria = Validacion::validarEnteroEnRango(
+                "\tIngrese el ID de la materia: ", 1, 9999
+            );
             manager.mostrarComisionesPorMateria(idMateria);
             break;
         }
@@ -69,22 +85,5 @@ void MenuABMComisiones::ejecutarOpcion(int opcion) {
             cout << "\n\t=== REACTIVAR COMISIÓN ===\n";
             manager.activar();
             break;
-
-        case 0:
-            cout << "\n\tVolviendo al menú anterior...\n";
-            break;
-
-        default:
-            cout << "\n\tOpción inválida.\n";
-            break;
     }
-}
-
-int MenuABMComisiones::seleccionOpcion() {
-    int opcion;
-    mostrarOpciones();
-    cout << "\t--------------------------------" << endl;
-    cout << "\tOpción: ";
-    opcion = Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
-    return opcion;
 }

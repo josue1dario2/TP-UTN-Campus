@@ -6,7 +6,12 @@ private:
     int _legajoAlumno;
     int _idComision;
     Fecha _fecha;
-    bool _eliminado;
+
+    // Estados:
+    // 0 = Activa
+    // 1 = Pendiente de baja
+    // 2 = Baja aprobada
+    int _estado;
 
 public:
     InscripcionComision();
@@ -15,12 +20,12 @@ public:
     void setLegajoAlumno(int legajo);
     void setIdComision(int idComision);
     void setFecha(Fecha f);
-    void setEliminado(bool e);
+    void setEstado(int estado);
 
     int getLegajoAlumno() const;
     int getIdComision() const;
     Fecha getFecha() const;
-    bool getEliminado() const;
+    int getEstado() const;
 
     void cargar();
     void mostrar() const;
