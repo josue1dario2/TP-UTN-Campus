@@ -1,19 +1,42 @@
 #include "ManagerMateria.h"
 #include <iostream>
+#include <limits>
 using namespace std;
 
 void ManagerMateria::alta() {
     Materia reg;
-    reg.cargar();
+
+    cout << "=== ALTA DE MATERIA ===\n";
+
+    int idCarrera;
+    cout << "ID Carrera: ";
+    cin >> idCarrera;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    char nombre[50];
+    cout << "Nombre: ";
+    cin.getline(nombre, 50);
+
+    int cuatrimestre;
+    cout << "Cuatrimestre: ";
+    cin >> cuatrimestre;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    char estado[20];
+    cout << "Estado (Activa / Inactiva): ";
+    cin.getline(estado, 20);
 
     reg.setIdMateria(generarIdNuevo());
+    reg.setIdCarrera(idCarrera);
+    reg.setNombre(nombre);
+    reg.setCuatrimestre(cuatrimestre);
+    reg.setEstado(estado);
     reg.setEliminado(false);
 
-    if (_archivo.agregarRegistro(reg) == 1) {
+    if (_archivo.agregarRegistro(reg) == 1)
         cout << "Materia guardada con éxito.\n";
-    } else {
+    else
         cout << "Error al guardar la materia.\n";
-    }
 }
 
 void ManagerMateria::baja() {
@@ -27,11 +50,10 @@ void ManagerMateria::baja() {
         return;
     }
 
-    if (_archivo.bajaLogica(pos)) {
+    if (_archivo.bajaLogica(pos))
         cout << "Materia dada de baja correctamente.\n";
-    } else {
+    else
         cout << "No se pudo eliminar.\n";
-    }
 }
 
 void ManagerMateria::modificacion() {
@@ -46,17 +68,35 @@ void ManagerMateria::modificacion() {
     }
 
     Materia reg = _archivo.leerRegistro(pos);
-    cout << "\nDatos actuales:\n";
+
+    cout << "\n=== DATOS ACTUALES ===\n";
     reg.mostrar();
 
-    cout << "\nIngrese los nuevos datos:\n";
-    reg.cargar();
+    cout << "\n=== INGRESE NUEVOS DATOS ===\n";
 
-    if (_archivo.modificarRegistro(reg, pos)) {
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    char nombre[50];
+    cout << "Nuevo nombre: ";
+    cin.getline(nombre, 50);
+
+    int cuatrimestre;
+    cout << "Nuevo cuatrimestre: ";
+    cin >> cuatrimestre;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    char estado[20];
+    cout << "Nuevo estado: ";
+    cin.getline(estado, 20);
+
+    reg.setNombre(nombre);
+    reg.setCuatrimestre(cuatrimestre);
+    reg.setEstado(estado);
+
+    if (_archivo.modificarRegistro(reg, pos))
         cout << "Registro modificado correctamente.\n";
-    } else {
+    else
         cout << "Error al modificar.\n";
-    }
 }
 
 void ManagerMateria::listarTodas() {
@@ -68,6 +108,7 @@ void ManagerMateria::listarTodas() {
 
     for (int i = 0; i < cantidad; i++) {
         Materia reg = _archivo.leerRegistro(i);
+
         if (!reg.getEliminado()) {
             reg.mostrar();
             cout << "-------------------------------\n";
@@ -80,5 +121,14 @@ int ManagerMateria::buscarPorId(int idMateria) {
 }
 
 int ManagerMateria::generarIdNuevo() {
-    return _archivo.contarRegistros() + 1;
+    int cant = _archivo.contarRegistros();
+    int maxID = 0;
+
+    for (int i = 0; i < cant; i++) {
+        Materia reg = _archivo.leerRegistro(i);
+        if (reg.getIdMateria() > maxID)
+            maxID = reg.getIdMateria();
+    }
+
+    return maxID + 1;
 }

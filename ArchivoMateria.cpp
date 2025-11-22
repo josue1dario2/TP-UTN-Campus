@@ -40,7 +40,7 @@ int ArchivoMateria::buscarRegistro(int idMateria) {
     int cant = contarRegistros();
     for (int i = 0; i < cant; i++) {
         fread(&obj, _tamanioRegistro, 1, p);
-        if (!obj.getEliminado() && obj.getIdMateria() == idMateria) {
+        if (obj.getIdMateria() == idMateria) {
             fclose(p);
             return i;
         }
@@ -49,6 +49,7 @@ int ArchivoMateria::buscarRegistro(int idMateria) {
     fclose(p);
     return -2;
 }
+
 
 Materia ArchivoMateria::leerRegistro(int pos) {
     Materia obj;
