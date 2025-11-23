@@ -1,4 +1,5 @@
 #pragma once
+#include "ManagerComision.h"
 
 class MenuABMComisionesAdmin {
 public:
@@ -18,4 +19,5 @@ protected:
 
 private:
     int _cantidadOpciones;
+    ManagerComision _managerComison;
 };

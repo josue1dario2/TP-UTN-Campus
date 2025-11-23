@@ -9,6 +9,7 @@ private:
     ArchivoCarrera _archivoCarreras;
 
 
+
 public:
     void alta();
     void modificacion();
@@ -17,6 +18,7 @@ public:
     void borrar();
     void activar();
     void cambiarEstado(bool activar);
+    bool existeMateria(int idMateria);
 
 private:
     int generarIdNuevo();

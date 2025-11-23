@@ -900,7 +900,7 @@
 	<cstdio>
 	<cstring>
 
-1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\comision.h
+1763914182 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\comision.h
 	<string>
 	<cstring>
 	<iostream>
@@ -989,13 +989,14 @@
 1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\comision.cpp
 	"Comision.h"
 
-1763588800 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\comisionesadmin.cpp
+1763912061 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\comisionesadmin.cpp
 	"ComisionesAdmin.h"
 	"Validacion.h"
 	"utils.h"
 	<iostream>
 
-1763588766 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\comisionesadmin.h
+1763906959 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\comisionesadmin.h
+	"ManagerComision.h"
 
 1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\correlativa.cpp
 	"Correlativa.h"
@@ -1074,7 +1075,7 @@
 1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuabmmaterias.h
 	"ManagerMateria.h"
 
-1763874581 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managermateria.h
+1763911003 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managermateria.h
 	"ArchivoMateria.h"
 	"ArchivoCarrera.h"
 	"Materia.h"
@@ -1102,13 +1103,16 @@
 	"Validacion.h"
 	<iomanip>
 
-1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managercomision.cpp
+1763914209 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managercomision.cpp
 	"ManagerComision.h"
 	<iostream>
 	<iomanip>
 
-1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managercomision.h
+1763911159 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managercomision.h
 	"ArchivoComision.h"
+	"ArchivoMateria.h"
+	"ManagerMateria.h"
+	"ArchivoDocente.h"
 	"Comision.h"
 	"Validacion.h"
 	<iostream>
@@ -1125,7 +1129,7 @@
 	<iomanip>
 	<cstring>
 
-1763903060 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managermateria.cpp
+1763913601 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managermateria.cpp
 	"ManagerMateria.h"
 	"Validacion.h"
 	<iomanip>

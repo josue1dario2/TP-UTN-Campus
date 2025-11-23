@@ -9,15 +9,16 @@ ManagerComision::ManagerComision() : _archivo("Comisiones.dat") {}
 // AUXILIARES DE PRESENTACIÓN
 // ----------------------------------------------------
 void ManagerComision::mostrarEncabezado() {
-    cout << "\t+------------+------------+------------+------------+------------+------------+\n";
-    cout << "\t| IDComision | IDMateria  | Turno      | Modalidad  | Año        | Eliminado  |\n";
-    cout << "\t+------------+------------+------------+------------+------------+------------+\n";
+    cout << "\t+------------+------------+------------+------------+------------+------------+------------+\n";
+    cout << "\t| IDComision | IDMateria  | Leg. Prof  | Turno      | Modalidad  | Año        | Eliminado  |\n";
+    cout << "\t+------------+------------+------------+------------+------------+------------+------------+\n";
 }
 
 void ManagerComision::mostrarRegistro(const Comision& c) {
-    cout << "\t| " << setw(10) << right << c.getIdComision()
-         << " | " << setw(10) << right << c.getIdMateria()
-         << " | " << setw(10) << left  << c.getTurno()
+    cout << "\t| " << setw(10) << left << c.getIdComision()
+         << " | " << setw(10) << left << c.getIdMateria()
+         << " | " << setw(10) << left << c.getLegajoDocente()
+         << " | " << setw(11) << left  << c.getTurno()
          << " | " << setw(10) << left  << c.getModalidad()
          << " | " << setw(10) << right << c.getAnio()
          << " | " << setw(10) << right << (c.getEliminado() ? "Sí" : "No")
@@ -25,29 +26,66 @@ void ManagerComision::mostrarRegistro(const Comision& c) {
 }
 
 void ManagerComision::mostrarPie() {
-    cout << "\t+------------+------------+------------+------------+------------+------------+\n";
+    cout << "\t+------------+------------+------------+------------+------------+------------+------------+\n";
 }
 
 // ----------------------------------------------------
 // INGRESO DE DATOS
 // ----------------------------------------------------
 Comision ManagerComision::ingresarDatos(int idComision) {
+
     int idMateria = Validacion::validarEnteroEnRango("\tID Materia: ", 1, 9999);
+    bool _existeMateria = _managerMateria.existeMateria(idMateria);
+    if (!_existeMateria){
+        cout << "\n\tNo existe la materia. Vuelva a intentar.";
+        return Comision();
+    }
+    string turno="";
+    int _elecTurno = Validacion::validarEnteroEnRango("\tTurno (1 para Mañana/2 para Tarde/3 para Noche): ",1,3);
 
-    string turno;
-    cout << "\tTurno (Mañana / Tarde / Noche): ";
-    getline(cin >> ws, turno);
+    switch (_elecTurno){
+        case 1:
+                turno = "Mañana";
+                break;
+            case 2:
+                turno = "Tarde";
+                break;
+            case 3:
+                turno = "Noche";
+                break;
+    }
 
-    string modalidad;
-    cout << "\tModalidad (Presencial / Virtual / Híbrida): ";
-    getline(cin >> ws, modalidad);
+    string modalidad="";
+    int _elecModalidad = Validacion::validarEnteroEnRango("\tModalidad (1 para Presencial/2 para Virtual/ 3 para Híbrida): ",1,3);
+
+    switch (_elecModalidad){
+        case 1:
+                modalidad = "Presenc.";
+                break;
+            case 2:
+                modalidad = "Virtual";
+                break;
+            case 3:
+                modalidad = "Híbrida";
+                break;
+    }
+
 
     int cuatrimestre = Validacion::validarEnteroEnRango("\tCuatrimestre (1-2): ", 1, 2);
     int anio = Validacion::validarEnteroEnRango("\tAño (2020-2030): ", 2020, 2030);
     int legajoDocente = Validacion::validarEnteroEnRango("\tLegajo Docente: ", 1, 99999);
+    int _existeLegajoDocente = _archivoDocentes.buscarRegistro(legajoDocente);
+    if (_existeLegajoDocente <0){
+        cout << "\n\tNo existe el legajo del docente. Vuelva a intentar.";
+        return Comision();
 
-    return Comision(idComision, idMateria, turno.c_str(), modalidad.c_str(),
+    }
+    else {
+        return Comision(idComision, idMateria, turno.c_str(), modalidad.c_str(),
                     cuatrimestre, anio, legajoDocente, false);
+
+    }
+
 }
 
 // ----------------------------------------------------
@@ -59,6 +97,10 @@ void ManagerComision::cargar() {
 
     int nuevoID = _archivo.contarRegistros() + 1;
     Comision nueva = ingresarDatos(nuevoID);
+    if (nueva.getIdComision() == 0){
+        cout << "\n\tCarga abortada.";
+        return;
+    }
 
     if (_archivo.agregarRegistro(nueva))
         cout << "\n\tComisión agregada correctamente.\n";

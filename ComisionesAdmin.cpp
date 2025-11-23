@@ -74,7 +74,8 @@ int MenuABMComisionesAdmin::seleccionOpcion()
 
 void MenuABMComisionesAdmin::altaComision()
 {
-    cout << "Alta de Comisión - En desarrollo\n";
+
+    _managerComison.cargar();
     // Implementar lógica de alta
 }
 
@@ -98,6 +99,7 @@ void MenuABMComisionesAdmin::activarComision()
 
 void MenuABMComisionesAdmin::listarComisiones()
 {
-    cout << "Listar Comisiones - En desarrollo\n";
+    _managerComison.listar();
+    cout << endl;
     // Implementar lógica de listado
 }

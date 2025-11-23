@@ -41,7 +41,7 @@ private:
     int  _idComision;
     int  _idMateria;
     char _turno[10];     // "Mañana", "Tarde", "Noche"
-    char _modalidad[10]; // "Presencial", "Virtual", "Híbrida"
+    char _modalidad[10]; // "Presenc.", "Virtual", "Híbrida"
     int  _cuatrimestre;
     int  _anio;
     int  _legajoDocente;
