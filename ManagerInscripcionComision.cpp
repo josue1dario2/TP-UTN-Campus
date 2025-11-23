@@ -1,4 +1,5 @@
 #include "ManagerInscripcionComision.h"
+#include "ManagerComision.h"
 #include "Validacion.h"
 using namespace std;
 
@@ -34,6 +35,14 @@ void ManagerInscripcionComision::cargar() {
     int legajo = Validacion::validarEnteroEnRango("\tLegajo Alumno: ", 1, 99999);
     int idComision = Validacion::validarEnteroEnRango("\tID Comisión: ", 1, 99999);
 
+    // ✔ Validación: la comisión debe existir
+    ManagerComision manCom;
+    if (!manCom.existeComision(idComision)) {
+        cout << "\n\tERROR: La comisión no existe o está dada de baja.\n";
+        return;
+    }
+
+    // ✔ Validación: evitar doble inscripción
     if (estaInscripto(legajo, idComision)) {
         cout << "\tEl alumno ya está inscripto en esta comisión.\n";
         return;
@@ -44,7 +53,7 @@ void ManagerInscripcionComision::cargar() {
 
     InscripcionComision nueva(legajo, idComision);
     nueva.setFecha(hoy);
-    nueva.setEstado(0); // activa por defecto
+    nueva.setEstado(0); // activa
 
     if (_archivo.agregarRegistro(nueva))
         cout << "\tInscripción guardada correctamente.\n";
@@ -63,7 +72,8 @@ void ManagerInscripcionComision::listar() {
     mostrarEncabezado();
     for (int i = 0; i < total; i++) {
         InscripcionComision reg = _archivo.leerRegistro(i);
-        // Mostrar solo estado 0 (activa) o 1 (pendiente)
+
+        // solo estado 0 (activo) o 1 (pendiente)
         if (reg.getEstado() != 2)
             mostrarRegistro(reg);
     }
@@ -96,7 +106,7 @@ bool ManagerInscripcionComision::estaInscripto(int legajo, int idComision) {
 
         if (ins.getLegajoAlumno() == legajo &&
             ins.getIdComision() == idComision &&
-            ins.getEstado() != 2)  // activa o pendiente
+            ins.getEstado() != 2) // activo o pendiente
         {
             return true;
         }

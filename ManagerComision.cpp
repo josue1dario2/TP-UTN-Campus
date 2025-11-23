@@ -172,3 +172,11 @@ void ManagerComision::mostrarComisionesPorMateria(int idMateria) {
 
     mostrarPie();
 }
+bool ManagerComision::existeComision(int idComision) {
+    ArchivoComision arc;
+    int pos = arc.buscarRegistro(idComision);
+    if (pos < 0) return false;
+
+    Comision c = arc.leerRegistro(pos);
+    return !c.getEliminado();
+}

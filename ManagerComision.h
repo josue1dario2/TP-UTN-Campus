@@ -25,4 +25,5 @@ public:
 
     void mostrarTodasLasComisiones();
     void mostrarComisionesPorMateria(int idMateria);
+    bool existeComision(int idComision);
 };
