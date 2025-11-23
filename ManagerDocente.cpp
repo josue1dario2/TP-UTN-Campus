@@ -14,7 +14,7 @@ ManagerDocente::ManagerDocente()
 // CRUD BÁSICO
 // --------------------------------------------------
 
-void ManagerDocente::listarDocentes() {
+void ManagerDocente::listarDocentes(bool incluirBorrados) {
     int total = _archivoDocentes.contarRegistros();
     if (total <= 0) {
         cout << "\n\tNo hay docentes registrados.\n";
@@ -26,12 +26,14 @@ void ManagerDocente::listarDocentes() {
 
     for (int i = 0; i < total; i++) {
         Docente doc = _archivoDocentes.leerRegistro(i);
-        if (!doc.getEliminado()) {
+        if (incluirBorrados || doc.getEliminado()) {
             mostrarRegistro(doc);
         }
     }
 
     mostrarPie();
+
+
 }
 
 void ManagerDocente::mostrarDocentePorLegajo(int legajo) {
@@ -199,20 +201,23 @@ void ManagerDocente::exportarCSV(int legajoDocente) {
 // --------------------------------------------------
 
 void ManagerDocente::mostrarEncabezado() {
-    cout << "\t+--------+---------------------------+---------------------------+-------------+---------+\n";
-    cout << "\t| Legajo | Nombre                    | Apellido                  | Teléfono    | Estado  |\n";
-    cout << "\t+--------+---------------------------+---------------------------+-------------+---------+\n";
+    cout << "  +--------+----------+---------------+---------------+---------------------------+-------------+---------+\n";
+    cout << "  | Legajo | DNI      | Nombre        | Apellido      | E-mail                    | Teléfono    | Estado  |\n";
+    cout << "  +--------+----------+---------------+---------------+---------------------------+-------------+---------+\n";
 }
 
 void ManagerDocente::mostrarRegistro(const Docente& doc) {
-    cout << "\t| " << setw(6) << right << doc.getLegajo()
-         << " | " << setw(25) << left << doc.getNombre()
-         << " | " << setw(25) << left << doc.getApellido()
+    cout << "  | " << setw(6) << right << doc.getLegajo()
+         << " | " << setw(6) << right << doc.getDni()
+         << " | " << setw(13) << left << doc.getNombre()
+         << " | " << setw(13) << left << doc.getApellido()
+         << " | " << setw(25) << left << doc.getEmail()
          << " | " << setw(11) << left << doc.getTelefono()
-         << " | " << setw(7) << left << (doc.getEliminado() ? "Baja" : "Activo")
+         << " | " << setw(7) << left << (doc.getEliminado() ? "Inact." : "Activo")
          << " |\n";
+
 }
 
 void ManagerDocente::mostrarPie() {
-    cout << "\t+--------+---------------------------+---------------------------+-------------+---------+\n";
+    cout << "  +--------+----------+---------------+---------------+---------------------------+-------------+---------+\n";
 }

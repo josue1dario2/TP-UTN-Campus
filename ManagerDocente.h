@@ -26,7 +26,7 @@ public:
     ManagerDocente();
 
     // CRUD y gestión
-    void listarDocentes();
+    void listarDocentes(bool incluirBorrados=false);
     void mostrarDocentePorLegajo(int legajo);
     void editarDocente(int legajo);
     void solicitarBaja(int legajo);

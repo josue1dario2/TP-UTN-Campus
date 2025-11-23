@@ -1,7 +1,10 @@
+#include "Materia.h"
+#include "Validacion.h"
+
 #include <iostream>
 #include <cstring>
 #include <string>
-#include "Materia.h"
+
 #include <limits>
 
 using namespace std;
@@ -49,34 +52,29 @@ const char* Materia::getEstado() const { return _estado; }
 bool Materia::getEliminado() const { return _eliminado; }
 
 void Materia::cargar() {
-    cout << "=== Cargar Materia ===\n";
-    cout << "ID Materia: ";
-    cin >> _idMateria;
+    cout << "\n\t=== Cargar Materia ===\n";
 
-    cout << "ID Carrera: ";
-    cin >> _idCarrera;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    _idCarrera= Validacion::validarEnteroEnRango("\n\tID Carrera: ",1,10000);
 
-    cout << "Nombre: ";
-    cin.getline(_nombre, sizeof(_nombre));
 
-    cout << "Cuatrimestre: ";
-    cin >> _cuatrimestre;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    string nombre =Validacion::pedirEntradaCadena("\tNombre: ",4,50);
+    strncpy(_nombre, nombre.c_str(), sizeof(_nombre));
 
-    cout << "Estado (Activa / Inactiva): ";
-    cin.getline(_estado, sizeof(_estado));
+    _cuatrimestre= Validacion::validarEnteroEnRango("\tCuatrimestre (1/2): ",1,2);
+
+    int estadoMateria= Validacion::validarEnteroEnRango("\tEstado (1-Activa/2-Inactiva): ",1,2);
+    strcpy(_estado, (estadoMateria == 1) ? "Activa" : "Inactiva");
 
     _eliminado = false;
 }
 
 void Materia::mostrar() const {
-    cout << "\n=== DATOS DE LA MATERIA ===\n";
-    cout << "ID Materia     : " << _idMateria << "\n";
-    cout << "ID Carrera     : " << _idCarrera << "\n";
-    cout << "Nombre          : " << _nombre << "\n";
-    cout << "Cuatrimestre    : " << _cuatrimestre << "\n";
-    cout << "Estado          : " << _estado << "\n";
-    cout << "Eliminado       : " << (_eliminado ? "Sí" : "No") << "\n";
-    cout << "----------------------------\n";
+    cout << "\n\t=== DATOS DE LA MATERIA ===\n";
+    cout << "\tID Materia     : " << _idMateria << "\n";
+    cout << "\tID Carrera     : " << _idCarrera << "\n";
+    cout << "\tNombre          : " << _nombre << "\n";
+    cout << "\tCuatrimestre    : " << _cuatrimestre << "\n";
+    cout << "\tEstado          : " << _estado << "\n";
+    cout << "\tEliminado       : " << (_eliminado ? "Sí" : "No") << "\n";
+    cout << "\t----------------------------\n";
 }

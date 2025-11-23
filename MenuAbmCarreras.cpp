@@ -62,7 +62,7 @@ int MenuABMCarreras::seleccionOpcion(){
     mostrarOpciones();
     cout << "\t--------------------------------\n" << endl;
     cout << "\tOpcion: ";
-
+    if(cin.peek() == '\n') cin.ignore();
     opcion = Validacion::validarEnteroEnRango("",0,_cantidadOpciones);
 
     return opcion;

@@ -21,7 +21,7 @@ void MenuABMMaterias::mostrarMenuABMMaterias() {
         cout << "\t--------------------------------\n";
         cout << "\tOpción: ";
         cin >> op;
-  
+
         system("cls");
 
         switch (op) {
@@ -32,7 +32,7 @@ void MenuABMMaterias::mostrarMenuABMMaterias() {
                 manager.modificacion();
                 break;
             case 3:
-                manager.baja();
+                manager.borrar();
                 break;
             case 4:
                 manager.listarTodas();

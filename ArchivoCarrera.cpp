@@ -42,7 +42,7 @@ int ArchivoCarrera::buscarRegistro(int idCarrera) {
     int cant = contarRegistros();
     for (int i = 0; i < cant; i++) {
         fread(&obj, _tamanioRegistro, 1, p);
-        if (!obj.getEliminado() && obj.getIdCarrera() == idCarrera) {
+        if (obj.getIdCarrera() == idCarrera) {
             fclose(p);
             return i; // posición del registro encontrado
         }
@@ -51,6 +51,30 @@ int ArchivoCarrera::buscarRegistro(int idCarrera) {
     fclose(p);
     return -2; // no encontrado
 }
+
+bool ArchivoCarrera::existeCarrera(int idCarrera)
+{
+    Carrera obj;
+    FILE *p = fopen(_nombre, "rb");
+    if (p == nullptr) return -1;
+
+    int cant = contarRegistros();
+    for (int i = 0; i < cant; i++) {
+        fread(&obj, _tamanioRegistro, 1, p);
+        if (obj.getIdCarrera() == idCarrera) {
+            fclose(p);
+            return true; // la Carrera existe
+        }
+    }
+
+    fclose(p);
+    //return -2; // no encontrado
+
+
+
+
+}
+
 
 Carrera ArchivoCarrera::leerRegistro(int pos) {
     Carrera obj;

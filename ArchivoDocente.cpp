@@ -35,12 +35,12 @@ bool ArchivoDocente::listarRegistros() {
 int ArchivoDocente::buscarRegistro(int legajo) {
     Docente obj;
     FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
+    if (p == nullptr) return -2;
 
     int cant = contarRegistros();
     for (int i = 0; i < cant; i++) {
         fread(&obj, _tamanioRegistro, 1, p);
-        if (!obj.getEliminado() && obj.getLegajo() == legajo) {
+        if (obj.getLegajo() == legajo) {
             fclose(p);
             return i; // posición del registro encontrado
         }
@@ -49,6 +49,27 @@ int ArchivoDocente::buscarRegistro(int legajo) {
     fclose(p);
     return -2; // no encontrado
 }
+
+int ArchivoDocente::buscarRegistroPorDni(int dni) {
+    Docente obj;
+    FILE *p = fopen(_nombre, "rb");
+    if (p == nullptr) return -2;
+
+    int cant = contarRegistros();
+    for (int i = 0; i < cant; i++) {
+        fread(&obj, _tamanioRegistro, 1, p);
+        if (obj.getDni() == dni) {
+            fclose(p);
+            return i; // posición del registro encontrado
+        }
+    }
+
+    fclose(p);
+    return -2; // no encontrado
+}
+
+
+
 
 Docente ArchivoDocente::leerRegistro(int pos) {
     Docente obj;

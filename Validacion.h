@@ -25,5 +25,5 @@ public:
                                           std::size_t longMininaCadena,
                                           std::size_t longMaximaCadena,
                                           const std::string& caracteresProhibidos = "");
-    static bool desearGuardar(std::string mensaje);
+    static bool desearAccionar(std::string mensaje);
 };

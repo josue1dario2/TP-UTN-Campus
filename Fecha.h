@@ -25,4 +25,12 @@ public:
 
     void cargar();
     void mostrar() const;
+    // Sobrecarga de operadores
+    bool operator==(const Fecha &otra) const;
+    bool operator!=(const Fecha &otra) const;
+    bool operator<(const Fecha &otra) const;
+    bool operator<=(const Fecha &otra) const;
+    bool operator>(const Fecha &otra) const;
+    bool operator>=(const Fecha &otra) const;
+
 };

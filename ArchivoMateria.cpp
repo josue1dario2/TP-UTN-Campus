@@ -31,6 +31,26 @@ bool ArchivoMateria::listarRegistros() {
     fclose(p);
     return true;
 }
+int ArchivoMateria::buscarPosicion(int idMateria)
+{
+    FILE *pMateria;
+    int pos=0;
+    Materia _materia;
+    pMateria=fopen(_nombre, "rb"); ///"rb" sirve solo para leer
+    if(pMateria==nullptr) return -1;
+
+    while(fread(&_materia, sizeof _materia, 1, pMateria)==1){
+        if(_materia.getIdMateria()==idMateria){
+            fclose(pMateria);
+            return pos;
+        }
+        pos++;
+    }
+
+    fclose(pMateria);
+    return -2;
+
+}
 
 int ArchivoMateria::buscarRegistro(int idMateria) {
     Materia obj;

@@ -20,4 +20,5 @@ public:
     int contarRegistros();
     bool bajaLogica(int pos);
     bool activarRegistro(int pos);
+    int buscarPosicion(int idMateria);
 };

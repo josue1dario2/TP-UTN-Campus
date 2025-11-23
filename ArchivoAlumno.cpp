@@ -15,31 +15,55 @@ int ArchivoAlumno::agregarRegistro(Alumno reg) {
     return escribio;
 }
 
-bool ArchivoAlumno::listarRegistros() {
+bool ArchivoAlumno::actualizarRegistro(int pos, const Alumno& reg) {
+    return modificarRegistro(reg, pos);
+}
+
+bool ArchivoAlumno::listarRegistros(bool incluirBorrados) {
     Alumno obj;
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return false;
 
     while (fread(&obj, _tamanioRegistro, 1, p) == 1) {
-        if (!obj.getEliminado()) {
-            obj.mostrar();
-            cout << endl;
-        }
+
+        // Si NO quiero incluir borrados Y el registro está eliminado → lo salto
+        if (!incluirBorrados && obj.getEliminado()) continue;
+
+        obj.mostrar();
+        cout << endl;
     }
 
     fclose(p);
     return true;
 }
 
-int ArchivoAlumno::buscarRegistro(int legajo) {
+int ArchivoAlumno::buscarRegistroPorDni(int dni) {
     Alumno obj;
     FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
-
+    if (p == nullptr) return -1; // error
     int cant = contarRegistros();
     for (int i = 0; i < cant; i++) {
         fread(&obj, _tamanioRegistro, 1, p);
-        if (!obj.getEliminado() && obj.getLegajo() == legajo) {
+        if (!obj.getEliminado() && obj.getDni() == dni) {
+            fclose(p);
+            return i;
+        }
+    }
+    fclose(p);
+    return -2; // no encontrado
+}
+
+int ArchivoAlumno::buscarRegistro(int legajo) {
+    Alumno obj;
+    FILE *p = fopen(_nombre, "rb");
+    if (p == nullptr) return -1; // error al abrir archivo
+
+    int cant = contarRegistros();
+    for (int i = 0; i < cant; i++) {
+        fseek(p, i * _tamanioRegistro, SEEK_SET); // añadir seek
+        fread(&obj, _tamanioRegistro, 1, p);
+        //if (!obj.getEliminado() && obj.getLegajo() == legajo) {
+        if ( obj.getLegajo() == legajo) {
             fclose(p);
             return i; // posición del registro encontrado
         }

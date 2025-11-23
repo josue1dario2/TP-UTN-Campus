@@ -1,18 +1,29 @@
 #pragma once
 #include "ArchivoMateria.h"
+#include "ArchivoCarrera.h"
 #include "Materia.h"
 
 class ManagerMateria {
 private:
-    ArchivoMateria _archivo;
+    ArchivoMateria _archivoMaterias;
+    ArchivoCarrera _archivoCarreras;
+
 
 public:
     void alta();
-    void baja();
     void modificacion();
     void listarTodas();
+    void listar();
+    void borrar();
+    void activar();
+    void cambiarEstado(bool activar);
 
 private:
     int generarIdNuevo();
     int buscarPorId(int idMateria);
+    void mostrarEncabezado();
+    void mostrarPie();
+    void mostrar(Materia _materia) const;
+    void mostrarRegistro(const Materia& _materia);
+
 };

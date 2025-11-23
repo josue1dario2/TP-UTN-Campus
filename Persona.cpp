@@ -1,4 +1,5 @@
 #include "Persona.h"
+#include "Validacion.h"
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -63,42 +64,50 @@ bool Persona::getEliminado() const { return _eliminado; }
 void Persona::setEliminado(bool eliminado) { _eliminado = eliminado; }
 
 void Persona::cargar() {
-    cout << "=== Cargar Persona ===\n";
-    cout << "DNI: ";
-    cin >> _dni;
-    cin.ignore();
 
-    cout << "Nombre: ";
-    cin.getline(_nombre, 50);
+    //cout << "\n\t=== Cargar Persona ===\n";
 
-    cout << "Apellido: ";
-    cin.getline(_apellido, 50);
+    //      DNI
+    _dni = Validacion::validarEnteroEnRango("\tDNI: ", 1000000, 100000000 );
 
-    cout << "Teléfono: ";
-    cin.getline(_telefono, 50);
+    //      NOMBRE
+    string nombre =Validacion::pedirEntradaCadena("\tNombre: ",2,50);
+    strncpy(_nombre, nombre.c_str(), sizeof(_nombre));
 
-    cout << "Email: ";
-    cin.getline(_email, 50);
+    //      APELLIDO
+    string apellido =Validacion::pedirEntradaCadena("\tApellido: ",2,50);
+    strncpy(_apellido, apellido.c_str(), sizeof(_apellido));
 
-    cout << "\n--- Cargar dirección ---\n";
-    _direccion.cargar();
+    //      TELEFONO
+    string telefono =Validacion::pedirEntradaCadena("\tTelefono: ",5,50);
+    strncpy(_telefono, telefono.c_str(), sizeof(_telefono));
 
-    cout << "\n--- Fecha de nacimiento ---\n";
+    //      EMAIL
+    string email =Validacion::pedirEntradaCadena("\tEmail: ",10,50);
+    strncpy(_email, email.c_str(), sizeof(_email));
+
+    //      FECHANACIMIENTO
+    cout << "\n\t--- Fecha de nacimiento ---\n";
     _fechaNacimiento.cargar();
 
+    //      DIRECCIÓN
+    cout << "\n\t--- Cargar dirección ---\n";
+    _direccion.cargar();
+
+    //      ELIMINADO
     _eliminado = false;
 }
 
 void Persona::mostrar() const {
-    cout << "=== Datos de la Persona ===\n";
-    cout << "DNI: " << _dni << "\n";
-    cout << "Nombre: " << _nombre << "\n";
-    cout << "Apellido: " << _apellido << "\n";
-    cout << "Teléfono: " << _telefono << "\n";
-    cout << "Email: " << _email << "\n";
-    cout << "Dirección: ";
+    cout << "\n\t=== Datos de la Persona ===\n";
+    cout << "\tDNI: " << _dni << "\n";
+    cout << "\tNombre: " << _nombre << "\n";
+    cout << "\tApellido: " << _apellido << "\n";
+    cout << "\tTeléfono: " << _telefono << "\n";
+    cout << "\tEmail: " << _email << "\n";
+    cout << "\tDirección: ";
     _direccion.mostrar();
-    cout << "Fecha de nacimiento: ";
+    cout << "\tFecha de nacimiento: ";
     _fechaNacimiento.mostrar();
-    cout << "Estado: " << (_eliminado ? "Inactivo" : "Activo") << "\n\n";
+    cout << "\tEstado: " << (_eliminado ? "Inactivo" : "Activo") << "\n";
 }

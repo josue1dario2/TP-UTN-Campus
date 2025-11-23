@@ -107,6 +107,29 @@ std::string Validacion::pedirEntradaCadena(const std::string& mensaje,
                                            std::size_t longMininaCadena,
                                            std::size_t longMaximaCadena,
                                            const std::string& caracteresProhibidos) {
+    string entrada;
+
+    do {
+    cout << mensaje;
+    if(cin.peek() == '\n') cin.ignore();
+    getline(cin, entrada);
+
+    if(!validarCadena(entrada, longMininaCadena, longMaximaCadena)) {
+        cout << "Error: la longitud debe estar entre "
+             << longMininaCadena << " y " << longMaximaCadena << " caracteres.\n";
+    }
+
+    } while(!validarCadena(entrada, longMininaCadena, longMaximaCadena));
+    return entrada;
+
+
+
+
+
+
+
+
+    /*
     while (true) {
         cout << mensaje;
         string entrada;
@@ -121,9 +144,10 @@ std::string Validacion::pedirEntradaCadena(const std::string& mensaje,
         }
         return entrada;
     }
+    */
 }
 
-bool Validacion::desearGuardar(string mensaje=""){
+bool Validacion::desearAccionar(string mensaje=""){
     char pregunta;
     char bajo;
     if (mensaje !=""){

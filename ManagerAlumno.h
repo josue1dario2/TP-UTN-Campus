@@ -25,9 +25,11 @@ public:
 
     // --- Gestión básica ---
     void registrarAlumno();
-    void listarAlumnos();
+    void listarAlumnos(bool incluirBorrados = false);
     void mostrarAlumnoPorLegajo(int legajo);
     int buscarAlumno(int legajo);
+    void modificarAlumno();
+    void bajaLogicaAlumno();
 
     // --- Consultas académicas ---
     void mostrarHistorialNotas(int legajo);

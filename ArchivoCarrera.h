@@ -14,6 +14,7 @@ public:
 
     int agregarRegistro(Carrera reg);
     bool listarRegistros();
+    bool existeCarrera(int idCarrera);
     int buscarRegistro(int idCarrera);
     Carrera leerRegistro(int pos);
     bool modificarRegistro(Carrera reg, int pos);

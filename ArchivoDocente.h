@@ -15,6 +15,7 @@ public:
     int agregarRegistro(Docente reg);
     bool listarRegistros();
     int buscarRegistro(int legajo);
+    int buscarRegistroPorDni(int dni);
     Docente leerRegistro(int pos);
     bool modificarRegistro(Docente reg, int pos);
     int contarRegistros();

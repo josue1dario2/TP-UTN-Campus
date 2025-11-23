@@ -304,3 +304,934 @@
 1758856470 d:\utn-tecnicatura\primer año\segundo cuatrimestre\programacion2\parciales\tp integrador\temp-codigo\master\utils.h
 	<string>
 
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\app.cpp
+	<iostream>
+	"App.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\app.h
+	"TareaMenu.h"
+	"PersonalMenu.h"
+	"ReporteMenu.h"
+
+1763826244 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivoalumno.cpp
+	"ArchivoAlumno.h"
+	<iostream>
+
+1763765517 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivoalumno.h
+	"Alumno.h"
+	<cstdio>
+	<cstring>
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\alumno.h
+	"Persona.h"
+	"Fecha.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\persona.h
+	<cstring>
+	"Fecha.h"
+	"Direccion.h"
+
+1763861905 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\fecha.h
+	<string>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\direccion.h
+	<iostream>
+	<string>
+
+1763853525 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivodocente.cpp
+	"ArchivoDocente.h"
+	<iostream>
+
+1763850030 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivodocente.h
+	"Docente.h"
+	<cstdio>
+	<cstring>
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\docente.h
+	"Persona.h"
+	"Fecha.h"
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivoinscripcion.cpp
+	"ArchivoInscripcion.h"
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivoinscripcion.h
+	"Inscripcion.h"
+	<cstdio>
+	<cstring>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivopersona.cpp
+	"ArchivoPersona.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivopersona.h
+	"Persona.h"
+	<cstdio>
+	<cstring>
+	<iostream>
+
+1763824194 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\direccion.cpp
+	"Direccion.h"
+	"Validacion.h"
+	<cstring>
+	<sstream>
+
+1763861939 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\fecha.cpp
+	"Fecha.h"
+	<iostream>
+	<sstream>
+
+1763822814 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\validacion.cpp
+	"Validacion.h"
+	<iostream>
+	<sstream>
+	<limits>
+	<algorithm>
+	<cctype>
+	<cctype>
+
+1763755499 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\validacion.h
+	<string>
+
+1763841561 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\alumno.cpp
+	"Alumno.h"
+	"Validacion.h"
+	<iostream>
+
+1763866604 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivocarrera.cpp
+	"ArchivoCarrera.h"
+	<iostream>
+
+1763866510 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivocarrera.h
+	"Carrera.h"
+	<cstdio>
+	<cstring>
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\carrera.h
+	<string>
+	<cstring>
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivocomision.cpp
+	"ArchivoComision.h"
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivocomision.h
+	"Comision.h"
+	<cstdio>
+	<cstring>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\comision.h
+	<string>
+	<cstring>
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivocorrelativa.cpp
+	"ArchivoCorrelativa.h"
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivocorrelativa.h
+	"Correlativa.h"
+	<cstdio>
+	<cstring>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\correlativa.h
+	<string>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivoexamen.cpp
+	"ArchivoExamen.h"
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivoexamen.h
+	"Examen.h"
+	<cstdio>
+	<cstring>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\examen.h
+	<string>
+	<cstring>
+	"Fecha.h"
+
+1763873649 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivomateria.cpp
+	"ArchivoMateria.h"
+	<iostream>
+
+1763873487 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivomateria.h
+	"Materia.h"
+	<cstdio>
+	<cstring>
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\materia.h
+	<string>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\carrera.cpp
+	"Carrera.h"
+	<iostream>
+	<string>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\comision.cpp
+	"Comision.h"
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\correlativa.cpp
+	"Correlativa.h"
+	<iostream>
+
+1763855727 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\docente.cpp
+	"Docente.h"
+	"Validacion.h"
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\examen.cpp
+	"Examen.h"
+	<iostream>
+	<cstring>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\main.cpp
+	"MenuPrincipal.h"
+	"utils.h"
+	<iostream>
+	<cstdlib>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menuprincipal.h
+	"MenuAdmin.h"
+	"MenuAlumno.h"
+	"MenuDocente.h"
+	"MenuUtilitarios.h"
+
+1762291544 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menuadmin.h
+	"MenuAbmCarreras.h"
+	"MenuAbmComisiones.h"
+	"MenuAbmMaterias.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menuabmcarreras.h
+	"MenuAbmCarreras.h"
+	"ManagerCarrera.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menuabmcomisiones.h
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menuabmmaterias.h
+	"ManagerMateria.h"
+
+1763874581 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\managermateria.h
+	"ArchivoMateria.h"
+	"ArchivoCarrera.h"
+	"Materia.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menualumno.h
+	"ManagerAlumno.h"
+	"Validacion.h"
+
+1763769454 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\manageralumno.h
+	"ArchivoAlumno.h"
+	"ArchivoMateria.h"
+	"ManagerExamen.h"
+	"ArchivoInscripcionComision.h"
+	"InscripcionComision.h"
+	"ArchivoExamen.h"
+	"Alumno.h"
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\managerexamen.h
+	"ArchivoExamen.h"
+	"Examen.h"
+	"Fecha.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivoinscripcioncomision.h
+	"InscripcionComision.h"
+	<cstdio>
+	<cstring>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\inscripcioncomision.h
+	"Fecha.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menudocente.h
+	"ManagerDocente.h"
+
+1763842282 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\managerdocente.h
+	"Docente.h"
+	"ArchivoDocente.h"
+	"ArchivoComision.h"
+	"ArchivoInscripcionComision.h"
+	"ArchivoExamen.h"
+	"ArchivoMateria.h"
+	"ManagerExamen.h"
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menuutilitarios.h
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\utils.h
+	<string>
+
+1763874967 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\materia.cpp
+	"Materia.h"
+	"Validacion.h"
+	<iostream>
+	<cstring>
+	<string>
+	<limits>
+
+1763904090 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menuabmcarreras.cpp
+	"MenuAbmCarreras.h"
+	"ManagerCarrera.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+	<cstdlib>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\managercarrera.h
+	"ArchivoCarrera.h"
+	"Carrera.h"
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menuabmcomisiones.cpp
+	"MenuAbmComisiones.h"
+	"ManagerComision.h"
+	"Validacion.h"
+	"utils.h"
+	<cstdlib>
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\managercomision.h
+	"ArchivoComision.h"
+	"Comision.h"
+	"Validacion.h"
+	<iostream>
+	<iomanip>
+
+1763874600 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menuabmmaterias.cpp
+	"MenuAbmMaterias.h"
+	<iostream>
+	<cstdlib>
+
+1763903050 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menuadmin.cpp
+	"MenuAdmin.h"
+	"AlumnoAdmin.h"
+	"DocenteAdmin.h"
+	"CarreraAdmin.h"
+	"ComisionesAdmin.h"
+	"MateriasAdmin.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+	<cstdlib>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menualumno.cpp
+	"MenuAlumno.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+	<cstdlib>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menudocente.cpp
+	"MenuDocente.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+	<cstdlib>
+	<limits>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menuprincipal.cpp
+	"Validacion.h"
+	"MenuPrincipal.h"
+	"utils.h"
+	<iostream>
+	<cstdlib>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\menuutilitarios.cpp
+	<iostream>
+	<limits>
+	"MenuUtilitarios.h"
+	"utils.h"
+
+1763826369 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\persona.cpp
+	"Persona.h"
+	"Validacion.h"
+	<iostream>
+	<cstring>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\utils.cpp
+	<iostream>
+	<cstdlib>
+	"utils.h"
+	"Validacion.h"
+	<limits>
+
+1763769049 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\carreramanager.cpp
+	"CarreraManager.h"
+	"Validacion.h"
+	<iomanip>
+
+1763005134 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\carreramanager.h
+	"ArchivoCarrera.h"
+	"Carrera.h"
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\managercomision.cpp
+	"ManagerComision.h"
+	<iostream>
+	<iomanip>
+
+1763903060 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\managermateria.cpp
+	"ManagerMateria.h"
+	"Validacion.h"
+	<iomanip>
+	<iostream>
+	<string>
+
+1763862971 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\manageralumno.cpp
+	"ManagerAlumno.h"
+	"ArchivoComision.h"
+	"Validacion.h"
+	<iostream>
+	<iomanip>
+	<cstring>
+	<cstdlib>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\archivoinscripcioncomision.cpp
+	"ArchivoInscripcionComision.h"
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\inscripcioncomision.cpp
+	"InscripcionComision.h"
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\managerexamen.cpp
+	"ManagerExamen.h"
+	<iostream>
+	<iomanip>
+	<cstring>
+
+1763767645 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\alumnoadmin.h
+	"ManagerAlumno.h"
+
+1763853197 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\docenteadmin.h
+	"Docente.h"
+	"ManagerDocente.h"
+	"ArchivoDocente.h"
+
+1763840739 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\carreraadmin.h
+	"ManagerCarrera.h"
+
+1763588766 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\comisionesadmin.h
+
+1763863245 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\materiasadmin.h
+	"ManagerMateria.h"
+
+1763903485 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\carreraadmin.cpp
+	"CarreraAdmin.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+
+1763588800 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\comisionesadmin.cpp
+	"ComisionesAdmin.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+
+1763863056 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\docenteadmin.cpp
+	"DocenteAdmin.h"
+	"Docente.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+
+1763903102 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\materiasadmin.cpp
+	"MateriasAdmin.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+
+1763767069 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\alumnomanager.h
+	"ArchivoAlumno.h"
+	"ArchivoMateria.h"
+	"ManagerExamen.h"
+	"ArchivoInscripcionComision.h"
+	"InscripcionComision.h"
+
+1763583142 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\examenmanager.h
+	"ArchivoExamen.h"
+	"Examen.h"
+	"Fecha.h"
+
+1763840124 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\alumnoadmin.cpp
+	"ArchivoAlumno.h"
+	"AlumnoAdmin.h"
+	"Alumno.h"
+	"Validacion.h"
+	"ManagerAlumno.h"
+	"utils.h"
+	<iostream>
+
+1763846278 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\managerdocente.cpp
+	"ManagerDocente.h"
+	<fstream>
+	<iomanip>
+
+1763903282 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp integrador\tp-utn-campus\managercarrera.cpp
+	"ManagerCarrera.h"
+	"Validacion.h"
+	<iomanip>
+
+1763841561 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\alumno.cpp
+	"Alumno.h"
+	"Validacion.h"
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\alumno.h
+	"Persona.h"
+	"Fecha.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\persona.h
+	<cstring>
+	"Fecha.h"
+	"Direccion.h"
+
+1763861905 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\fecha.h
+	<string>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\direccion.h
+	<iostream>
+	<string>
+
+1763755499 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\validacion.h
+	<string>
+
+1763904258 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\alumnoadmin.cpp
+	"ArchivoAlumno.h"
+	"AlumnoAdmin.h"
+	"Alumno.h"
+	"Validacion.h"
+	"ManagerAlumno.h"
+	"utils.h"
+	<iostream>
+
+1763765517 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivoalumno.h
+	"Alumno.h"
+	<cstdio>
+	<cstring>
+	<iostream>
+
+1763767645 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\alumnoadmin.h
+	"ManagerAlumno.h"
+
+1763769454 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\manageralumno.h
+	"ArchivoAlumno.h"
+	"ArchivoMateria.h"
+	"ManagerExamen.h"
+	"ArchivoInscripcionComision.h"
+	"InscripcionComision.h"
+	"ArchivoExamen.h"
+	"Alumno.h"
+	<iostream>
+
+1763873487 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivomateria.h
+	"Materia.h"
+	<cstdio>
+	<cstring>
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\materia.h
+	<string>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managerexamen.h
+	"ArchivoExamen.h"
+	"Examen.h"
+	"Fecha.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivoexamen.h
+	"Examen.h"
+	<cstdio>
+	<cstring>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\examen.h
+	<string>
+	<cstring>
+	"Fecha.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivoinscripcioncomision.h
+	"InscripcionComision.h"
+	<cstdio>
+	<cstring>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\inscripcioncomision.h
+	"Fecha.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\utils.h
+	<string>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\app.cpp
+	<iostream>
+	"App.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\app.h
+	"TareaMenu.h"
+	"PersonalMenu.h"
+	"ReporteMenu.h"
+
+1763826244 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivoalumno.cpp
+	"ArchivoAlumno.h"
+	<iostream>
+
+1763866604 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivocarrera.cpp
+	"ArchivoCarrera.h"
+	<iostream>
+
+1763866510 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivocarrera.h
+	"Carrera.h"
+	<cstdio>
+	<cstring>
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\carrera.h
+	<string>
+	<cstring>
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivocomision.cpp
+	"ArchivoComision.h"
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivocomision.h
+	"Comision.h"
+	<cstdio>
+	<cstring>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\comision.h
+	<string>
+	<cstring>
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivocorrelativa.cpp
+	"ArchivoCorrelativa.h"
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivocorrelativa.h
+	"Correlativa.h"
+	<cstdio>
+	<cstring>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\correlativa.h
+	<string>
+
+1763853525 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivodocente.cpp
+	"ArchivoDocente.h"
+	<iostream>
+
+1763850030 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivodocente.h
+	"Docente.h"
+	<cstdio>
+	<cstring>
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\docente.h
+	"Persona.h"
+	"Fecha.h"
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivoexamen.cpp
+	"ArchivoExamen.h"
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivoinscripcion.cpp
+	"ArchivoInscripcion.h"
+	<iostream>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivoinscripcion.h
+	"Inscripcion.h"
+	<cstdio>
+	<cstring>
+
+1763583142 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\inscripcion.h
+	<string>
+	<cstring>
+	<iostream>
+	"Fecha.h"
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivoinscripcioncomision.cpp
+	"ArchivoInscripcionComision.h"
+	<iostream>
+
+1763873649 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivomateria.cpp
+	"ArchivoMateria.h"
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivopersona.cpp
+	"ArchivoPersona.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\archivopersona.h
+	"Persona.h"
+	<cstdio>
+	<cstring>
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\carrera.cpp
+	"Carrera.h"
+	<iostream>
+	<string>
+
+1763904243 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\carreraadmin.cpp
+	"CarreraAdmin.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+
+1763840739 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\carreraadmin.h
+	"ManagerCarrera.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managercarrera.h
+	"ArchivoCarrera.h"
+	"Carrera.h"
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\comision.cpp
+	"Comision.h"
+
+1763588800 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\comisionesadmin.cpp
+	"ComisionesAdmin.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+
+1763588766 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\comisionesadmin.h
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\correlativa.cpp
+	"Correlativa.h"
+	<iostream>
+
+1763824194 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\direccion.cpp
+	"Direccion.h"
+	"Validacion.h"
+	<cstring>
+	<sstream>
+
+1763855727 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\docente.cpp
+	"Docente.h"
+	"Validacion.h"
+	<iostream>
+
+1763904232 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\docenteadmin.cpp
+	"DocenteAdmin.h"
+	"Docente.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+
+1763853197 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\docenteadmin.h
+	"Docente.h"
+	"ManagerDocente.h"
+	"ArchivoDocente.h"
+
+1763842282 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managerdocente.h
+	"Docente.h"
+	"ArchivoDocente.h"
+	"ArchivoComision.h"
+	"ArchivoInscripcionComision.h"
+	"ArchivoExamen.h"
+	"ArchivoMateria.h"
+	"ManagerExamen.h"
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\examen.cpp
+	"Examen.h"
+	<iostream>
+	<cstring>
+
+1763861939 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\fecha.cpp
+	"Fecha.h"
+	<iostream>
+	<sstream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\inscripcioncomision.cpp
+	"InscripcionComision.h"
+	<iostream>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\main.cpp
+	"MenuPrincipal.h"
+	"utils.h"
+	<iostream>
+	<cstdlib>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuprincipal.h
+	"MenuAdmin.h"
+	"MenuAlumno.h"
+	"MenuDocente.h"
+	"MenuUtilitarios.h"
+
+1762291544 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuadmin.h
+	"MenuAbmCarreras.h"
+	"MenuAbmComisiones.h"
+	"MenuAbmMaterias.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuabmcarreras.h
+	"MenuAbmCarreras.h"
+	"ManagerCarrera.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuabmcomisiones.h
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuabmmaterias.h
+	"ManagerMateria.h"
+
+1763874581 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managermateria.h
+	"ArchivoMateria.h"
+	"ArchivoCarrera.h"
+	"Materia.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menualumno.h
+	"ManagerAlumno.h"
+	"Validacion.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menudocente.h
+	"ManagerDocente.h"
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuutilitarios.h
+
+1763862971 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\manageralumno.cpp
+	"ManagerAlumno.h"
+	"ArchivoComision.h"
+	"Validacion.h"
+	<iostream>
+	<iomanip>
+	<cstring>
+	<cstdlib>
+
+1763903282 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managercarrera.cpp
+	"ManagerCarrera.h"
+	"Validacion.h"
+	<iomanip>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managercomision.cpp
+	"ManagerComision.h"
+	<iostream>
+	<iomanip>
+
+1763004583 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managercomision.h
+	"ArchivoComision.h"
+	"Comision.h"
+	"Validacion.h"
+	<iostream>
+	<iomanip>
+
+1763846278 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managerdocente.cpp
+	"ManagerDocente.h"
+	<fstream>
+	<iomanip>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managerexamen.cpp
+	"ManagerExamen.h"
+	<iostream>
+	<iomanip>
+	<cstring>
+
+1763903060 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\managermateria.cpp
+	"ManagerMateria.h"
+	"Validacion.h"
+	<iomanip>
+	<iostream>
+	<string>
+
+1763874967 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\materia.cpp
+	"Materia.h"
+	"Validacion.h"
+	<iostream>
+	<cstring>
+	<string>
+	<limits>
+
+1763904222 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\materiasadmin.cpp
+	"MateriasAdmin.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+
+1763863245 e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\materiasadmin.h
+	"ManagerMateria.h"
+
+1763904090 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuabmcarreras.cpp
+	"MenuAbmCarreras.h"
+	"ManagerCarrera.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+	<cstdlib>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuabmcomisiones.cpp
+	"MenuAbmComisiones.h"
+	"ManagerComision.h"
+	"Validacion.h"
+	"utils.h"
+	<cstdlib>
+	<iostream>
+
+1763874600 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuabmmaterias.cpp
+	"MenuAbmMaterias.h"
+	<iostream>
+	<cstdlib>
+
+1763904214 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuadmin.cpp
+	"MenuAdmin.h"
+	"AlumnoAdmin.h"
+	"DocenteAdmin.h"
+	"CarreraAdmin.h"
+	"ComisionesAdmin.h"
+	"MateriasAdmin.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+	<cstdlib>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menualumno.cpp
+	"MenuAlumno.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+	<cstdlib>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menudocente.cpp
+	"MenuDocente.h"
+	"Validacion.h"
+	"utils.h"
+	<iostream>
+	<cstdlib>
+	<limits>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuprincipal.cpp
+	"Validacion.h"
+	"MenuPrincipal.h"
+	"utils.h"
+	<iostream>
+	<cstdlib>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\menuutilitarios.cpp
+	<iostream>
+	<limits>
+	"MenuUtilitarios.h"
+	"utils.h"
+
+1763826369 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\persona.cpp
+	"Persona.h"
+	"Validacion.h"
+	<iostream>
+	<cstring>
+
+1763004583 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\utils.cpp
+	<iostream>
+	<cstdlib>
+	"utils.h"
+	"Validacion.h"
+	<limits>
+
+1763822814 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\validacion.cpp
+	"Validacion.h"
+	<iostream>
+	<sstream>
+	<limits>
+	<algorithm>
+	<cctype>
+	<cctype>
+
+1763583142 source:e:\estudio\2025\01-tecnicatura\cursada\primer año\segundo cutrimestre\programacion_ii\github\tp-integrador-23-11-2025\tp-utn-campus\inscripcion.cpp
+	"Inscripcion.h"
+
