@@ -7,9 +7,18 @@ ArchivoComision::ArchivoComision(const char *nombre) {
     _tamanioRegistro = sizeof(Comision);
 }
 
+bool ArchivoComision::abrirArchivo(FILE *&p, const char *modo) {
+    p = fopen(_nombre, modo);
+    if (p == nullptr) {
+        cout << "[ERROR] No se pudo abrir el archivo: " << _nombre << endl;
+        return false;
+    }
+    return true;
+}
+
 int ArchivoComision::agregarRegistro(Comision reg) {
-    FILE *p = fopen(_nombre, "ab");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "ab")) return -1;
 
     int escribio = fwrite(&reg, _tamanioRegistro, 1, p);
     fclose(p);
@@ -17,16 +26,16 @@ int ArchivoComision::agregarRegistro(Comision reg) {
 }
 
 bool ArchivoComision::listarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return false;
 
     Comision reg;
     bool hay = false;
 
-    while (fread(&reg, _tamanioRegistro, 1, p)) {
+    while (fread(&reg, _tamanioRegistro, 1, p) == 1) {
         if (!reg.getEliminado()) {
             reg.mostrar();
-            cout << "------------------------" << endl;
+            cout << "------------------------\n";
             hay = true;
         }
     }
@@ -37,10 +46,9 @@ bool ArchivoComision::listarRegistros() {
     return true;
 }
 
-
-int ArchivoComision::buscarRegistro(int id) {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
+int ArchivoComision::buscarRegistro(int idComision) {
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
 
     int cant = contarRegistros();
     Comision reg;
@@ -49,7 +57,7 @@ int ArchivoComision::buscarRegistro(int id) {
         fseek(p, i * _tamanioRegistro, SEEK_SET);
         fread(&reg, _tamanioRegistro, 1, p);
 
-        if (!reg.getEliminado() && reg.getIdComision() == id) {
+        if (!reg.getEliminado() && reg.getIdComision() == idComision) {
             fclose(p);
             return i;
         }
@@ -61,33 +69,41 @@ int ArchivoComision::buscarRegistro(int id) {
 
 Comision ArchivoComision::leerRegistro(int pos) {
     Comision reg;
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return reg;
+
+    if (pos < 0 || pos >= contarRegistros()) return reg;
+
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return reg;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     fread(&reg, _tamanioRegistro, 1, p);
+
     fclose(p);
     return reg;
 }
 
 bool ArchivoComision::modificarRegistro(Comision reg, int pos) {
-    FILE *p = fopen(_nombre, "rb+");
-    if (p == nullptr) return false;
+    if (pos < 0) return false;
+
+    FILE *p;
+    if (!abrirArchivo(p, "rb+")) return false;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     bool escribio = fwrite(&reg, _tamanioRegistro, 1, p);
+
     fclose(p);
     return escribio;
 }
 
 int ArchivoComision::contarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return 0;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return 0;
 
     fseek(p, 0, SEEK_END);
-    int bytes = ftell(p);
+    int cant = ftell(p) / _tamanioRegistro;
+
     fclose(p);
-    return bytes / _tamanioRegistro;
+    return cant;
 }
 
 bool ArchivoComision::bajaLogica(int pos) {

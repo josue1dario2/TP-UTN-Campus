@@ -7,9 +7,18 @@ ArchivoMateria::ArchivoMateria(const char *n) {
     _tamanioRegistro = sizeof(Materia);
 }
 
+bool ArchivoMateria::abrirArchivo(FILE *&p, const char *modo) {
+    p = fopen(_nombre, modo);
+    if (p == nullptr) {
+        cout << "[ERROR] No se pudo abrir archivo: " << _nombre << endl;
+        return false;
+    }
+    return true;
+}
+
 int ArchivoMateria::agregarRegistro(Materia reg) {
-    FILE *p = fopen(_nombre, "ab");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "ab")) return -1;
 
     int escribio = fwrite(&reg, _tamanioRegistro, 1, p);
     fclose(p);
@@ -17,11 +26,16 @@ int ArchivoMateria::agregarRegistro(Materia reg) {
 }
 
 bool ArchivoMateria::listarRegistros() {
-    Materia obj;
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return false;
 
-    while (fread(&obj, _tamanioRegistro, 1, p) == 1) {
+    int total = contarRegistros();
+    Materia obj;
+
+    for (int i = 0; i < total; i++) {
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&obj, _tamanioRegistro, 1, p);
+
         if (!obj.getEliminado()) {
             obj.mostrar();
             cout << endl;
@@ -33,13 +47,13 @@ bool ArchivoMateria::listarRegistros() {
 }
 
 int ArchivoMateria::buscarRegistro(int idMateria) {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
 
+    int total = contarRegistros();
     Materia obj;
-    int cant = contarRegistros();
 
-    for (int i = 0; i < cant; i++) {
+    for (int i = 0; i < total; i++) {
         fseek(p, i * _tamanioRegistro, SEEK_SET);
         fread(&obj, _tamanioRegistro, 1, p);
 
@@ -59,13 +73,13 @@ Materia ArchivoMateria::leerRegistro(int pos) {
     if (pos < 0 || pos >= contarRegistros())
         return obj;
 
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return obj;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return obj;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     fread(&obj, _tamanioRegistro, 1, p);
-    fclose(p);
 
+    fclose(p);
     return obj;
 }
 
@@ -73,8 +87,8 @@ bool ArchivoMateria::modificarRegistro(Materia reg, int pos) {
     if (pos < 0 || pos >= contarRegistros())
         return false;
 
-    FILE *p = fopen(_nombre, "rb+");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb+")) return false;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     bool escribio = fwrite(&reg, _tamanioRegistro, 1, p);
@@ -84,8 +98,8 @@ bool ArchivoMateria::modificarRegistro(Materia reg, int pos) {
 }
 
 int ArchivoMateria::contarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return 0;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return 0;
 
     fseek(p, 0, SEEK_END);
     int cant = ftell(p) / _tamanioRegistro;

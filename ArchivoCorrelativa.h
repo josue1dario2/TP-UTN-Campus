@@ -2,11 +2,14 @@
 #include "Correlativa.h"
 #include <cstdio>
 #include <cstring>
+#include <iostream>
 
 class ArchivoCorrelativa {
 private:
     char _nombre[30];
     int _tamanioRegistro;
+
+    bool abrirArchivo(FILE *&p, const char *modo);
 
 public:
     ArchivoCorrelativa(const char *nombre = "Correlativas.dat");

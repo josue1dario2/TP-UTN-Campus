@@ -9,6 +9,8 @@ private:
     char _nombre[30];
     int _tamanioRegistro;
 
+    bool abrirArchivo(FILE *&p, const char *modo);
+
 public:
     ArchivoPersona(const char *nombre = "Personas.dat");
 

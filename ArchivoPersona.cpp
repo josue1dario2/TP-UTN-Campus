@@ -7,9 +7,18 @@ ArchivoPersona::ArchivoPersona(const char *nombre) {
     _tamanioRegistro = sizeof(Persona);
 }
 
+bool ArchivoPersona::abrirArchivo(FILE *&p, const char *modo) {
+    p = fopen(_nombre, modo);
+    if (p == nullptr) {
+        cout << "[ERROR] No se pudo abrir archivo: " << _nombre << endl;
+        return false;
+    }
+    return true;
+}
+
 int ArchivoPersona::agregarRegistro(Persona reg) {
-    FILE *p = fopen(_nombre, "ab");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "ab")) return -1;
 
     int escrito = fwrite(&reg, _tamanioRegistro, 1, p);
     fclose(p);
@@ -17,11 +26,16 @@ int ArchivoPersona::agregarRegistro(Persona reg) {
 }
 
 bool ArchivoPersona::listarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return false;
 
+    int total = contarRegistros();
     Persona reg;
-    while (fread(&reg, _tamanioRegistro, 1, p) == 1) {
+
+    for (int i = 0; i < total; i++) {
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&reg, _tamanioRegistro, 1, p);
+
         if (!reg.getEliminado()) {
             reg.mostrar();
             cout << "----------------------" << endl;
@@ -33,15 +47,13 @@ bool ArchivoPersona::listarRegistros() {
 }
 
 int ArchivoPersona::buscarRegistro(int dni) {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
 
+    int total = contarRegistros();
     Persona reg;
-    int cant = contarRegistros();
 
-    for (int i = 0; i < cant; i++) {
-
-        // ✔ Corrección IMPORTANTE: usar fseek para posiciones exactas
+    for (int i = 0; i < total; i++) {
         fseek(p, i * _tamanioRegistro, SEEK_SET);
         fread(&reg, _tamanioRegistro, 1, p);
 
@@ -52,18 +64,17 @@ int ArchivoPersona::buscarRegistro(int dni) {
     }
 
     fclose(p);
-    return -2; // no encontrado
+    return -2;
 }
 
 Persona ArchivoPersona::leerRegistro(int pos) {
     Persona reg;
 
-    // ✔ Validación de límites
     if (pos < 0 || pos >= contarRegistros())
         return reg;
 
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return reg;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return reg;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     fread(&reg, _tamanioRegistro, 1, p);
@@ -73,13 +84,11 @@ Persona ArchivoPersona::leerRegistro(int pos) {
 }
 
 bool ArchivoPersona::modificarRegistro(Persona reg, int pos) {
-
-    // ✔ Validación de límites
     if (pos < 0 || pos >= contarRegistros())
         return false;
 
-    FILE *p = fopen(_nombre, "rb+");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb+")) return false;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     bool ok = fwrite(&reg, _tamanioRegistro, 1, p);
@@ -89,8 +98,8 @@ bool ArchivoPersona::modificarRegistro(Persona reg, int pos) {
 }
 
 int ArchivoPersona::contarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return 0;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return 0;
 
     fseek(p, 0, SEEK_END);
     int cantidad = ftell(p) / _tamanioRegistro;

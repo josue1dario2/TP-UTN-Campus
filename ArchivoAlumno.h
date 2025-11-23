@@ -9,12 +9,15 @@ private:
     char _nombre[30];
     int _tamanioRegistro;
 
+    bool abrirArchivo(FILE *&p, const char *modo);
+
 public:
     ArchivoAlumno(const char *nombre = "Alumnos.dat");
 
     int agregarRegistro(Alumno reg);
     bool listarRegistros();
     int buscarRegistro(int legajo);
+    int buscarPosicion(int legajo);
     Alumno leerRegistro(int pos);
     bool modificarRegistro(Alumno reg, int pos);
     int contarRegistros();

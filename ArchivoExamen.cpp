@@ -7,18 +7,28 @@ ArchivoExamen::ArchivoExamen(const char *nombre) {
     _tamanioRegistro = sizeof(Examen);
 }
 
-int ArchivoExamen::agregarRegistro(Examen reg) {
-    FILE *p = fopen(_nombre, "ab");
-    if (p == nullptr) return -1;
+bool ArchivoExamen::abrirArchivo(FILE *&p, const char *modo) {
+    p = fopen(_nombre, modo);
+    if (p == nullptr) {
+        cout << "[ERROR] No se pudo abrir archivo: " << _nombre << endl;
+        return false;
+    }
+    return true;
+}
 
-    int escribio = fwrite(&reg, _tamanioRegistro, 1, p);
+int ArchivoExamen::agregarRegistro(Examen reg) {
+    FILE *p;
+    if (!abrirArchivo(p, "ab")) return -1;
+
+    int ok = fwrite(&reg, _tamanioRegistro, 1, p);
     fclose(p);
-    return escribio;
+
+    return ok;
 }
 
 bool ArchivoExamen::listarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return false;
 
     Examen reg;
     bool hay = false;
@@ -26,30 +36,30 @@ bool ArchivoExamen::listarRegistros() {
     while (fread(&reg, _tamanioRegistro, 1, p)) {
         if (!reg.getEliminado()) {
             reg.mostrar();
-            cout << "------------------------" << endl;
+            cout << "------------------------\n";
             hay = true;
         }
     }
 
-    if (!hay) cout << "No hay exámenes activos.\n";
+    if (!hay)
+        cout << "No hay exámenes activos.\n";
 
     fclose(p);
     return true;
 }
 
-int ArchivoExamen::buscarRegistro(int id) {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
+int ArchivoExamen::buscarRegistro(int idExamen) {
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
 
     int total = contarRegistros();
     Examen reg;
 
     for (int i = 0; i < total; i++) {
-
         fseek(p, i * _tamanioRegistro, SEEK_SET);
         fread(&reg, _tamanioRegistro, 1, p);
 
-        if (!reg.getEliminado() && reg.getIdExamen() == id) {
+        if (!reg.getEliminado() && reg.getIdExamen() == idExamen) {
             fclose(p);
             return i;
         }
@@ -61,10 +71,12 @@ int ArchivoExamen::buscarRegistro(int id) {
 
 Examen ArchivoExamen::leerRegistro(int pos) {
     Examen reg;
-    if (pos < 0 || pos >= contarRegistros()) return reg;
 
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return reg;
+    if (pos < 0 || pos >= contarRegistros())
+        return reg;
+
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return reg;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     fread(&reg, _tamanioRegistro, 1, p);
@@ -76,25 +88,25 @@ Examen ArchivoExamen::leerRegistro(int pos) {
 bool ArchivoExamen::modificarRegistro(Examen reg, int pos) {
     if (pos < 0 || pos >= contarRegistros()) return false;
 
-    FILE *p = fopen(_nombre, "rb+");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb+")) return false;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
-    bool escribio = fwrite(&reg, _tamanioRegistro, 1, p);
+    bool ok = fwrite(&reg, _tamanioRegistro, 1, p);
 
     fclose(p);
-    return escribio;
+    return ok;
 }
 
 int ArchivoExamen::contarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return 0;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return 0;
 
     fseek(p, 0, SEEK_END);
-    int bytes = ftell(p);
-    fclose(p);
+    int cantidad = ftell(p) / _tamanioRegistro;
 
-    return bytes / _tamanioRegistro;
+    fclose(p);
+    return cantidad;
 }
 
 bool ArchivoExamen::bajaLogica(int pos) {
@@ -109,7 +121,7 @@ bool ArchivoExamen::activarRegistro(int pos) {
     return modificarRegistro(reg, pos);
 }
 
-bool ArchivoExamen::inscribirExamen(Examen& examen) {
+bool ArchivoExamen::inscribirExamen(Examen &examen) {
     examen.inscribir();
     return agregarRegistro(examen) == 1;
 }

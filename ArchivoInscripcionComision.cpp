@@ -7,27 +7,38 @@ ArchivoInscripcionComision::ArchivoInscripcionComision(const char *nombre) {
     _tamanioRegistro = sizeof(InscripcionComision);
 }
 
+bool ArchivoInscripcionComision::abrirArchivo(FILE *&p, const char *modo) {
+    p = fopen(_nombre, modo);
+    if (p == nullptr) {
+        cout << "[ERROR] No se pudo abrir archivo: " << _nombre << endl;
+        return false;
+    }
+    return true;
+}
+
 int ArchivoInscripcionComision::agregarRegistro(InscripcionComision reg) {
-    FILE *p = fopen(_nombre, "ab");
-    if (p == nullptr) return 0;
+    FILE *p;
+    if (!abrirArchivo(p, "ab")) return 0;
 
     int ok = fwrite(&reg, _tamanioRegistro, 1, p);
     fclose(p);
-
     return ok;
 }
 
 bool ArchivoInscripcionComision::listarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return false;
 
     InscripcionComision reg;
-    int i = 0;
+    int num = 0;
+    int total = contarRegistros();
 
-    while (fread(&reg, _tamanioRegistro, 1, p) == 1) {
-        // Mostrar solo ACTIVO (0) y PENDIENTE (1)
-        if (reg.getEstado() != 2) {
-            cout << ++i << ") ";
+    for (int i = 0; i < total; i++) {
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&reg, _tamanioRegistro, 1, p);
+
+        if (reg.getEstado() != 2) {  // 0=Activo, 1=Pendiente, 2=Cancelado
+            cout << ++num << ") ";
             reg.mostrar();
         }
     }
@@ -37,8 +48,8 @@ bool ArchivoInscripcionComision::listarRegistros() {
 }
 
 int ArchivoInscripcionComision::contarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return 0;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return 0;
 
     fseek(p, 0, SEEK_END);
     int cantidad = ftell(p) / _tamanioRegistro;
@@ -53,8 +64,8 @@ InscripcionComision ArchivoInscripcionComision::leerRegistro(int pos) {
     if (pos < 0 || pos >= contarRegistros())
         return reg;
 
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return reg;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return reg;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     fread(&reg, _tamanioRegistro, 1, p);
@@ -67,8 +78,8 @@ bool ArchivoInscripcionComision::modificarRegistro(const InscripcionComision &re
     if (pos < 0 || pos >= contarRegistros())
         return false;
 
-    FILE *p = fopen(_nombre, "rb+");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb+")) return false;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     bool ok = fwrite(&reg, _tamanioRegistro, 1, p);
@@ -78,21 +89,20 @@ bool ArchivoInscripcionComision::modificarRegistro(const InscripcionComision &re
 }
 
 int ArchivoInscripcionComision::buscarRegistro(int legajo, int idComision) {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
 
-    InscripcionComision reg;
     int total = contarRegistros();
+    InscripcionComision reg;
 
     for (int i = 0; i < total; i++) {
-
         fseek(p, i * _tamanioRegistro, SEEK_SET);
         fread(&reg, _tamanioRegistro, 1, p);
 
         if (reg.getEstado() != 2 &&
             reg.getLegajoAlumno() == legajo &&
-            reg.getIdComision() == idComision)
-        {
+            reg.getIdComision() == idComision) {
+
             fclose(p);
             return i;
         }

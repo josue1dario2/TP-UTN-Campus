@@ -7,9 +7,18 @@ ArchivoCorrelativa::ArchivoCorrelativa(const char *nombre) {
     _tamanioRegistro = sizeof(Correlativa);
 }
 
+bool ArchivoCorrelativa::abrirArchivo(FILE *&p, const char *modo) {
+    p = fopen(_nombre, modo);
+    if (p == nullptr) {
+        cout << "[ERROR] No se pudo abrir archivo: " << _nombre << endl;
+        return false;
+    }
+    return true;
+}
+
 int ArchivoCorrelativa::agregarRegistro(Correlativa reg) {
-    FILE *p = fopen(_nombre, "ab");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "ab")) return -1;
 
     int escribio = fwrite(&reg, _tamanioRegistro, 1, p);
     fclose(p);
@@ -17,8 +26,8 @@ int ArchivoCorrelativa::agregarRegistro(Correlativa reg) {
 }
 
 bool ArchivoCorrelativa::listarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return false;
 
     Correlativa reg;
     bool hay = false;
@@ -37,13 +46,9 @@ bool ArchivoCorrelativa::listarRegistros() {
     return true;
 }
 
-
 void ArchivoCorrelativa::listarDeMateria(int idMateriaObjetivo) {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) {
-        cout << "No se pudo abrir archivo.\n";
-        return;
-    }
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return;
 
     int total = contarRegistros();
     Correlativa reg;
@@ -69,10 +74,9 @@ void ArchivoCorrelativa::listarDeMateria(int idMateriaObjetivo) {
     fclose(p);
 }
 
-
 int ArchivoCorrelativa::buscarPosDeMateria(int idMateriaObjetivo, int idRequisito) {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
 
     int total = contarRegistros();
     Correlativa reg;
@@ -95,8 +99,8 @@ int ArchivoCorrelativa::buscarPosDeMateria(int idMateriaObjetivo, int idRequisit
 }
 
 int ArchivoCorrelativa::buscarPorMateriaObjetivo(int idMateriaObjetivo) {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
 
     int total = contarRegistros();
     Correlativa reg;
@@ -116,8 +120,8 @@ int ArchivoCorrelativa::buscarPorMateriaObjetivo(int idMateriaObjetivo) {
 }
 
 int ArchivoCorrelativa::buscarPorMateriaRequisito(int idMateriaRequisito) {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
 
     int total = contarRegistros();
     Correlativa reg;
@@ -140,11 +144,12 @@ Correlativa ArchivoCorrelativa::leerRegistro(int pos) {
     Correlativa reg;
     if (pos < 0 || pos >= contarRegistros()) return reg;
 
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return reg;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return reg;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     fread(&reg, _tamanioRegistro, 1, p);
+
     fclose(p);
     return reg;
 }
@@ -152,21 +157,23 @@ Correlativa ArchivoCorrelativa::leerRegistro(int pos) {
 bool ArchivoCorrelativa::modificarRegistro(Correlativa reg, int pos) {
     if (pos < 0 || pos >= contarRegistros()) return false;
 
-    FILE *p = fopen(_nombre, "rb+");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb+")) return false;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     bool escribio = fwrite(&reg, _tamanioRegistro, 1, p);
+
     fclose(p);
     return escribio;
 }
 
 int ArchivoCorrelativa::contarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return 0;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return 0;
 
     fseek(p, 0, SEEK_END);
     int bytes = ftell(p);
+
     fclose(p);
     return bytes / _tamanioRegistro;
 }

@@ -7,19 +7,30 @@ ArchivoAlumno::ArchivoAlumno(const char *n) {
     _tamanioRegistro = sizeof(Alumno);
 }
 
+bool ArchivoAlumno::abrirArchivo(FILE *&p, const char *modo) {
+    p = fopen(_nombre, modo);
+    if (p == nullptr) {
+        cout << "ERROR: no se pudo abrir el archivo " << _nombre << endl;
+        return false;
+    }
+    return true;
+}
+
 int ArchivoAlumno::agregarRegistro(Alumno reg) {
-    FILE *p = fopen(_nombre, "ab");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "ab")) return -1;
+
     int escribio = fwrite(&reg, _tamanioRegistro, 1, p);
     fclose(p);
+
     return escribio;
 }
 
 bool ArchivoAlumno::listarRegistros() {
-    Alumno obj;
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return false;
 
+    Alumno obj;
     while (fread(&obj, _tamanioRegistro, 1, p) == 1) {
         if (!obj.getEliminado()) {
             obj.mostrar();
@@ -31,12 +42,11 @@ bool ArchivoAlumno::listarRegistros() {
     return true;
 }
 
-
 int ArchivoAlumno::buscarRegistro(int legajo) {
-    int cant = contarRegistros();
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
 
+    int cant = contarRegistros();
     Alumno obj;
 
     for (int i = 0; i < cant; i++) {
@@ -45,22 +55,42 @@ int ArchivoAlumno::buscarRegistro(int legajo) {
 
         if (!obj.getEliminado() && obj.getLegajo() == legajo) {
             fclose(p);
-            return i;  // posición encontrada
+            return i;
         }
     }
 
     fclose(p);
-    return -2; // no encontrado
+    return -2;
 }
 
+int ArchivoAlumno::buscarPosicion(int legajo) {
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
+
+    int cant = contarRegistros();
+    Alumno obj;
+
+    for (int i = 0; i < cant; i++) {
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&obj, _tamanioRegistro, 1, p);
+
+        if (obj.getLegajo() == legajo) {
+            fclose(p);
+            return i;
+        }
+    }
+
+    fclose(p);
+    return -2;
+}
 
 Alumno ArchivoAlumno::leerRegistro(int pos) {
     Alumno obj;
 
     if (pos < 0 || pos >= contarRegistros()) return obj;
 
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return obj;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return obj;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     fread(&obj, _tamanioRegistro, 1, p);
@@ -72,8 +102,8 @@ Alumno ArchivoAlumno::leerRegistro(int pos) {
 bool ArchivoAlumno::modificarRegistro(Alumno reg, int pos) {
     if (pos < 0) return false;
 
-    FILE *p = fopen(_nombre, "rb+");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb+")) return false;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     bool ok = fwrite(&reg, _tamanioRegistro, 1, p);
@@ -83,8 +113,8 @@ bool ArchivoAlumno::modificarRegistro(Alumno reg, int pos) {
 }
 
 int ArchivoAlumno::contarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return 0;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return 0;
 
     fseek(p, 0, SEEK_END);
     int cant = ftell(p) / _tamanioRegistro;

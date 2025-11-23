@@ -7,9 +7,18 @@ ArchivoCarrera::ArchivoCarrera(const char *n) {
     _tamanioRegistro = sizeof(Carrera);
 }
 
+bool ArchivoCarrera::abrirArchivo(FILE *&p, const char *modo) {
+    p = fopen(_nombre, modo);
+    if (p == nullptr) {
+        cout << "ERROR: No se pudo abrir el archivo " << _nombre << endl;
+        return false;
+    }
+    return true;
+}
+
 int ArchivoCarrera::agregarRegistro(Carrera reg) {
-    FILE *p = fopen(_nombre, "ab");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "ab")) return -1;
 
     int escribio = fwrite(&reg, _tamanioRegistro, 1, p);
     fclose(p);
@@ -17,10 +26,10 @@ int ArchivoCarrera::agregarRegistro(Carrera reg) {
 }
 
 bool ArchivoCarrera::listarRegistros() {
-    Carrera obj;
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return false;
 
+    Carrera obj;
     while (fread(&obj, _tamanioRegistro, 1, p) == 1) {
         if (!obj.getEliminado()) {
             obj.mostrar();
@@ -32,10 +41,9 @@ bool ArchivoCarrera::listarRegistros() {
     return true;
 }
 
-
 int ArchivoCarrera::buscarRegistro(int idCarrera) {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
 
     int cant = contarRegistros();
     Carrera obj;
@@ -54,10 +62,31 @@ int ArchivoCarrera::buscarRegistro(int idCarrera) {
     return -2;
 }
 
+int ArchivoCarrera::buscarPosicion(int idCarrera) {
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
+
+    int cant = contarRegistros();
+    Carrera obj;
+
+    for (int i = 0; i < cant; i++) {
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&obj, _tamanioRegistro, 1, p);
+
+        if (obj.getIdCarrera() == idCarrera) {
+            fclose(p);
+            return i;
+        }
+    }
+
+    fclose(p);
+    return -2;
+}
+
 Carrera ArchivoCarrera::leerRegistro(int pos) {
     Carrera obj;
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return obj;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return obj;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     fread(&obj, _tamanioRegistro, 1, p);
@@ -66,21 +95,20 @@ Carrera ArchivoCarrera::leerRegistro(int pos) {
     return obj;
 }
 
-
 bool ArchivoCarrera::modificarRegistro(Carrera reg, int pos) {
-    FILE *p = fopen(_nombre, "rb+");
-    if (p == nullptr) return false;
+    FILE *p;
+    if (!abrirArchivo(p, "rb+")) return false;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     bool ok = fwrite(&reg, _tamanioRegistro, 1, p);
-
     fclose(p);
+
     return ok;
 }
 
 int ArchivoCarrera::contarRegistros() {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return 0;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return 0;
 
     fseek(p, 0, SEEK_END);
     int cant = ftell(p) / _tamanioRegistro;
@@ -113,26 +141,4 @@ int ArchivoCarrera::getNuevoID() {
     }
 
     return maxID + 1;
-}
-
-
-int ArchivoCarrera::buscarPosicion(int idCarrera) {
-    FILE *p = fopen(_nombre, "rb");
-    if (p == nullptr) return -1;
-
-    int cant = contarRegistros();
-    Carrera obj;
-
-    for (int i = 0; i < cant; i++) {
-        fseek(p, i * _tamanioRegistro, SEEK_SET);
-        fread(&obj, _tamanioRegistro, 1, p);
-
-        if (obj.getIdCarrera() == idCarrera) {
-            fclose(p);
-            return i;
-        }
-    }
-
-    fclose(p);
-    return -2;
 }
