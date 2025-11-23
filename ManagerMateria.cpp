@@ -11,6 +11,7 @@ void ManagerMateria::alta() {
     reg.setIdMateria(generarIdNuevo());
 
     reg.cargar();
+    if (reg.getIdMateria()==0) {return;}
     int _idCarreraNuevo = reg.getIdCarrera();
     //reg.setEliminado(false);
     if (_archivoCarreras.existeCarrera(_idCarreraNuevo)) {
@@ -22,7 +23,7 @@ void ManagerMateria::alta() {
     }
     else
     {
-        cout << "\n\tEl ID de Carrera es incorrecto.";
+        cout << "\n\tEl ID de Materia es incorrecto.";
     }
     return;
 
@@ -40,15 +41,11 @@ void ManagerMateria::modificacion() {
     cout << "\n\tIngrese el ID de la materia a modificar: ";
     cin >> id;
 
-
     int pos = buscarPorId(id);
     if (pos < 0) {
         cout << "\n\tMateria no encontrada.\n";
         return;
     }
-
-
-
 
     Materia _regActual = _archivoMaterias.leerRegistro(pos);
     cout << "\n\tDatos actuales:\n";

@@ -1,5 +1,6 @@
 #include "Materia.h"
 #include "Validacion.h"
+#include "ArchivoMateria.h"
 
 #include <iostream>
 #include <cstring>
@@ -51,14 +52,23 @@ int Materia::getCuatrimestre() const { return _cuatrimestre; }
 const char* Materia::getEstado() const { return _estado; }
 bool Materia::getEliminado() const { return _eliminado; }
 
-void Materia::cargar() {
+void Materia::cargar(const bool cargar) {
     cout << "\n\t=== Cargar Materia ===\n";
-
+    //if(cin.peek() == '\n') { cin.ignore();}
     _idCarrera= Validacion::validarEnteroEnRango("\n\tID Carrera: ",1,10000);
 
 
     string nombre =Validacion::pedirEntradaCadena("\tNombre: ",4,50);
     strncpy(_nombre, nombre.c_str(), sizeof(_nombre));
+
+    ArchivoMateria _archivoMateria;
+    int existeNombre = _archivoMateria.buscarRegistro(_idCarrera, nombre,cargar);
+
+    if (existeNombre >=0){
+        cout << "\n\tEl nombre de materia ya existe para la carrera.";
+        setIdMateria(0);
+        return;
+    }
 
     _cuatrimestre= Validacion::validarEnteroEnRango("\tCuatrimestre (1/2): ",1,2);
 

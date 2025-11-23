@@ -52,7 +52,7 @@ int ArchivoMateria::buscarPosicion(int idMateria)
 
 }
 
-int ArchivoMateria::buscarRegistro(int idMateria) {
+int ArchivoMateria::buscarRegistro(const int idMateria) {
     Materia obj;
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return -1;
@@ -60,7 +60,7 @@ int ArchivoMateria::buscarRegistro(int idMateria) {
     int cant = contarRegistros();
     for (int i = 0; i < cant; i++) {
         fread(&obj, _tamanioRegistro, 1, p);
-        if (!obj.getEliminado() && obj.getIdMateria() == idMateria) {
+        if (obj.getIdMateria() == idMateria) {
             fclose(p);
             return i;
         }
@@ -69,6 +69,34 @@ int ArchivoMateria::buscarRegistro(int idMateria) {
     fclose(p);
     return -2;
 }
+
+int ArchivoMateria::buscarRegistro(const int idCarrera, const std::string& nombreMateria,const bool cargar) {
+    Materia obj;
+    FILE *p = fopen(_nombre, "rb");
+    if (p == nullptr) return -1;
+
+    int cant = contarRegistros();
+    for (int i = 0; i < cant; i++) {
+        fread(&obj, _tamanioRegistro, 1, p);
+            if (nombreMateria == std::string(obj.getNombre())&& (obj.getIdCarrera()==idCarrera)&& (cargar==true)) {
+                fclose(p);
+                return i;
+            }
+        }
+
+
+    fclose(p);
+    return -2;
+}
+
+
+
+/*
+bool ArchivoMateria::existeNombreMateria(std::string nombre){
+    ArchivoMateria _archivoMatiera;
+    int cantidregistros = contarRegistros();
+    for (int i=0)
+}*/
 
 Materia ArchivoMateria::leerRegistro(int pos) {
     Materia obj;

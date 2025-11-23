@@ -15,10 +15,13 @@ void ManagerComision::mostrarEncabezado() {
 }
 
 void ManagerComision::mostrarRegistro(const Comision& c) {
+    //int espacioTurno= (c.getTurno() == "Manana") ? 10 : 10;
+
+
     cout << "\t| " << setw(10) << left << c.getIdComision()
          << " | " << setw(10) << left << c.getIdMateria()
          << " | " << setw(10) << left << c.getLegajoDocente()
-         << " | " << setw(11) << left  << c.getTurno()
+         << " | " << setw(10) << left  << c.getTurno()
          << " | " << setw(10) << left  << c.getModalidad()
          << " | " << setw(10) << right << c.getAnio()
          << " | " << setw(10) << right << (c.getEliminado() ? "Sí" : "No")
@@ -45,7 +48,7 @@ Comision ManagerComision::ingresarDatos(int idComision) {
 
     switch (_elecTurno){
         case 1:
-                turno = "Mañana";
+                turno = "Manana";
                 break;
             case 2:
                 turno = "Tarde";
@@ -164,11 +167,29 @@ void ManagerComision::borrar() {
         cout << "\tNo se encontró la comisión.\n";
         return;
     }
+    Comision _comisionBorrar;
+    _comisionBorrar= _archivo.leerRegistro(pos);
+    _comisionBorrar.mostrar();
+    if (_comisionBorrar.getEliminado()==true){
+        cout << "\n\tLa comisión ya estaba borrada.\n";
+        return;
+    }
+    if (Validacion::desearAccionar("\tDesea borrar la Comision? s/n: ")){
+        if (_archivo.bajaLogica(pos)) {
+            cout << "\tComisión dada de baja correctamente.\n";
+        }
+        else
+        {
+            cout << "\tError al dar de baja la comisión.\n";
+        }
 
-    if (_archivo.bajaLogica(pos))
-        cout << "\tComisión dada de baja correctamente.\n";
-    else
-        cout << "\tError al dar de baja la comisión.\n";
+
+
+
+
+    }
+
+
 }
 
 void ManagerComision::activar() {
@@ -180,12 +201,28 @@ void ManagerComision::activar() {
         cout << "\tNo se encontró la comisión.\n";
         return;
     }
+    Comision _comisionBorrar;
+    _comisionBorrar= _archivo.leerRegistro(pos);
+    _comisionBorrar.mostrar();
+    if (_comisionBorrar.getEliminado()==false){
+        cout << "\n\tLa comisión ya estaba activa.\n";
+        return;
+    }
 
-    if (_archivo.activarRegistro(pos))
-        cout << "\tComisión reactivada correctamente.\n";
-    else
-        cout << "\tError al reactivar la comisión.\n";
+    if (Validacion::desearAccionar("\tDesea activar la Comision? s/n: "))
+    {
+        if (_archivo.activarRegistro(pos)){
+            cout << "\tComisión activada correctamente.\n";
+        }
+        else {
+            cout << "\tError al activar la comisión.\n";
+        }
+
+
+    }
+    else {cout << "No se activo la comision.";}
 }
+
 
 // ----------------------------------------------------
 // CONSULTAS

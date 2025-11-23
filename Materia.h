@@ -20,7 +20,7 @@ public:
     const char* getEstado() const;
     bool getEliminado() const;
 
-    void cargar();
+    void cargar(const bool cargar=false);
     void mostrar() const;
 
 private:

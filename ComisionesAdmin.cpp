@@ -74,9 +74,7 @@ int MenuABMComisionesAdmin::seleccionOpcion()
 
 void MenuABMComisionesAdmin::altaComision()
 {
-
     _managerComison.cargar();
-    // Implementar lógica de alta
 }
 
 void MenuABMComisionesAdmin::modificarComision()
@@ -87,14 +85,15 @@ void MenuABMComisionesAdmin::modificarComision()
 
 void MenuABMComisionesAdmin::bajaLogicaComision()
 {
-    cout << "Baja Lógica de Comisión - En desarrollo\n";
-    // Implementar lógica de baja
+    _managerComison.borrar();
+
+
 }
 
 void MenuABMComisionesAdmin::activarComision()
 {
-    cout << "Activar Comisión - En desarrollo\n";
-    // Implementar lógica de activación
+
+    _managerComison.activar();
 }
 
 void MenuABMComisionesAdmin::listarComisiones()

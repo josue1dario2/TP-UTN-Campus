@@ -82,13 +82,13 @@ void Comision::cargar() {
 }
 
 void Comision::mostrar() const {
-    cout << "=== Datos de la Comision ===\n";
-    cout << "ID Comision: " << _idComision << "\n";
-    cout << "ID Materia: " << _idMateria << "\n";
-    cout << "Turno: " << _turno << "\n";
-    cout << "Modalidad: " << _modalidad << "\n";
-    cout << "Cuatrimestre: " << _cuatrimestre << "\n";
-    cout << "Año: " << _anio << "\n";
-    cout << "Legajo Docente: " << _legajoDocente << "\n";
-    cout << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n\n";
+    cout << "\n\t=== Datos de la Comision ===\n";
+    cout << "\tID Comision: " << _idComision << "\n";
+    cout << "\tID Materia: " << _idMateria << "\n";
+    cout << "\tTurno: " << _turno << "\n";
+    cout << "\tModalidad: " << _modalidad << "\n";
+    cout << "\tCuatrimestre: " << _cuatrimestre << "\n";
+    cout << "\tAño: " << _anio << "\n";
+    cout << "\tLegajo Docente: " << _legajoDocente << "\n";
+    cout << "\tEliminado: " << (_eliminado ? "Si" : "No") << "\n\n";
 }
