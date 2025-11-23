@@ -1,5 +1,6 @@
 #include "ManagerAlumno.h"
 #include "ArchivoComision.h"
+#include "ManagerCorrelativa.h"
 #include <iostream>
 #include <iomanip>
 #include <cstring>
@@ -11,6 +12,60 @@ ManagerAlumno::ManagerAlumno()
       _archivoMaterias("Materias.dat"),
       _archivoInscripcionesComision("InscripcionesComision.dat")
 {}
+
+// ==========================================================
+// VALIDACIÓN DE CORRELATIVAS
+// ==========================================================
+
+bool ManagerAlumno::cumpleCorrelativas(int legajoAlumno, int idMateriaObjetivo) {
+
+    ManagerCorrelativa mgrCor;               // Usamos el manager (mejor arquitectura)
+    ArchivoCorrelativa archCor("Correlativas.dat");
+    ArchivoExamen archEx("Examenes.dat");
+
+    // Si no tiene correlativas → puede inscribirse
+    if (!mgrCor.tieneCorrelativas(idMateriaObjetivo)) {
+        cout << "\nNo cumple correlativas. No puede inscribirse.\n";
+        return true;
+    }
+
+    int total = archCor.contarRegistros();
+    bool ok = true;
+
+    for (int i = 0; i < total; i++) {
+        Correlativa c = archCor.leerRegistro(i);
+
+        if (c.getEliminado()) continue;
+        if (c.getIdMateriaObjetivo() != idMateriaObjetivo) continue;
+
+        int idReq = c.getIdMateriaRequisito();
+        bool aprobada = false;
+
+        // Buscar examen del alumno
+        int totalEx = archEx.contarRegistros();
+        for (int j = 0; j < totalEx; j++) {
+            Examen ex = archEx.leerRegistro(j);
+
+            if (!ex.getEliminado()
+                && ex.getLegajoAlumno() == legajoAlumno
+                && ex.getIdMateria() == idReq
+                && ex.getNota() >= 4) {
+
+                aprobada = true;
+                break;
+                }
+        }
+
+        if (!aprobada) {
+            cout << "\nFalta aprobar correlativa obligatoria:";
+            cout << "\n   - Debe aprobar la materia ID: " << idReq << "\n";
+            ok = false;
+        }
+    }
+
+    return ok;
+}
+
 
 // ----------------------------------------------------------
 // CRUD BÁSICO DE ALUMNOS

@@ -13,10 +13,16 @@ public:
 
     int agregarRegistro(Correlativa reg);
     bool listarRegistros();
+
+    void listarDeMateria(int idMateriaObjetivo);
+    int buscarPosDeMateria(int idMateriaObjetivo, int idRequisito);
+
     int buscarPorMateriaObjetivo(int idMateriaObjetivo);
     int buscarPorMateriaRequisito(int idMateriaRequisito);
+
     Correlativa leerRegistro(int pos);
     bool modificarRegistro(Correlativa reg, int pos);
+
     int contarRegistros();
     bool bajaLogica(int pos);
     bool activarRegistro(int pos);

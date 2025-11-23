@@ -1,4 +1,4 @@
-#include "MenuAbmComisiones.h"
+#include "MenuAbmComision.h"
 #include "ManagerComision.h"
 #include "Validacion.h"
 #include "utils.h"
@@ -6,11 +6,11 @@
 #include <iostream>
 using namespace std;
 
-MenuABMComisiones::MenuABMComisiones() {
+MenuAbmComision::MenuAbmComision() {
     _cantidadOpciones = 6;
 }
 
-void MenuABMComisiones::mostrar() {
+void MenuAbmComision::mostrar() {
     int opcion;
     do {
         clearScreen();
@@ -28,7 +28,7 @@ void MenuABMComisiones::mostrar() {
     } while (opcion != 0);
 }
 
-void MenuABMComisiones::mostrarOpciones() {
+void MenuAbmComision::mostrarOpciones() {
     cout << "\n\tABM COMISIONES\n";
     cout << "\t--------------------------------\n";
     cout << "\t1) Alta de Comisión\n";
@@ -40,14 +40,14 @@ void MenuABMComisiones::mostrarOpciones() {
     cout << "\t0) Volver\n";
 }
 
-int MenuABMComisiones::seleccionOpcion() {
+int MenuAbmComision::seleccionOpcion() {
     mostrarOpciones();
     cout << "\t--------------------------------\n";
     cout << "\tOpción: ";
     return Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
 }
 
-void MenuABMComisiones::ejecutarOpcion(int opcion) {
+void MenuAbmComision::ejecutarOpcion(int opcion) {
     ManagerComision manager;
 
     switch (opcion) {

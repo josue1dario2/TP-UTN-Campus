@@ -1,11 +1,11 @@
 #pragma once
 
-#include "MenuAbmCarreras.h"
+#include "MenuAbmCarrera.h"
 #include "ManagerCarrera.h"
 
-class MenuABMCarreras{
+class MenuAbmCarrera{
 public:
-    MenuABMCarreras();
+    MenuAbmCarrera();
     void mostrar();
 protected:
     void mostrarOpciones();

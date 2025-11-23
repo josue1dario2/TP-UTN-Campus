@@ -33,41 +33,52 @@ bool ArchivoMateria::listarRegistros() {
 }
 
 int ArchivoMateria::buscarRegistro(int idMateria) {
-    Materia obj;
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return -1;
 
+    Materia obj;
     int cant = contarRegistros();
+
     for (int i = 0; i < cant; i++) {
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
         fread(&obj, _tamanioRegistro, 1, p);
-        if (obj.getIdMateria() == idMateria) {
+
+        if (!obj.getEliminado() && obj.getIdMateria() == idMateria) {
             fclose(p);
             return i;
         }
     }
 
     fclose(p);
-    return -2;
+    return -2; // no encontrado
 }
-
 
 Materia ArchivoMateria::leerRegistro(int pos) {
     Materia obj;
+
+    if (pos < 0 || pos >= contarRegistros())
+        return obj;
+
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return obj;
 
-    fseek(p, pos * _tamanioRegistro, 0);
+    fseek(p, pos * _tamanioRegistro, SEEK_SET);
     fread(&obj, _tamanioRegistro, 1, p);
     fclose(p);
+
     return obj;
 }
 
 bool ArchivoMateria::modificarRegistro(Materia reg, int pos) {
+    if (pos < 0 || pos >= contarRegistros())
+        return false;
+
     FILE *p = fopen(_nombre, "rb+");
     if (p == nullptr) return false;
 
-    fseek(p, pos * _tamanioRegistro, 0);
+    fseek(p, pos * _tamanioRegistro, SEEK_SET);
     bool escribio = fwrite(&reg, _tamanioRegistro, 1, p);
+
     fclose(p);
     return escribio;
 }
@@ -78,6 +89,7 @@ int ArchivoMateria::contarRegistros() {
 
     fseek(p, 0, SEEK_END);
     int cant = ftell(p) / _tamanioRegistro;
+
     fclose(p);
     return cant;
 }

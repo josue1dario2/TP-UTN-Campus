@@ -1,8 +1,9 @@
 #pragma once
 
-#include "MenuAbmCarreras.h"
-#include "MenuAbmComisiones.h"
-#include "MenuAbmMaterias.h"
+#include "MenuAbmCarrera.h"
+#include "MenuAbmComision.h"
+#include "MenuAbmMateria.h"
+#include "MenuAbmCorrelativa.h"
 #include "ManagerAlumno.h"
 
 class MenuAdministrador {
@@ -18,10 +19,10 @@ protected:
 private:
     int _cantidadOpciones;
 
-    MenuABMCarreras menuCarreras;
-    MenuABMComisiones menuComisiones;
-    MenuABMMaterias menuMaterias;
+    MenuAbmCarrera menuCarrera;
+    MenuAbmComision menuComision;
+    MenuAbmMateria menuMateria;
+    MenuAbmCorrelativa menuCorrelativa;
 
-    // Para aprobar / rechazar solicitudes de baja
     ManagerAlumno _managerAlumno;
 };

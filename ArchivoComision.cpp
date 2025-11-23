@@ -37,18 +37,22 @@ bool ArchivoComision::listarRegistros() {
     return true;
 }
 
+
 int ArchivoComision::buscarRegistro(int id) {
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return -1;
 
+    int cant = contarRegistros();
     Comision reg;
-    int pos = 0;
-    while (fread(&reg, _tamanioRegistro, 1, p)) {
-        if (reg.getIdComision() == id) {
+
+    for (int i = 0; i < cant; i++) {
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&reg, _tamanioRegistro, 1, p);
+
+        if (!reg.getEliminado() && reg.getIdComision() == id) {
             fclose(p);
-            return pos;
+            return i;
         }
-        pos++;
     }
 
     fclose(p);

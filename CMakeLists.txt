@@ -23,9 +23,9 @@ add_executable(TP_UTN_Campus
         Validacion.cpp
         MenuPrincipal.cpp
         MenuAdmin.cpp
-        MenuAbmCarreras.cpp
-        MenuAbmComisiones.cpp
-        MenuAbmMaterias.cpp
+        MenuAbmCarrera.cpp
+        MenuAbmComision.cpp
+        MenuAbmMateria.cpp
         MenuAlumno.cpp
         MenuDocente.cpp
         MenuUtilitarios.cpp
@@ -39,6 +39,10 @@ add_executable(TP_UTN_Campus
         ArchivoInscripcionComision.cpp
         ArchivoExamen.cpp
         InscripcionComision.cpp
+        MenuAbmCorrelativa.cpp
+        ArchivoCorrelativa.cpp
+        ManagerCorrelativa.cpp
+        MenuAbmCorrelativa.cpp
         utils.cpp
 )
 
@@ -82,6 +86,10 @@ add_executable(runTests
         ManagerExamen.cpp
         ManagerComision.cpp
         InscripcionComision.cpp
+        ArchivoCorrelativa.cpp
+        ManagerCorrelativa.cpp
+        MenuAbmCorrelativa.cpp
+        MenuAbmCorrelativa.cpp
 )
 
 target_link_libraries(runTests GTest::gtest_main)

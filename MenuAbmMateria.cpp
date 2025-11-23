@@ -1,14 +1,15 @@
-#include "MenuAbmMaterias.h"
+#include "MenuAbmMateria.h"
+#include "ArchivoCorrelativa.h"
 #include "Validacion.h"
 #include "utils.h"
 #include <iostream>
 using namespace std;
 
-MenuABMMaterias::MenuABMMaterias() {
-    _cantidadOpciones = 6;
+MenuAbmMateria::MenuAbmMateria() {
+    _cantidadOpciones = 7;
 }
 
-void MenuABMMaterias::mostrarMenuABMMaterias() {
+void MenuAbmMateria::mostrarMenuABMMaterias() {
     int opcion;
 
     do {
@@ -23,8 +24,20 @@ void MenuABMMaterias::mostrarMenuABMMaterias() {
 
     } while (opcion != 0);
 }
+void MenuAbmMateria::mostrarCorrelativasDeMateria(int idMateria) {
+    clearScreen();
+    cout << "\n=== CORRELATIVAS DE LA MATERIA " << idMateria << " ===\n\n";
 
-void MenuABMMaterias::mostrarOpciones() {
+    ArchivoCorrelativa arch("Correlativas.dat");
+
+    arch.listarDeMateria(idMateria);
+
+    cout << "\n";
+    pauseScreen();
+}
+
+
+void MenuAbmMateria::mostrarOpciones() {
     cout << "\n\tABM DE MATERIAS\n";
     cout << "\t--------------------------------------\n";
     cout << "\t1) Alta de Materia\n";
@@ -33,17 +46,18 @@ void MenuABMMaterias::mostrarOpciones() {
     cout << "\t4) Listar Materias activas\n";
     cout << "\t5) Asignar/Modificar Docente Titular (opcional)\n";
     cout << "\t6) Configurar Correlativas (opcional)\n";
+    cout << "\t7) Ver correlativas de la materia\n";
     cout << "\t0) Volver\n";
 }
 
-int MenuABMMaterias::seleccionOpcion() {
+int MenuAbmMateria::seleccionOpcion() {
     mostrarOpciones();
     cout << "\t--------------------------------------\n";
     cout << "\tOpción: ";
     return Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
 }
 
-void MenuABMMaterias::ejecutarOpcion(int opcion) {
+void MenuAbmMateria::ejecutarOpcion(int opcion) {
     ManagerMateria manager;
 
     switch (opcion) {
@@ -72,9 +86,21 @@ void MenuABMMaterias::ejecutarOpcion(int opcion) {
             cout << "\n\tFuncionalidad opcional (Docente titular)\n";
             break;
 
-        case 6:
-            cout << "\n\tFuncionalidad opcional (Correlativas)\n";
+        case 6: {
+            cout << "\n\t=== CONFIGURAR CORRELATIVAS ===\n";
+            int id;
+            cout << "\tIngrese el ID de la materia: ";
+            cin >> id;
+
+            menuCorrelativa.mostrar();
             break;
+        }
+
+        case 7: {
+            int idMat = Validacion::validarEntero("\tIngrese ID de materia: ");
+            mostrarCorrelativasDeMateria(idMat);
+            break;
+        }
 
         default:
             cout << "\n\tOpción inválida.\n";

@@ -9,7 +9,7 @@
 using namespace std;
 
 MenuAdministrador::MenuAdministrador() {
-    _cantidadOpciones = 4;
+    _cantidadOpciones = 5;
 }
 
 void MenuAdministrador::mostrar() {
@@ -34,6 +34,7 @@ void MenuAdministrador::mostrarOpciones() {
     cout << "\t2) ABM Materias\n";
     cout << "\t3) ABM Comisiones\n";
     cout << "\t4) Solicitudes de Baja de Comisiones\n";
+    cout << "\t5) ABM Correlativas\n";
     cout << "\t0) Volver\n";
 }
 
@@ -48,15 +49,15 @@ void MenuAdministrador::ejecutarOpcion(int opcion) {
     switch (opcion) {
 
         case 1:
-            menuCarreras.mostrar();
+            menuCarrera.mostrar();
             break;
 
         case 2:
-            menuMaterias.mostrarMenuABMMaterias();
+            menuMateria.mostrarMenuABMMaterias();
             break;
 
         case 3:
-            menuComisiones.mostrar();
+            menuComision.mostrar();
             break;
 
         case 4: {
@@ -95,7 +96,7 @@ void MenuAdministrador::ejecutarOpcion(int opcion) {
                         );
                     }
                     else if (accion == 2) {
-                        ins.setEstado(0); // Rechazada → vuelve a Activa
+                        ins.setEstado(0);
                         arch.modificarRegistro(ins, i);
                         cout << "\nSolicitud rechazada.\n";
                     }
@@ -108,6 +109,10 @@ void MenuAdministrador::ejecutarOpcion(int opcion) {
 
             break;
         }
+
+        case 5:
+            menuCorrelativa.mostrar();
+            break;
 
         case 0:
             return;

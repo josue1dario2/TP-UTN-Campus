@@ -1,4 +1,4 @@
-#include "MenuABMExamen.h"
+#include "MenuAbmExamen.h"
 #include "Validacion.h"
 #include "utils.h"
 #include <iostream>
@@ -35,18 +35,17 @@ void MenuABMExamen::mostrarOpciones() {
 }
 
 int MenuABMExamen::seleccionOpcion() {
-    int opcion;
     mostrarOpciones();
     cout << "\tOpción: ";
-    opcion = Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
-    return opcion;
+    return Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
 }
 
 void MenuABMExamen::ejecutarOpcion(int opcion) {
     int legajo, idComision, numeroParcial, nota;
 
     switch (opcion) {
-        case 1: // Cargar parcial
+
+        case 1:
             cout << "\nLegajo del alumno: ";
             cin >> legajo;
             cout << "ID de comisión: ";
@@ -58,7 +57,7 @@ void MenuABMExamen::ejecutarOpcion(int opcion) {
             _managerExamen.cargarParcial(legajo, idComision, numeroParcial, nota);
             break;
 
-        case 2: // Cargar recuperatorio
+        case 2:
             cout << "\nLegajo del alumno: ";
             cin >> legajo;
             cout << "ID de comisión: ";
@@ -70,7 +69,7 @@ void MenuABMExamen::ejecutarOpcion(int opcion) {
             _managerExamen.cargarRecuperatorio(legajo, idComision, numeroParcial, nota);
             break;
 
-        case 3: // Cargar final
+        case 3:
             cout << "\nLegajo del alumno: ";
             cin >> legajo;
             cout << "ID de comisión: ";
@@ -80,13 +79,13 @@ void MenuABMExamen::ejecutarOpcion(int opcion) {
             _managerExamen.cargarFinal(legajo, idComision, nota);
             break;
 
-        case 4: // Listar exámenes por alumno
+        case 4:
             cout << "\nLegajo del alumno: ";
             cin >> legajo;
             _managerExamen.mostrarHistorial(legajo);
             break;
 
-        case 5: // Recalcular condición académica
+        case 5:
             cout << "\nLegajo del alumno: ";
             cin >> legajo;
             cout << "ID de comisión: ";
@@ -94,36 +93,12 @@ void MenuABMExamen::ejecutarOpcion(int opcion) {
             _managerExamen.recalcularCondicion(legajo, idComision);
             break;
 
-        case 6: // Mostrar todos los exámenes en formato tabla
+        case 6:
             _managerExamen.mostrarTodos();
             break;
 
         case 0:
-            cout << "Volviendo al menú anterior...\n";
-            break;
-
-        default:
-            cout << "Opción inválida.\n";
+            cout << "Volviendo...\n";
             break;
     }
-}
-
-void ManagerExamen::mostrarTodos() {
-    int total = _archivoExamen.contarRegistros();
-    if (total == 0) {
-        cout << "No hay exámenes registrados.\n";
-        return;
-    }
-
-    cout << "\n\t=== LISTADO GENERAL DE EXÁMENES ===\n";
-    mostrarEncabezado();
-
-    for (int i = 0; i < total; i++) {
-        Examen ex = _archivoExamen.leerRegistro(i);
-        if (!ex.getEliminado()) {
-            mostrarRegistro(ex);
-        }
-    }
-
-    mostrarPie();
 }

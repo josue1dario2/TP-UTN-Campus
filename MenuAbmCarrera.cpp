@@ -1,4 +1,4 @@
-#include "MenuAbmCarreras.h"
+#include "MenuAbmCarrera.h"
 #include "ManagerCarrera.h"
 #include "Validacion.h"
 #include "utils.h"
@@ -7,11 +7,11 @@
 
 using namespace std;
 
-MenuABMCarreras::MenuABMCarreras(){
+MenuAbmCarrera::MenuAbmCarrera(){
     _cantidadOpciones=5;
 }
 
-void MenuABMCarreras::mostrar(){
+void MenuAbmCarrera::mostrar(){
     int opcion;
     do {
         clearScreen();
@@ -23,7 +23,7 @@ void MenuABMCarreras::mostrar(){
 }
 
 
-void MenuABMCarreras::mostrarOpciones() {
+void MenuAbmCarrera::mostrarOpciones() {
     cout << endl;
     cout << "\n\tABM CARRERAS\n";
     cout << "\t--------------------------------\n";
@@ -35,7 +35,7 @@ void MenuABMCarreras::mostrarOpciones() {
     cout << "\t0) Volver\n";
 }
 
-void MenuABMCarreras::ejecutarOpcion(int opcion){
+void MenuAbmCarrera::ejecutarOpcion(int opcion){
   switch(opcion){
     case 1:
         _carreraManager.cargar();
@@ -56,7 +56,7 @@ void MenuABMCarreras::ejecutarOpcion(int opcion){
 }
 
 
-int MenuABMCarreras::seleccionOpcion(){
+int MenuAbmCarrera::seleccionOpcion(){
 
     int opcion;
     mostrarOpciones();

@@ -1,9 +1,10 @@
 #pragma once
 #include "ManagerMateria.h"
+#include "MenuAbmCorrelativa.h"
 
-class MenuABMMaterias {
+class MenuAbmMateria {
 public:
-    MenuABMMaterias();
+    MenuAbmMateria();
     void mostrarMenuABMMaterias();
 
 private:
@@ -11,4 +12,7 @@ private:
     void mostrarOpciones();
     int seleccionOpcion();
     void ejecutarOpcion(int opcion);
+
+    MenuAbmCorrelativa menuCorrelativa;
+    void mostrarCorrelativasDeMateria(int idMateria);
 };

@@ -14,7 +14,7 @@ Comision::Comision() {
 
 Comision::Comision(int idComision, int idMateria,
                    const char* turno, const char* modalidad,
-                   int cuatrimestre, int anio,int legajoDocente, bool eliminado) {
+                   int cuatrimestre, int anio, int legajoDocente, bool eliminado) {
     _idComision = idComision;
     _idMateria = idMateria;
     strcpy(_turno, turno);
@@ -63,11 +63,13 @@ void Comision::cargar() {
     cout << "ID Materia: ";
     cin >> _idMateria;
 
+    cin.ignore(); // limpiar salto de línea pendiente
+
     cout << "Turno (Maniana/Tarde/Noche): ";
-    cin >> _turno;
+    cin.getline(_turno, 10);
 
     cout << "Modalidad (Presencial/Virtual/Hibrida): ";
-    cin >> _modalidad;
+    cin.getline(_modalidad, 10);
 
     cout << "Cuatrimestre: ";
     cin >> _cuatrimestre;

@@ -2,9 +2,9 @@
 
 #include "ManagerComision.h"
 
-class MenuABMComisiones {
+class MenuAbmComision {
 public:
-    MenuABMComisiones();
+    MenuAbmComision();
     void mostrar();
 
 protected:

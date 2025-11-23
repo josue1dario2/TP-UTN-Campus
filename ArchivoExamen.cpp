@@ -41,14 +41,18 @@ int ArchivoExamen::buscarRegistro(int id) {
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return -1;
 
+    int total = contarRegistros();
     Examen reg;
-    int pos = 0;
-    while (fread(&reg, _tamanioRegistro, 1, p)) {
-        if (reg.getIdExamen() == id) {
+
+    for (int i = 0; i < total; i++) {
+
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&reg, _tamanioRegistro, 1, p);
+
+        if (!reg.getEliminado() && reg.getIdExamen() == id) {
             fclose(p);
-            return pos;
+            return i;
         }
-        pos++;
     }
 
     fclose(p);
@@ -64,6 +68,7 @@ Examen ArchivoExamen::leerRegistro(int pos) {
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     fread(&reg, _tamanioRegistro, 1, p);
+
     fclose(p);
     return reg;
 }
@@ -76,6 +81,7 @@ bool ArchivoExamen::modificarRegistro(Examen reg, int pos) {
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     bool escribio = fwrite(&reg, _tamanioRegistro, 1, p);
+
     fclose(p);
     return escribio;
 }
@@ -87,6 +93,7 @@ int ArchivoExamen::contarRegistros() {
     fseek(p, 0, SEEK_END);
     int bytes = ftell(p);
     fclose(p);
+
     return bytes / _tamanioRegistro;
 }
 
@@ -109,10 +116,12 @@ bool ArchivoExamen::inscribirExamen(Examen& examen) {
 
 bool ArchivoExamen::corregirExamen(int idExamen, int nota) {
     if (nota < 0 || nota > 10) return false;
+
     int pos = buscarRegistro(idExamen);
     if (pos < 0) return false;
 
     Examen reg = leerRegistro(pos);
     reg.corregir(nota);
+
     return modificarRegistro(reg, pos);
 }

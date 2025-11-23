@@ -1,4 +1,6 @@
 #include "ArchivoPersona.h"
+#include <iostream>
+using namespace std;
 
 ArchivoPersona::ArchivoPersona(const char *nombre) {
     strcpy(_nombre, nombre);
@@ -20,8 +22,10 @@ bool ArchivoPersona::listarRegistros() {
 
     Persona reg;
     while (fread(&reg, _tamanioRegistro, 1, p) == 1) {
-        reg.mostrar();
-        std::cout << "----------------------" << std::endl;
+        if (!reg.getEliminado()) {
+            reg.mostrar();
+            cout << "----------------------" << endl;
+        }
     }
 
     fclose(p);
@@ -33,37 +37,53 @@ int ArchivoPersona::buscarRegistro(int dni) {
     if (p == nullptr) return -1;
 
     Persona reg;
-    int pos = 0;
+    int cant = contarRegistros();
 
-    while (fread(&reg, _tamanioRegistro, 1, p) == 1) {
-        if (reg.getDni() == dni) {
+    for (int i = 0; i < cant; i++) {
+
+        // ✔ Corrección IMPORTANTE: usar fseek para posiciones exactas
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&reg, _tamanioRegistro, 1, p);
+
+        if (!reg.getEliminado() && reg.getDni() == dni) {
             fclose(p);
-            return pos;
+            return i;
         }
-        pos++;
     }
 
     fclose(p);
-    return -1; // No encontrado
+    return -2; // no encontrado
 }
 
 Persona ArchivoPersona::leerRegistro(int pos) {
     Persona reg;
+
+    // ✔ Validación de límites
+    if (pos < 0 || pos >= contarRegistros())
+        return reg;
+
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return reg;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     fread(&reg, _tamanioRegistro, 1, p);
+
     fclose(p);
     return reg;
 }
 
 bool ArchivoPersona::modificarRegistro(Persona reg, int pos) {
+
+    // ✔ Validación de límites
+    if (pos < 0 || pos >= contarRegistros())
+        return false;
+
     FILE *p = fopen(_nombre, "rb+");
     if (p == nullptr) return false;
 
     fseek(p, pos * _tamanioRegistro, SEEK_SET);
     bool ok = fwrite(&reg, _tamanioRegistro, 1, p);
+
     fclose(p);
     return ok;
 }
@@ -74,6 +94,7 @@ int ArchivoPersona::contarRegistros() {
 
     fseek(p, 0, SEEK_END);
     int cantidad = ftell(p) / _tamanioRegistro;
+
     fclose(p);
     return cantidad;
 }

@@ -24,7 +24,7 @@ bool ArchivoInscripcionComision::listarRegistros() {
     InscripcionComision reg;
     int i = 0;
 
-    while (fread(&reg, _tamanioRegistro, 1, p)) {
+    while (fread(&reg, _tamanioRegistro, 1, p) == 1) {
         // Mostrar solo ACTIVO (0) y PENDIENTE (1)
         if (reg.getEstado() != 2) {
             cout << ++i << ") ";
@@ -50,6 +50,9 @@ int ArchivoInscripcionComision::contarRegistros() {
 InscripcionComision ArchivoInscripcionComision::leerRegistro(int pos) {
     InscripcionComision reg;
 
+    if (pos < 0 || pos >= contarRegistros())
+        return reg;
+
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return reg;
 
@@ -61,6 +64,9 @@ InscripcionComision ArchivoInscripcionComision::leerRegistro(int pos) {
 }
 
 bool ArchivoInscripcionComision::modificarRegistro(const InscripcionComision &reg, int pos) {
+    if (pos < 0 || pos >= contarRegistros())
+        return false;
+
     FILE *p = fopen(_nombre, "rb+");
     if (p == nullptr) return false;
 
@@ -76,19 +82,20 @@ int ArchivoInscripcionComision::buscarRegistro(int legajo, int idComision) {
     if (p == nullptr) return -1;
 
     InscripcionComision reg;
-    int pos = 0;
+    int total = contarRegistros();
 
-    while (fread(&reg, _tamanioRegistro, 1, p)) {
+    for (int i = 0; i < total; i++) {
+
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&reg, _tamanioRegistro, 1, p);
 
         if (reg.getEstado() != 2 &&
             reg.getLegajoAlumno() == legajo &&
             reg.getIdComision() == idComision)
         {
             fclose(p);
-            return pos;
+            return i;
         }
-
-        pos++;
     }
 
     fclose(p);

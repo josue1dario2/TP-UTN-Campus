@@ -37,18 +37,78 @@ bool ArchivoCorrelativa::listarRegistros() {
     return true;
 }
 
+
+void ArchivoCorrelativa::listarDeMateria(int idMateriaObjetivo) {
+    FILE *p = fopen(_nombre, "rb");
+    if (p == nullptr) {
+        cout << "No se pudo abrir archivo.\n";
+        return;
+    }
+
+    int total = contarRegistros();
+    Correlativa reg;
+    bool hay = false;
+
+    cout << "Correlativas de la materia " << idMateriaObjetivo << ":\n";
+
+    for (int i = 0; i < total; i++) {
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&reg, _tamanioRegistro, 1, p);
+
+        if (!reg.getEliminado() &&
+            reg.getIdMateriaObjetivo() == idMateriaObjetivo) {
+
+            cout << " - Requiere aprobar materia: "
+                 << reg.getIdMateriaRequisito() << endl;
+            hay = true;
+        }
+    }
+
+    if (!hay) cout << " (Sin correlativas configuradas)\n";
+
+    fclose(p);
+}
+
+
+int ArchivoCorrelativa::buscarPosDeMateria(int idMateriaObjetivo, int idRequisito) {
+    FILE *p = fopen(_nombre, "rb");
+    if (p == nullptr) return -1;
+
+    int total = contarRegistros();
+    Correlativa reg;
+
+    for (int i = 0; i < total; i++) {
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&reg, _tamanioRegistro, 1, p);
+
+        if (!reg.getEliminado() &&
+            reg.getIdMateriaObjetivo() == idMateriaObjetivo &&
+            reg.getIdMateriaRequisito() == idRequisito) {
+
+            fclose(p);
+            return i;
+        }
+    }
+
+    fclose(p);
+    return -2;
+}
+
 int ArchivoCorrelativa::buscarPorMateriaObjetivo(int idMateriaObjetivo) {
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return -1;
 
+    int total = contarRegistros();
     Correlativa reg;
-    int pos = 0;
-    while (fread(&reg, _tamanioRegistro, 1, p)) {
+
+    for (int i = 0; i < total; i++) {
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&reg, _tamanioRegistro, 1, p);
+
         if (reg.getIdMateriaObjetivo() == idMateriaObjetivo) {
             fclose(p);
-            return pos;
+            return i;
         }
-        pos++;
     }
 
     fclose(p);
@@ -59,14 +119,17 @@ int ArchivoCorrelativa::buscarPorMateriaRequisito(int idMateriaRequisito) {
     FILE *p = fopen(_nombre, "rb");
     if (p == nullptr) return -1;
 
+    int total = contarRegistros();
     Correlativa reg;
-    int pos = 0;
-    while (fread(&reg, _tamanioRegistro, 1, p)) {
+
+    for (int i = 0; i < total; i++) {
+        fseek(p, i * _tamanioRegistro, SEEK_SET);
+        fread(&reg, _tamanioRegistro, 1, p);
+
         if (reg.getIdMateriaRequisito() == idMateriaRequisito) {
             fclose(p);
-            return pos;
+            return i;
         }
-        pos++;
     }
 
     fclose(p);
