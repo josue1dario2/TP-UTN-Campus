@@ -49,6 +49,7 @@ add_executable(TP_UTN_Campus
         MenuAbmCorrelativa.cpp
         utils.cpp
         ManagerInscripcionComision.cpp
+        ManagerReportes.cpp
 )
 
 # --- GoogleTest setup ---
@@ -94,6 +95,7 @@ add_executable(runTests
         ManagerExamen.cpp
         ManagerComision.cpp
         InscripcionComision.cpp
+        ManagerReportes.cpp
 )
 
 target_link_libraries(runTests GTest::gtest_main)
