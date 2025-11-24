@@ -10,10 +10,9 @@ void ValidadorAcceso::resetearIntentos() {
     intentosActuales = 0;
 }
 
-void ValidadorAcceso::mostrarIntentosRestantes() const {
-    int restantes = MAX_INTENTOS - intentosActuales;
-    if (restantes > 0) {
-        cout << "\tIntentos restantes: " << restantes << "\n";
+void ValidadorAcceso::mostrarIntentosRestantes(int intentosRestantes) const {
+    if (intentosRestantes > 0) {
+        cout << "\tIntentos restantes: " << intentosRestantes << "\n";
     }
 }
 
@@ -23,6 +22,7 @@ void ValidadorAcceso::mostrarBloqueo() const {
 }
 
 bool ValidadorAcceso::validarLegajoAlumno(int& legajoValidado) {
+    const int MAX_INTENTOS = 3;
     ArchivoAlumno archivoAlumnos("Alumnos.dat");
     resetearIntentos();
 
@@ -43,14 +43,14 @@ bool ValidadorAcceso::validarLegajoAlumno(int& legajoValidado) {
                 intentosActuales++;
                 cout << "\n\t⚠ El alumno con legajo " << legajo << " está dado de baja.\n";
                 if (intentosActuales < MAX_INTENTOS) {
-                    mostrarIntentosRestantes();
+                    mostrarIntentosRestantes(MAX_INTENTOS - intentosActuales);
                 }
             }
         } else {
             intentosActuales++;
             cout << "\n\t✗ Legajo no encontrado.\n";
             if (intentosActuales < MAX_INTENTOS) {
-                mostrarIntentosRestantes();
+                mostrarIntentosRestantes(MAX_INTENTOS - intentosActuales);
             }
         }
     }
@@ -60,6 +60,7 @@ bool ValidadorAcceso::validarLegajoAlumno(int& legajoValidado) {
 }
 
 bool ValidadorAcceso::validarLegajoDocente(int& legajoValidado) {
+    const int MAX_INTENTOS = 3;
     ArchivoDocente archivoDocentes("Docentes.dat");
     resetearIntentos();
 
@@ -80,14 +81,14 @@ bool ValidadorAcceso::validarLegajoDocente(int& legajoValidado) {
                 intentosActuales++;
                 cout << "\n\t⚠ El docente con legajo " << legajo << " está dado de baja.\n";
                 if (intentosActuales < MAX_INTENTOS) {
-                    mostrarIntentosRestantes();
+                    mostrarIntentosRestantes(MAX_INTENTOS - intentosActuales);
                 }
             }
         } else {
             intentosActuales++;
             cout << "\n\t✗ Legajo no encontrado.\n";
             if (intentosActuales < MAX_INTENTOS) {
-                mostrarIntentosRestantes();
+                mostrarIntentosRestantes(MAX_INTENTOS - intentosActuales);
             }
         }
     }
@@ -97,6 +98,7 @@ bool ValidadorAcceso::validarLegajoDocente(int& legajoValidado) {
 }
 
 bool ValidadorAcceso::validarCodigoAdmin() {
+    const int MAX_INTENTOS = 3;
     resetearIntentos();
 
     while (intentosActuales < MAX_INTENTOS) {
@@ -112,7 +114,7 @@ bool ValidadorAcceso::validarCodigoAdmin() {
         intentosActuales++;
         cout << "\n\t✗ Código incorrecto.\n";
         if (intentosActuales < MAX_INTENTOS) {
-            mostrarIntentosRestantes();
+            mostrarIntentosRestantes(MAX_INTENTOS - intentosActuales);
         }
     }
 
