@@ -5,7 +5,7 @@
 #include "MenuDocente.h"
 #include "MenuUtilitarios.h"
 
-class MenuPrincipal{
+class MenuPrincipal {
 public:
     MenuPrincipal();
     void mostrar();
@@ -15,15 +15,6 @@ protected:
     int seleccionOpcion();
     void ejecutarOpcion(int opcion);
 
-
-
-    MenuUtilitarios menu;
-    MenuAlumno menuAlumno;
-    MenuDocente menuDocente;
-    MenuAdministrador menuAdministrador;
-
-
 private:
     int _cantidadOpciones;
 };
-

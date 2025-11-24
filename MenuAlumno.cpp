@@ -1,17 +1,18 @@
 #include "MenuAlumno.h"
 #include "utils.h"
 #include <iostream>
-#include <cstdlib>
 using namespace std;
 
-MenuAlumno::MenuAlumno() {
+MenuAlumno::MenuAlumno(int legajo) {
     _cantidadOpciones = 11;
+    _legajoAlumno = legajo;
 }
 
 void MenuAlumno::mostrar() {
     int opcion;
     do {
         clearScreen();
+        mostrarOpciones();
         opcion = seleccionOpcion();
         clearScreen();
 
@@ -24,7 +25,7 @@ void MenuAlumno::mostrar() {
 }
 
 void MenuAlumno::mostrarOpciones() {
-    cout << "\n\tMENÚ DEL ALUMNO\n";
+    cout << "\n\tMENÚ DEL ALUMNO (Legajo: " << _legajoAlumno << ")\n";
     cout << "\t------------------------------------\n";
     cout << "\t1) Inscribirse a Materia (Comisión)\n";
     cout << "\t2) Inscribirse a Examen Final\n";
@@ -36,7 +37,7 @@ void MenuAlumno::mostrarOpciones() {
     cout << "\t8) Baja Inscripción a Examen Final\n";
     cout << "\t9) Ver Historial de Notas\n";
     cout << "\t10) Solicitar Baja del Alumno\n";
-    cout << "\t11) Editar mis datos (No implementado)\n";
+    cout << "\t11) Editar mis datos\n";
     cout << "\t0) Volver\n";
 }
 
@@ -47,74 +48,54 @@ int MenuAlumno::seleccionOpcion() {
 }
 
 void MenuAlumno::ejecutarOpcion(int opcion) {
-    int legajo, idMateria, idComision;
+    int idMateria, idComision;
 
     switch (opcion) {
 
-        case 1: // Inscripción a comisión
-            cout << "Ingrese su legajo: ";
-            cin >> legajo;
-            _alumnoManager.inscribirseAComision(legajo);
+        case 1:
+            _alumnoManager.inscribirseAComision(_legajoAlumno);
             break;
 
-        case 2: // Inscripción a examen final
-            cout << "Ingrese su legajo: ";
-            cin >> legajo;
-            cout << "Ingrese ID de materia: ";
+        case 2:
+            cout << "ID Materia: ";
             cin >> idMateria;
-            _alumnoManager.inscribirseAFinal(legajo, idMateria);
+            _alumnoManager.inscribirseAFinal(_legajoAlumno, idMateria);
             break;
 
-        case 3: // Ver aprobadas
-            cout << "Ingrese su legajo: ";
-            cin >> legajo;
-            _alumnoManager.mostrarMateriasAprobadas(legajo);
+        case 3:
+            _alumnoManager.mostrarMateriasAprobadas(_legajoAlumno);
             break;
 
-        case 4: // Ver pendientes
-            cout << "Ingrese su legajo: ";
-            cin >> legajo;
-            _alumnoManager.mostrarMateriasPendientes(legajo);
+        case 4:
+            _alumnoManager.mostrarMateriasPendientes(_legajoAlumno);
             break;
 
-        case 5: // Ver comisiones inscriptas
-            cout << "Ingrese su legajo: ";
-            cin >> legajo;
-            _alumnoManager.verMisComisiones(legajo);
+        case 5:
+            _alumnoManager.verMisComisiones(_legajoAlumno);
             break;
 
-        case 6: // Ver mesas finales
-            cout << "Ingrese su legajo: ";
-            cin >> legajo;
-            _alumnoManager.verMisMesas(legajo);
+        case 6:
+            _alumnoManager.verMisMesas(_legajoAlumno);
             break;
 
-        case 7: // Solicitar baja de comisión
-            cout << "Ingrese su legajo: ";
-            cin >> legajo;
-            cout << "Ingrese ID de comisión: ";
+        case 7:
+            cout << "ID Comisión: ";
             cin >> idComision;
-            _alumnoManager.solicitarBajaComision(legajo, idComision);
+            _alumnoManager.solicitarBajaComision(_legajoAlumno, idComision);
             break;
 
-        case 8: // Baja de examen final
-            cout << "Ingrese su legajo: ";
-            cin >> legajo;
-            cout << "Ingrese ID de materia: ";
+        case 8:
+            cout << "ID Materia: ";
             cin >> idMateria;
-            _alumnoManager.bajaInscripcionExamenFinal(legajo, idMateria);
+            _alumnoManager.bajaInscripcionExamenFinal(_legajoAlumno, idMateria);
             break;
 
-        case 9: // Historial de notas
-            cout << "Ingrese su legajo: ";
-            cin >> legajo;
-            _alumnoManager.mostrarHistorialNotas(legajo);
+        case 9:
+            _alumnoManager.mostrarHistorialNotas(_legajoAlumno);
             break;
 
-        case 10: // Solicitar baja del alumno
-            cout << "Ingrese su legajo: ";
-            cin >> legajo;
-            _alumnoManager.solicitarBaja(legajo);
+        case 10:
+            _alumnoManager.solicitarBaja(_legajoAlumno);
             break;
 
         case 11:

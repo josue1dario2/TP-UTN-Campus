@@ -6,10 +6,11 @@
 class MenuAlumno {
 private:
     int _cantidadOpciones;
+    int _legajoAlumno;
     ManagerAlumno _alumnoManager;
 
 public:
-    MenuAlumno();
+    MenuAlumno(int legajoAlumno);
     void mostrar();
 
 protected:

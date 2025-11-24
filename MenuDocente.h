@@ -2,16 +2,17 @@
 #include "ManagerDocente.h"
 
 class MenuDocente {
+private:
+    int _cantidadOpciones;
+    int _legajoDocente;
+    ManagerDocente _manager;
+
 public:
     MenuDocente();
-    void mostrar();
+    MenuDocente(int legajoDocente);
 
-protected:
+    void mostrar();
     void mostrarOpciones();
     int seleccionOpcion();
     void ejecutarOpcion(int opcion);
-
-private:
-    int _cantidadOpciones;
-    ManagerDocente _docenteManager;
 };
