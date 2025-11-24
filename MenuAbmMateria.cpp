@@ -6,7 +6,7 @@
 using namespace std;
 
 MenuAbmMateria::MenuAbmMateria() {
-    _cantidadOpciones = 7;
+    _cantidadOpciones = 6;
 }
 
 void MenuAbmMateria::mostrarMenuABMMaterias() {
@@ -44,9 +44,8 @@ void MenuAbmMateria::mostrarOpciones() {
     cout << "\t2) Modificar Materia\n";
     cout << "\t3) Baja lógica de Materia\n";
     cout << "\t4) Listar Materias activas\n";
-    cout << "\t5) Asignar/Modificar Docente Titular (opcional)\n";
-    cout << "\t6) Configurar Correlativas (opcional)\n";
-    cout << "\t7) Ver correlativas de la materia\n";
+    cout << "\t5) Configurar Correlativas\n";
+    cout << "\t6) Ver correlativas de la materia\n";
     cout << "\t0) Volver\n";
 }
 
@@ -82,16 +81,7 @@ void MenuAbmMateria::ejecutarOpcion(int opcion) {
             manager.listarTodas();
             break;
 
-        case 5:
-            cout << "\n\t=== ASIGNAR DOCENTE TITULAR ===\n";
-            cout << "\t⚠ Para implementar esta funcionalidad se requiere:\n";
-            cout << "\t  1. Agregar campo 'legajoDocenteTitular' en la clase Materia\n";
-            cout << "\t  2. Actualizar los constructores y métodos get/set\n";
-            cout << "\t  3. Implementar el método en ManagerMateria\n";
-            cout << "\n\t  Por ahora, los docentes se asignan a través de Comisiones.\n";
-            break;
-
-        case 6: {
+        case 5: {
             cout << "\n\t=== CONFIGURAR CORRELATIVAS ===\n";
             int id;
             cout << "\tIngrese el ID de la materia: ";
@@ -101,7 +91,7 @@ void MenuAbmMateria::ejecutarOpcion(int opcion) {
             break;
         }
 
-        case 7: {
+        case 6: {
             int idMat = Validacion::validarEntero("\tIngrese ID de materia: ");
             mostrarCorrelativasDeMateria(idMat);
             break;
