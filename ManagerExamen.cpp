@@ -230,11 +230,12 @@ bool ManagerExamen::estaPromocionado(int legajoAlumno, int idComision) {
         }
     }
 
-    // Reemplazar por recuperatorios válidos
-    if (recuP1 != -1) notaP1 = recuP1;
-    if (recuP2 != -1) notaP2 = recuP2;
+    // REGLA: Si usó recuperatorio, NO puede promocionar (solo regularizar)
+    if (recuP1 != -1 || recuP2 != -1) {
+        return false;
+    }
 
-    // Necesita los dos parciales aprobados
+    // Necesita los dos parciales aprobados (sin recuperatorios)
     if (notaP1 < 0 || notaP2 < 0) return false;
 
     float prom = (notaP1 + notaP2) / 2.0f;
