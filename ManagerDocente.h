@@ -24,6 +24,7 @@ private:
 public:
     ManagerDocente();
 
+    void registrarDocente();
     void listarDocentes();
     void mostrarDocentePorLegajo(int legajo);
     void editarDocente(int legajo);

@@ -16,6 +16,20 @@ ManagerDocente::ManagerDocente()
 // --------------------------------------------------
 // CRUD BÁSICO
 // --------------------------------------------------
+void ManagerDocente::registrarDocente() {
+    Docente nuevo;
+    nuevo.cargar();
+
+    if (_archivoDocentes.buscarRegistro(nuevo.getLegajo()) != -1) {
+        cout << "\n\tYa existe un docente con ese legajo.\n";
+        return;
+    }
+
+    if (_archivoDocentes.agregarRegistro(nuevo))
+        cout << "\n\tDocente registrado correctamente.\n";
+    else
+        cout << "\n\tError al guardar el docente.\n";
+}
 
 void ManagerDocente::listarDocentes() {
     int total = _archivoDocentes.contarRegistros();

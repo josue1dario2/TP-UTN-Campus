@@ -9,7 +9,7 @@
 using namespace std;
 
 MenuAdministrador::MenuAdministrador() {
-    _cantidadOpciones = 5;
+    _cantidadOpciones = 7;
 }
 
 void MenuAdministrador::mostrar() {
@@ -35,6 +35,8 @@ void MenuAdministrador::mostrarOpciones() {
     cout << "\t3) ABM Comisiones\n";
     cout << "\t4) Solicitudes de Baja de Comisiones\n";
     cout << "\t5) ABM Correlativas\n";
+    cout << "\t6) Alta de Alumno\n";
+    cout << "\t7) Alta de Docente\n";
     cout << "\t0) Volver\n";
 }
 
@@ -112,6 +114,14 @@ void MenuAdministrador::ejecutarOpcion(int opcion) {
 
         case 5:
             menuCorrelativa.mostrar();
+            break;
+
+        case 6:
+            _managerAlumno.registrarAlumno();
+            break;
+
+        case 7:
+            _managerDocente.registrarDocente();
             break;
 
         case 0:

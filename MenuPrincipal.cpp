@@ -65,6 +65,7 @@ void MenuPrincipal::ejecutarOpcion(int opcion) {
         case 3: // Admin
             cout << "Ingrese código de administrador: ";
             cin >> codigo;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             if (codigo == 1234) {
                 MenuAdministrador menu;

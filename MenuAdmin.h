@@ -5,6 +5,7 @@
 #include "MenuAbmMateria.h"
 #include "MenuAbmCorrelativa.h"
 #include "ManagerAlumno.h"
+#include "ManagerDocente.h"
 
 class MenuAdministrador {
 public:
@@ -25,4 +26,5 @@ private:
     MenuAbmCorrelativa menuCorrelativa;
 
     ManagerAlumno _managerAlumno;
+    ManagerDocente _managerDocente;
 };
