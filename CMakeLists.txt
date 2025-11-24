@@ -100,3 +100,15 @@ target_link_libraries(runTests GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(runTests)
+
+# --- Ejecutable inicializador de datos ---
+add_executable(inicializar_datos
+        inicializar_datos.cpp
+        Materia.cpp
+        ArchivoMateria.cpp
+        Carrera.cpp
+        ArchivoCarrera.cpp
+        Correlativa.cpp
+        ArchivoCorrelativa.cpp
+        Fecha.cpp
+)
