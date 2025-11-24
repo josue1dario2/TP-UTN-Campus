@@ -81,6 +81,9 @@ add_executable(runTests
         ArchivoCorrelativa.cpp
         ArchivoPersona.cpp
         utils.cpp
+        ManagerAlumno.cpp
+        ManagerCarrera.cpp
+        ManagerMateria.cpp
         ManagerDocente.cpp
         ManagerCorrelativa.cpp
         ManagerInscripcionComision.cpp
