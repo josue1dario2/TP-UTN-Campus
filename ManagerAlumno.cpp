@@ -25,7 +25,6 @@ bool ManagerAlumno::cumpleCorrelativas(int legajoAlumno, int idMateriaObjetivo) 
 
     // Si no tiene correlativas → puede inscribirse
     if (!mgrCor.tieneCorrelativas(idMateriaObjetivo)) {
-        cout << "\nNo cumple correlativas. No puede inscribirse.\n";
         return true;
     }
 
