@@ -29,6 +29,7 @@ public:
     void listarAlumnos();
     void mostrarAlumnoPorLegajo(int legajo);
     int buscarAlumno(int legajo);
+    void editarDatos(int legajo);
 
     // Consultas académicas
     void mostrarHistorialNotas(int legajo);

@@ -466,3 +466,70 @@ void ManagerAlumno::mostrarRegistro(const Alumno& alu) {
 void ManagerAlumno::mostrarPie() {
     cout << "\t+--------+---------------------------+---------------------------+-------------+---------+\n";
 }
+
+void ManagerAlumno::editarDatos(int legajo) {
+    int pos = _archivoAlumnos.buscarRegistro(legajo);
+    
+    if (pos == -1) {
+        cout << "\n\tAlumno no encontrado.\n";
+        return;
+    }
+    
+    Alumno alu = _archivoAlumnos.leerRegistro(pos);
+    
+    if (alu.getEliminado()) {
+        cout << "\n\tEl alumno está dado de baja.\n";
+        return;
+    }
+    
+    cout << "\n\t=== EDITAR MIS DATOS ===\n";
+    cout << "\n\tDatos actuales:\n";
+    alu.mostrar();
+    
+    cout << "\n\t¿Qué dato desea modificar?\n";
+    cout << "\t1 - Teléfono\n";
+    cout << "\t2 - Email\n";
+    cout << "\t3 - Dirección\n";
+    cout << "\t0 - Cancelar\n";
+    cout << "\tOpción: ";
+    
+    int opcion;
+    cin >> opcion;
+    cin.ignore();
+    
+    switch (opcion) {
+        case 1: {
+            char telefono[50];
+            cout << "\n\tNuevo teléfono: ";
+            cin.getline(telefono, 50);
+            alu.setTelefono(telefono);
+            break;
+        }
+        case 2: {
+            char email[50];
+            cout << "\n\tNuevo email: ";
+            cin.getline(email, 50);
+            alu.setEmail(email);
+            break;
+        }
+        case 3: {
+            Direccion dir;
+            cout << "\n\tNueva dirección:\n";
+            dir.cargar();
+            alu.setDireccion(dir);
+            break;
+        }
+        case 0:
+            cout << "\n\tOperación cancelada.\n";
+            return;
+        default:
+            cout << "\n\tOpción inválida.\n";
+            return;
+    }
+    
+    if (_archivoAlumnos.modificarRegistro(alu, pos)) {
+        cout << "\n\t✓ Datos actualizados correctamente.\n";
+    } else {
+        cout << "\n\t✗ Error al actualizar los datos.\n";
+    }
+}
