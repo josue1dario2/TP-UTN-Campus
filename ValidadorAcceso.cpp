@@ -17,7 +17,7 @@ void ValidadorAcceso::mostrarIntentosRestantes(int intentosRestantes) const {
 }
 
 void ValidadorAcceso::mostrarBloqueo() const {
-    cout << "\n\t⚠ Número máximo de intentos alcanzado.\n";
+    cout << "\n\tNúmero máximo de intentos alcanzado.\n";
     cout << "\tRegresando al menú principal...\n";
 }
 
@@ -41,14 +41,14 @@ bool ValidadorAcceso::validarLegajoAlumno(int& legajoValidado) {
                 return true;  // Éxito
             } else {
                 intentosActuales++;
-                cout << "\n\t⚠ El alumno con legajo " << legajo << " está dado de baja.\n";
+                cout << "\n\tEl alumno con legajo " << legajo << " está dado de baja.\n";
                 if (intentosActuales < MAX_INTENTOS) {
                     mostrarIntentosRestantes(MAX_INTENTOS - intentosActuales);
                 }
             }
         } else {
             intentosActuales++;
-            cout << "\n\t✗ Legajo no encontrado.\n";
+            cout << "\n\tLegajo no encontrado.\n";
             if (intentosActuales < MAX_INTENTOS) {
                 mostrarIntentosRestantes(MAX_INTENTOS - intentosActuales);
             }
