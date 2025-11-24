@@ -99,7 +99,7 @@ void MenuAlumno::ejecutarOpcion(int opcion) {
             break;
 
         case 11:
-            cout << "Funcionalidad en desarrollo.\n";
+            _alumnoManager.editarDatos(_legajoAlumno);
             break;
 
         default:

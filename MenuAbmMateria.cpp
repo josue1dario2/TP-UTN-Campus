@@ -83,7 +83,12 @@ void MenuAbmMateria::ejecutarOpcion(int opcion) {
             break;
 
         case 5:
-            cout << "\n\tFuncionalidad opcional (Docente titular)\n";
+            cout << "\n\t=== ASIGNAR DOCENTE TITULAR ===\n";
+            cout << "\t⚠ Para implementar esta funcionalidad se requiere:\n";
+            cout << "\t  1. Agregar campo 'legajoDocenteTitular' en la clase Materia\n";
+            cout << "\t  2. Actualizar los constructores y métodos get/set\n";
+            cout << "\t  3. Implementar el método en ManagerMateria\n";
+            cout << "\n\t  Por ahora, los docentes se asignan a través de Comisiones.\n";
             break;
 
         case 6: {
