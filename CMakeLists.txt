@@ -21,6 +21,7 @@ add_executable(TP_UTN_Campus
         Materia.cpp
         Persona.cpp
         Validacion.cpp
+        ValidadorAcceso.cpp
         MenuPrincipal.cpp
         MenuAdmin.cpp
         MenuAbmCarrera.cpp
