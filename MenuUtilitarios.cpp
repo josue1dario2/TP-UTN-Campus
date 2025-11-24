@@ -2,6 +2,7 @@
 #include <limits>
 #include <filesystem>
 #include "MenuUtilitarios.h"
+#include "MenuDatosCSV.h"
 #include "utils.h"
 
 using namespace std;
@@ -118,8 +119,9 @@ void MenuUtilitarios::restaurarCopiaSeguridad() {
 
 
 // =====================================================
-//     EXPORTAR CSV (AÚN NO IMPLEMENTADO)
+//     EXPORTAR CSV
 // =====================================================
 void MenuUtilitarios::exportarDatosCSV() {
-    cout << "Exportar datos CSV todavía no implementado.\n";
+    MenuDatosCSV menuCSV;
+    menuCSV.mostrar();
 }
