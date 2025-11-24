@@ -1,6 +1,14 @@
 #pragma once
 
 #include "Validacion.h"
+#include "ArchivoAlumno.h"
+#include "ArchivoDocente.h"
+#include "ArchivoCarrera.h"
+#include "ArchivoMateria.h"
+#include "ArchivoComision.h"
+#include "ArchivoInscripcionComision.h"
+#include "ArchivoExamen.h"
+#include "ArchivoCorrelativa.h"
 
 
 class MenuDatosCSV {
@@ -13,17 +21,22 @@ protected:
     void ejecutarOpcion(int opcion);
     int seleccionOpcion();
 
-    //void realizarCopiaSeguridad();
-    //void mostrarOpcionesSeguridad();
-    //void restaurarCopiaSeguridad();
-    //void exportarDatosCSV();
-
-
 private:
     Validacion validar;
-    // Manager
     int _cantidadOpciones;
 
+    // Métodos de exportación
+    void exportarAlumnos();
+    void exportarDocentes();
+    void exportarCarreras();
+    void exportarMaterias();
+    void exportarComisiones();
+    void exportarInscripciones();
+    void exportarMesasExamen();
+    void exportarEvaluaciones();
+    void exportarCalificaciones();
+    void exportarCorrelativas();
+    void exportarTodos();
 };
 
 
