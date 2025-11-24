@@ -58,9 +58,7 @@ void MenuDocente::ejecutarOpcion(int opcion) {
             break;
 
         case 2: {
-            int idComision;
-            cout << "Ingrese ID de comisión: ";
-            cin >> idComision;
+            int idComision = Validacion::validarEntero("\tIngrese ID de comision: ");
             _manager.verAlumnosDeComision(idComision);
             break;
         }

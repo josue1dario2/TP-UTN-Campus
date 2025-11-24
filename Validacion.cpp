@@ -138,6 +138,7 @@ bool Validacion::desearGuardar(string mensaje=""){
         bajo= tolower(pregunta);
     }
     while (bajo !='s' && bajo !='n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     bool respuesta = (pregunta =='s')? true: false;
     return respuesta;
 

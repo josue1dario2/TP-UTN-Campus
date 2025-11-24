@@ -1,6 +1,7 @@
 #include "ManagerExamen.h"
 #include "ArchivoComision.h"
 #include "ManagerAlumno.h"
+#include "ManagerInscripcionComision.h"
 #include <iostream>
 #include <iomanip>
 #include <cstring>
@@ -19,6 +20,13 @@ void ManagerExamen::cargarParcial(int legajoAlumno, int idComision, int nota) {
     int pos = ac.buscarRegistro(idComision);
     if (pos < 0) {
         cout << "\nERROR: Comisión inexistente.\n";
+        return;
+    }
+
+    // Validar que el alumno esté inscrito en la comisión
+    ManagerInscripcionComision manInsc;
+    if (!manInsc.estaInscripto(legajoAlumno, idComision)) {
+        cout << "\nERROR: El alumno NO está inscrito en esta comisión.\n";
         return;
     }
 
@@ -73,6 +81,13 @@ void ManagerExamen::cargarRecuperatorio(int legajoAlumno, int idComision, int no
         return;
     }
 
+    // Validar que el alumno esté inscrito en la comisión
+    ManagerInscripcionComision manInsc;
+    if (!manInsc.estaInscripto(legajoAlumno, idComision)) {
+        cout << "\nERROR: El alumno NO está inscrito en esta comisión.\n";
+        return;
+    }
+
     Comision com = ac.leerRegistro(pos);
     int idMateria = com.getIdMateria();
 
@@ -123,6 +138,13 @@ void ManagerExamen::cargarFinal(int legajoAlumno, int idComision, int nota) {
         return;
     }
 
+    // Validar que el alumno esté inscrito en la comisión
+    ManagerInscripcionComision manInsc;
+    if (!manInsc.estaInscripto(legajoAlumno, idComision)) {
+        cout << "\nERROR: El alumno NO está inscrito en esta comisión.\n";
+        return;
+    }
+
     Comision com = ac.leerRegistro(pos);
     int idMateria = com.getIdMateria();
 
@@ -153,6 +175,13 @@ bool ManagerExamen::puedeRendirFinal(int legajoAlumno, int idComision) {
         return false;
     }
 
+    // ---- 0) INSCRIPCIÓN EN LA COMISIÓN ----
+    ManagerInscripcionComision manInsc;
+    if (!manInsc.estaInscripto(legajoAlumno, idComision)) {
+        cout << "\nERROR: El alumno NO está inscrito en esta comisión.\n";
+        return false;
+    }
+
     Comision com = ac.leerRegistro(pos);
     int idMateria = com.getIdMateria();
 
@@ -163,15 +192,19 @@ bool ManagerExamen::puedeRendirFinal(int legajoAlumno, int idComision) {
         return false;
     }
 
-    // ---- 2) REGULARIDAD REAL (Usando parciales + recuperatorios) ----
-    float prom = promedioConReglas(legajoAlumno, idMateria);
-
-    if (prom < 4) {
-        cout << "\nERROR: No es regular (promedio: " << prom << ").\n";
+    // ---- 2) NO PUEDE ESTAR PROMOCIONADO ----
+    if (estaPromocionado(legajoAlumno, idComision)) {
+        cout << "\nERROR: El alumno está PROMOCIONADO. No necesita rendir final.\n";
         return false;
     }
 
-    // ---- 3) YA APROBÓ FINAL ----
+    // ---- 3) DEBE ESTAR REGULAR (NO LIBRE) ----
+    if (estaLibre(legajoAlumno, idComision)) {
+        cout << "\nERROR: El alumno está LIBRE. Debe cursar y regularizar primero.\n";
+        return false;
+    }
+
+    // ---- 4) YA APROBÓ FINAL ----
     int total = _archivoExamen.contarRegistros();
 
     for (int i = 0; i < total; i++) {
@@ -230,11 +263,12 @@ bool ManagerExamen::estaPromocionado(int legajoAlumno, int idComision) {
         }
     }
 
-    // Reemplazar por recuperatorios válidos
-    if (recuP1 != -1) notaP1 = recuP1;
-    if (recuP2 != -1) notaP2 = recuP2;
+    // REGLA: Si usó recuperatorio, NO puede promocionar (solo regularizar)
+    if (recuP1 != -1 || recuP2 != -1) {
+        return false;
+    }
 
-    // Necesita los dos parciales aprobados
+    // Necesita los dos parciales aprobados (sin recuperatorios)
     if (notaP1 < 0 || notaP2 < 0) return false;
 
     float prom = (notaP1 + notaP2) / 2.0f;

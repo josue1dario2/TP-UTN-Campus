@@ -30,6 +30,9 @@ add_executable(TP_UTN_Campus
         MenuAlumno.cpp
         MenuDocente.cpp
         MenuUtilitarios.cpp
+        MenuDatosCSV.cpp
+        MenuCopiaSeguridad.cpp
+        MenuAbmExamen.cpp
         ManagerCarrera.cpp
         ManagerMateria.cpp
         ManagerAlumno.cpp
@@ -46,6 +49,7 @@ add_executable(TP_UTN_Campus
         MenuAbmCorrelativa.cpp
         utils.cpp
         ManagerInscripcionComision.cpp
+        ManagerReportes.cpp
 )
 
 # --- GoogleTest setup ---
@@ -91,9 +95,22 @@ add_executable(runTests
         ManagerExamen.cpp
         ManagerComision.cpp
         InscripcionComision.cpp
+        ManagerReportes.cpp
 )
 
 target_link_libraries(runTests GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(runTests)
+
+# --- Ejecutable inicializador de datos ---
+add_executable(inicializar_datos
+        inicializar_datos.cpp
+        Materia.cpp
+        ArchivoMateria.cpp
+        Carrera.cpp
+        ArchivoCarrera.cpp
+        Correlativa.cpp
+        ArchivoCorrelativa.cpp
+        Fecha.cpp
+)

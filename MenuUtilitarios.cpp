@@ -2,6 +2,8 @@
 #include <limits>
 #include <filesystem>
 #include "MenuUtilitarios.h"
+#include "MenuDatosCSV.h"
+#include "Validacion.h"
 #include "utils.h"
 
 using namespace std;
@@ -21,9 +23,7 @@ void MenuUtilitarios::mostrarMenuPrincipal() {
         cout << "\t3 - Exportar datos (CSV)\n";
         cout << "\t---------------------------\n";
         cout << "\t0 - Volver\n";
-        cout << "\tSeleccione una opción: ";
-        cin >> opcion;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        opcion = Validacion::validarEnteroEnRango("\tSeleccione una opcion: ", 0, 3);
 
         clearScreen();
         switch (opcion) {
@@ -64,7 +64,7 @@ void MenuUtilitarios::realizarCopiaSeguridad() {
 
             try {
                 fs::copy_file(file.path(), destino, fs::copy_options::overwrite_existing);
-                cout << "✔ Copiado: " << file.path().filename() << endl;
+                cout << "[OK] Copiado: " << file.path().filename() << endl;
                 copiados++;
             }
             catch (fs::filesystem_error& e) {
@@ -102,7 +102,7 @@ void MenuUtilitarios::restaurarCopiaSeguridad() {
 
             try {
                 fs::copy_file(file.path(), destinoFinal, fs::copy_options::overwrite_existing);
-                cout << "✔ Restaurado: " << file.path().filename() << endl;
+                cout << "[OK] Restaurado: " << file.path().filename() << endl;
                 restaurados++;
             }
             catch (fs::filesystem_error& e) {
@@ -118,8 +118,9 @@ void MenuUtilitarios::restaurarCopiaSeguridad() {
 
 
 // =====================================================
-//     EXPORTAR CSV (AÚN NO IMPLEMENTADO)
+//     EXPORTAR CSV
 // =====================================================
 void MenuUtilitarios::exportarDatosCSV() {
-    cout << "Exportar datos CSV todavía no implementado.\n";
+    MenuDatosCSV menu;
+    menu.mostrar();
 }
