@@ -1,5 +1,6 @@
 #include "ArchivoCorrelativa.h"
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 ArchivoCorrelativa::ArchivoCorrelativa(const char *nombre) {

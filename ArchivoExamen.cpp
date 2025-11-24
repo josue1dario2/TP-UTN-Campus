@@ -1,5 +1,6 @@
 #include "ArchivoExamen.h"
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 ArchivoExamen::ArchivoExamen(const char *nombre) {

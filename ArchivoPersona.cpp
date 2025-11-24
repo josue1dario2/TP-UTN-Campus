@@ -1,5 +1,6 @@
 #include "ArchivoPersona.h"
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 ArchivoPersona::ArchivoPersona(const char *nombre) {

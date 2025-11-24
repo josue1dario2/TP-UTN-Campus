@@ -5,6 +5,9 @@
 #include "ArchivoExamen.h"
 #include "Examen.h"
 #include "Validacion.h"
+#include <iostream>
+#include <iomanip>
+#include <cstring>
 using namespace std;
 
 ManagerInscripcionComision::ManagerInscripcionComision() {}

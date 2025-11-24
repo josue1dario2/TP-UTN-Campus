@@ -1,4 +1,5 @@
 #include "Comision.h"
+#include <cstring>
 using std::cin; using std::cout;
 
 Comision::Comision() {
