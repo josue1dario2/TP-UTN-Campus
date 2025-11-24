@@ -15,8 +15,8 @@ obj/
 *.a
 *.so
 
-# Archivos de datos
-*.dat
+# Archivos de datos (excluir del root, permitir en test_data/)
+/*.dat
 
 # IDEs
 .vscode/

@@ -1,4 +1,5 @@
 #include "ValidadorAcceso.h"
+#include "Validacion.h"
 #include <iostream>
 #include <limits>
 
@@ -17,8 +18,9 @@ void ValidadorAcceso::mostrarIntentosRestantes(int intentosRestantes) const {
 }
 
 void ValidadorAcceso::mostrarBloqueo() const {
-    cout << "\n\t⚠ Número máximo de intentos alcanzado.\n";
-    cout << "\tRegresando al menú principal...\n";
+    cout << "\n\t*** ACCESO BLOQUEADO ***\n";
+    cout << "\tNumero maximo de intentos alcanzado.\n";
+    cout << "\tRegresando al menu principal...\n";
 }
 
 bool ValidadorAcceso::validarLegajoAlumno(int& legajoValidado) {
@@ -27,10 +29,7 @@ bool ValidadorAcceso::validarLegajoAlumno(int& legajoValidado) {
     resetearIntentos();
 
     while (intentosActuales < MAX_INTENTOS) {
-        cout << "\n\tIngrese su legajo: ";
-        int legajo;
-        cin >> legajo;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        int legajo = Validacion::validarEntero("\n\tIngrese su legajo: ");
 
         int pos = archivoAlumnos.buscarRegistro(legajo);
 
@@ -41,14 +40,14 @@ bool ValidadorAcceso::validarLegajoAlumno(int& legajoValidado) {
                 return true;  // Éxito
             } else {
                 intentosActuales++;
-                cout << "\n\t⚠ El alumno con legajo " << legajo << " está dado de baja.\n";
+                cout << "\n\tADVERTENCIA: El alumno con legajo " << legajo << " esta dado de baja.\n";
                 if (intentosActuales < MAX_INTENTOS) {
                     mostrarIntentosRestantes(MAX_INTENTOS - intentosActuales);
                 }
             }
         } else {
             intentosActuales++;
-            cout << "\n\t✗ Legajo no encontrado.\n";
+            cout << "\n\tERROR: Legajo no encontrado.\n";
             if (intentosActuales < MAX_INTENTOS) {
                 mostrarIntentosRestantes(MAX_INTENTOS - intentosActuales);
             }
@@ -65,10 +64,7 @@ bool ValidadorAcceso::validarLegajoDocente(int& legajoValidado) {
     resetearIntentos();
 
     while (intentosActuales < MAX_INTENTOS) {
-        cout << "\n\tIngrese su legajo de docente: ";
-        int legajo;
-        cin >> legajo;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        int legajo = Validacion::validarEntero("\n\tIngrese su legajo de docente: ");
 
         int pos = archivoDocentes.buscarRegistro(legajo);
 
@@ -79,14 +75,14 @@ bool ValidadorAcceso::validarLegajoDocente(int& legajoValidado) {
                 return true;  // Éxito
             } else {
                 intentosActuales++;
-                cout << "\n\t⚠ El docente con legajo " << legajo << " está dado de baja.\n";
+                cout << "\n\tADVERTENCIA: El docente con legajo " << legajo << " esta dado de baja.\n";
                 if (intentosActuales < MAX_INTENTOS) {
                     mostrarIntentosRestantes(MAX_INTENTOS - intentosActuales);
                 }
             }
         } else {
             intentosActuales++;
-            cout << "\n\t✗ Legajo no encontrado.\n";
+            cout << "\n\tERROR: Legajo no encontrado.\n";
             if (intentosActuales < MAX_INTENTOS) {
                 mostrarIntentosRestantes(MAX_INTENTOS - intentosActuales);
             }
@@ -102,17 +98,14 @@ bool ValidadorAcceso::validarCodigoAdmin() {
     resetearIntentos();
 
     while (intentosActuales < MAX_INTENTOS) {
-        cout << "\n\tIngrese código de administrador: ";
-        int codigo;
-        cin >> codigo;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        int codigo = Validacion::validarEntero("\n\tIngrese codigo de administrador: ");
 
         if (codigo == 1234) {
             return true;  // Éxito
         }
 
         intentosActuales++;
-        cout << "\n\t✗ Código incorrecto.\n";
+        cout << "\n\tERROR: Codigo incorrecto.\n";
         if (intentosActuales < MAX_INTENTOS) {
             mostrarIntentosRestantes(MAX_INTENTOS - intentosActuales);
         }
