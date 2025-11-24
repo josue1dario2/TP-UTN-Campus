@@ -81,16 +81,15 @@ add_executable(runTests
         ArchivoCorrelativa.cpp
         ArchivoPersona.cpp
         utils.cpp
+        ManagerAlumno.cpp
+        ManagerCarrera.cpp
+        ManagerMateria.cpp
         ManagerDocente.cpp
         ManagerCorrelativa.cpp
         ManagerInscripcionComision.cpp
         ManagerExamen.cpp
         ManagerComision.cpp
         InscripcionComision.cpp
-        ArchivoCorrelativa.cpp
-        ManagerCorrelativa.cpp
-        MenuAbmCorrelativa.cpp
-        MenuAbmCorrelativa.cpp
 )
 
 target_link_libraries(runTests GTest::gtest_main)

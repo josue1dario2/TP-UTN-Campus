@@ -1,5 +1,6 @@
 #include "ArchivoDocente.h"
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 ArchivoDocente::ArchivoDocente(const char *n) {

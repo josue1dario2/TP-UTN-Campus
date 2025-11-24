@@ -1,5 +1,6 @@
 #include "ArchivoInscripcionComision.h"
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 ArchivoInscripcionComision::ArchivoInscripcionComision(const char *nombre) {

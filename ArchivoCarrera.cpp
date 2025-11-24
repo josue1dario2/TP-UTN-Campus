@@ -1,5 +1,6 @@
 #include "ArchivoCarrera.h"
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 ArchivoCarrera::ArchivoCarrera(const char *n) {

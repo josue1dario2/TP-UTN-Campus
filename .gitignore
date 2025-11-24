@@ -5,10 +5,25 @@ CMakeFiles/
 CMakeCache.txt
 Makefile
 compile_commands.json
+bin/
+obj/
 
-# IDE
+# Ejecutables y binarios
+*.exe
+*.out
+*.o
+*.a
+*.so
+
+# Archivos de datos
+*.dat
+
+# IDEs
 .vscode/
 .idea/
+*.cbp
+*.depend
+*.layout
 
 # Archivos temporales
 *.log

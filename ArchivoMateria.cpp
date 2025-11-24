@@ -1,5 +1,6 @@
 #include "ArchivoMateria.h"
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 ArchivoMateria::ArchivoMateria(const char *n) {

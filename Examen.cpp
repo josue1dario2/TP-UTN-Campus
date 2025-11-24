@@ -1,6 +1,7 @@
 #include "Examen.h"
 #include <iostream>
 #include <iomanip>
+#include <cstring>
 using namespace std;
 
 Examen::Examen() {
