@@ -28,7 +28,7 @@ void MenuDatosCSV::mostrar()
 
 void MenuDatosCSV::mostrarOpciones()
 {
-    system("cls");
+    clearScreen();
     cout << endl;
     cout << "\n\tEXPORTAR DATOS A ARCHIVO CSV\n";
     cout << "\t--------------------------------------\n";
@@ -148,7 +148,7 @@ void MenuDatosCSV::exportarAlumnos() {
     }
     
     file.close();
-    cout << "\n\t✓ Archivo 'alumnos.csv' generado correctamente.\n";
+    cout << "\n\tEXITO: Archivo 'alumnos.csv' generado correctamente.\n";
     cout << "\tTotal de registros exportados: " << total << "\n";
 }
 
@@ -187,7 +187,7 @@ void MenuDatosCSV::exportarDocentes() {
     }
     
     file.close();
-    cout << "\n\t✓ Archivo 'docentes.csv' generado correctamente.\n";
+    cout << "\n\tEXITO: Archivo 'docentes.csv' generado correctamente.\n";
     cout << "\tTotal de registros exportados: " << total << "\n";
 }
 
@@ -221,7 +221,7 @@ void MenuDatosCSV::exportarCarreras() {
     }
     
     file.close();
-    cout << "\n\t✓ Archivo 'carreras.csv' generado correctamente.\n";
+    cout << "\n\tEXITO: Archivo 'carreras.csv' generado correctamente.\n";
     cout << "\tTotal de registros exportados: " << total << "\n";
 }
 
@@ -241,8 +241,8 @@ void MenuDatosCSV::exportarMaterias() {
     }
     
     // Encabezado
-    file << "ID,Nombre,Cuatrimestre,Anio,Estado\n";
-    
+    file << "ID,Nombre,Cuatrimestre,Estado\n";
+
     // Datos
     for (int i = 0; i < total; i++) {
         Materia mat = archivo.leerRegistro(i);
@@ -250,13 +250,12 @@ void MenuDatosCSV::exportarMaterias() {
             file << mat.getIdMateria() << ","
                  << mat.getNombre() << ","
                  << mat.getCuatrimestre() << ","
-                 << mat.getAnio() << ","
                  << "Activa\n";
         }
     }
     
     file.close();
-    cout << "\n\t✓ Archivo 'materias.csv' generado correctamente.\n";
+    cout << "\n\tEXITO: Archivo 'materias.csv' generado correctamente.\n";
     cout << "\tTotal de registros exportados: " << total << "\n";
 }
 
@@ -294,7 +293,7 @@ void MenuDatosCSV::exportarComisiones() {
     }
     
     file.close();
-    cout << "\n\t✓ Archivo 'comisiones.csv' generado correctamente.\n";
+    cout << "\n\tEXITO: Archivo 'comisiones.csv' generado correctamente.\n";
     cout << "\tTotal de registros exportados: " << total << "\n";
 }
 
@@ -335,7 +334,7 @@ void MenuDatosCSV::exportarInscripciones() {
     }
     
     file.close();
-    cout << "\n\t✓ Archivo 'inscripciones.csv' generado correctamente.\n";
+    cout << "\n\tEXITO: Archivo 'inscripciones.csv' generado correctamente.\n";
     cout << "\tTotal de registros exportados: " << total << "\n";
 }
 
@@ -376,7 +375,7 @@ void MenuDatosCSV::exportarMesasExamen() {
     }
     
     file.close();
-    cout << "\n\t✓ Archivo 'mesas_examen.csv' generado correctamente.\n";
+    cout << "\n\tEXITO: Archivo 'mesas_examen.csv' generado correctamente.\n";
     cout << "\tTotal de registros exportados: " << contador << "\n";
 }
 
@@ -418,7 +417,7 @@ void MenuDatosCSV::exportarEvaluaciones() {
     }
     
     file.close();
-    cout << "\n\t✓ Archivo 'evaluaciones.csv' generado correctamente.\n";
+    cout << "\n\tEXITO: Archivo 'evaluaciones.csv' generado correctamente.\n";
     cout << "\tTotal de registros exportados: " << contador << "\n";
 }
 
@@ -456,7 +455,7 @@ void MenuDatosCSV::exportarCalificaciones() {
     }
     
     file.close();
-    cout << "\n\t✓ Archivo 'calificaciones.csv' generado correctamente.\n";
+    cout << "\n\tEXITO: Archivo 'calificaciones.csv' generado correctamente.\n";
     cout << "\tTotal de registros exportados: " << total << "\n";
 }
 
@@ -489,7 +488,7 @@ void MenuDatosCSV::exportarCorrelativas() {
     }
     
     file.close();
-    cout << "\n\t✓ Archivo 'correlativas.csv' generado correctamente.\n";
+    cout << "\n\tEXITO: Archivo 'correlativas.csv' generado correctamente.\n";
     cout << "\tTotal de registros exportados: " << total << "\n";
 }
 
@@ -526,6 +525,6 @@ void MenuDatosCSV::exportarTodos() {
     exportarCorrelativas();
     
     cout << "\n\t=========================================\n";
-    cout << "\t✓ EXPORTACIÓN COMPLETA FINALIZADA\n";
+    cout << "\tEXPORTACION COMPLETA FINALIZADA\n";
     cout << "\t=========================================\n";
 }

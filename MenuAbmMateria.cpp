@@ -81,15 +81,10 @@ void MenuAbmMateria::ejecutarOpcion(int opcion) {
             manager.listarTodas();
             break;
 
-        case 5: {
+        case 5:
             cout << "\n\t=== CONFIGURAR CORRELATIVAS ===\n";
-            int id;
-            cout << "\tIngrese el ID de la materia: ";
-            cin >> id;
-
             menuCorrelativa.mostrar();
             break;
-        }
 
         case 6: {
             int idMat = Validacion::validarEntero("\tIngrese ID de materia: ");

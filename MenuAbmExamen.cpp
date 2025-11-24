@@ -5,11 +5,11 @@
 #include <cstdlib>
 using namespace std;
 
-MenuABMExamen::MenuABMExamen() {
+MenuAbmExamen::MenuAbmExamen() {
     _cantidadOpciones = 6;
 }
 
-void MenuABMExamen::mostrar() {
+void MenuAbmExamen::mostrar() {
     int opcion;
     do {
         clearScreen();
@@ -20,7 +20,7 @@ void MenuABMExamen::mostrar() {
     } while (opcion != 0);
 }
 
-void MenuABMExamen::mostrarOpciones() {
+void MenuAbmExamen::mostrarOpciones() {
     cout << endl;
     cout << "\n\t=== ABM DE EXÁMENES ===\n";
     cout << "\t-------------------------------------------\n";
@@ -34,62 +34,46 @@ void MenuABMExamen::mostrarOpciones() {
     cout << "\t-------------------------------------------\n";
 }
 
-int MenuABMExamen::seleccionOpcion() {
+int MenuAbmExamen::seleccionOpcion() {
     mostrarOpciones();
     cout << "\tOpción: ";
     return Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
 }
 
-void MenuABMExamen::ejecutarOpcion(int opcion) {
+void MenuAbmExamen::ejecutarOpcion(int opcion) {
     int legajo, idComision, numeroParcial, nota;
 
     switch (opcion) {
 
         case 1:
-            cout << "\nLegajo del alumno: ";
-            cin >> legajo;
-            cout << "ID de comisión: ";
-            cin >> idComision;
-            cout << "Número de parcial (1-3): ";
-            cin >> numeroParcial;
-            cout << "Nota (0-10): ";
-            cin >> nota;
-            _managerExamen.cargarParcial(legajo, idComision, numeroParcial, nota);
+            legajo = Validacion::validarEntero("\n\tLegajo del alumno: ");
+            idComision = Validacion::validarEntero("\tID de comision: ");
+            nota = Validacion::validarEnteroEnRango("\tNota (0-10): ", 0, 10);
+            _managerExamen.cargarParcial(legajo, idComision, nota);
             break;
 
         case 2:
-            cout << "\nLegajo del alumno: ";
-            cin >> legajo;
-            cout << "ID de comisión: ";
-            cin >> idComision;
-            cout << "Número de parcial (1-3): ";
-            cin >> numeroParcial;
-            cout << "Nota (0-10): ";
-            cin >> nota;
-            _managerExamen.cargarRecuperatorio(legajo, idComision, numeroParcial, nota);
+            legajo = Validacion::validarEntero("\n\tLegajo del alumno: ");
+            idComision = Validacion::validarEntero("\tID de comision: ");
+            nota = Validacion::validarEnteroEnRango("\tNota (0-10): ", 0, 10);
+            _managerExamen.cargarRecuperatorio(legajo, idComision, nota);
             break;
 
         case 3:
-            cout << "\nLegajo del alumno: ";
-            cin >> legajo;
-            cout << "ID de comisión: ";
-            cin >> idComision;
-            cout << "Nota (0-10): ";
-            cin >> nota;
+            legajo = Validacion::validarEntero("\n\tLegajo del alumno: ");
+            idComision = Validacion::validarEntero("\tID de comision: ");
+            nota = Validacion::validarEnteroEnRango("\tNota (0-10): ", 0, 10);
             _managerExamen.cargarFinal(legajo, idComision, nota);
             break;
 
         case 4:
-            cout << "\nLegajo del alumno: ";
-            cin >> legajo;
+            legajo = Validacion::validarEntero("\n\tLegajo del alumno: ");
             _managerExamen.mostrarHistorial(legajo);
             break;
 
         case 5:
-            cout << "\nLegajo del alumno: ";
-            cin >> legajo;
-            cout << "ID de comisión: ";
-            cin >> idComision;
+            legajo = Validacion::validarEntero("\n\tLegajo del alumno: ");
+            idComision = Validacion::validarEntero("\tID de comision: ");
             _managerExamen.recalcularCondicion(legajo, idComision);
             break;
 

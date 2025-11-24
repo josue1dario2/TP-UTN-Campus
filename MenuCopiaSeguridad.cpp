@@ -30,7 +30,7 @@ void MenuCopiaSeguridad::mostrar(int eleccion)
 
 void MenuCopiaSeguridad::mostrarOpciones(int eleccion)
 {
-    system("cls");
+    clearScreen();
     cout << endl;
     if (eleccion == 1) {
         cout << "\t=== REALIZAR COPIA DE SEGURIDAD ===\n";

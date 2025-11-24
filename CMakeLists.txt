@@ -30,6 +30,9 @@ add_executable(TP_UTN_Campus
         MenuAlumno.cpp
         MenuDocente.cpp
         MenuUtilitarios.cpp
+        MenuDatosCSV.cpp
+        MenuCopiaSeguridad.cpp
+        MenuAbmExamen.cpp
         ManagerCarrera.cpp
         ManagerMateria.cpp
         ManagerAlumno.cpp

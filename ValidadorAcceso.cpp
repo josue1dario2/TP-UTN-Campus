@@ -1,4 +1,5 @@
 #include "ValidadorAcceso.h"
+#include "Validacion.h"
 #include <iostream>
 #include <limits>
 
@@ -28,10 +29,7 @@ bool ValidadorAcceso::validarLegajoAlumno(int& legajoValidado) {
     resetearIntentos();
 
     while (intentosActuales < MAX_INTENTOS) {
-        cout << "\n\tIngrese su legajo: ";
-        int legajo;
-        cin >> legajo;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        int legajo = Validacion::validarEntero("\n\tIngrese su legajo: ");
 
         int pos = archivoAlumnos.buscarRegistro(legajo);
 
@@ -66,10 +64,7 @@ bool ValidadorAcceso::validarLegajoDocente(int& legajoValidado) {
     resetearIntentos();
 
     while (intentosActuales < MAX_INTENTOS) {
-        cout << "\n\tIngrese su legajo de docente: ";
-        int legajo;
-        cin >> legajo;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        int legajo = Validacion::validarEntero("\n\tIngrese su legajo de docente: ");
 
         int pos = archivoDocentes.buscarRegistro(legajo);
 
@@ -103,10 +98,7 @@ bool ValidadorAcceso::validarCodigoAdmin() {
     resetearIntentos();
 
     while (intentosActuales < MAX_INTENTOS) {
-        cout << "\n\tIngrese código de administrador: ";
-        int codigo;
-        cin >> codigo;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        int codigo = Validacion::validarEntero("\n\tIngrese codigo de administrador: ");
 
         if (codigo == 1234) {
             return true;  // Éxito
