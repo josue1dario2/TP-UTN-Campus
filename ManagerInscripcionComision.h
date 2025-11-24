@@ -20,4 +20,5 @@ public:
     void borrar();     // Baja definitiva (estado = 2)
 
     bool estaInscripto(int legajo, int idComision);   // Evita duplicados
+    void procesarSolicitudesPendientes();
 };

@@ -156,3 +156,45 @@ bool ManagerInscripcionComision::estaInscripto(int legajo, int idComision) {
 
     return false;
 }
+
+void ManagerInscripcionComision::procesarSolicitudesPendientes() {
+    cout << "\n\t=== Solicitudes PENDIENTES DE BAJA ===\n";
+
+    int total = _archivo.contarRegistros();
+    bool hay = false;
+
+    for (int i = 0; i < total; i++) {
+        InscripcionComision ins = _archivo.leerRegistro(i);
+
+        if (ins.getEstado() == 1) { // 1 = Pendiente de baja
+            hay = true;
+
+            cout << "\n-------------------------------------------\n";
+            cout << "Legajo: " << ins.getLegajoAlumno() << endl;
+            cout << "ID Comisión: " << ins.getIdComision() << endl;
+            cout << "Fecha: ";
+            ins.getFecha().mostrar();
+            cout << endl;
+
+            int opcion = Validacion::validarEnteroEnRango(
+                "\n 1) Aprobar\n 2) Rechazar\n 0) Omitir\n Opción: ",
+                0, 2
+            );
+
+            if (opcion == 1) {
+                ins.setEstado(2); // BAJA DEFINITIVA
+                _archivo.modificarRegistro(ins, i);
+                cout << "\tBAJA APROBADA.\n";
+            }
+            else if (opcion == 2) {
+                ins.setEstado(0); // Vuelve a activa
+                _archivo.modificarRegistro(ins, i);
+                cout << "\tSOLICITUD RECHAZADA.\n";
+            }
+        }
+    }
+
+    if (!hay) {
+        cout << "\nNo hay solicitudes pendientes.\n";
+    }
+}
