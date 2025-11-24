@@ -6,7 +6,7 @@
 
 class ValidadorAcceso {
 private:
-    static const int MAX_INTENTOS = 3;
+    constexpr static int MAX_INTENTOS = 3;
     int intentosActuales;
 
     // Métodos auxiliares para mensajes
