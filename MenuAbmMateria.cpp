@@ -62,27 +62,22 @@ void MenuAbmMateria::ejecutarOpcion(int opcion) {
     switch (opcion) {
 
         case 1:
-            cout << "\n\t=== ALTA DE MATERIA ===\n";
             manager.alta();
             break;
 
         case 2:
-            cout << "\n\t=== MODIFICAR MATERIA ===\n";
             manager.modificacion();
             break;
 
         case 3:
-            cout << "\n\t=== BAJA LÓGICA DE MATERIA ===\n";
             manager.baja();
             break;
 
         case 4:
-            cout << "\n\t=== LISTADO DE MATERIAS ===\n";
             manager.listarTodas();
             break;
 
         case 5:
-            cout << "\n\t=== CONFIGURAR CORRELATIVAS ===\n";
             menuCorrelativa.mostrar();
             break;
 

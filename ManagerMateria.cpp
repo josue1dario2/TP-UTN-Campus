@@ -1,7 +1,28 @@
 #include "ManagerMateria.h"
 #include <iostream>
+#include <iomanip>
 #include <limits>
 using namespace std;
+
+string quitarAcentos(const char* texto) {
+    string t = texto;
+    string r;
+
+    for (unsigned char c : t) {
+        switch (c) {
+            case 0xC3:
+                continue;
+            case 0xA1: r += "a"; break; // á
+            case 0xA9: r += "e"; break; // é
+            case 0xAD: r += "i"; break; // í
+            case 0xB3: r += "o"; break; // ó
+            case 0xBA: r += "u"; break; // ú
+            case 0xB1: r += "n"; break; // ñ
+            default: r += c; break;
+        }
+    }
+    return r;
+}
 
 void ManagerMateria::alta() {
     Materia reg;
@@ -76,6 +97,12 @@ void ManagerMateria::modificacion() {
 
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+    int nuevoIdCarrera;
+    cout << "Nuevo ID de Carrera: ";
+    cin >> nuevoIdCarrera;
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
     char nombre[50];
     cout << "Nuevo nombre: ";
     cin.getline(nombre, 50);
@@ -92,6 +119,7 @@ void ManagerMateria::modificacion() {
     reg.setNombre(nombre);
     reg.setCuatrimestre(cuatrimestre);
     reg.setEstado(estado);
+    reg.setIdCarrera(nuevoIdCarrera);
 
     if (_archivo.modificarRegistro(reg, pos))
         cout << "Registro modificado correctamente.\n";
@@ -106,14 +134,37 @@ void ManagerMateria::listarTodas() {
         return;
     }
 
+    cout << "=== LISTADO DE MATERIAS ===\n";
+
+    cout << left << setfill(' ');
+
+    // ------- ENCABEZADO -------
+    cout << setw(10) << "Carrera"
+         << setw(5)  << "Id"
+         << setw(38) << "Nombre"
+         << setw(15) << "Cuatrimestre"
+         << setw(10) << "Estado"
+         << setw(10) << "Eliminado"
+         << "\n";
+
+    cout << string(88, '-') << "\n";
+
+    // ------- FILAS -------
     for (int i = 0; i < cantidad; i++) {
         Materia reg = _archivo.leerRegistro(i);
 
         if (!reg.getEliminado()) {
-            reg.mostrar();
-            cout << "-------------------------------\n";
+            cout << setw(10) << reg.getIdCarrera()
+                 << setw(5)  << reg.getIdMateria()
+                 << setw(38) << quitarAcentos(reg.getNombre())
+                 << setw(15) << reg.getCuatrimestre()
+                 << setw(10) << reg.getEstado()
+                 << setw(10) << (reg.getEliminado() ? "Si" : "No")
+                 << "\n";
         }
     }
+
+    cout << string(88, '-') << "\n";
 }
 
 int ManagerMateria::buscarPorId(int idMateria) {

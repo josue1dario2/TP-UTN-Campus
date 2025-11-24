@@ -11,8 +11,7 @@ public:
     void baja();
     void modificacion();
     void listarTodas();
-
-private:
-    int generarIdNuevo();
     int buscarPorId(int idMateria);
+    int generarIdNuevo();
+
 };
