@@ -124,19 +124,19 @@ void MenuCopiaSeguridad::copiarArchivo(const string& nombreArchivo) {
 
         // Verificar si existe el archivo origen
         if (!fs::exists(origen)) {
-            cout << "\n\t⚠ El archivo '" << nombreArchivo << "' no existe.\n";
+            cout << "\n\tADVERTENCIA: El archivo '" << nombreArchivo << "' no existe.\n";
             return;
         }
 
         // Copiar archivo
         fs::copy_file(origen, destino, fs::copy_options::overwrite_existing);
 
-        cout << "\n\t✓ Copia de seguridad realizada correctamente.\n";
+        cout << "\n\tEXITO: Copia de seguridad realizada correctamente.\n";
         cout << "\tArchivo: " << nombreArchivo << "\n";
         cout << "\tBackup: " << destino << "\n";
 
     } catch (const fs::filesystem_error& e) {
-        cout << "\n\t✗ Error al realizar la copia de seguridad.\n";
+        cout << "\n\tERROR: No se pudo realizar la copia de seguridad.\n";
         cout << "\tDetalles: " << e.what() << "\n";
     }
 }
@@ -148,31 +148,31 @@ void MenuCopiaSeguridad::restaurarArchivo(const string& nombreArchivo) {
 
         // Verificar si existe el backup
         if (!fs::exists(origen)) {
-            cout << "\n\t⚠ No existe una copia de seguridad para '" << nombreArchivo << "'.\n";
+            cout << "\n\tADVERTENCIA: No existe una copia de seguridad para '" << nombreArchivo << "'.\n";
             cout << "\tRuta esperada: " << origen << "\n";
             return;
         }
 
         // Confirmar restauración
-        cout << "\n\t⚠ ADVERTENCIA: Esta acción reemplazará el archivo actual.\n";
-        cout << "\t¿Desea continuar? (1=Sí / 0=No): ";
+        cout << "\n\t*** ADVERTENCIA: Esta accion reemplazara el archivo actual. ***\n";
+        cout << "\tDesea continuar? (1=Si / 0=No): ";
         int confirmar;
         cin >> confirmar;
 
         if (confirmar != 1) {
-            cout << "\n\tOperación cancelada.\n";
+            cout << "\n\tOperacion cancelada.\n";
             return;
         }
 
         // Restaurar archivo
         fs::copy_file(origen, destino, fs::copy_options::overwrite_existing);
 
-        cout << "\n\t✓ Archivo restaurado correctamente.\n";
+        cout << "\n\tEXITO: Archivo restaurado correctamente.\n";
         cout << "\tArchivo: " << nombreArchivo << "\n";
         cout << "\tDesde: " << origen << "\n";
 
     } catch (const fs::filesystem_error& e) {
-        cout << "\n\t✗ Error al restaurar el archivo.\n";
+        cout << "\n\tERROR: No se pudo restaurar el archivo.\n";
         cout << "\tDetalles: " << e.what() << "\n";
     }
 }
@@ -201,7 +201,7 @@ void MenuCopiaSeguridad::copiarTodos() {
             fs::create_directory("backup");
         }
     } catch (const fs::filesystem_error& e) {
-        cout << "\t✗ Error al crear carpeta backup: " << e.what() << "\n";
+        cout << "\tERROR: No se pudo crear carpeta backup: " << e.what() << "\n";
         return;
     }
 
@@ -212,14 +212,14 @@ void MenuCopiaSeguridad::copiarTodos() {
 
             if (fs::exists(origen)) {
                 fs::copy_file(origen, destino, fs::copy_options::overwrite_existing);
-                cout << "\t✓ " << archivos[i] << "\n";
+                cout << "\t[OK] " << archivos[i] << "\n";
                 exitosos++;
             } else {
-                cout << "\t⚠ " << archivos[i] << " (no existe)\n";
+                cout << "\t[OMITIDO] " << archivos[i] << " (no existe)\n";
                 fallidos++;
             }
         } catch (const fs::filesystem_error& e) {
-            cout << "\t✗ " << archivos[i] << " (error)\n";
+            cout << "\t[ERROR] " << archivos[i] << " (fallo al copiar)\n";
             fallidos++;
         }
     }
@@ -236,13 +236,13 @@ void MenuCopiaSeguridad::restaurarTodos() {
     cout << "\n\t=== RESTAURANDO TODOS LOS ARCHIVOS ===\n";
 
     // Confirmar restauración
-    cout << "\n\t⚠ ADVERTENCIA: Esta acción reemplazará TODOS los archivos actuales.\n";
-    cout << "\t¿Desea continuar? (1=Sí / 0=No): ";
+    cout << "\n\t*** ADVERTENCIA: Esta accion reemplazara TODOS los archivos actuales. ***\n";
+    cout << "\tDesea continuar? (1=Si / 0=No): ";
     int confirmar;
     cin >> confirmar;
 
     if (confirmar != 1) {
-        cout << "\n\tOperación cancelada.\n";
+        cout << "\n\tOperacion cancelada.\n";
         return;
     }
 
@@ -270,14 +270,14 @@ void MenuCopiaSeguridad::restaurarTodos() {
 
             if (fs::exists(origen)) {
                 fs::copy_file(origen, destino, fs::copy_options::overwrite_existing);
-                cout << "\t✓ " << archivos[i] << "\n";
+                cout << "\t[OK] " << archivos[i] << "\n";
                 exitosos++;
             } else {
-                cout << "\t⚠ " << archivos[i] << " (backup no existe)\n";
+                cout << "\t[OMITIDO] " << archivos[i] << " (backup no existe)\n";
                 fallidos++;
             }
         } catch (const fs::filesystem_error& e) {
-            cout << "\t✗ " << archivos[i] << " (error)\n";
+            cout << "\t[ERROR] " << archivos[i] << " (fallo al restaurar)\n";
             fallidos++;
         }
     }
