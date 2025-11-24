@@ -44,6 +44,7 @@ add_executable(TP_UTN_Campus
         ManagerCorrelativa.cpp
         MenuAbmCorrelativa.cpp
         utils.cpp
+        ManagerInscripcionComision.cpp
 )
 
 # --- GoogleTest setup ---

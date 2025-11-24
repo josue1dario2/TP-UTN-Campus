@@ -19,10 +19,10 @@ private:
     void mostrarRegistro(const Alumno& alu);
     void mostrarPie();
 
-    bool cumpleCorrelativas(int legajoAlumno, int idMateriaObjetivo);
-
 public:
     ManagerAlumno();
+
+    bool cumpleCorrelativas(int legajoAlumno, int idMateriaObjetivo);
 
     // Gestión básica
     void registrarAlumno();

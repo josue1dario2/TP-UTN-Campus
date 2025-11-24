@@ -40,4 +40,5 @@ public:
     void exportarCSV(int legajoDocente);
 
     bool dictaComision(int legajoDocente, int idComision);
+    void reporteCursada(int idComision);
 };

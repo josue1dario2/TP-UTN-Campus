@@ -176,7 +176,10 @@ void ManagerAlumno::inscribirseAFinal(int legajo, int idMateria) {
 
     Fecha hoy;
     hoy.cargar();
-    Examen examen(0, idMateria, legajo, "Final", hoy, false);
+
+    // Constructor corregido (nuevo parámetro numeroParcial = 0)
+    Examen examen(0, idMateria, legajo, "Final", 0, hoy, false);
+
 
     ArchivoExamen archEx("Examenes.dat");
 
@@ -185,6 +188,7 @@ void ManagerAlumno::inscribirseAFinal(int legajo, int idMateria) {
     else
         cout << "\tError al registrar la inscripción.\n";
 }
+
 
 void ManagerAlumno::bajaInscripcionExamenFinal(int legajo, int idMateria) {
     ArchivoExamen archEx("Examenes.dat");

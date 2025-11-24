@@ -1,6 +1,8 @@
 #include "ManagerDocente.h"
+#include "ManagerInscripcionComision.h"
 #include <fstream>
 #include <iomanip>
+
 using namespace std;
 
 ManagerDocente::ManagerDocente()
@@ -9,6 +11,7 @@ ManagerDocente::ManagerDocente()
       _archivoInscripciones("InscripcionesComision.dat"),
       _archivoExamen("Examenes.dat"),
       _archivoMaterias("Materias.dat") {}
+
 
 // --------------------------------------------------
 // CRUD BÁSICO
@@ -77,6 +80,7 @@ void ManagerDocente::solicitarBaja(int legajo) {
         cout << "\n\tError al realizar la baja.\n";
 }
 
+
 // --------------------------------------------------
 // FUNCIONES ACADÉMICAS
 // --------------------------------------------------
@@ -124,8 +128,7 @@ void ManagerDocente::verAlumnosDeComision(int idComision) {
     for (int i = 0; i < total; i++) {
         InscripcionComision ins = _archivoInscripciones.leerRegistro(i);
 
-        if (ins.getIdComision() == idComision &&
-            ins.getEstado() == 0) {
+        if (ins.getIdComision() == idComision && ins.getEstado() == 0) {
 
             hayAlumnos = true;
 
@@ -142,42 +145,88 @@ void ManagerDocente::verAlumnosDeComision(int idComision) {
         cout << "\tNo hay alumnos inscriptos.\n";
 }
 
+
+// --------------------------------------------------
+// CARGA DE NOTAS DE PARCIAL / TP + VALIDACIÓN ACTA CERRADA
+// --------------------------------------------------
+
 void ManagerDocente::cargarNotasParcialTP(int legajoDocente) {
-    int idMateria, legajoAlumno, nota;
+    int idComision, legajoAlumno, nota;
 
     cout << "\n\t=== CARGA DE NOTAS PARCIALES / TP ===\n";
-    cout << "\tID Materia: ";
-    cin >> idMateria;
+    cout << "\tID Comisión: ";
+    cin >> idComision;
 
-    bool puedeCargar = false;
-    int totalComisiones = _archivoComisiones.contarRegistros();
-
-    for (int i = 0; i < totalComisiones; i++) {
-        Comision c = _archivoComisiones.leerRegistro(i);
-
-        if (!c.getEliminado() &&
-            c.getLegajoDocente() == legajoDocente &&
-            c.getIdMateria() == idMateria)
-        {
-            puedeCargar = true;
-            break;
-        }
-    }
-
-    if (!puedeCargar) {
-        cout << "\n\tERROR: Usted NO dicta ninguna comisión de esta materia.\n";
+    if (!dictaComision(legajoDocente, idComision)) {
+        cout << "\n\tERROR: Usted NO dicta esta comisión.\n";
         return;
     }
+
+    int pos = _archivoComisiones.buscarRegistro(idComision);
+    if (pos < 0) {
+        cout << "\n\tERROR: La comisión no existe.\n";
+        return;
+    }
+
+    Comision com = _archivoComisiones.leerRegistro(pos);
+
+    // 🔥 VALIDACIÓN ACTA CERRADA
+    if (com.getEliminado()) {
+        cout << "\n\tERROR: El ACTA ya está CERRADA. No se pueden cargar parciales.\n";
+        return;
+    }
+
+    int idMateria = com.getIdMateria();
 
     cout << "\tLegajo Alumno: ";
     cin >> legajoAlumno;
 
-    cout << "\tNota (0-10): ";
+    ManagerInscripcionComision manIns;
+    if (!manIns.estaInscripto(legajoAlumno, idComision)) {
+        cout << "\n\tERROR: El alumno NO está inscripto en esta comisión.\n";
+        return;
+    }
+
+    // Contar parciales existentes
+    int totalEx = _archivoExamen.contarRegistros();
+    int parciales = 0;
+
+    for (int i = 0; i < totalEx; i++) {
+        Examen ex = _archivoExamen.leerRegistro(i);
+
+        if (ex.getLegajoAlumno() == legajoAlumno &&
+            ex.getIdMateria() == idMateria &&
+            strcmp(ex.getTipo(), "Parcial") == 0)
+        {
+            parciales++;
+        }
+    }
+
+    if (parciales >= 2) {
+        cout << "\n\tERROR: Ya tiene los 2 parciales cargados.\n";
+        return;
+    }
+
+    if (_examenManager.estaPromocionado(legajoAlumno, idComision)) {
+        cout << "\n\tERROR: El alumno YA está promocionado.\n";
+        return;
+    }
+
+    cout << "\tNota (1-10): ";
     cin >> nota;
 
-    _examenManager.cargarParcial(legajoAlumno, idMateria, nota);
+    if (nota < 1 || nota > 10) {
+        cout << "\n\tERROR: La nota debe estar entre 1 y 10.\n";
+        return;
+    }
+
+    _examenManager.cargarParcial(legajoAlumno, idComision, nota);
 }
 
+
+// --------------------------------------------------
+// CARGA DE NOTAS DE FINAL + VALIDACIÓN ACTA CERRADA
+// --------------------------------------------------
 
 void ManagerDocente::cargarNotasFinal(int legajoDocente) {
     int idComision, legajoAlumno, nota;
@@ -186,9 +235,22 @@ void ManagerDocente::cargarNotasFinal(int legajoDocente) {
     cout << "\tID Comisión: ";
     cin >> idComision;
 
-    // VALIDACIÓN NUEVA
     if (!dictaComision(legajoDocente, idComision)) {
         cout << "\n\tERROR: Esta comisión NO pertenece al docente.\n";
+        return;
+    }
+
+    int pos = _archivoComisiones.buscarRegistro(idComision);
+    if (pos < 0) {
+        cout << "\n\tERROR: La comisión no existe.\n";
+        return;
+    }
+
+    Comision com = _archivoComisiones.leerRegistro(pos);
+
+    // 🔥 VALIDACIÓN ACTA CERRADA
+    if (com.getEliminado()) {
+        cout << "\n\tERROR: ACTA DE CURSADA CERRADA. No se puede cargar FINAL.\n";
         return;
     }
 
@@ -201,44 +263,6 @@ void ManagerDocente::cargarNotasFinal(int legajoDocente) {
     _examenManager.cargarFinal(legajoAlumno, idComision, nota);
 }
 
-void ManagerDocente::publicarNotasCursada(int legajoDocente) {
-    cout << "\n\tPublicando notas... (No implementado)\n";
-}
-
-void ManagerDocente::cerrarActaCursada(int legajoDocente) {
-    cout << "\n\tCerrando acta... (No implementado)\n";
-}
-
-void ManagerDocente::exportarCSV(int legajoDocente) {
-    ofstream archivo("comisiones_docente.csv");
-
-    if (!archivo.is_open()) {
-        cout << "\n\tError al crear el archivo CSV.\n";
-        return;
-    }
-
-    archivo << "ID_Comision,ID_Materia,Turno,Modalidad,Anio\n";
-
-    int total = _archivoComisiones.contarRegistros();
-
-    for (int i = 0; i < total; i++) {
-        Comision c = _archivoComisiones.leerRegistro(i);
-
-        if (!c.getEliminado() &&
-            c.getLegajoDocente() == legajoDocente) {
-
-            archivo << c.getIdComision() << ","
-                    << c.getIdMateria() << ","
-                    << c.getTurno() << ","
-                    << c.getModalidad() << ","
-                    << c.getAnio() << "\n";
-        }
-    }
-
-    archivo.close();
-
-    cout << "\n\tArchivo CSV exportado correctamente.\n";
-}
 
 // --------------------------------------------------
 // PRESENTACIÓN
@@ -263,6 +287,7 @@ void ManagerDocente::mostrarPie() {
     cout << "\t+--------+---------------------------+---------------------------+-------------+---------+\n";
 }
 
+
 // --------------------------------------------------
 // VERIFICACIÓN DE INTEGRIDAD
 // --------------------------------------------------
@@ -275,11 +300,332 @@ bool ManagerDocente::dictaComision(int legajoDocente, int idComision) {
 
         if (!c.getEliminado() &&
             c.getIdComision() == idComision &&
-            c.getLegajoDocente() == legajoDocente) {
-
-            return true;   //El docente dicta esta comisión
+            c.getLegajoDocente() == legajoDocente)
+        {
+            return true;
         }
     }
 
-    return false; // No pertenece al docente
+    return false;
+}
+
+
+// --------------------------------------------------
+// PUBLICAR NOTAS DE CURSADA
+// --------------------------------------------------
+
+void ManagerDocente::publicarNotasCursada(int legajoDocente) {
+    int idComision;
+    cout << "\n\t=== PUBLICAR NOTAS DE CURSADA ===\n";
+    cout << "\tID Comisión: ";
+    cin >> idComision;
+
+    // 1) Verificar que dicta la comisión
+    if (!dictaComision(legajoDocente, idComision)) {
+        cout << "\n\tERROR: Esta comisión NO pertenece al docente.\n";
+        return;
+    }
+
+    // 2) Obtener comisión
+    int posCom = _archivoComisiones.buscarRegistro(idComision);
+    if (posCom < 0) {
+        cout << "\n\tERROR: La comisión no existe.\n";
+        return;
+    }
+
+    Comision com = _archivoComisiones.leerRegistro(posCom);
+    int idMateria = com.getIdMateria();
+
+    // 🔥 3) ACTA CERRADA → NO SE PUEDE PUBLICAR
+    if (com.getEliminado()) {
+        cout << "\n\tERROR: El ACTA ya fue CERRADA. No se pueden publicar notas.\n";
+        return;
+    }
+
+    int totalIns = _archivoInscripciones.contarRegistros();
+    int totalEx = _archivoExamen.contarRegistros();
+    bool hay = false;
+
+    cout << "\n\tProcesando alumnos...\n";
+
+    for (int i = 0; i < totalIns; i++) {
+        InscripcionComision ins = _archivoInscripciones.leerRegistro(i);
+
+        if (ins.getIdComision() != idComision || ins.getEstado() != 0)
+            continue;
+
+        hay = true;
+        int legA = ins.getLegajoAlumno();
+
+        // Evitar publicar 2 veces
+        bool yaPublicada = false;
+
+        for (int j = 0; j < totalEx; j++) {
+            Examen ex = _archivoExamen.leerRegistro(j);
+
+            if (ex.getLegajoAlumno() == legA &&
+                ex.getIdMateria() == idMateria &&
+                strcmp(ex.getTipo(), "Cursada") == 0)
+            {
+                yaPublicada = true;
+                break;
+            }
+        }
+
+        if (yaPublicada) {
+            cout << "\n\tAlumno " << legA << ": YA TENÍA CURSADA PUBLICADA. (Se omite)";
+            continue;
+        }
+
+        // Calcular condición
+        bool promo   = _examenManager.estaPromocionado(legA, idComision);
+        bool regular = _examenManager.estaRegular(legA, idComision);
+        bool libre   = !promo && !regular;
+
+        int notaFinal = (promo ? 10 : regular ? 4 : 2);
+
+        // Guardar cursada
+        Fecha hoy;
+        hoy.cargar();
+
+        Examen ex(0, idMateria, legA, "Cursada", 0, hoy, false);
+        ex.setNota(notaFinal);
+        ex.setCorregido(true);
+
+        _archivoExamen.agregarRegistro(ex);
+
+        cout << "\n\tAlumno " << legA
+             << ": " << (promo ? "PROMOCIONADO" : regular ? "REGULAR" : "LIBRE")
+             << " → Nota Cursada: " << notaFinal;
+    }
+
+    if (!hay) {
+        cout << "\n\tNo hay alumnos inscriptos en esta comisión.\n";
+        return;
+    }
+
+    cout << "\n\n\tNotas de Cursada PUBLICADAS correctamente.\n";
+}
+
+
+
+// --------------------------------------------------
+// CERRAR ACTA DE CURSADA
+// --------------------------------------------------
+
+void ManagerDocente::cerrarActaCursada(int legajoDocente) {
+    int idComision;
+    cout << "\n\t=== CERRAR ACTA DE CURSADA ===\n";
+    cout << "\tID Comisión: ";
+    cin >> idComision;
+
+    if (!dictaComision(legajoDocente, idComision)) {
+        cout << "\n\tERROR: Esta comisión NO pertenece al docente.\n";
+        return;
+    }
+
+    int posCom = _archivoComisiones.buscarRegistro(idComision);
+    if (posCom < 0) {
+        cout << "\n\tERROR: La comisión no existe.\n";
+        return;
+    }
+
+    Comision com = _archivoComisiones.leerRegistro(posCom);
+
+    if (com.getEliminado()) {
+        cout << "\n\tEl acta YA estaba cerrada previamente.\n";
+        return;
+    }
+
+    bool hayCursada = false;
+    int total = _archivoExamen.contarRegistros();
+
+    for (int i = 0; i < total; i++) {
+        Examen ex = _archivoExamen.leerRegistro(i);
+
+        if (!ex.getEliminado() &&
+            ex.getIdMateria() == com.getIdMateria() &&
+            strcmp(ex.getTipo(), "Cursada") == 0)
+        {
+            hayCursada = true;
+            break;
+        }
+    }
+
+    if (!hayCursada) {
+        cout << "\n\tERROR: Debe PUBLICAR notas de cursada antes de cerrar el acta.\n";
+        return;
+    }
+
+    com.setEliminado(true);
+    _archivoComisiones.modificarRegistro(com, posCom);
+
+    cout << "\n\tActa CERRADA exitosamente.\n";
+    cout << "\tYa NO pueden cargarse notas en esta comisión.\n";
+}
+
+
+void ManagerDocente::exportarCSV(int legajoDocente) {
+    int idComision;
+    cout << "\n\t=== EXPORTAR CURSADA A CSV ===\n";
+    cout << "\tID Comisión: ";
+    cin >> idComision;
+
+    // 1) Verificar docente
+    if (!dictaComision(legajoDocente, idComision)) {
+        cout << "\n\tERROR: Esta comisión NO pertenece al docente.\n";
+        return;
+    }
+
+    // 2) Traer comisión
+    int posCom = _archivoComisiones.buscarRegistro(idComision);
+    if (posCom < 0) {
+        cout << "\n\tERROR: La comisión no existe.\n";
+        return;
+    }
+
+    Comision com = _archivoComisiones.leerRegistro(posCom);
+    int idMateria = com.getIdMateria();
+
+    // 🔥 3) Archivo destino
+    string nombre = "cursada_comision_" + to_string(idComision) + ".csv";
+    ofstream file(nombre);
+
+    if (!file.is_open()) {
+        cout << "\n\tERROR: No se pudo crear el archivo CSV.\n";
+        return;
+    }
+
+    // Encabezado CSV
+    file << "Legajo,Promedio,Condicion\n";
+
+    int totalIns = _archivoInscripciones.contarRegistros();
+    int totalEx = _archivoExamen.contarRegistros();
+
+    // 4) Procesar alumnos
+    for (int i = 0; i < totalIns; i++) {
+        InscripcionComision ins = _archivoInscripciones.leerRegistro(i);
+
+        if (ins.getIdComision() != idComision || ins.getEstado() != 0)
+            continue;
+
+        int legajo = ins.getLegajoAlumno();
+
+        // Calcular notas
+        int suma = 0, cant = 0;
+
+        for (int j = 0; j < totalEx; j++) {
+            Examen ex = _archivoExamen.leerRegistro(j);
+
+            if (ex.getIdMateria() == idMateria &&
+                ex.getLegajoAlumno() == legajo &&
+                (strcmp(ex.getTipo(), "Parcial") == 0 ||
+                 strcmp(ex.getTipo(), "Recuperatorio") == 0))
+            {
+                suma += ex.getNota();
+                cant++;
+            }
+        }
+
+        float prom = (cant == 0 ? 0 : (float)suma / cant);
+
+        string condicion;
+        if (_examenManager.estaPromocionado(legajo, idComision)) condicion = "Promo";
+        else if (_examenManager.estaRegular(legajo, idComision)) condicion = "Regular";
+        else condicion = "Libre";
+
+        // Escribir fila CSV
+        file << legajo << "," << prom << "," << condicion << "\n";
+    }
+
+    file.close();
+
+    cout << "\n\tArchivo generado correctamente: " << nombre << "\n";
+}
+
+
+// --------------------------------------------------
+// REPORTE DE CURSADA
+// --------------------------------------------------
+
+void ManagerDocente::reporteCursada(int idComision) {
+
+    int pos = _archivoComisiones.buscarRegistro(idComision);
+    if (pos < 0) {
+        cout << "\nERROR: Comisión inexistente.\n";
+        return;
+    }
+
+    Comision com = _archivoComisiones.leerRegistro(pos);
+    int idMateria = com.getIdMateria();
+
+    cout << "\n=========== REPORTE DE CURSADA ===========\n";
+    cout << "Materia ID: " << idMateria << "\n";
+    cout << "Comisión:   " << idComision << "\n\n";
+
+    cout << left
+         << setw(10) << "Legajo"
+         << setw(10) << "P1"
+         << setw(10) << "P2"
+         << setw(10) << "R1"
+         << setw(10) << "R2"
+         << setw(10) << "Prom"
+         << setw(12) << "Condición"
+         << "\n---------------------------------------------------------------\n";
+
+    int totalIns = _archivoInscripciones.contarRegistros();
+    int totalEx  = _archivoExamen.contarRegistros();
+
+    for (int i = 0; i < totalIns; i++) {
+        InscripcionComision ins = _archivoInscripciones.leerRegistro(i);
+
+        if (ins.getIdComision() != idComision || ins.getEstado() != 0) continue;
+
+        int legajo = ins.getLegajoAlumno();
+
+        int p1 = -1, p2 = -1;
+        int r1 = -1, r2 = -1;
+        int suma = 0, cant = 0;
+
+        for (int j = 0; j < totalEx; j++) {
+            Examen ex = _archivoExamen.leerRegistro(j);
+
+            if (ex.getIdMateria() == idMateria &&
+                ex.getLegajoAlumno() == legajo)
+            {
+                if (strcmp(ex.getTipo(), "Parcial") == 0) {
+                    if (ex.getNumeroParcial() == 1) p1 = ex.getNota();
+                    if (ex.getNumeroParcial() == 2) p2 = ex.getNota();
+                    suma += ex.getNota();
+                    cant++;
+                }
+
+                if (strcmp(ex.getTipo(), "Recuperatorio") == 0) {
+                    if (ex.getNumeroParcial() == 1) r1 = ex.getNota();
+                    if (ex.getNumeroParcial() == 2) r2 = ex.getNota();
+                    suma += ex.getNota();
+                    cant++;
+                }
+            }
+        }
+
+        float prom = (cant == 0 ? 0 : (float)suma / cant);
+
+        string condicion;
+        if (_examenManager.estaPromocionado(legajo, idComision)) condicion = "Promo";
+        else if (_examenManager.estaRegular(legajo, idComision)) condicion = "Regular";
+        else condicion = "Libre";
+
+        cout << left
+             << setw(10) << legajo
+             << setw(10) << (p1 == -1 ? "-" : to_string(p1))
+             << setw(10) << (p2 == -1 ? "-" : to_string(p2))
+             << setw(10) << (r1 == -1 ? "-" : to_string(r1))
+             << setw(10) << (r2 == -1 ? "-" : to_string(r2))
+             << setw(10) << fixed << setprecision(1) << prom
+             << setw(12) << condicion
+             << "\n";
+    }
+
+    cout << "---------------------------------------------------------------\n";
 }

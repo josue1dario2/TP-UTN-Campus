@@ -1,5 +1,9 @@
 #include "ManagerInscripcionComision.h"
 #include "ManagerComision.h"
+#include "ManagerAlumno.h"
+#include "ArchivoComision.h"
+#include "ArchivoExamen.h"
+#include "Examen.h"
 #include "Validacion.h"
 using namespace std;
 
@@ -35,25 +39,55 @@ void ManagerInscripcionComision::cargar() {
     int legajo = Validacion::validarEnteroEnRango("\tLegajo Alumno: ", 1, 99999);
     int idComision = Validacion::validarEnteroEnRango("\tID Comisión: ", 1, 99999);
 
-    // ✔ Validación: la comisión debe existir
+    // 1) Validar que la comisión exista
     ManagerComision manCom;
     if (!manCom.existeComision(idComision)) {
         cout << "\n\tERROR: La comisión no existe o está dada de baja.\n";
         return;
     }
 
-    // ✔ Validación: evitar doble inscripción
+    // 2) Verificar doble inscripción
     if (estaInscripto(legajo, idComision)) {
         cout << "\tEl alumno ya está inscripto en esta comisión.\n";
         return;
     }
 
+    // 3) Obtener idMateria desde Comisión
+    ArchivoComision arcCom;
+    int posCom = arcCom.buscarRegistro(idComision);
+    Comision com = arcCom.leerRegistro(posCom);
+    int idMateria = com.getIdMateria();
+
+    // 4) Validar CORRELATIVAS para cursar
+    ManagerAlumno manAlumno;
+    if (!manAlumno.cumpleCorrelativas(legajo, idMateria)) {
+        cout << "\n\tERROR: El alumno NO cumple las correlativas para cursar esta materia.\n";
+        return;
+    }
+
+    // 5) Validar si ya aprobó la materia
+    ArchivoExamen arcExamen;
+    int totalEx = arcExamen.contarRegistros();
+    for (int i = 0; i < totalEx; i++) {
+        Examen ex = arcExamen.leerRegistro(i);
+
+        if (ex.getLegajoAlumno() == legajo &&
+            ex.getIdMateria() == idMateria &&
+            strcmp(ex.getTipo(), "Final") == 0 &&
+            ex.getNota() >= 4)
+        {
+            cout << "\n\tERROR: El alumno ya APROBÓ la materia. No puede cursarla.\n";
+            return;
+        }
+    }
+
+    // 6) Crear inscripción válida
     Fecha hoy;
     hoy.cargar();
 
     InscripcionComision nueva(legajo, idComision);
     nueva.setFecha(hoy);
-    nueva.setEstado(0); // activa
+    nueva.setEstado(0);  // activo
 
     if (_archivo.agregarRegistro(nueva))
         cout << "\tInscripción guardada correctamente.\n";
@@ -73,15 +107,14 @@ void ManagerInscripcionComision::listar() {
     for (int i = 0; i < total; i++) {
         InscripcionComision reg = _archivo.leerRegistro(i);
 
-        // solo estado 0 (activo) o 1 (pendiente)
-        if (reg.getEstado() != 2)
+        if (reg.getEstado() != 2) // activo o pendiente
             mostrarRegistro(reg);
     }
     mostrarPie();
 }
 
 void ManagerInscripcionComision::borrar() {
-    cout << "\n\t=== Baja Definitiva de Inscripción ===\n";
+    cout << "\n\t=== Solicitud de Baja ===\n";
 
     int legajo = Validacion::validarEnteroEnRango("\tLegajo Alumno: ", 1, 99999);
     int idComision = Validacion::validarEnteroEnRango("\tID Comisión: ", 1, 99999);
@@ -89,14 +122,23 @@ void ManagerInscripcionComision::borrar() {
     int pos = _archivo.buscarRegistro(legajo, idComision);
 
     if (pos >= 0) {
-        if (_archivo.bajaDefinitiva(pos))
-            cout << "\tInscripción dada de baja definitivamente.\n";
-        else
-            cout << "\tError al intentar borrar.\n";
-    } else {
-        cout << "\tNo se encontró inscripción activa o pendiente.\n";
+        InscripcionComision reg = _archivo.leerRegistro(pos);
+
+        if (reg.getEstado() == 2) {
+            cout << "\tLa inscripción ya está dada de baja definitivamente.\n";
+            return;
+        }
+
+        reg.setEstado(1);   // Pendiente de baja
+        _archivo.modificarRegistro(reg, pos);
+
+        cout << "\tBaja solicitada correctamente. El ADMINISTRADOR debe aprobarla.\n";
+    }
+    else {
+        cout << "\tNo se encontró inscripción activa.\n";
     }
 }
+
 
 bool ManagerInscripcionComision::estaInscripto(int legajo, int idComision) {
     int total = _archivo.contarRegistros();

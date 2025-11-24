@@ -10,19 +10,27 @@ private:
 public:
     ManagerExamen();
 
-    // Altas de exámenes
+    // =======================================================
+    // ALTAS DE EXÁMENES
+    // =======================================================
     void cargarParcial(int legajoAlumno, int idComision, int nota);
     void cargarRecuperatorio(int legajoAlumno, int idComision, int nota);
     void cargarFinal(int legajoAlumno, int idComision, int nota);
 
-    // Consultas académicas
+    // =======================================================
+    // VALIDACIONES ACADÉMICAS
+    // =======================================================
     bool puedeRendirFinal(int legajoAlumno, int idComision);
     bool estaPromocionado(int legajoAlumno, int idComision);
     bool estaRegular(int legajoAlumno, int idComision);
     bool estaLibre(int legajoAlumno, int idComision);
 
-    // Reportes
+    // =======================================================
+    // REPORTES Y CONSULTAS
+    // =======================================================
     void mostrarHistorial(int legajoAlumno);
     void mostrarTodos();
     void recalcularCondicion(int legajoAlumno, int idComision);
+    float promedioConReglas(int legajoAlumno, int idMateria);
+
 };
