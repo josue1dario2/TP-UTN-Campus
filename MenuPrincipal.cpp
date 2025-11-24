@@ -2,6 +2,7 @@
 #include "Validacion.h"
 #include "utils.h"
 #include <iostream>
+#include <limits>
 using namespace std;
 
 MenuPrincipal::MenuPrincipal() {
