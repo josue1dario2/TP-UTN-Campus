@@ -34,6 +34,38 @@ void ManagerComision::mostrarPie() {
 Comision ManagerComision::ingresarDatos(int idComision) {
     int idMateria = Validacion::validarEnteroEnRango("\tID Materia: ", 1, 9999);
 
+    string turno="";
+    int _elecTurno = Validacion::validarEnteroEnRango("\tTurno (1 para Mañana/2 para Tarde/3 para Noche): ",1,3);
+
+    switch (_elecTurno){
+        case 1:
+                turno = "Manana";
+                break;
+            case 2:
+                turno = "Tarde";
+                break;
+            case 3:
+                turno = "Noche";
+                break;
+    }
+
+    string modalidad="";
+    int _elecModalidad = Validacion::validarEnteroEnRango("\tModalidad (1 para Presencial/2 para Virtual/ 3 para Híbrida): ",1,3);
+
+    switch (_elecModalidad){
+        case 1:
+                modalidad = "Presenc.";
+                break;
+            case 2:
+                modalidad = "Virtual";
+                break;
+            case 3:
+                modalidad = "Híbrida";
+                break;
+    }
+
+
+    /*
     string turno;
     cout << "\tTurno (Mañana / Tarde / Noche): ";
     getline(cin >> ws, turno);
@@ -41,7 +73,7 @@ Comision ManagerComision::ingresarDatos(int idComision) {
     string modalidad;
     cout << "\tModalidad (Presencial / Virtual / Híbrida): ";
     getline(cin >> ws, modalidad);
-
+    */
     int cuatrimestre = Validacion::validarEnteroEnRango("\tCuatrimestre (1-2): ", 1, 2);
     int anio = Validacion::validarEnteroEnRango("\tAño (2020-2030): ", 2020, 2030);
     int legajoDocente = Validacion::validarEnteroEnRango("\tLegajo Docente: ", 1, 99999);

@@ -1,10 +1,13 @@
 #pragma once
 #include "ArchivoMateria.h"
+#include "ArchivoCarrera.h"
 #include "Materia.h"
 
 class ManagerMateria {
 private:
-    ArchivoMateria _archivo;
+    ArchivoMateria _archivoMaterias;
+    ArchivoCarrera _archivoCarreras;
+
 
 public:
     void alta();
@@ -13,5 +16,7 @@ public:
     void listarTodas();
     int buscarPorId(int idMateria);
     int generarIdNuevo();
+    void activar();
+
 
 };

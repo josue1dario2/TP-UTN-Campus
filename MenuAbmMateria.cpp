@@ -6,7 +6,7 @@
 using namespace std;
 
 MenuAbmMateria::MenuAbmMateria() {
-    _cantidadOpciones = 6;
+    _cantidadOpciones = 7;
 }
 
 void MenuAbmMateria::mostrarMenuABMMaterias() {
@@ -43,9 +43,10 @@ void MenuAbmMateria::mostrarOpciones() {
     cout << "\t1) Alta de Materia\n";
     cout << "\t2) Modificar Materia\n";
     cout << "\t3) Baja lógica de Materia\n";
-    cout << "\t4) Listar Materias activas\n";
-    cout << "\t5) Configurar Correlativas\n";
-    cout << "\t6) Ver correlativas de la materia\n";
+    cout << "\t4) Activar Materia\n";
+    cout << "\t5) Listar Materias\n";
+    cout << "\t6) Configurar Correlativas\n";
+    cout << "\t7) Ver correlativas de la materia\n";
     cout << "\t0) Volver\n";
 }
 
@@ -74,14 +75,17 @@ void MenuAbmMateria::ejecutarOpcion(int opcion) {
             break;
 
         case 4:
+            manager.activar();
+            break;
+        case 5:
             manager.listarTodas();
             break;
 
-        case 5:
+        case 6:
             menuCorrelativa.mostrar();
             break;
 
-        case 6: {
+        case 7: {
             int idMat = Validacion::validarEntero("\tIngrese ID de materia: ");
             mostrarCorrelativasDeMateria(idMat);
             break;

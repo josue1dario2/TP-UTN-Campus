@@ -11,7 +11,7 @@ ArchivoMateria::ArchivoMateria(const char *n) {
 bool ArchivoMateria::abrirArchivo(FILE *&p, const char *modo) {
     p = fopen(_nombre, modo);
     if (p == nullptr) {
-        cout << "[ERROR] No se pudo abrir archivo: " << _nombre << endl;
+        //cout << "[ERROR] No se pudo abrir archivo: " << _nombre << endl;
         return false;
     }
     return true;
@@ -37,17 +37,19 @@ bool ArchivoMateria::listarRegistros() {
         fseek(p, i * _tamanioRegistro, SEEK_SET);
         fread(&obj, _tamanioRegistro, 1, p);
 
+
         if (!obj.getEliminado()) {
             obj.mostrar();
             cout << endl;
         }
+
     }
 
     fclose(p);
     return true;
 }
 
-int ArchivoMateria::buscarRegistro(int idMateria) {
+int ArchivoMateria::buscarRegistro(const int idMateria) {
     FILE *p;
     if (!abrirArchivo(p, "rb")) return -1;
 
@@ -67,6 +69,27 @@ int ArchivoMateria::buscarRegistro(int idMateria) {
     fclose(p);
     return -2; // no encontrado
 }
+
+int ArchivoMateria::buscarRegistro(const int idCarrera, const std::string& nombreMateria,const bool cargar) {
+    Materia obj;
+    FILE *p;
+    if (!abrirArchivo(p, "rb")) return -1;
+
+    int cant = contarRegistros();
+    for (int i = 0; i < cant; i++) {
+        fread(&obj, _tamanioRegistro, 1, p);
+            if (nombreMateria == std::string(obj.getNombre())&& (obj.getIdCarrera()==idCarrera)&& (cargar==true)) {
+                fclose(p);
+                return i;
+            }
+        }
+
+
+    fclose(p);
+    return -2;
+}
+
+
 
 Materia ArchivoMateria::leerRegistro(int pos) {
     Materia obj;

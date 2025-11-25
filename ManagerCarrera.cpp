@@ -14,7 +14,7 @@ Carrera ManagerCarrera::ingresarDatos(int idCarrera)
     const int minNombre = 2, maxNombre = 50;
     string nombre = Validacion::pedirEntradaCadena("\n\tNombre: ", minNombre, maxNombre);
 
-    int duracion = Validacion::validarEnteroEnRango("\tDuración (1-4 cuatrimestres): ", 1, 4);
+    int duracion = Validacion::validarEnteroEnRango("\tDuración (1-20 cuatrimestres): ", 1, 20);
 
     Carrera nuevaCarrera(idCarrera, nombre.c_str(), duracion, false);
     return nuevaCarrera;
@@ -29,7 +29,7 @@ void ManagerCarrera::cargar()
     int idCarrera = _repoCarrera.getNuevoID();
     Carrera nuevaCarrera = ingresarDatos(idCarrera);
 
-    if (Validacion::desearGuardar("")) {
+    if (Validacion::desearAccionar("")) {
         if (_repoCarrera.agregarRegistro(nuevaCarrera) > 0)
             cout << "\n\tRegistro guardado correctamente.\n";
         else
@@ -57,7 +57,7 @@ void ManagerCarrera::modificar()
 
     Carrera modificada = ingresarDatos(original.getIdCarrera());
 
-    if (Validacion::desearGuardar("")) {
+    if (Validacion::desearAccionar("")) {
         if (_repoCarrera.modificarRegistro(modificada, posicion))
             cout << "\n\tRegistro modificado correctamente.\n";
         else
@@ -105,7 +105,7 @@ void ManagerCarrera::cambiarEstado(bool activar)
     }
 
     mensaje = "\n\tDesea " + string(activar ? "activar" : "borrar") + " el registro? s/n ";
-    if (!Validacion::desearGuardar(mensaje)) {
+    if (!Validacion::desearAccionar(mensaje)) {
         cout << "\n\tOperación cancelada.\n";
         return;
     }
@@ -136,7 +136,7 @@ void ManagerCarrera::borrar()
 
 void ManagerCarrera::listar()
 {
-    bool incluirBorrados = Validacion::desearGuardar("\n\t¿Desea incluir los registros borrados? (s/n): ");
+    bool incluirBorrados = Validacion::desearAccionar("\n\t¿Desea incluir los registros borrados? (s/n): ");
 
     int total = _repoCarrera.contarRegistros();
     if (total <= 0) {

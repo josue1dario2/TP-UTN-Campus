@@ -1,4 +1,5 @@
 #include "Correlativa.h"
+#include "Validacion.h"
 #include <iostream>
 
 using std::cin; using std::cout; using std::string;
@@ -22,18 +23,16 @@ void Correlativa::setEliminado(bool v) { _eliminado = v; }
 void Correlativa::cargar() {
     cout << "=== Cargar Correlativa ===\n";
 
-    cout << "ID Materia Objetivo: ";
-    cin >> _idMateriaObjetivo;
-
-    cout << "ID Materia Requisito: ";
-    cin >> _idMateriaRequisito;
+    _idMateriaObjetivo = Validacion::validarEnteroEnRango("\n\tID Materia Objetivo: ",1,10000);
+    _idMateriaRequisito = Validacion::validarEnteroEnRango("\n\tID Materia Requisito: ",1,10000);
 
     _eliminado = false;
+
 }
 
 void Correlativa::mostrar() const {
-    cout << "=== Datos de la Correlativa ===\n";
-    cout << "Materia Objetivo: " << _idMateriaObjetivo << "\n";
-    cout << "Materia Requisito: " << _idMateriaRequisito << "\n";
-    cout << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n\n";
+    cout << "\t=== Datos de la Correlativa ===\n";
+    cout << "\tMateria Objetivo: " << _idMateriaObjetivo << "\n";
+    cout << "\tMateria Requisito: " << _idMateriaRequisito << "\n";
+    cout << "\tEliminado: " << (_eliminado ? "Si" : "No") << "\n\n";
 }

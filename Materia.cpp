@@ -1,7 +1,9 @@
+#include "Materia.h"
+#include "Validacion.h"
+#include "ArchivoMateria.h"
 #include <iostream>
 #include <cstring>
 #include <string>
-#include "Materia.h"
 #include <limits>
 
 using namespace std;
@@ -48,11 +50,30 @@ int Materia::getCuatrimestre() const { return _cuatrimestre; }
 const char* Materia::getEstado() const { return _estado; }
 bool Materia::getEliminado() const { return _eliminado; }
 
-void Materia::cargar() {
-    cout << "=== Cargar Materia ===\n";
-    cout << "ID Materia: ";
-    cin >> _idMateria;
+void Materia::cargar(bool cargar) {
 
+    cout << "\n\t=== Cargar Materia ===\n";
+    _idCarrera= Validacion::validarEnteroEnRango("\n\tID Carrera: ",1,10000);
+
+    string nombre =Validacion::pedirEntradaCadena("\tNombre: ",4,50);
+    strncpy(_nombre, nombre.c_str(), sizeof(_nombre));
+
+    ArchivoMateria _archivoMateria;
+    int existeNombre = _archivoMateria.buscarRegistro(_idCarrera, nombre,cargar);
+
+    if (existeNombre >=0){
+        cout << "\n\tEl nombre de materia ya existe para la carrera.";
+        setIdMateria(0);
+        return;
+    }
+
+    _cuatrimestre= Validacion::validarEnteroEnRango("\tCuatrimestre (1/2): ",1,2);
+
+    int estadoMateria= Validacion::validarEnteroEnRango("\tEstado (1-Activa/2-Inactiva): ",1,2);
+    strcpy(_estado, (estadoMateria == 1) ? "Activa" : "Inactiva");
+
+    _eliminado = false;
+    /*
     cout << "ID Carrera: ";
     cin >> _idCarrera;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -66,8 +87,8 @@ void Materia::cargar() {
 
     cout << "Estado (Activa / Inactiva): ";
     cin.getline(_estado, sizeof(_estado));
+    */
 
-    _eliminado = false;
 }
 
 void Materia::mostrar() const {

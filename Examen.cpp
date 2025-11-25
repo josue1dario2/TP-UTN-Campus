@@ -1,4 +1,5 @@
 #include "Examen.h"
+#include "Validacion.h"
 #include <iostream>
 #include <iomanip>
 #include <cstring>
@@ -78,18 +79,30 @@ void Examen::corregir(int nota) {
 }
 
 void Examen::cargar() {
-    cout << "ID materia: ";
-    cin >> _idMateria;
+    _idMateria= Validacion::validarEnteroEnRango("\n\tID Materia: ",1,10000);
+    _legajoAlumno = Validacion::validarEnteroEnRango("\n\tLegajo alumno: ", 10000, 99999);
 
-    cout << "Legajo alumno: ";
-    cin >> _legajoAlumno;
 
-    cout << "Tipo (Parcial/Recuperatorio/Final): ";
-    cin >> _tipo;
+    int tipoParcial = Validacion::validarEnteroEnRango("\tTurno (1 Parcial/2 Recuperatorio/3 Final): ",1,3);
+    string tipo="";
+    switch (tipoParcial){
+        case 1:
+                tipo = "Manana";
+                break;
+            case 2:
+                tipo = "Tarde";
+                break;
+            case 3:
+                tipo = "Noche";
+                break;
+    }
+    strncpy(_tipo, tipo.c_str(), sizeof(_tipo));
+
 
     if (strcmp(_tipo, "Parcial") == 0 || strcmp(_tipo, "Recuperatorio") == 0) {
-        cout << "Número de parcial (1 o 2): ";
-        cin >> _numeroParcial;
+        _numeroParcial = Validacion::validarEnteroEnRango("\n\tNúmero de parcial (1 o 2): ", 1, 2);
+        //cout << "Número de parcial (1 o 2): ";
+        //cin >> _numeroParcial;
     } else {
         _numeroParcial = 0; // Final => siempre 0
     }

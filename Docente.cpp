@@ -1,4 +1,5 @@
 #include "Docente.h"
+#include "Validacion.h"
 #include <iostream>
 using namespace std;
 
@@ -19,24 +20,21 @@ Fecha Docente::getFechaIngreso() const { return _fechaIngreso; }
 void Docente::setFechaIngreso(Fecha fechaIngreso) { _fechaIngreso = fechaIngreso; }
 
 void Docente::cargar() {
-    cout << "\n=== Cargar Docente ===\n";
+    cout << "\n\t=== Cargar Docente ===\n";
     Persona::cargar();
+    _legajo = Validacion::validarEnteroEnRango("\n\tNum. de legajo: ", 10000, 99999);
 
-    cout << "Legajo: ";
-    cin >> _legajo;
-    cin.ignore();
-
-    cout << "Fecha de ingreso:\n";
+    cout << "\tFecha de ingreso:\n";
     _fechaIngreso.cargar();
 
     setEliminado(false);
 }
 
 void Docente::mostrar() const {
-    cout << "\n=== Datos del Docente ===\n";
+    cout << "\n\t=== Datos del Docente ===\n";
     Persona::mostrar();
-    cout << "Legajo: " << _legajo << "\n";
-    cout << "Fecha de ingreso: ";
+    cout << "\tLegajo: " << _legajo << "\n";
+    cout << "\tFecha de ingreso: ";
     _fechaIngreso.mostrar();
-    cout << "---------------------------\n";
+    cout << "\t---------------------------\n";
 }

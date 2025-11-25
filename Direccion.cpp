@@ -1,4 +1,5 @@
 #include "Direccion.h"
+#include "Validacion.h"
 #include <cstring>
 #include <sstream>
 
@@ -96,25 +97,24 @@ void Direccion::setCodigoPostal(int codigoPostal)
 }
 
 void Direccion::cargar() {
-    cout << "Calle: ";
-    cin >> _calle;
+    string calle =Validacion::pedirEntradaCadena("\tCalle: ",2,50);
+    strncpy(_calle, calle.c_str(), sizeof(_calle));
 
-    cout << "Numero: ";
-    cin >> _numero;
+    _numero = Validacion::validarEnteroEnRango("\tNumero: ",1,10000);
 
-    cout << "Ciudad: ";
-    cin >> _ciudad;
+    string ciudad =Validacion::pedirEntradaCadena("\tCiudad: ",2,50);
+    strncpy(_ciudad, ciudad.c_str(), sizeof(_ciudad));
 
-    cout << "Provincia: ";
-    cin >> _provincia;
+    string provincia =Validacion::pedirEntradaCadena("\tProvincia: ",2,50);
+    strncpy(_provincia, provincia.c_str(), sizeof(_provincia));
 
-    cout << "Codigo Postal: ";
-    cin >> _codigoPostal;
+    _codigoPostal = Validacion::validarEnteroEnRango("\tCodigo Postal (solo numeros): ",1,10000);
+
 }
 
 void Direccion::mostrar() const {
-    cout << "Calle: " << _calle << " " << _numero << "\n"
-         << "Ciudad: " << _ciudad << "\n"
-         << "Provincia: " << _provincia << "\n"
-         << "Codigo Postal: " << _codigoPostal << "\n";
+    cout << "\tCalle: " << _calle << " " << _numero << "\n"
+         << "\tCiudad: " << _ciudad << "\n"
+         << "\tProvincia: " << _provincia << "\n"
+         << "\tCodigo Postal: " << _codigoPostal << "\n";
 }

@@ -61,7 +61,7 @@ void MenuAbmCorrelativa::agregarCorrelativa() {
 }
 
 void MenuAbmCorrelativa::listarCorrelativas() {
-    cout << "\n=== LISTADO DE CORRELATIVAS ===\n";
+    cout << "\n\t=== LISTADO DE CORRELATIVAS ===\n";
 
     int total = _archivo.contarRegistros();
 

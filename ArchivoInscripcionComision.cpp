@@ -11,7 +11,7 @@ ArchivoInscripcionComision::ArchivoInscripcionComision(const char *nombre) {
 bool ArchivoInscripcionComision::abrirArchivo(FILE *&p, const char *modo) {
     p = fopen(_nombre, modo);
     if (p == nullptr) {
-        cout << "[ERROR] No se pudo abrir archivo: " << _nombre << endl;
+        //cout << "[ERROR] No se pudo abrir archivo: " << _nombre << endl;
         return false;
     }
     return true;

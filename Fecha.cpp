@@ -77,27 +77,27 @@ int Fecha::getAnio() const { return _anio; }
 
 void Fecha::cargar()
 {
-    cout << "Ingrese anio (1900-2100): ";
+    cout << "\tIngrese anio (1900-2100): ";
     cin >> _anio;
     while (_anio < 1900 || _anio > 2100)
     {
-        cout << "Anio invalido. Reingrese (1900-2100): ";
+        cout << "\tAnio invalido. Reingrese (1900-2100): ";
         cin >> _anio;
     }
 
-    cout << "Ingrese mes (1-12): ";
+    cout << "\tIngrese mes (1-12): ";
     cin >> _mes;
     while (_mes < 1 || _mes > 12)
     {
-        cout << "Mes invalido. Reingrese (1-12): ";
+        cout << "\tMes invalido. Reingrese (1-12): ";
         cin >> _mes;
     }
 
-    cout << "Ingrese dia (1-" << diasDelMes(_mes, _anio) << "): ";
+    cout << "\tIngrese dia (1-" << diasDelMes(_mes, _anio) << "): ";
     cin >> _dia;
     while (_dia < 1 || _dia > diasDelMes(_mes, _anio))
     {
-        cout << "Dia invalido. Reingrese (1-" << diasDelMes(_mes, _anio) << "): ";
+        cout << "\tDia invalido. Reingrese (1-" << diasDelMes(_mes, _anio) << "): ";
         cin >> _dia;
     }
 }
@@ -107,3 +107,33 @@ void Fecha::mostrar() const {
          << (_mes < 10 ? "0" : "") << _mes << "/"
          << _anio << endl;
 }
+
+bool Fecha::operator==(const Fecha &otra) const {
+    return _anio == otra._anio &&
+           _mes == otra._mes &&
+           _dia == otra._dia;
+}
+
+bool Fecha::operator!=(const Fecha &otra) const {
+    return !(*this == otra);
+}
+
+bool Fecha::operator<(const Fecha &otra) const {
+    if (_anio != otra._anio) return _anio < otra._anio;
+    if (_mes != otra._mes) return _mes < otra._mes;
+    return _dia < otra._dia;
+}
+
+bool Fecha::operator<=(const Fecha &otra) const {
+    return (*this < otra) || (*this == otra);
+}
+
+bool Fecha::operator>(const Fecha &otra) const {
+    return !(*this <= otra);
+}
+
+bool Fecha::operator>=(const Fecha &otra) const {
+    return !(*this < otra);
+}
+
+

@@ -1,6 +1,7 @@
 #include "ManagerAlumno.h"
 #include "ArchivoComision.h"
 #include "ManagerCorrelativa.h"
+#include "Validacion.h"
 #include <iostream>
 #include <iomanip>
 #include <cstring>
@@ -74,18 +75,95 @@ void ManagerAlumno::registrarAlumno() {
     Alumno nuevo;
     nuevo.cargar();
 
-    if (_archivoAlumnos.buscarRegistro(nuevo.getLegajo()) != -1) {
-        cout << "\n\tYa existe un alumno con ese legajo.\n";
+    int resultadoLegajo = _archivoAlumnos.buscarRegistro(nuevo.getLegajo());
+    int resultadoDni    = _archivoAlumnos.buscarRegistroPorDni(nuevo.getDni());
+
+    // Eliminado el bloqueo por -1: ahora -2 significa “no existe”, se puede continuar.
+    if (resultadoLegajo >= 0 || resultadoDni >= 0) {
+        cout << "\n\tYa existe un alumno con ese "
+             << ((resultadoLegajo >= 0 && resultadoDni >= 0) ? "legajo/dni.\n"
+                 : (resultadoLegajo >= 0 ? "legajo.\n" : "dni.\n"));
         return;
     }
 
-    if (_archivoAlumnos.agregarRegistro(nuevo))
+    if (nuevo.getFechaNacimiento() >= nuevo.getFechaIngreso()) {
+        cout << "\n\tHay un problema con las fechas.";
+        return;
+    }
+
+    if (_archivoAlumnos.agregarRegistro(nuevo) == 1) {
         cout << "\n\tAlumno registrado correctamente.\n";
-    else
+    } else {
         cout << "\n\tError al guardar el alumno.\n";
+    }
 }
 
-void ManagerAlumno::listarAlumnos() {
+
+void ManagerAlumno::modificarAlumno() {
+    cout << "\n\t=== MODIFICAR ALUMNO ===\n";
+    cout << "\n\tSeleccione modo de búsqueda:\n";
+    cout << "\t1) Por Legajo\n";
+    cout << "\t2) Por DNI\n";
+    cout << "\t0) Cancelar\n";
+    int modo = Validacion::validarEnteroEnRango("\n\tOpción: ", 0, 2);
+    if (!modo ==0) {
+
+        int pos = -1;
+        int legajo = 0;
+        int dni = 0;
+
+        if (modo == 1) {
+            legajo = Validacion::validarEnteroEnRango("\tIngrese Legajo: ", 1, 100000000);
+            pos = _archivoAlumnos.buscarRegistro(legajo);
+            if (pos < 0) { // -1 error / -2 no encontrado
+                cout << "\tNo se encontró un alumno con ese legajo.\n";
+                return;
+            }
+        } else {
+            dni = Validacion::validarEnteroEnRango("\tIngrese DNI: ", 1, 100000000);
+            pos = _archivoAlumnos.buscarRegistroPorDni(dni);
+            if (pos < 0) {
+                cout << "\tNo se encontró un alumno con ese DNI.\n";
+                return;
+            }
+        }
+
+        Alumno original = _archivoAlumnos.leerRegistro(pos);
+        cout << "\n\tRegistro actual:\n\n";
+        original.mostrar();
+
+        cout << "\tIngrese nuevos datos (se solicitarán todos los campos)\n";
+        Alumno actualizado;
+        actualizado.cargar();
+
+        int posNuevoLegajo = _archivoAlumnos.buscarRegistro(actualizado.getLegajo());
+        if (posNuevoLegajo >= 0 && posNuevoLegajo != pos) {
+            cout << "\n\tEl legajo ingresado ya está asignado a otro alumno. Operación cancelada.\n";
+            return;
+        }
+        int posNuevoDNI = _archivoAlumnos.buscarRegistro(actualizado.getDni());
+        if (posNuevoDNI >= 0 && posNuevoDNI != pos) {
+            cout << "\n\tEl DNI ingresado ya está asignado a otro alumno. Operación cancelada.\n";
+            return;
+        }
+        if (actualizado.getFechaNacimiento() >= actualizado.getFechaIngreso()){
+        cout << "\n\tHay un problema con las fechas.";
+        return;
+        }
+
+        actualizado.setEliminado(original.getEliminado());
+        if (Validacion::desearAccionar("")){
+            if (_archivoAlumnos.actualizarRegistro(pos, actualizado)) {
+            cout << "\n\tAlumno modificado correctamente.\n";
+            } else {
+            cout << "\n\tError al modificar el alumno.\n";
+        }
+        }
+    }
+}
+
+
+void ManagerAlumno::listarAlumnos(bool incluirBorrados) {
     int total = _archivoAlumnos.contarRegistros();
     if (total <= 0) {
         cout << "\n\tNo hay alumnos registrados.\n";
@@ -97,13 +175,16 @@ void ManagerAlumno::listarAlumnos() {
 
     for (int i = 0; i < total; i++) {
         Alumno alu = _archivoAlumnos.leerRegistro(i);
-        if (!alu.getEliminado()) {
+
+        if (incluirBorrados || !alu.getEliminado()) {
             mostrarRegistro(alu);
         }
     }
 
     mostrarPie();
+
 }
+
 
 void ManagerAlumno::mostrarAlumnoPorLegajo(int legajo) {
     int pos = _archivoAlumnos.buscarRegistro(legajo);
@@ -111,7 +192,6 @@ void ManagerAlumno::mostrarAlumnoPorLegajo(int legajo) {
         cout << "\n\tNo se encontró un alumno con ese legajo.\n";
         return;
     }
-
     Alumno alu = _archivoAlumnos.leerRegistro(pos);
     alu.mostrar();
 }
@@ -469,34 +549,34 @@ void ManagerAlumno::mostrarPie() {
 
 void ManagerAlumno::editarDatos(int legajo) {
     int pos = _archivoAlumnos.buscarRegistro(legajo);
-    
+
     if (pos == -1) {
         cout << "\n\tAlumno no encontrado.\n";
         return;
     }
-    
+
     Alumno alu = _archivoAlumnos.leerRegistro(pos);
-    
+
     if (alu.getEliminado()) {
         cout << "\n\tEl alumno está dado de baja.\n";
         return;
     }
-    
+
     cout << "\n\t=== EDITAR MIS DATOS ===\n";
     cout << "\n\tDatos actuales:\n";
     alu.mostrar();
-    
+
     cout << "\n\t¿Qué dato desea modificar?\n";
     cout << "\t1 - Teléfono\n";
     cout << "\t2 - Email\n";
     cout << "\t3 - Dirección\n";
     cout << "\t0 - Cancelar\n";
     cout << "\tOpción: ";
-    
+
     int opcion;
     cin >> opcion;
     cin.ignore();
-    
+
     switch (opcion) {
         case 1: {
             char telefono[50];
@@ -526,7 +606,7 @@ void ManagerAlumno::editarDatos(int legajo) {
             cout << "\n\tOpción inválida.\n";
             return;
     }
-    
+
     if (_archivoAlumnos.modificarRegistro(alu, pos)) {
         cout << "\n\t✓ Datos actualizados correctamente.\n";
     } else {

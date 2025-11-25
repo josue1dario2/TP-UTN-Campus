@@ -1,5 +1,6 @@
 #include "ManagerDocente.h"
 #include "ManagerInscripcionComision.h"
+#include "Validacion.h"
 #include <fstream>
 #include <iomanip>
 
@@ -72,13 +73,22 @@ void ManagerDocente::editarDocente(int legajo) {
     cout << "\n\tDatos actuales del docente:\n";
     doc.mostrar();
 
+    if (!Validacion::desearAccionar("\tDesea proceder? s/n "))
+        {
+        return;
+        }
+
+
     cout << "\n\tIngrese los nuevos datos:\n";
     doc.cargar();
 
-    if (_archivoDocentes.modificarRegistro(doc, pos))
-        cout << "\n\tDatos actualizados correctamente.\n";
-    else
-        cout << "\n\tError al actualizar.\n";
+    if (Validacion::desearAccionar("\tDesea guardar los datos? s/n ")){
+        if (_archivoDocentes.modificarRegistro(doc, pos))
+            cout << "\n\tDatos actualizados correctamente.\n";
+        else
+            cout << "\n\tError al actualizar.\n";
+        }
+
 }
 
 void ManagerDocente::solicitarBaja(int legajo) {

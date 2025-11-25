@@ -1,12 +1,15 @@
 #pragma once
 #include "ArchivoAlumno.h"
 #include "ArchivoMateria.h"
+#include "ManagerExamen.h"
 #include "ArchivoInscripcionComision.h"
+#include "InscripcionComision.h"
 #include "ArchivoExamen.h"
+#include "Alumno.h"
 #include "ArchivoCorrelativa.h"
 #include "ManagerExamen.h"
 #include "InscripcionComision.h"
-#include "Alumno.h"
+#include <iostream>
 
 class ManagerAlumno {
 private:
@@ -15,40 +18,42 @@ private:
     ArchivoInscripcionComision _archivoInscripcionesComision;
     ManagerExamen _examenManager;
 
+    // Métodos privados de presentación
     void mostrarEncabezado();
     void mostrarRegistro(const Alumno& alu);
     void mostrarPie();
 
 public:
     ManagerAlumno();
+	bool cumpleCorrelativas(int legajoAlumno, int idMateriaObjetivo);
 
-    bool cumpleCorrelativas(int legajoAlumno, int idMateriaObjetivo);
-
-    // Gestión básica
+    // --- Gestión básica ---
     void registrarAlumno();
-    void listarAlumnos();
+    void listarAlumnos(bool incluirBorrados = false);
     void mostrarAlumnoPorLegajo(int legajo);
     int buscarAlumno(int legajo);
-    void editarDatos(int legajo);
+    void modificarAlumno();
+    void bajaLogicaAlumno();
+	void editarDatos(int legajo);
 
-    // Consultas académicas
+    // --- Consultas académicas ---
     void mostrarHistorialNotas(int legajo);
     void mostrarMateriasAprobadas(int legajo);
     void mostrarMateriasPendientes(int legajo);
     void verCondicionMateria(int legajo, int idMateria);
 
-    // Acciones académicas
+    // --- Acciones académicas ---
     void inscribirseAFinal(int legajo, int idMateria);
     void solicitarBaja(int legajo);
     void reactivarAlumno(int legajo);
 
-    // Inscripciones a comisiones
+    // --- Inscripciones a comisiones ---
     void inscribirseAComision(int legajo);
     void verMisComisiones(int legajo);
-    void solicitarBajaComision(int legajo, int idComision);
     void bajaInscripcionComision(int legajo, int idComision);
+	void solicitarBajaComision(int legajo, int idComision);
 
-    // Exámenes y mesas
+    // --- Exámenes y mesas ---
     void verMisMesas(int legajo);
     void bajaInscripcionExamenFinal(int legajo, int idMateria);
 };
