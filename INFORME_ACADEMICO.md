@@ -1511,8 +1511,3 @@ Ver sección "Estructura de Archivos" en `README.md`.
 **Fin del Informe Académico**
 
 ---
-
-**Autores**: [Nombres de los integrantes del grupo]
-**Fecha**: Noviembre 2024
-**Materia**: Laboratorio de Computación II
-**Institución**: Universidad Tecnológica Nacional
