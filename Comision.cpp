@@ -105,40 +105,16 @@ void Comision::cargar() {
 
     _eliminado = false;
 
-    /*
-    out << "ID Comision: ";
-    cin >> _idComision;
-
-    cout << "ID Materia: ";
-    cin >> _idMateria;
-    cin.ignore(); // limpiar salto de línea pendiente
-
-    cout << "Turno (Maniana/Tarde/Noche): ";
-    cin.getline(_turno, 10);
-
-    cout << "Modalidad (Presencial/Virtual/Hibrida): ";
-    cin.getline(_modalidad, 10);
-
-    cout << "Cuatrimestre: ";
-    cin >> _cuatrimestre;
-
-    cout << "Año de cursada: ";
-    cin >> _anio;
-
-    cout << "Legajo del Docente: ";
-    cin >> _legajoDocente;
-
-    */
 }
 
 void Comision::mostrar() const {
-    cout << "=== Datos de la Comision ===\n";
-    cout << "ID Comision: " << _idComision << "\n";
-    cout << "ID Materia: " << _idMateria << "\n";
-    cout << "Turno: " << _turno << "\n";
-    cout << "Modalidad: " << _modalidad << "\n";
-    cout << "Cuatrimestre: " << _cuatrimestre << "\n";
-    cout << "Año: " << _anio << "\n";
-    cout << "Legajo Docente: " << _legajoDocente << "\n";
-    cout << "Eliminado: " << (_eliminado ? "Si" : "No") << "\n\n";
+    cout << "\t=== Datos de la Comision ===\n";
+    cout << "\tID Comision: " << _idComision << "\n";
+    cout << "\tID Materia: " << _idMateria << "\n";
+    cout << "\tTurno: " << _turno << "\n";
+    cout << "\tModalidad: " << _modalidad << "\n";
+    cout << "\tCuatrimestre: " << _cuatrimestre << "\n";
+    cout << "\tAño: " << _anio << "\n";
+    cout << "\tLegajo Docente: " << _legajoDocente << "\n";
+    cout << "\tEliminado: " << (_eliminado ? "Si" : "No") << "\n\n";
 }
