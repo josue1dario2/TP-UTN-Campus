@@ -1,7 +1,7 @@
-# 📘 Informe Académico - Sistema de Gestión Universitaria
+# 📘 Informe Campus Universitario
 
-**Trabajo Práctico Final - Laboratorio de Computación II**
-**Universidad Tecnológica Nacional**
+**Trabajo Práctico - Programación II**
+**UTN**
 
 ---
 
@@ -1419,62 +1419,12 @@ if (!ManagerInscripcionComision::estaInscripto(legajo, idComision)) {
     - Mantenimiento de integridad referencial manual
     - Búsquedas eficientes en archivos grandes
 
-### 9.3 Posibles Mejoras Futuras
-
-1. **Base de Datos Relacional**
-    - Migrar de archivos .dat a SQLite/MySQL
-    - Integridad referencial automática
-    - Consultas más eficientes
-
-2. **Interfaz Gráfica**
-    - GUI con Qt o similar
-    - Mejor experiencia de usuario
-
-3. **Sistema de Notificaciones**
-    - Email para inscripciones
-    - Recordatorios de exámenes
-    - Alertas de cambios de estado
-
-4. **Historial de Cambios**
-    - Auditoría completa
-    - Quién modificó qué y cuándo
-
-5. **Integración con Servicios Externos**
-    - Sistema de pagos
-    - Plataforma educativa (Moodle)
-    - Sistema de bibliotecas
-
-### 9.4 Aprendizajes
-
-1. **Diseño de Software**
-    - Importancia de la arquitectura en capas
-    - Ventajas del patrón Repository
-    - Separación de responsabilidades
-
-2. **C++ Moderno**
-    - Uso de STL (vector, algorithm)
-    - Gestión de memoria
-    - Herencia y polimorfismo
-
-3. **Reglas de Negocio**
-    - Complejidad del sistema académico real
-    - Importancia de validaciones exhaustivas
-    - Casos especiales y excepciones
-
-4. **Trabajo en Equipo**
-    - Versionado con Git
-    - Documentación clara
-    - Código autodocumentado
-
 ---
 
 ## 📚 Bibliografía
 
 - **C++20 Documentation**: https://en.cppreference.com/
 - **CMake Documentation**: https://cmake.org/documentation/
-- **GoogleTest**: https://google.github.io/googletest/
-- **Clean Code** - Robert C. Martin
-- **Design Patterns** - Gang of Four
 
 ---
 
