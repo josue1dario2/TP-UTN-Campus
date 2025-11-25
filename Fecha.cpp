@@ -93,14 +93,16 @@ void Fecha::cargar()
         cin >> _mes;
     }
 
-    cout << "Ingrese dia (1-" << diasDelMes(_mes, _anio) << "): ";
+    cout << "Ingrese dia (" << 1 << "-" << diasDelMes(_mes, _anio) << "): ";
     cin >> _dia;
     while (_dia < 1 || _dia > diasDelMes(_mes, _anio))
     {
         cout << "Dia invalido. Reingrese (1-" << diasDelMes(_mes, _anio) << "): ";
         cin >> _dia;
     }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
+
 
 void Fecha::mostrar() const {
     cout << (_dia < 10 ? "0" : "") << _dia << "/"

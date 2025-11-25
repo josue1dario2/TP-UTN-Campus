@@ -17,7 +17,6 @@ public:
     int agregarRegistro(Alumno reg);
     bool listarRegistros();
     int buscarRegistro(int legajo);
-    int buscarPosicion(int legajo);
     Alumno leerRegistro(int pos);
     bool modificarRegistro(Alumno reg, int pos);
     int contarRegistros();

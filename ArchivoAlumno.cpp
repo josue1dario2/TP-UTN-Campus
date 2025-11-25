@@ -47,43 +47,21 @@ int ArchivoAlumno::buscarRegistro(int legajo) {
     FILE *p;
     if (!abrirArchivo(p, "rb")) return -1;
 
-    int cant = contarRegistros();
     Alumno obj;
+    int pos = 0;
 
-    for (int i = 0; i < cant; i++) {
-        fseek(p, i * _tamanioRegistro, SEEK_SET);
-        fread(&obj, _tamanioRegistro, 1, p);
-
+    while (fread(&obj, _tamanioRegistro, 1, p) == 1) {
         if (!obj.getEliminado() && obj.getLegajo() == legajo) {
             fclose(p);
-            return i;
+            return pos;
         }
+        pos++;
     }
 
     fclose(p);
-    return -2;
+    return -1;
 }
 
-int ArchivoAlumno::buscarPosicion(int legajo) {
-    FILE *p;
-    if (!abrirArchivo(p, "rb")) return -1;
-
-    int cant = contarRegistros();
-    Alumno obj;
-
-    for (int i = 0; i < cant; i++) {
-        fseek(p, i * _tamanioRegistro, SEEK_SET);
-        fread(&obj, _tamanioRegistro, 1, p);
-
-        if (obj.getLegajo() == legajo) {
-            fclose(p);
-            return i;
-        }
-    }
-
-    fclose(p);
-    return -2;
-}
 
 Alumno ArchivoAlumno::leerRegistro(int pos) {
     Alumno obj;

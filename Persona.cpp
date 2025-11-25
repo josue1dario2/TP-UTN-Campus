@@ -63,7 +63,6 @@ bool Persona::getEliminado() const { return _eliminado; }
 void Persona::setEliminado(bool eliminado) { _eliminado = eliminado; }
 
 void Persona::cargar() {
-    cout << "=== Cargar Persona ===\n";
     cout << "DNI: ";
     cin >> _dni;
     cin.ignore();
@@ -90,7 +89,6 @@ void Persona::cargar() {
 }
 
 void Persona::mostrar() const {
-    cout << "=== Datos de la Persona ===\n";
     cout << "DNI: " << _dni << "\n";
     cout << "Nombre: " << _nombre << "\n";
     cout << "Apellido: " << _apellido << "\n";
