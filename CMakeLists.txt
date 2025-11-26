@@ -112,5 +112,6 @@ add_executable(inicializar_datos
         ArchivoCarrera.cpp
         Correlativa.cpp
         ArchivoCorrelativa.cpp
+        Validacion.cpp
         Fecha.cpp
 )
