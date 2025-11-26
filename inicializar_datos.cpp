@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int main1() {
+void inicializar() {
     cout << "\n=== INICIALIZADOR DE DATOS - TECNICATURA ===\n\n";
 
     // 1. Crear carrera
@@ -132,5 +132,5 @@ int main1() {
     cout << "- Correlativas: " << numCorrelativas << "\n";
     cout << "=========================================\n\n";
 
-    return 0;
+    return;
 }
