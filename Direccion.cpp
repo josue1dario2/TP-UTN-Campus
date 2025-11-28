@@ -1,4 +1,5 @@
 #include "Direccion.h"
+#include "Validacion.h"
 #include <cstring>
 #include <sstream>
 
