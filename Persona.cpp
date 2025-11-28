@@ -100,5 +100,5 @@ void Persona::mostrar() const {
     _direccion.mostrar();
     cout << "Fecha de nacimiento: ";
     _fechaNacimiento.mostrar();
-    cout << "Estado: " << (_eliminado ? "Inactivo" : "Activo") << "\n\n";
+    cout << "\n";
 }
