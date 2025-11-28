@@ -114,4 +114,11 @@ add_executable(inicializar_datos
         ArchivoCorrelativa.cpp
         Validacion.cpp
         Fecha.cpp
+        Direccion.cpp
+        Persona.cpp
+        Alumno.cpp
+        Docente.cpp
+        ArchivoPersona.cpp
+        ArchivoAlumno.cpp
+        ArchivoDocente.cpp
 )
