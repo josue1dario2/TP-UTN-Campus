@@ -1,4 +1,5 @@
 #include "MenuAlumno.h"
+#include "ArchivoAlumno.h"
 #include "utils.h"
 #include <iostream>
 using namespace std;
@@ -6,6 +7,17 @@ using namespace std;
 MenuAlumno::MenuAlumno(int legajo) {
     _cantidadOpciones = 11;
     _legajoAlumno = legajo;
+
+    // Obtener nombre del alumno
+    ArchivoAlumno archivoAlumnos("Alumnos.dat");
+    int pos = archivoAlumnos.buscarRegistro(legajo);
+
+    if (pos >= 0) {  // Solo posiciones válidas (>= 0)
+        Alumno alu = archivoAlumnos.leerRegistro(pos);
+        _nombreCompleto = string(alu.getNombre()) + " " + string(alu.getApellido());
+    } else {
+        _nombreCompleto = "Desconocido";
+    }
 }
 
 void MenuAlumno::mostrar() {
@@ -25,7 +37,7 @@ void MenuAlumno::mostrar() {
 }
 
 void MenuAlumno::mostrarOpciones() {
-    cout << "\n\tMENÚ DEL ALUMNO (Legajo: " << _legajoAlumno << ")\n";
+    cout << "\n\tMENÚ DEL ALUMNO - " << _nombreCompleto << " (Legajo: " << _legajoAlumno << ")\n";
     cout << "\t------------------------------------\n";
     cout << "\t1) Inscribirse a Materia (Comisión)\n";
     cout << "\t2) Inscribirse a Examen Final\n";

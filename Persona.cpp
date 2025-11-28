@@ -99,7 +99,6 @@ void Persona::cargar() {
 }
 
 void Persona::mostrar() const {
-    cout << "\n\t=== Datos de la Persona ===\n";
     cout << "\tDNI: " << _dni << "\n";
     cout << "\tNombre: " << _nombre << "\n";
     cout << "\tApellido: " << _apellido << "\n";
@@ -109,5 +108,5 @@ void Persona::mostrar() const {
     _direccion.mostrar();
     cout << "\tFecha de nacimiento: ";
     _fechaNacimiento.mostrar();
-    cout << "\tEstado: " << (_eliminado ? "Inactivo" : "Activo") << "\n";
+
 }

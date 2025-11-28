@@ -5,6 +5,7 @@
 #include "Docente.h"
 #include "Examen.h"
 #include "InscripcionComision.h"
+#include "utils.h"
 #include <iostream>
 #include <iomanip>
 #include <cstring>
@@ -23,149 +24,10 @@ ManagerReportes::ManagerReportes()
 {}
 
 // ========================================================================
-// FUNCIONES AUXILIARES PRIVADAS
-// ========================================================================
-
-float ManagerReportes::calcularPromedioAlumno(int legajo) {
-    int total = _archivoExamenes.contarRegistros();
-    float suma = 0;
-    int cant = 0;
-
-    for (int i = 0; i < total; i++) {
-        Examen ex = _archivoExamenes.leerRegistro(i);
-
-        if (ex.getLegajoAlumno() == legajo &&
-            strcmp(ex.getTipo(), "Final") == 0 &&
-            ex.getNota() >= 4) {
-            suma += ex.getNota();
-            cant++;
-        }
-    }
-
-    return (cant > 0) ? suma / cant : 0.0f;
-}
-
-int ManagerReportes::contarMateriasAprobadas(int legajo) {
-    int total = _archivoMaterias.contarRegistros();
-    int count = 0;
-
-    for (int i = 0; i < total; i++) {
-        Materia mat = _archivoMaterias.leerRegistro(i);
-
-        if (mat.getEliminado()) continue;
-
-        // Buscar si tiene final aprobado
-        int totalEx = _archivoExamenes.contarRegistros();
-        for (int j = 0; j < totalEx; j++) {
-            Examen ex = _archivoExamenes.leerRegistro(j);
-
-            if (ex.getLegajoAlumno() == legajo &&
-                ex.getIdMateria() == mat.getIdMateria() &&
-                strcmp(ex.getTipo(), "Final") == 0 &&
-                ex.getNota() >= 4) {
-                count++;
-                break;
-            }
-        }
-    }
-
-    return count;
-}
-
-int ManagerReportes::contarMateriasPromocionadas(int legajo) {
-    int total = _archivoMaterias.contarRegistros();
-    int count = 0;
-
-    for (int i = 0; i < total; i++) {
-        Materia mat = _archivoMaterias.leerRegistro(i);
-
-        if (mat.getEliminado()) continue;
-
-        // Obtener una comisión de la materia para verificar promoción
-        int totalCom = _archivoComisiones.contarRegistros();
-        for (int j = 0; j < totalCom; j++) {
-            Comision com = _archivoComisiones.leerRegistro(j);
-
-            if (com.getIdMateria() == mat.getIdMateria()) {
-                if (_managerExamen.estaPromocionado(legajo, com.getIdComision())) {
-                    count++;
-                    break;
-                }
-            }
-        }
-    }
-
-    return count;
-}
-
-int ManagerReportes::contarMateriasRegulares(int legajo) {
-    int total = _archivoMaterias.contarRegistros();
-    int count = 0;
-
-    for (int i = 0; i < total; i++) {
-        Materia mat = _archivoMaterias.leerRegistro(i);
-
-        if (mat.getEliminado()) continue;
-
-        int totalCom = _archivoComisiones.contarRegistros();
-        for (int j = 0; j < totalCom; j++) {
-            Comision com = _archivoComisiones.leerRegistro(j);
-
-            if (com.getIdMateria() == mat.getIdMateria()) {
-                if (_managerExamen.estaRegular(legajo, com.getIdComision())) {
-                    count++;
-                    break;
-                }
-            }
-        }
-    }
-
-    return count;
-}
-
-int ManagerReportes::contarMateriasLibres(int legajo) {
-    int total = _archivoMaterias.contarRegistros();
-    int count = 0;
-
-    for (int i = 0; i < total; i++) {
-        Materia mat = _archivoMaterias.leerRegistro(i);
-
-        if (mat.getEliminado()) continue;
-
-        int totalCom = _archivoComisiones.contarRegistros();
-        for (int j = 0; j < totalCom; j++) {
-            Comision com = _archivoComisiones.leerRegistro(j);
-
-            if (com.getIdMateria() == mat.getIdMateria()) {
-                if (_managerExamen.estaLibre(legajo, com.getIdComision())) {
-                    count++;
-                    break;
-                }
-            }
-        }
-    }
-
-    return count;
-}
-
-int ManagerReportes::contarInscriptosEnComision(int idComision) {
-    int total = _archivoInscripciones.contarRegistros();
-    int count = 0;
-
-    for (int i = 0; i < total; i++) {
-        InscripcionComision insc = _archivoInscripciones.leerRegistro(i);
-
-        if (insc.getIdComision() == idComision && insc.getEstado() == 0) {
-            count++;
-        }
-    }
-
-    return count;
-}
-
-// ========================================================================
 // REPORTES DE ALTA PRIORIDAD
 // ========================================================================
+// Nota: Las funciones auxiliares (calcularPromedioAlumno, contarMaterias*, etc.)
+// están centralizadas en utils.h/utils.cpp para reutilización
 
 void ManagerReportes::reporteRendimientoAcademico(int legajo) {
     cout << "\n===============================================\n";

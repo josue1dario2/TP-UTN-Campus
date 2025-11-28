@@ -1,6 +1,12 @@
 #include "ArchivoMateria.h"
 #include "ArchivoCorrelativa.h"
 #include "ArchivoCarrera.h"
+#include "ArchivoAlumno.h"
+#include "ArchivoDocente.h"
+#include "Alumno.h"
+#include "Docente.h"
+#include "Fecha.h"
+#include "Direccion.h"
 #include <iostream>
 #include <cstring>
 
@@ -124,12 +130,81 @@ void inicializar() {
         }
     }
 
+    // 4. Crear alumnos de prueba
+    ArchivoAlumno archAlumno("Alumnos.dat");
+    cout << "\nCreando alumnos de prueba...\n";
+
+    Fecha fechaNac1(15, 3, 2000);
+    Fecha fechaIng1(1, 3, 2023);
+    Direccion dir1("Av. San Martin", "Mendoza", "Mendoza", 1234, 5500);
+
+    Alumno alu1(1, 35556725, "Josue", "Solis", "5492613849535",
+                "josue1dario@gmail.com", dir1, fechaNac1, fechaIng1, false);
+    if (archAlumno.agregarRegistro(alu1)) {
+        cout << "  [OK] Alumno creado: Josue Solis (Legajo: 1)\n";
+    }
+
+    Fecha fechaNac2(20, 7, 2001);
+    Fecha fechaIng2(1, 3, 2023);
+    Direccion dir2("Calle Belgrano", "Mendoza", "Mendoza", 567, 5500);
+
+    Alumno alu2(1001, 40123456, "Juan", "Martinez", "2614567890",
+                "juan.martinez@alumno.utn.edu.ar", dir2, fechaNac2, fechaIng2, false);
+    if (archAlumno.agregarRegistro(alu2)) {
+        cout << "  [OK] Alumno creado: Juan Martinez (Legajo: 1001)\n";
+    }
+
+    Fecha fechaNac3(10, 5, 2002);
+    Fecha fechaIng3(1, 3, 2024);
+    Direccion dir3("Calle Mitre", "Mendoza", "Mendoza", 890, 5500);
+
+    Alumno alu3(1002, 41234567, "Maria", "Lopez", "2615678901",
+                "maria.lopez@alumno.utn.edu.ar", dir3, fechaNac3, fechaIng3, false);
+    if (archAlumno.agregarRegistro(alu3)) {
+        cout << "  [OK] Alumno creado: Maria Lopez (Legajo: 1002)\n";
+    }
+
+    // 5. Crear docentes de prueba
+    ArchivoDocente archDocente("Docentes.dat");
+    cout << "\nCreando docentes de prueba...\n";
+
+    Fecha fechaNacDoc1(10, 5, 1975);
+    Fecha fechaIngDoc1(1, 3, 2010);
+    Direccion dirDoc1("Av. Las Heras", "Mendoza", "Mendoza", 2345, 5500);
+
+    Docente doc1(5001, 25123456, "Carlos", "Gomez", "2614111222",
+                 "carlos.gomez@utn.edu.ar", dirDoc1, fechaNacDoc1, fechaIngDoc1, false);
+    if (archDocente.agregarRegistro(doc1)) {
+        cout << "  [OK] Docente creado: Carlos Gomez (Legajo: 5001)\n";
+    }
+
+    Fecha fechaNacDoc2(15, 8, 1980);
+    Fecha fechaIngDoc2(1, 3, 2012);
+    Direccion dirDoc2("Calle Godoy Cruz", "Mendoza", "Mendoza", 456, 5500);
+
+    Docente doc2(5002, 28234567, "Ana", "Rodriguez", "2614222333",
+                 "ana.rodriguez@utn.edu.ar", dirDoc2, fechaNacDoc2, fechaIngDoc2, false);
+    if (archDocente.agregarRegistro(doc2)) {
+        cout << "  [OK] Docente creado: Ana Rodriguez (Legajo: 5002)\n";
+    }
+
     cout << "\n=========================================\n";
     cout << "INICIALIZACION COMPLETADA\n";
     cout << "=========================================\n";
     cout << "- Carrera: 1\n";
     cout << "- Materias: 17\n";
     cout << "- Correlativas: " << numCorrelativas << "\n";
+    cout << "- Alumnos: 3\n";
+    cout << "- Docentes: 2\n";
+    cout << "=========================================\n";
+    cout << "\nLEGAJOS CREADOS:\n";
+    cout << "Alumnos:\n";
+    cout << "  - Legajo 1: Josue Solis\n";
+    cout << "  - Legajo 1001: Juan Martinez\n";
+    cout << "  - Legajo 1002: Maria Lopez\n";
+    cout << "\nDocentes:\n";
+    cout << "  - Legajo 5001: Carlos Gomez\n";
+    cout << "  - Legajo 5002: Ana Rodriguez\n";
     cout << "=========================================\n\n";
 
     return;

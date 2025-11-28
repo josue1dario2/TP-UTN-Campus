@@ -1,4 +1,5 @@
 #include "MenuDocente.h"
+#include "ArchivoDocente.h"
 #include "Validacion.h"
 #include "utils.h"
 #include <iostream>
@@ -9,12 +10,24 @@ using namespace std;
 MenuDocente::MenuDocente() {
     _cantidadOpciones = 10;
     _legajoDocente = 0;
+    _nombreCompleto = "Sin identificar";
 }
 
 // Constructor con legajo (LOGIN del docente)
 MenuDocente::MenuDocente(int legajoDocente) {
     _cantidadOpciones = 10;
     _legajoDocente = legajoDocente;
+
+    // Obtener nombre del docente
+    ArchivoDocente archivoDocentes("Docentes.dat");
+    int pos = archivoDocentes.buscarRegistro(legajoDocente);
+
+    if (pos >= 0) {  // Solo posiciones válidas (>= 0)
+        Docente doc = archivoDocentes.leerRegistro(pos);
+        _nombreCompleto = string(doc.getNombre()) + " " + string(doc.getApellido());
+    } else {
+        _nombreCompleto = "Desconocido";
+    }
 }
 
 void MenuDocente::mostrar() {
@@ -29,7 +42,7 @@ void MenuDocente::mostrar() {
 }
 
 void MenuDocente::mostrarOpciones() {
-    cout << "\n\tMENÚ DEL DOCENTE\n";
+    cout << "\n\tMENÚ DEL DOCENTE - " << _nombreCompleto << " (Legajo: " << _legajoDocente << ")\n";
     cout << "\t--------------------------------\n";
     cout << "\t1) Ver Mis Comisiones\n";
     cout << "\t2) Ver Alumnos de una Comisión\n";

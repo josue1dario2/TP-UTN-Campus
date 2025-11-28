@@ -97,24 +97,27 @@ void Direccion::setCodigoPostal(int codigoPostal)
 }
 
 void Direccion::cargar() {
-    string calle =Validacion::pedirEntradaCadena("\tCalle: ",2,50);
+    string calle = Validacion::pedirEntradaCadena("\tCalle: ", 2, 50);
     strncpy(_calle, calle.c_str(), sizeof(_calle));
+    _calle[sizeof(_calle) - 1] = '\0';
 
-    _numero = Validacion::validarEnteroEnRango("\tNumero: ",1,10000);
+    _numero = Validacion::validarEnteroEnRango("\tNumero: ", 1, 10000);
 
-    string ciudad =Validacion::pedirEntradaCadena("\tCiudad: ",2,50);
+    string ciudad = Validacion::pedirEntradaCadena("\tCiudad: ", 2, 50);
     strncpy(_ciudad, ciudad.c_str(), sizeof(_ciudad));
+    _ciudad[sizeof(_ciudad) - 1] = '\0';
 
-    string provincia =Validacion::pedirEntradaCadena("\tProvincia: ",2,50);
+    string provincia = Validacion::pedirEntradaCadena("\tProvincia: ", 2, 50);
     strncpy(_provincia, provincia.c_str(), sizeof(_provincia));
+    _provincia[sizeof(_provincia) - 1] = '\0';
 
-    _codigoPostal = Validacion::validarEnteroEnRango("\tCodigo Postal (solo numeros): ",1,10000);
-
+    _codigoPostal = Validacion::validarEnteroEnRango("\tCodigo Postal (solo numeros): ", 1, 10000);
 }
 
 void Direccion::mostrar() const {
-    cout << "\tCalle: " << _calle << " " << _numero << "\n"
-         << "\tCiudad: " << _ciudad << "\n"
-         << "\tProvincia: " << _provincia << "\n"
-         << "\tCodigo Postal: " << _codigoPostal << "\n";
+    cout << "\n"
+         << "\t  Calle: " << _calle << " " << _numero << "\n"
+         << "\t  Ciudad: " << _ciudad << "\n"
+         << "\t  Provincia: " << _provincia << "\n"
+         << "\t  Codigo Postal: " << _codigoPostal << "\n";
 }

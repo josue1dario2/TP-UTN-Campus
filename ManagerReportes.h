@@ -18,14 +18,6 @@ private:
     ArchivoDocente _archivoDocentes;
     ManagerExamen _managerExamen;
 
-    // Funciones auxiliares privadas
-    float calcularPromedioAlumno(int legajo);
-    int contarMateriasAprobadas(int legajo);
-    int contarMateriasPromocionadas(int legajo);
-    int contarMateriasRegulares(int legajo);
-    int contarMateriasLibres(int legajo);
-    int contarInscriptosEnComision(int idComision);
-
 public:
     ManagerReportes();
 
