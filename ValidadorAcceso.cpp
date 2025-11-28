@@ -28,6 +28,15 @@ bool ValidadorAcceso::validarLegajoAlumno(int& legajoValidado) {
     ArchivoAlumno archivoAlumnos("Alumnos.dat");
     resetearIntentos();
 
+    // Verificar si hay alumnos registrados
+    int totalAlumnos = archivoAlumnos.contarRegistros();
+    if (totalAlumnos == 0) {
+        cout << "\n\t*** ERROR: No hay alumnos registrados en el sistema ***\n";
+        cout << "\tPor favor, ejecute el inicializador de datos primero:\n";
+        cout << "\t  ./build/inicializar_datos\n\n";
+        return false;
+    }
+
     while (intentosActuales < MAX_INTENTOS) {
         int legajo = Validacion::validarEntero("\n\tIngrese su legajo: ");
 
@@ -62,6 +71,15 @@ bool ValidadorAcceso::validarLegajoDocente(int& legajoValidado) {
     const int MAX_INTENTOS = 3;
     ArchivoDocente archivoDocentes("Docentes.dat");
     resetearIntentos();
+
+    // Verificar si hay docentes registrados
+    int totalDocentes = archivoDocentes.contarRegistros();
+    if (totalDocentes == 0) {
+        cout << "\n\t*** ERROR: No hay docentes registrados en el sistema ***\n";
+        cout << "\tPor favor, contacte al administrador o ejecute el inicializador de datos:\n";
+        cout << "\t  ./build/inicializar_datos\n\n";
+        return false;
+    }
 
     while (intentosActuales < MAX_INTENTOS) {
         int legajo = Validacion::validarEntero("\n\tIngrese su legajo de docente: ");
