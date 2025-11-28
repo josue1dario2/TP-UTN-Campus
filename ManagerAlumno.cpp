@@ -567,9 +567,14 @@ void ManagerAlumno::editarDatos(int legajo) {
     alu.mostrar();
 
     cout << "\n\t¿Qué dato desea modificar?\n";
-    cout << "\t1 - Teléfono\n";
-    cout << "\t2 - Email\n";
-    cout << "\t3 - Dirección\n";
+    cout << "\t1 - DNI\n";
+    cout << "\t2 - Nombre\n";
+    cout << "\t3 - Apellido\n";
+    cout << "\t4 - Teléfono\n";
+    cout << "\t5 - Email\n";
+    cout << "\t6 - Dirección\n";
+    cout << "\t7 - Fecha de Nacimiento\n";
+    cout << "\t8 - Fecha de Ingreso\n";
     cout << "\t0 - Cancelar\n";
     cout << "\tOpción: ";
 
@@ -579,24 +584,60 @@ void ManagerAlumno::editarDatos(int legajo) {
 
     switch (opcion) {
         case 1: {
+            int dni;
+            cout << "\n\tNuevo DNI: ";
+            cin >> dni;
+            cin.ignore();
+            alu.setDni(dni);
+            break;
+        }
+        case 2: {
+            char nombre[50];
+            cout << "\n\tNuevo nombre: ";
+            cin.getline(nombre, 50);
+            alu.setNombre(nombre);
+            break;
+        }
+        case 3: {
+            char apellido[50];
+            cout << "\n\tNuevo apellido: ";
+            cin.getline(apellido, 50);
+            alu.setApellido(apellido);
+            break;
+        }
+        case 4: {
             char telefono[50];
             cout << "\n\tNuevo teléfono: ";
             cin.getline(telefono, 50);
             alu.setTelefono(telefono);
             break;
         }
-        case 2: {
+        case 5: {
             char email[50];
             cout << "\n\tNuevo email: ";
             cin.getline(email, 50);
             alu.setEmail(email);
             break;
         }
-        case 3: {
+        case 6: {
             Direccion dir;
             cout << "\n\tNueva dirección:\n";
             dir.cargar();
             alu.setDireccion(dir);
+            break;
+        }
+        case 7: {
+            Fecha fechaNac;
+            cout << "\n\tNueva fecha de nacimiento:\n";
+            fechaNac.cargar();
+            alu.setFechaNacimiento(fechaNac);
+            break;
+        }
+        case 8: {
+            Fecha fechaIng;
+            cout << "\n\tNueva fecha de ingreso:\n";
+            fechaIng.cargar();
+            alu.setFechaIngreso(fechaIng);
             break;
         }
         case 0:

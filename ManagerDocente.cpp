@@ -70,9 +70,17 @@ void ManagerDocente::editarDocente(int legajo) {
     }
 
     Docente doc = _archivoDocentes.leerRegistro(pos);
-    cout << "\n\tDatos actuales del docente:\n";
+
+    if (doc.getEliminado()) {
+        cout << "\n\tEl docente está dado de baja.\n";
+        return;
+    }
+
+    cout << "\n\t=== EDITAR MIS DATOS ===\n";
+    cout << "\n\tDatos actuales:\n";
     doc.mostrar();
 
+<<<<<<< HEAD
     if (!Validacion::desearAccionar("\tDesea proceder? s/n "))
         {
         return;
@@ -89,6 +97,95 @@ void ManagerDocente::editarDocente(int legajo) {
             cout << "\n\tError al actualizar.\n";
         }
 
+=======
+    cout << "\n\t¿Qué dato desea modificar?\n";
+    cout << "\t1 - DNI\n";
+    cout << "\t2 - Nombre\n";
+    cout << "\t3 - Apellido\n";
+    cout << "\t4 - Teléfono\n";
+    cout << "\t5 - Email\n";
+    cout << "\t6 - Dirección\n";
+    cout << "\t7 - Fecha de Nacimiento\n";
+    cout << "\t8 - Fecha de Ingreso\n";
+    cout << "\t0 - Cancelar\n";
+    cout << "\tOpción: ";
+
+    int opcion;
+    cin >> opcion;
+    cin.ignore();
+
+    switch (opcion) {
+        case 1: {
+            int dni;
+            cout << "\n\tNuevo DNI: ";
+            cin >> dni;
+            cin.ignore();
+            doc.setDni(dni);
+            break;
+        }
+        case 2: {
+            char nombre[50];
+            cout << "\n\tNuevo nombre: ";
+            cin.getline(nombre, 50);
+            doc.setNombre(nombre);
+            break;
+        }
+        case 3: {
+            char apellido[50];
+            cout << "\n\tNuevo apellido: ";
+            cin.getline(apellido, 50);
+            doc.setApellido(apellido);
+            break;
+        }
+        case 4: {
+            char telefono[50];
+            cout << "\n\tNuevo teléfono: ";
+            cin.getline(telefono, 50);
+            doc.setTelefono(telefono);
+            break;
+        }
+        case 5: {
+            char email[50];
+            cout << "\n\tNuevo email: ";
+            cin.getline(email, 50);
+            doc.setEmail(email);
+            break;
+        }
+        case 6: {
+            Direccion dir;
+            cout << "\n\tNueva dirección:\n";
+            dir.cargar();
+            doc.setDireccion(dir);
+            break;
+        }
+        case 7: {
+            Fecha fechaNac;
+            cout << "\n\tNueva fecha de nacimiento:\n";
+            fechaNac.cargar();
+            doc.setFechaNacimiento(fechaNac);
+            break;
+        }
+        case 8: {
+            Fecha fechaIng;
+            cout << "\n\tNueva fecha de ingreso:\n";
+            fechaIng.cargar();
+            doc.setFechaIngreso(fechaIng);
+            break;
+        }
+        case 0:
+            cout << "\n\tOperación cancelada.\n";
+            return;
+        default:
+            cout << "\n\tOpción inválida.\n";
+            return;
+    }
+
+    if (_archivoDocentes.modificarRegistro(doc, pos)) {
+        cout << "\n\t✓ Datos actualizados correctamente.\n";
+    } else {
+        cout << "\n\t✗ Error al actualizar los datos.\n";
+    }
+>>>>>>> a8db492aa40f9e6708faf4e3795888d6b6473540
 }
 
 void ManagerDocente::solicitarBaja(int legajo) {
