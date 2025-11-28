@@ -3,7 +3,9 @@ project(TP_UTN_Campus)
 
 set(CMAKE_CXX_STANDARD 20)
 
-# --- Ejecutable principal ---
+# -----------------------------
+# Ejecutable principal
+# -----------------------------
 add_executable(TP_UTN_Campus
         main.cpp
         Alumno.cpp
@@ -46,13 +48,14 @@ add_executable(TP_UTN_Campus
         MenuAbmCorrelativa.cpp
         ArchivoCorrelativa.cpp
         ManagerCorrelativa.cpp
-        MenuAbmCorrelativa.cpp
         utils.cpp
         ManagerInscripcionComision.cpp
         ManagerReportes.cpp
 )
 
-# --- GoogleTest setup ---
+# -----------------------------
+# GoogleTest setup
+# -----------------------------
 include(FetchContent)
 FetchContent_Declare(
         googletest
@@ -62,7 +65,9 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-# --- Ejecutable de tests ---
+# -----------------------------
+# Ejecutable de tests unitarios
+# -----------------------------
 add_executable(runTests
         tests/test_alumno.cpp
         Alumno.cpp
@@ -102,23 +107,3 @@ target_link_libraries(runTests GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(runTests)
-
-# --- Ejecutable inicializador de datos ---
-add_executable(inicializar_datos
-        inicializar_datos.cpp
-        Materia.cpp
-        ArchivoMateria.cpp
-        Carrera.cpp
-        ArchivoCarrera.cpp
-        Correlativa.cpp
-        ArchivoCorrelativa.cpp
-        Validacion.cpp
-        Fecha.cpp
-        Direccion.cpp
-        Persona.cpp
-        Alumno.cpp
-        Docente.cpp
-        ArchivoPersona.cpp
-        ArchivoAlumno.cpp
-        ArchivoDocente.cpp
-)
