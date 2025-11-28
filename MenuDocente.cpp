@@ -22,7 +22,7 @@ MenuDocente::MenuDocente(int legajoDocente) {
     ArchivoDocente archivoDocentes("Docentes.dat");
     int pos = archivoDocentes.buscarRegistro(legajoDocente);
 
-    if (pos != -1) {
+    if (pos >= 0) {  // Solo posiciones válidas (>= 0)
         Docente doc = archivoDocentes.leerRegistro(pos);
         _nombreCompleto = string(doc.getNombre()) + " " + string(doc.getApellido());
     } else {

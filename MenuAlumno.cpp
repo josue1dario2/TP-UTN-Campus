@@ -12,7 +12,7 @@ MenuAlumno::MenuAlumno(int legajo) {
     ArchivoAlumno archivoAlumnos("Alumnos.dat");
     int pos = archivoAlumnos.buscarRegistro(legajo);
 
-    if (pos != -1) {
+    if (pos >= 0) {  // Solo posiciones válidas (>= 0)
         Alumno alu = archivoAlumnos.leerRegistro(pos);
         _nombreCompleto = string(alu.getNombre()) + " " + string(alu.getApellido());
     } else {
