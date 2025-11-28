@@ -26,10 +26,7 @@ void MenuAbmMateria::mostrarMenuABMMaterias() {
 }
 void MenuAbmMateria::mostrarCorrelativasDeMateria(int idMateria) {
     clearScreen();
-    cout << "\n=== CORRELATIVAS DE LA MATERIA " << idMateria << " ===\n\n";
-
     ArchivoCorrelativa arch("Correlativas.dat");
-
     arch.listarDeMateria(idMateria);
 
     cout << "\n";

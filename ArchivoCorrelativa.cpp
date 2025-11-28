@@ -1,4 +1,7 @@
 #include "ArchivoCorrelativa.h"
+#include "ManagerMateria.h"
+#include "ArchivoMateria.h"
+#include "Materia.h"
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -51,26 +54,57 @@ void ArchivoCorrelativa::listarDeMateria(int idMateriaObjetivo) {
     FILE *p;
     if (!abrirArchivo(p, "rb")) return;
 
+    ManagerMateria mgrMateria;
+
+    // --- Obtener la materia objetivo ---
+    int posObj = mgrMateria.buscarPorId(idMateriaObjetivo);
+    Materia materiaObj;
+
+    if (posObj >= 0) {
+        ArchivoMateria archMateria("materias.dat");
+        materiaObj = archMateria.leerRegistro(posObj);
+    }
+
+    cout << "\n========================================\n";
+    cout << "     CORRELATIVAS DE LA MATERIA\n";
+    cout << "========================================\n";
+    cout << "   " << materiaObj.getNombre()
+         << " (id " << materiaObj.getIdMateria() << ")\n";
+    cout << "----------------------------------------\n";
+    cout << "Correlativas necesarias para cursar:\n";
+
     int total = contarRegistros();
     Correlativa reg;
     bool hay = false;
-
-    cout << "Correlativas de la materia " << idMateriaObjetivo << ":\n";
 
     for (int i = 0; i < total; i++) {
         fseek(p, i * _tamanioRegistro, SEEK_SET);
         fread(&reg, _tamanioRegistro, 1, p);
 
         if (!reg.getEliminado() &&
-            reg.getIdMateriaObjetivo() == idMateriaObjetivo) {
+            reg.getIdMateriaObjetivo() == idMateriaObjetivo)
+        {
+            // Obtener la materia requisito
+            int posReq = mgrMateria.buscarPorId(reg.getIdMateriaRequisito());
+            Materia matReq;
 
-            cout << " - Requiere aprobar materia: "
-                 << reg.getIdMateriaRequisito() << endl;
+            if (posReq >= 0) {
+                ArchivoMateria archMateria("materias.dat");
+                matReq = archMateria.leerRegistro(posReq);
+            }
+
+            cout << "   • " << matReq.getNombre()
+                 << " (ID " << matReq.getIdMateria() << ")\n";
+
             hay = true;
         }
     }
 
-    if (!hay) cout << " (Sin correlativas configuradas)\n";
+    if (!hay) {
+        cout << "   (No hay correlativas configuradas)\n";
+    }
+
+    cout << "========================================\n\n";
 
     fclose(p);
 }
