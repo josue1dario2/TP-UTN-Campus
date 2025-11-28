@@ -97,14 +97,13 @@ void Direccion::setCodigoPostal(int codigoPostal)
 
 void Direccion::cargar() {
     cout << "Calle: ";
-    cin.ignore();
     cin.getline(_calle, 50);
 
     cout << "Numero: ";
     cin >> _numero;
+    cin.ignore();
 
     cout << "Ciudad: ";
-    cin.ignore();
     cin.getline(_ciudad, 50);
 
     cout << "Provincia: ";
@@ -112,11 +111,13 @@ void Direccion::cargar() {
 
     cout << "Codigo Postal: ";
     cin >> _codigoPostal;
+    cin.ignore();
 }
 
 void Direccion::mostrar() const {
-    cout << "\tCalle: " << _calle << " " << _numero << "\n"
-         << "\tCiudad: " << _ciudad << "\n"
-         << "\tProvincia: " << _provincia << "\n"
-         << "\tCodigo Postal: " << _codigoPostal << "\n";
+    cout << "\n"
+         << "\t  Calle: " << _calle << " " << _numero << "\n"
+         << "\t  Ciudad: " << _ciudad << "\n"
+         << "\t  Provincia: " << _provincia << "\n"
+         << "\t  Codigo Postal: " << _codigoPostal << "\n";
 }
