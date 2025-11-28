@@ -1,5 +1,4 @@
 #include "Direccion.h"
-#include "Validacion.h"
 #include <cstring>
 #include <sstream>
 
@@ -97,19 +96,22 @@ void Direccion::setCodigoPostal(int codigoPostal)
 }
 
 void Direccion::cargar() {
-    string calle =Validacion::pedirEntradaCadena("\tCalle: ",2,50);
-    strncpy(_calle, calle.c_str(), sizeof(_calle));
+    cout << "Calle: ";
+    cin.ignore();
+    cin.getline(_calle, 50);
 
-    _numero = Validacion::validarEnteroEnRango("\tNumero: ",1,10000);
+    cout << "Numero: ";
+    cin >> _numero;
 
-    string ciudad =Validacion::pedirEntradaCadena("\tCiudad: ",2,50);
-    strncpy(_ciudad, ciudad.c_str(), sizeof(_ciudad));
+    cout << "Ciudad: ";
+    cin.ignore();
+    cin.getline(_ciudad, 50);
 
-    string provincia =Validacion::pedirEntradaCadena("\tProvincia: ",2,50);
-    strncpy(_provincia, provincia.c_str(), sizeof(_provincia));
+    cout << "Provincia: ";
+    cin.getline(_provincia, 50);
 
-    _codigoPostal = Validacion::validarEnteroEnRango("\tCodigo Postal (solo numeros): ",1,10000);
-
+    cout << "Codigo Postal: ";
+    cin >> _codigoPostal;
 }
 
 void Direccion::mostrar() const {

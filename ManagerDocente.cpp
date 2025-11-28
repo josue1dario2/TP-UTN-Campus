@@ -80,24 +80,6 @@ void ManagerDocente::editarDocente(int legajo) {
     cout << "\n\tDatos actuales:\n";
     doc.mostrar();
 
-<<<<<<< HEAD
-    if (!Validacion::desearAccionar("\tDesea proceder? s/n "))
-        {
-        return;
-        }
-
-
-    cout << "\n\tIngrese los nuevos datos:\n";
-    doc.cargar();
-
-    if (Validacion::desearAccionar("\tDesea guardar los datos? s/n ")){
-        if (_archivoDocentes.modificarRegistro(doc, pos))
-            cout << "\n\tDatos actualizados correctamente.\n";
-        else
-            cout << "\n\tError al actualizar.\n";
-        }
-
-=======
     cout << "\n\t¿Qué dato desea modificar?\n";
     cout << "\t1 - DNI\n";
     cout << "\t2 - Nombre\n";
@@ -185,7 +167,7 @@ void ManagerDocente::editarDocente(int legajo) {
     } else {
         cout << "\n\t✗ Error al actualizar los datos.\n";
     }
->>>>>>> a8db492aa40f9e6708faf4e3795888d6b6473540
+
 }
 
 void ManagerDocente::solicitarBaja(int legajo) {
