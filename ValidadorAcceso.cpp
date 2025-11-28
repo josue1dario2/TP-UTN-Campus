@@ -42,7 +42,7 @@ bool ValidadorAcceso::validarLegajoAlumno(int& legajoValidado) {
 
         int pos = archivoAlumnos.buscarRegistro(legajo);
 
-        if (pos != -1) {
+        if (pos >= 0) {  // Solo posiciones válidas (>= 0)
             Alumno alu = archivoAlumnos.leerRegistro(pos);
             if (!alu.getEliminado()) {
                 legajoValidado = legajo;
@@ -86,7 +86,7 @@ bool ValidadorAcceso::validarLegajoDocente(int& legajoValidado) {
 
         int pos = archivoDocentes.buscarRegistro(legajo);
 
-        if (pos != -1) {
+        if (pos >= 0) {  // Solo posiciones válidas (>= 0)
             Docente doc = archivoDocentes.leerRegistro(pos);
             if (!doc.getEliminado()) {
                 legajoValidado = legajo;
