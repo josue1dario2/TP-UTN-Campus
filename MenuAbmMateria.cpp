@@ -1,5 +1,7 @@
 #include "MenuAbmMateria.h"
 #include "ArchivoCorrelativa.h"
+#include "ArchivoMateria.h"
+#include "Materia.h"
 #include "Validacion.h"
 #include "utils.h"
 #include <iostream>
@@ -84,7 +86,21 @@ void MenuAbmMateria::ejecutarOpcion(int opcion) {
 
         case 7: {
             int idMat = Validacion::validarEntero("\tIngrese ID de materia: ");
-            mostrarCorrelativasDeMateria(idMat);
+
+            // Verificar que la materia exista
+            ArchivoMateria archMaterias("Materias.dat");
+            int pos = archMaterias.buscarRegistro(idMat);
+
+            if (pos >= 0) {
+                Materia mat = archMaterias.leerRegistro(pos);
+                if (!mat.getEliminado()) {
+                    mostrarCorrelativasDeMateria(idMat);
+                } else {
+                    cout << "\n\tERROR: La materia con ID " << idMat << " está dada de baja.\n";
+                }
+            } else {
+                cout << "\n\tERROR: No existe una materia con el ID " << idMat << ".\n";
+            }
             break;
         }
 
