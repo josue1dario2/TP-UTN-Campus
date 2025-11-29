@@ -5,6 +5,7 @@
 #include "Validacion.h"
 #include <iostream>
 #include <cstdio>
+#include <iomanip>
 using namespace std;
 
 MenuAbmCorrelativa::MenuAbmCorrelativa()
@@ -93,88 +94,73 @@ void MenuAbmCorrelativa::agregarCorrelativa() {
 }
 
 void MenuAbmCorrelativa::listarCorrelativas() {
-    cout << "\n\t=== LISTADO DE CORRELATIVAS ===\n\n";
+
+    const int ANCHO_MAT = 47;
+    const int ANCHO_COR = 47;
+
+    cout << "\n    +------+-----------------------------------------------+------+-----------------------------------------------+\n";
+    cout << "    |  ID  | MATERIA                                       |  ID  | CORRELATIVAS                                  |\n";
+    cout << "    +------+-----------------------------------------------+------+-----------------------------------------------+\n";
 
     ArchivoMateria archMaterias("Materias.dat");
     int totalMaterias = archMaterias.contarRegistros();
 
-    if (totalMaterias == 0) {
-        cout << "\tNo hay materias registradas.\n";
-        return;
-    }
-
-    // Encabezado de tabla
-    cout << "\t+------+--------------------------------+------+--------------------------------+\n";
-    cout << "\t|  ID  | MATERIA                        |  ID  | CORRELATIVAS                   |\n";
-    cout << "\t+------+--------------------------------+------+--------------------------------+\n";
-
-    // Recorrer todas las materias
     for (int i = 0; i < totalMaterias; i++) {
+
         Materia mat = archMaterias.leerRegistro(i);
+        if (mat.getEliminado()) continue;
 
-        if (mat.getEliminado()) continue; // Saltar materias eliminadas
+        string nombreMat = quitarAcentos(mat.getNombre());
+        if (nombreMat.length() > 45) nombreMat = nombreMat.substr(0, 44) + "...";
 
-        int idMateria = mat.getIdMateria();
-        string nombreMateria = mat.getNombre();
+        bool tiene = false;
+        bool primera = true;
 
-        // Truncar nombre si es muy largo
-        if (nombreMateria.length() > 30) {
-            nombreMateria = nombreMateria.substr(0, 27) + "...";
-        }
+        int totalCor = _archivo.contarRegistros();
 
-        // Buscar correlativas de esta materia
-        int totalCorrelativas = _archivo.contarRegistros();
-        bool tienecorrelativas = false;
-        bool primeraFila = true;
+        for (int j = 0; j < totalCor; j++) {
 
-        for (int j = 0; j < totalCorrelativas; j++) {
             Correlativa c = _archivo.leerRegistro(j);
+            if (!c.getEliminado() && c.getIdMateriaObjetivo() == mat.getIdMateria()) {
 
-            if (!c.getEliminado() && c.getIdMateriaObjetivo() == idMateria) {
-                tienecorrelativas = true;
+                tiene = true;
 
-                // Obtener materia requisito
                 int posReq = archMaterias.buscarRegistro(c.getIdMateriaRequisito());
-                string nombreReq = "No encontrada";
+                string nomReq = "No encontrada";
+
                 if (posReq >= 0) {
-                    Materia matReq = archMaterias.leerRegistro(posReq);
-                    nombreReq = matReq.getNombre();
+                    Materia mr = archMaterias.leerRegistro(posReq);
+                    nomReq = quitarAcentos(mr.getNombre());
                 }
+                if (nomReq.length() > 45) nomReq = nomReq.substr(0, 44) + "...";
 
-                // Truncar nombre requisito si es muy largo
-                if (nombreReq.length() > 30) {
-                    nombreReq = nombreReq.substr(0, 27) + "...";
-                }
-
-                // Primera fila: mostrar materia y correlativa
-                if (primeraFila) {
-                    printf("\t| %4d | %-30s | %4d | %-30s |\n",
-                           idMateria,
-                           nombreMateria.c_str(),
+                if (primera) {
+                    printf("    | %4d | %-45s | %4d | %-45s |\n",
+                           mat.getIdMateria(),
+                           nombreMat.c_str(),
                            c.getIdMateriaRequisito(),
-                           nombreReq.c_str());
-                    primeraFila = false;
+                           nomReq.c_str());
+                    primera = false;
                 } else {
-                    // Siguientes filas: solo correlativas (espacios en columna materia)
-                    printf("\t|      |                                | %4d | %-30s |\n",
+                    printf("    |      | %-45s | %4d | %-45s |\n",
+                           "",
                            c.getIdMateriaRequisito(),
-                           nombreReq.c_str());
+                           nomReq.c_str());
                 }
             }
         }
 
-        // Si no tiene correlativas, mostrar la materia con mensaje
-        if (!tienecorrelativas) {
-            printf("\t| %4d | %-30s |      | %-30s |\n",
-                   idMateria,
-                   nombreMateria.c_str(),
+        if (!tiene) {
+            printf("    | %4d | %-45s |      | %-45s |\n",
+                   mat.getIdMateria(),
+                   nombreMat.c_str(),
                    "Sin correlativas");
         }
 
-        // Línea separadora después de cada materia
-        cout << "\t+------+--------------------------------+------+--------------------------------+\n";
+        cout << "    +------+-----------------------------------------------+------+-----------------------------------------------+\n";
     }
 }
+
 
 void MenuAbmCorrelativa::modificarCorrelativa() {
     cout << "\n=== Modificar Correlativa ===\n";

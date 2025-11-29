@@ -15,3 +15,4 @@ int contarMateriasPromocionadas(int legajo);
 int contarMateriasRegulares(int legajo);
 int contarMateriasLibres(int legajo);
 int contarInscriptosEnComision(int idComision);
+std::string quitarAcentos(const char* texto);

@@ -215,3 +215,23 @@ int contarInscriptosEnComision(int idComision) {
     return count;
 }
 
+string quitarAcentos(const char* texto) {
+    string t = texto;
+    string r;
+
+    for (unsigned char c : t) {
+        switch (c) {
+            case 0xC3:
+                continue;
+            case 0xA1: r += "a"; break; // á
+            case 0xA9: r += "e"; break; // é
+            case 0xAD: r += "i"; break; // í
+            case 0xB3: r += "o"; break; // ó
+            case 0xBA: r += "u"; break; // ú
+            case 0xB1: r += "n"; break; // ñ
+            default: r += c; break;
+        }
+    }
+    return r;
+}
+

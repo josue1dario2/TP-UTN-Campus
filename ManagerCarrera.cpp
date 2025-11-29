@@ -14,7 +14,7 @@ Carrera ManagerCarrera::ingresarDatos(int idCarrera)
     const int minNombre = 2, maxNombre = 50;
     string nombre = Validacion::pedirEntradaCadena("\n\tNombre: ", minNombre, maxNombre);
 
-    int duracion = Validacion::validarEnteroEnRango("\tDuración (1-20 cuatrimestres): ", 1, 20);
+    int duracion = Validacion::validarEnteroEnRango("\tDuración (1-4 cuatrimestres): ", 1, 4);
 
     Carrera nuevaCarrera(idCarrera, nombre.c_str(), duracion, false);
     return nuevaCarrera;
