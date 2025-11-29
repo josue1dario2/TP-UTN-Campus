@@ -4,6 +4,7 @@
 #include "utils.h"
 #include "Validacion.h"
 #include <iostream>
+#include <cstdio>
 using namespace std;
 
 MenuAbmCorrelativa::MenuAbmCorrelativa()
@@ -92,19 +93,55 @@ void MenuAbmCorrelativa::agregarCorrelativa() {
 }
 
 void MenuAbmCorrelativa::listarCorrelativas() {
-    cout << "\n\t=== LISTADO DE CORRELATIVAS ===\n";
+    cout << "\n\t=== LISTADO DE CORRELATIVAS ===\n\n";
 
+    ArchivoMateria archMaterias("Materias.dat");
     int total = _archivo.contarRegistros();
+
+    if (total == 0) {
+        cout << "\tNo hay correlativas registradas.\n";
+        return;
+    }
+
+    // Encabezado de tabla
+    cout << "\t+------+--------------------------------+------+--------------------------------+\n";
+    cout << "\t|  ID  | MATERIA OBJETIVO               |  ID  | MATERIA REQUISITO              |\n";
+    cout << "\t+------+--------------------------------+------+--------------------------------+\n";
 
     for (int i = 0; i < total; i++) {
         Correlativa c = _archivo.leerRegistro(i);
 
         if (!c.getEliminado()) {
-            cout << "\tMateria OBJ: " << c.getIdMateriaObjetivo()
-                 << "  |  Requisito: " << c.getIdMateriaRequisito()
-                 << endl;
+            // Obtener materia objetivo
+            int posObj = archMaterias.buscarRegistro(c.getIdMateriaObjetivo());
+            string nombreObj = "No encontrada";
+            if (posObj >= 0) {
+                Materia matObj = archMaterias.leerRegistro(posObj);
+                nombreObj = matObj.getNombre();
+            }
+
+            // Obtener materia requisito
+            int posReq = archMaterias.buscarRegistro(c.getIdMateriaRequisito());
+            string nombreReq = "No encontrada";
+            if (posReq >= 0) {
+                Materia matReq = archMaterias.leerRegistro(posReq);
+                nombreReq = matReq.getNombre();
+            }
+
+            // Truncar nombres si son muy largos
+            if (nombreObj.length() > 30) nombreObj = nombreObj.substr(0, 27) + "...";
+            if (nombreReq.length() > 30) nombreReq = nombreReq.substr(0, 27) + "...";
+
+            // Mostrar fila
+            printf("\t| %4d | %-30s | %4d | %-30s |\n",
+                   c.getIdMateriaObjetivo(),
+                   nombreObj.c_str(),
+                   c.getIdMateriaRequisito(),
+                   nombreReq.c_str());
         }
     }
+
+    cout << "\t+------+--------------------------------+------+--------------------------------+\n";
 }
 
 void MenuAbmCorrelativa::modificarCorrelativa() {
