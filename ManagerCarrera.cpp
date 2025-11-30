@@ -1,5 +1,6 @@
 #include "ManagerCarrera.h"
 #include "Validacion.h"
+#include "utils.h"
 #include <iomanip>
 using namespace std;
 
@@ -44,20 +45,70 @@ void ManagerCarrera::cargar()
 void ManagerCarrera::modificar()
 {
     cout << "\n\t=== Modificar Carrera ===\n";
-    int idCarrera = Validacion::validarEnteroEnRango("\n\tID de Carrera: ", 0, 10000);
+
+    int total = _repoCarrera.contarRegistros();
+    if (total <= 0) {
+        cout << "\n\tNo hay carreras registradas.\n";
+        return;
+    }
+
+    // ================================
+    // Mostrar solo carreras ACTIVAS
+    // ================================
+    bool hayActivas = false;
+
+    for (int i = 0; i < total; i++) {
+        Carrera c = _repoCarrera.leerRegistro(i);
+        if (!c.getEliminado()) {
+            hayActivas = true;
+            break;
+        }
+    }
+
+    if (!hayActivas) {
+        cout << "\n\tNo hay carreras ACTIVAS para modificar.\n";
+        return;
+    }
+
+    cout << "\n\tListado de carreras ACTIVAS:\n";
+    mostrarEncabezado();
+
+    for (int i = 0; i < total; i++) {
+        Carrera c = _repoCarrera.leerRegistro(i);
+        if (!c.getEliminado()) {
+            mostrarRegistro(c);
+        }
+    }
+
+    mostrarPie();
+
+    // ================================
+    // Pedir ID
+    // ================================
+    int idCarrera = Validacion::validarEnteroEnRango("\n\tID de Carrera a modificar: ", 1, 10000);
 
     int posicion = _repoCarrera.buscarPosicion(idCarrera);
     if (posicion < 0) {
-        cout << "\n\tNo se encontró el registro.\n";
+        cout << "\n\tNo se encontró un registro con ese ID.\n";
         return;
     }
 
     Carrera original = _repoCarrera.leerRegistro(posicion);
-    original.mostrar();
 
+    if (original.getEliminado()) {
+        cout << "\n\tLa carrera está borrada y no puede modificarse.\n";
+        return;
+    }
+
+    // ================================
+    // Pedir nuevos datos (sin mostrar datos actuales)
+    // ================================
     Carrera modificada = ingresarDatos(original.getIdCarrera());
 
-    if (Validacion::desearAccionar("")) {
+    // ================================
+    // Confirmar
+    // ================================
+    if (Validacion::desearAccionar("\n\t¿Desea guardar los cambios? (s/n): ")) {
         if (_repoCarrera.modificarRegistro(modificada, posicion))
             cout << "\n\tRegistro modificado correctamente.\n";
         else
@@ -65,61 +116,110 @@ void ManagerCarrera::modificar()
     } else {
         cout << "\n\tOperación cancelada.\n";
     }
+
     cin.ignore(10000, '\n');
 }
 
 
+
 void ManagerCarrera::cambiarEstado(bool activar)
 {
-    int _idCarrera;
-    string mensaje, accion, resultado;
-    int posicion = 0;
+    cout << "\n\t=== " << (activar ? "Activar Carrera" : "Borrar Carrera") << " ===\n";
 
-    accion = activar ? "Activación" : "Borrado";
-    resultado = activar ? "activado" : "borrado";
-
-    cout << "\n\t=== Modificar Estado de Carrera ===\n";
-    cout << "\n\t=== " << accion << " de registro ===\n";
-    cout << "\n\tID de Carrera: ";
-
-    _idCarrera = Validacion::validarEnteroEnRango(" ", 0, 10000);
-    posicion = _repoCarrera.buscarPosicion(_idCarrera);
-
-    if (posicion < 0) {
-        cout << "\n\tNo se encontró un registro con ese ID.\n";
+    int total = _repoCarrera.contarRegistros();
+    if (total <= 0) {
+        cout << "\n\tNo hay carreras registradas.\n";
         return;
     }
 
-    Carrera _carrera = _repoCarrera.leerRegistro(posicion);
-    bool estadoActual = _carrera.getEliminado();
-    _carrera.mostrar();
+    // =====================================================
+    // LISTAR SEGUN ACCION (sin mostrar tabla vacía)
+    // =====================================================
+    bool hay = false;
+    for (int i = 0; i < total; i++) {
+        Carrera c = _repoCarrera.leerRegistro(i);
 
-    // Dependiendo de la acción, revisamos el estado actual
-    if (activar && estadoActual == false) {
-        cout << "\n\tEl registro ya estaba activo.\n";
-        return;
-    }
-    if (!activar && estadoActual == true) {
-        cout << "\n\tEl registro ya estaba borrado.\n";
-        return;
+        if (activar && c.getEliminado()) { hay = true; break; }   // activar → existen inactivas
+        if (!activar && !c.getEliminado()) { hay = true; break; } // borrar → existen activas
     }
 
-    mensaje = "\n\tDesea " + string(activar ? "activar" : "borrar") + " el registro? s/n ";
+    if (!hay) {
+        if (activar)
+            cout << "\n\tNo hay carreras inactivas para activar.\n";
+        else
+            cout << "\n\tNo hay carreras activas para borrar.\n";
+        return;
+    }
+
+    // =====================================================
+    // Mostrar solo si hay carreras válidas
+    // =====================================================
+    cout << "\n\tListado de carreras "
+         << (activar ? "ELIMINADAS" : "ACTIVAS") << ":\n";
+
+    cout << "\t+-------+--------------------------------+------------+---------+\n";
+    cout << "\t| ID    | Nombre                         | Duración   | Borrado |\n";
+    cout << "\t+-------+--------------------------------+------------+---------+\n";
+
+    for (int i = 0; i < total; i++) {
+        Carrera c = _repoCarrera.leerRegistro(i);
+
+        if (activar && !c.getEliminado()) continue;   // activar → mostrar solo borradas
+        if (!activar && c.getEliminado()) continue;   // borrar → mostrar solo activas
+
+        cout << "\t| " << setw(5)  << right << c.getIdCarrera()
+             << " | " << setw(30) << left << quitarAcentos(c.getNombre())
+             << " | " << setw(10) << right << c.getDuracionCuatrimestres()
+             << " | " << setw(7)  << right << (c.getEliminado() ? "Si" : "No")
+             << " |\n";
+    }
+
+    cout << "\t+-------+--------------------------------+------------+---------+\n";
+
+    // =====================================================
+    // PEDIR ID
+    // =====================================================
+    int id = Validacion::validarEnteroEnRango("\n\tID de Carrera: ", 1, 99999);
+
+    int pos = _repoCarrera.buscarPosicion(id);
+    if (pos < 0) {
+        cout << "\n\tERROR: No existe una carrera con ese ID.\n";
+        return;
+    }
+
+    Carrera reg = _repoCarrera.leerRegistro(pos);
+
+    if (activar && !reg.getEliminado()) {
+        cout << "\n\tLa carrera ya está ACTIVA.\n";
+        return;
+    }
+    if (!activar && reg.getEliminado()) {
+        cout << "\n\tLa carrera ya está BORRADA.\n";
+        return;
+    }
+
+    // =====================================================
+    // CONFIRMAR (sin mostrar datos)
+    // =====================================================
+    string mensaje = "\n\t¿Desea "
+                     + string(activar ? "activar" : "borrar")
+                     + " la carrera? (s/n): ";
+
     if (!Validacion::desearAccionar(mensaje)) {
         cout << "\n\tOperación cancelada.\n";
         return;
     }
 
-    bool exito = activar ? _repoCarrera.activarRegistro(posicion)
-                         : _repoCarrera.bajaLogica(posicion);
+    // =====================================================
+    // APLICAR CAMBIO
+    // =====================================================
+    reg.setEliminado(!activar);
 
-    if (exito)
-        cout << "\n\tRegistro " << resultado << " correctamente.\n";
+    if (_repoCarrera.modificarRegistro(reg, pos))
+        cout << "\n\tRegistro " << (activar ? "activado" : "borrado") << " correctamente.\n";
     else
-        cout << "\n\tNo se pudo modificar el registro.\n";
-    cin.ignore(10000, '\n');
+        cout << "\n\tERROR al modificar el registro.\n";
 }
-
 
 
 
@@ -128,9 +228,7 @@ void ManagerCarrera::activar(){
 }
 
 
-
-void ManagerCarrera::borrar()
-{
+void ManagerCarrera::borrar() {
     cambiarEstado(false);
 }
 
