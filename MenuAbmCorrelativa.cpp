@@ -46,52 +46,85 @@ int MenuAbmCorrelativa::seleccionarOpcion() {
 }
 
 void MenuAbmCorrelativa::agregarCorrelativa() {
+
     cout << "\n=== Agregar Correlativa ===\n";
 
-    ArchivoMateria archMaterias("Materias.dat");
+    int idObj;
+    cout << "Ingrese el ID de la Materia: ";
+    cin >> idObj;
 
-    // Validar ID Materia Objetivo
-    int idMatObj = Validacion::validarEntero("\tID Materia OBJETIVO: ");
-    int posObj = archMaterias.buscarRegistro(idMatObj);
-
+    ArchivoMateria archMat("Materias.dat");
+    int posObj = archMat.buscarRegistro(idObj);
     if (posObj < 0) {
-        cout << "\n\tERROR: No existe una materia con el ID " << idMatObj << ".\n";
+        cout << "\nLa materia objetivo no existe.\n";
         return;
     }
 
-    Materia matObj = archMaterias.leerRegistro(posObj);
-    if (matObj.getEliminado()) {
-        cout << "\n\tERROR: La materia con ID " << idMatObj << " está dada de baja.\n";
+    int total = _archivo.contarRegistros();
+    int usadas = 0;
+
+    for (int i = 0; i < total; i++) {
+        Correlativa c = _archivo.leerRegistro(i);
+        if (!c.getEliminado() && c.getIdMateriaObjetivo() == idObj) {
+            usadas++;
+        }
+    }
+
+    if (usadas >= 4) {
+        cout << "\nLa materia ya tiene el máximo (4) correlativas.\n";
         return;
     }
 
-    // Validar ID Materia Requisito
-    int idMatReq = Validacion::validarEntero("\tID Materia REQUISITO: ");
-    int posReq = archMaterias.buscarRegistro(idMatReq);
+    bool seguir = true;
+    while (seguir && usadas < 4) {
 
-    if (posReq < 0) {
-        cout << "\n\tERROR: No existe una materia con el ID " << idMatReq << ".\n";
-        return;
+        int idReq;
+        cout <<"Ingrese el ID de la correlativa : ";
+        cin >> idReq;
+
+        int posReq = archMat.buscarRegistro(idReq);
+        if (posReq < 0) {
+            cout << "\nLa materia requisito no existe.\n";
+            continue;
+        }
+
+        bool yaExiste = false;
+        for (int i = 0; i < total; i++) {
+            Correlativa c = _archivo.leerRegistro(i);
+            if (!c.getEliminado() &&
+                c.getIdMateriaObjetivo() == idObj &&
+                c.getIdMateriaRequisito() == idReq) {
+                yaExiste = true;
+                break;
+            }
+        }
+
+        if (yaExiste) {
+            cout << "\nEsa correlativa ya está cargada.\n";
+        } else {
+            Correlativa nuevo(idObj, idReq, false);
+
+            if (_archivo.agregarRegistro(nuevo) == 1) {
+                cout << "\nCorrelativa agregada correctamente.\n";
+                usadas++;
+            } else {
+                cout << "\nError al agregar correlativa.\n";
+            }
+        }
+
+        if (usadas >= 4) {
+            cout << "\n¡Se alcanzó el máximo de 4 correlativas!\n";
+            break;
+        }
+
+        char opc;
+        cout << "\n¿Desea agregar otra correlativa? (s/n): ";
+        cin >> opc;
+
+        if (opc != 's' && opc != 'S') seguir = false;
     }
-
-    Materia matReq = archMaterias.leerRegistro(posReq);
-    if (matReq.getEliminado()) {
-        cout << "\n\tERROR: La materia con ID " << idMatReq << " está dada de baja.\n";
-        return;
-    }
-
-    if (idMatObj == idMatReq) {
-        cout << "\n\tERROR: Una materia no puede ser correlativa de sí misma.\n";
-        return;
-    }
-
-    Correlativa c(idMatObj, idMatReq);
-
-    if (_archivo.agregarRegistro(c))
-        cout << "\n\t✓ Correlativa agregada correctamente.\n";
-    else
-        cout << "\n\t✗ Error al agregar correlativa.\n";
 }
+
 
 void MenuAbmCorrelativa::listarCorrelativas() {
 
@@ -161,134 +194,276 @@ void MenuAbmCorrelativa::listarCorrelativas() {
     }
 }
 
-
 void MenuAbmCorrelativa::modificarCorrelativa() {
-    cout << "\n=== Modificar Correlativa ===\n";
+    cout << "\n=== Modificar Correlativas ===\n";
 
     ArchivoMateria archMaterias("Materias.dat");
 
-    // Validar ID Materia Objetivo
-    int idObj = Validacion::validarEntero("\tID Materia OBJETIVO: ");
+    // === VALIDAR ID MATERIA OBJETIVO ===
+    int idObj = Validacion::validarEntero("\tIngrese el ID de la Materia: ");
     int posMatObj = archMaterias.buscarRegistro(idObj);
 
     if (posMatObj < 0) {
-        cout << "\n\tERROR: No existe una materia con el ID " << idObj << ".\n";
+        cout << "\n\tERROR: No existe una materia con ese ID.\n";
         return;
     }
 
     Materia matObj = archMaterias.leerRegistro(posMatObj);
     if (matObj.getEliminado()) {
-        cout << "\n\tERROR: La materia con ID " << idObj << " está dada de baja.\n";
+        cout << "\n\tERROR: La materia está dada de baja.\n";
         return;
     }
 
-    // Validar ID Materia Requisito Viejo
-    int reqViejo = Validacion::validarEntero("\tID Materia REQUISITO a modificar: ");
-    int posReqViejo = archMaterias.buscarRegistro(reqViejo);
+    bool continuar = true;
 
-    if (posReqViejo < 0) {
-        cout << "\n\tERROR: No existe una materia con el ID " << reqViejo << ".\n";
-        return;
-    }
+    while (continuar)
+    {
+        // =======================================================
+        // CARGAR CORRELATIVAS (MAX 4)
+        // =======================================================
+        int correlativas[4];
+        int cant = 0;
+        int total = _archivo.contarRegistros();
 
-    // Buscar la correlativa
-    int total = _archivo.contarRegistros();
-    int pos = -1;
+        for (int i = 0; i < total && cant < 4; i++) {
+            Correlativa c = _archivo.leerRegistro(i);
+            if (!c.getEliminado() && c.getIdMateriaObjetivo() == idObj) {
+                correlativas[cant] = c.getIdMateriaRequisito();
+                cant++;
+            }
+        }
 
-    for (int i = 0; i < total; i++) {
-        Correlativa c = _archivo.leerRegistro(i);
-        if (c.getIdMateriaObjetivo() == idObj &&
-            c.getIdMateriaRequisito() == reqViejo &&
-            !c.getEliminado()) {
-            pos = i;
-            break;
+        // Si no tiene correlativas → volver
+        if (cant == 0) {
+            cout << "\n(La materia NO tiene correlativas)\n";
+            cout << "Volviendo al menu...\n";
+            return;
+        }
+
+        // =======================================================
+        // MOSTRAR INFO ACTUAL
+        // =======================================================
+        cout << "\n---------------------------------------------\n";
+        cout << " Materia: " << idObj << " | " << quitarAcentos(matObj.getNombre()) << "\n";
+        cout << "---------------------------------------------\n";
+
+        cout << " Correlativas actuales:\n";
+        cout << " -------------------------------------\n";
+
+        for (int i = 0; i < cant; i++) {
+            int posReq = archMaterias.buscarRegistro(correlativas[i]);
+            Materia req = archMaterias.leerRegistro(posReq);
+            cout << " - " << req.getIdMateria()
+                 << " | " << quitarAcentos(req.getNombre()) << "\n";
+        }
+
+        cout << " -------------------------------------\n";
+
+        // =======================================================
+        // PEDIR CORRELATIVA A MODIFICAR
+        // =======================================================
+        int reqViejo = Validacion::validarEntero("\nIngrese el ID de correlativa a MODIFICAR: ");
+
+        // Verificar que reqViejo realmente esté en correlativas[]
+        bool existe = false;
+        for (int i = 0; i < cant; i++) {
+            if (correlativas[i] == reqViejo) existe = true;
+        }
+
+        if (!existe) {
+            cout << "\nERROR: Esa correlativa NO existe.\n";
+            continue;
+        }
+
+        // Buscar posición exacta en archivo
+        int posCor = -1;
+        total = _archivo.contarRegistros();
+        for (int i = 0; i < total; i++) {
+            Correlativa c = _archivo.leerRegistro(i);
+            if (!c.getEliminado() &&
+                c.getIdMateriaObjetivo() == idObj &&
+                c.getIdMateriaRequisito() == reqViejo) {
+                posCor = i;
+                break;
+            }
+        }
+
+        if (posCor < 0) {
+            cout << "\nERROR inesperado.\n";
+            continue;
+        }
+
+        // =======================================================
+        // NUEVO ID
+        // =======================================================
+        int reqNuevo = Validacion::validarEntero("\tIngrese el nuevo ID de la correlativa: ");
+        int posReqNuevo = archMaterias.buscarRegistro(reqNuevo);
+
+        // === Validar existencia
+        if (posReqNuevo < 0) {
+            cout << "\n\tERROR: No existe una materia con ese ID.\n";
+            continue;
+        }
+
+        // === Validar que no esté eliminada
+        Materia matReqNuevo = archMaterias.leerRegistro(posReqNuevo);
+        if (matReqNuevo.getEliminado()) {
+            cout << "\n\tERROR: Esa materia está dada de baja.\n";
+            continue;
+        }
+
+        // === No puede ser la misma materia
+        if (reqNuevo == idObj) {
+            cout << "\n\tERROR: Una materia no puede ser correlativa de sí misma.\n";
+            continue;
+        }
+
+        // === EVITAR DUPLICADOS
+        bool duplicado = false;
+        for (int i = 0; i < cant; i++) {
+            if (correlativas[i] == reqNuevo) {
+                duplicado = true;
+                break;
+            }
+        }
+
+        if (duplicado) {
+            cout << "\n\tERROR: Esa correlativa YA está cargada.\n";
+            continue;
+        }
+
+        // =======================================================
+        // GUARDAR MODIFICACIÓN
+        // =======================================================
+        Correlativa c = _archivo.leerRegistro(posCor);
+        c.setIdMateriaRequisito(reqNuevo);
+
+        if (_archivo.modificarRegistro(c, posCor))
+            cout << "\n✓ Correlativa modificada correctamente.\n";
+        else
+            cout << "\n✗ Error al modificar correlativa.\n";
+
+        // =======================================================
+        // ¿SEGUIR MODIFICANDO?
+        // =======================================================
+        char opc;
+        cout << "\n¿Desea modificar otra correlativa? (s/n): ";
+        cin >> opc;
+
+        if (opc != 's' && opc != 'S') {
+            continuar = false;
         }
     }
-
-    if (pos == -1) {
-        cout << "\n\tERROR: No existe esa correlativa.\n";
-        return;
-    }
-
-    // Validar ID Materia Requisito Nuevo
-    int reqNuevo = Validacion::validarEntero("\tNuevo ID Materia requisito: ");
-    int posReqNuevo = archMaterias.buscarRegistro(reqNuevo);
-
-    if (posReqNuevo < 0) {
-        cout << "\n\tERROR: No existe una materia con el ID " << reqNuevo << ".\n";
-        return;
-    }
-
-    Materia matReqNuevo = archMaterias.leerRegistro(posReqNuevo);
-    if (matReqNuevo.getEliminado()) {
-        cout << "\n\tERROR: La materia con ID " << reqNuevo << " está dada de baja.\n";
-        return;
-    }
-
-    if (reqNuevo == idObj) {
-        cout << "\n\tERROR: Una materia no puede ser correlativa de sí misma.\n";
-        return;
-    }
-
-    Correlativa c = _archivo.leerRegistro(pos);
-    c.setIdMateriaRequisito(reqNuevo);
-
-    if (_archivo.modificarRegistro(c, pos))
-        cout << "\n\t✓ Correlativa modificada correctamente.\n";
-    else
-        cout << "\n\t✗ Error al modificar correlativa.\n";
 }
+
 
 void MenuAbmCorrelativa::bajaLogica() {
-    cout << "\n=== Baja de Correlativa ===\n";
+    cout << "\n=== Baja de Correlativas ===\n";
 
     ArchivoMateria archMaterias("Materias.dat");
 
-    // Validar ID Materia Objetivo
-    int idObj = Validacion::validarEntero("\tID Materia OBJETIVO: ");
+    int idObj = Validacion::validarEntero("\tIngrese el ID de la Materia: ");
     int posMatObj = archMaterias.buscarRegistro(idObj);
 
     if (posMatObj < 0) {
-        cout << "\n\tERROR: No existe una materia con el ID " << idObj << ".\n";
+        cout << "\n\tERROR: No existe una materia con ese ID.\n";
         return;
     }
 
     Materia matObj = archMaterias.leerRegistro(posMatObj);
     if (matObj.getEliminado()) {
-        cout << "\n\tERROR: La materia con ID " << idObj << " está dada de baja.\n";
+        cout << "\n\tERROR: La materia está dada de baja.\n";
         return;
     }
 
-    // Validar ID Materia Requisito
-    int req = Validacion::validarEntero("\tID Materia REQUISITO a dar de baja: ");
-    int posReq = archMaterias.buscarRegistro(req);
+    bool continuar = true;
 
-    if (posReq < 0) {
-        cout << "\n\tERROR: No existe una materia con el ID " << req << ".\n";
-        return;
-    }
+    while (continuar) {
 
-    // Buscar la correlativa
-    int total = _archivo.contarRegistros();
-    int pos = -1;
+        // CARGAR CORRELATIVAS EN ARRAY
+        int correlativas[4];
+        int cant = 0;
 
-    for (int i = 0; i < total; i++) {
-        Correlativa c = _archivo.leerRegistro(i);
-        if (c.getIdMateriaObjetivo() == idObj &&
-            c.getIdMateriaRequisito() == req &&
-            !c.getEliminado()) {
-            pos = i;
-            break;
+        int total = _archivo.contarRegistros();
+        for (int i = 0; i < total && cant < 4; i++) {
+            Correlativa c = _archivo.leerRegistro(i);
+            if (!c.getEliminado() && c.getIdMateriaObjetivo() == idObj) {
+                correlativas[cant] = c.getIdMateriaRequisito();
+                cant++;
+            }
         }
-    }
 
-    if (pos == -1) {
-        cout << "\n\tERROR: No existe correlativa para dar de baja.\n";
-        return;
-    }
+        if (cant == 0) {
+            cout << "\n(La materia NO tiene correlativas)\n";
+            cout << "Volviendo al menu...\n";
+            return;
+        }
 
-    if (_archivo.bajaLogica(pos))
-        cout << "\n\t✓ Correlativa dada de baja correctamente.\n";
-    else
-        cout << "\n\t✗ Error al procesar baja.\n";
+        // MOSTRAR LA MATERIA Y SUS CORRELATIVAS
+        cout << "\n---------------------------------------------\n";
+        cout << " Materia: " << idObj << " | " << quitarAcentos(matObj.getNombre()) << "\n";
+        cout << "---------------------------------------------\n";
+
+        cout << " Correlativas actuales:\n";
+        cout << " -------------------------------------\n";
+
+        for (int i = 0; i < cant; i++) {
+            int posReq = archMaterias.buscarRegistro(correlativas[i]);
+            Materia req = archMaterias.leerRegistro(posReq);
+
+            cout << " - " << req.getIdMateria() << " | "
+                 << quitarAcentos(req.getNombre()) << "\n";
+        }
+
+        cout << " -------------------------------------\n";
+
+        int idReq = Validacion::validarEntero("\nIngrese el ID de correlativa a borrar: ");
+
+        int posToDelete = -1;
+        for (int i = 0; i < total; i++) {
+            Correlativa c = _archivo.leerRegistro(i);
+            if (!c.getEliminado() &&
+                c.getIdMateriaObjetivo() == idObj &&
+                c.getIdMateriaRequisito() == idReq) {
+                posToDelete = i;
+                break;
+            }
+        }
+
+        if (posToDelete < 0) {
+            cout << "\nERROR: Esa correlativa NO existe.\n";
+            continue;
+        }
+
+        if (_archivo.bajaLogica(posToDelete))
+            cout << "\nCorrelativa eliminada correctamente.\n";
+        else
+            cout << "\nError al procesar baja.\n";
+
+        // Ver si quedan correlativas
+        bool quedan = false;
+        total = _archivo.contarRegistros();
+
+        for (int i = 0; i < total; i++) {
+            Correlativa c = _archivo.leerRegistro(i);
+            if (!c.getEliminado() && c.getIdMateriaObjetivo() == idObj) {
+                quedan = true;
+                break;
+            }
+        }
+
+        if (!quedan) {
+            cout << "\n(La materia ya no tiene correlativas)\n";
+            cout << "Volviendo al menu...\n";
+            return;
+        }
+
+        char opc;
+        cout << "\n¿Desea borrar otra correlativa? (s/n): ";
+        cin >> opc;
+
+        if (opc != 's' && opc != 'S') continuar = false;
+    }
 }
+
+
