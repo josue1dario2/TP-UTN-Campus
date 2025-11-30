@@ -1,10 +1,12 @@
 #include "Materia.h"
 #include "Validacion.h"
 #include "ArchivoMateria.h"
+#include "ArchivoCarrera.h"
 #include <iostream>
 #include <cstring>
 #include <string>
 #include <limits>
+#include <iomanip>
 
 using namespace std;
 
@@ -53,43 +55,69 @@ bool Materia::getEliminado() const { return _eliminado; }
 void Materia::cargar(bool cargar) {
 
     cout << "\n\t=== Cargar Materia ===\n";
-    _idCarrera= Validacion::validarEnteroEnRango("\n\tID Carrera: ",1,10000);
 
-    string nombre =Validacion::pedirEntradaCadena("\tNombre: ",4,50);
-    strncpy(_nombre, nombre.c_str(), sizeof(_nombre));
+    // === MOSTRAR CARRERAS ACTIVAS ANTES DE PEDIR EL ID ===
+    ArchivoCarrera repoCarrera("Carreras.dat");
+    int total = repoCarrera.contarRegistros();
+    bool hayActivas = false;
 
-    ArchivoMateria _archivoMateria;
-    int existeNombre = _archivoMateria.buscarRegistro(_idCarrera, nombre,cargar);
+    cout << "\n\tListado de Carreras ACTIVAS:\n";
+    cout << "\t+-------+--------------------------------+------------+---------+\n";
+    cout << "\t| ID    | Nombre                         | Duracion   | Borrado |\n";
+    cout << "\t+-------+--------------------------------+------------+---------+\n";
 
-    if (existeNombre >=0){
-        cout << "\n\tEl nombre de materia ya existe para la carrera.";
+    for (int i = 0; i < total; i++) {
+        Carrera c = repoCarrera.leerRegistro(i);
+        if (!c.getEliminado()) {
+            hayActivas = true;
+            cout << "\t| " << setw(5) << right << c.getIdCarrera()
+                 << " | " << setw(30) << left  << c.getNombre()
+                 << " | " << setw(10) << right << c.getDuracionCuatrimestres()
+                 << " | " << setw(7)  << right << "No"
+                 << " |\n";
+        }
+    }
+
+    cout << "\t+-------+--------------------------------+------------+---------+\n";
+
+    if (!hayActivas) {
+        cout << "\n\tNo existen carreras activas. No se puede cargar la materia.\n";
         setIdMateria(0);
         return;
     }
 
-    _cuatrimestre= Validacion::validarEnteroEnRango("\tCuatrimestre (1/2): ",1,2);
+    // === PEDIR ID DE CARRERA ===
+    _idCarrera = Validacion::validarEnteroEnRango("\n\tID Carrera: ", 1, 10000);
 
-    int estadoMateria= Validacion::validarEnteroEnRango("\tEstado (1-Activa/2-Inactiva): ",1,2);
-    strcpy(_estado, (estadoMateria == 1) ? "Activa" : "Inactiva");
+    int posCarrera = repoCarrera.buscarPosicion(_idCarrera);
+    if (posCarrera < 0) {
+        cout << "\n\tERROR: La carrera no existe.\n";
+        setIdMateria(0);
+        return;
+    }
 
+    // === NOMBRE ===
+    string nombre = Validacion::pedirEntradaCadena("\tNombre: ", 4, 50);
+    strncpy(_nombre, nombre.c_str(), sizeof(_nombre));
+
+    // Validar nombre repetido
+    ArchivoMateria _archivoMateria;
+    int existeNombre = _archivoMateria.buscarRegistro(_idCarrera, nombre, cargar);
+
+    if (existeNombre >= 0) {
+        cout << "\n\tEl nombre de materia ya existe para la carrera.\n";
+        setIdMateria(0);
+        return;
+    }
+
+    // === CUATRIMESTRE ===
+    _cuatrimestre = Validacion::validarEnteroEnRango("\tCuatrimestre (1/2): ", 1, 2);
+
+    // === ESTADO POR DEFECTO ===
+    strcpy(_estado, "Activa");
     _eliminado = false;
-    /*
-    cout << "ID Carrera: ";
-    cin >> _idCarrera;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    cout << "Nombre: ";
-    cin.getline(_nombre, sizeof(_nombre));
-
-    cout << "Cuatrimestre: ";
-    cin >> _cuatrimestre;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    cout << "Estado (Activa / Inactiva): ";
-    cin.getline(_estado, sizeof(_estado));
-    */
-
 }
+
 
 void Materia::mostrar() const {
     cout << "\n=== DATOS DE LA MATERIA ===\n";

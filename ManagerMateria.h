@@ -14,6 +14,7 @@ public:
     void baja();
     void modificacion();
     void listarTodas();
+    void listarMateriasActivas();
     int buscarPorId(int idMateria);
     int generarIdNuevo();
     void activar();
