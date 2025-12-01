@@ -53,22 +53,21 @@ int ArchivoMateria::buscarRegistro(const int idMateria) {
     FILE *p;
     if (!abrirArchivo(p, "rb")) return -1;
 
-    int total = contarRegistros();
     Materia obj;
+    int i = 0;
 
-    for (int i = 0; i < total; i++) {
-        fseek(p, i * _tamanioRegistro, SEEK_SET);
-        fread(&obj, _tamanioRegistro, 1, p);
-
-        if (!obj.getEliminado() && obj.getIdMateria() == idMateria) {
+    while (fread(&obj, _tamanioRegistro, 1, p)) {
+        if (obj.getIdMateria() == idMateria) {
             fclose(p);
             return i;
         }
+        i++;
     }
 
     fclose(p);
-    return -2; // no encontrado
+    return -1;
 }
+
 
 int ArchivoMateria::buscarRegistro(const int idCarrera, const std::string& nombreMateria,const bool cargar) {
     Materia obj;

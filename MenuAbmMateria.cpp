@@ -84,25 +84,9 @@ void MenuAbmMateria::ejecutarOpcion(int opcion) {
             menuCorrelativa.mostrar();
             break;
 
-        case 7: {
-            int idMat = Validacion::validarEntero("\tIngrese ID de materia: ");
-
-            // Verificar que la materia exista
-            ArchivoMateria archMaterias("Materias.dat");
-            int pos = archMaterias.buscarRegistro(idMat);
-
-            if (pos >= 0) {
-                Materia mat = archMaterias.leerRegistro(pos);
-                if (!mat.getEliminado()) {
-                    mostrarCorrelativasDeMateria(idMat);
-                } else {
-                    cout << "\n\tERROR: La materia con ID " << idMat << " está dada de baja.\n";
-                }
-            } else {
-                cout << "\n\tERROR: No existe una materia con el ID " << idMat << ".\n";
-            }
+        case 7:
+            manager.verCorrelativas();
             break;
-        }
 
         default:
             cout << "\n\tOpción inválida.\n";
