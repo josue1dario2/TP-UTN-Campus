@@ -1,175 +1,236 @@
 #include "ManagerMateria.h"
 #include "Validacion.h"
+#include "ArchivoCorrelativa.h"
 #include "utils.h"
+
 #include <iostream>
 #include <iomanip>
-#include <limits>
 using namespace std;
+
+/* ============================================================
+                           HELPERS
+   ============================================================ */
+
+// Devuelve el nombre de la carrera de una materia
+string ManagerMateria::nombreCarrera(int idCarrera) {
+    int pos = _archivoCarreras.buscarPosicion(idCarrera);
+    if (pos < 0) return "Desconocida";
+
+    Carrera c = _archivoCarreras.leerRegistro(pos);
+    return quitarAcentos(c.getNombre());
+}
+
+// Verifica si existe una materia con ese ID
+bool ManagerMateria::obtenerMateriaValida(int id, Materia& out) {
+    int pos = buscarPorId(id);
+    if (pos < 0) return false;
+
+    out = _archivoMaterias.leerRegistro(pos);
+    return true;
+}
+
+// Verifica si existe y además NO está eliminada
+bool ManagerMateria::obtenerMateriaActiva(int id, Materia& out) {
+    if (!obtenerMateriaValida(id, out)) return false;
+    return !out.getEliminado();
+}
+
+// Listado unificado para Activas / Inactivas / Todas
+void ManagerMateria::listar(bool activas, bool inactivas, const string& titulo) {
+    int total = _archivoMaterias.contarRegistros();
+
+    cout << "\n\t=== " << titulo << " ===\n\n";
+
+    cout << left;
+    cout << setw(5)  << "ID"
+         << setw(35) << "Nombre"
+         << setw(40) << "Carrera"
+         << setw(10) << "Cuat."
+         << setw(12) << "Estado"
+         << setw(12) << "Elimin."
+         << "\n";
+
+    cout << string(120, '-') << "\n";
+
+    for (int i = 0; i < total; i++) {
+        Materia m = _archivoMaterias.leerRegistro(i);
+
+        // FILTROS
+        if (m.getEliminado() && !inactivas) continue;
+        if (!m.getEliminado() && !activas) continue;
+
+        cout << setw(5)  << m.getIdMateria()
+             << setw(35) << quitarAcentos(m.getNombre())
+             << setw(40) << nombreCarrera(m.getIdCarrera())
+             << setw(10) << m.getCuatrimestre()
+             << setw(12) << m.getEstado()
+             << setw(12) << (m.getEliminado() ? "SI" : "NO")
+             << "\n";
+    }
+
+    cout << string(120, '-') << "\n\n";
+}
+
+
+
+/* ============================================================
+                         ALTA
+   ============================================================ */
 
 void ManagerMateria::alta() {
     Materia reg;
 
     reg.setIdMateria(generarIdNuevo());
-
     reg.cargar();
 
-    //if (reg.getIdMateria()==0) {return;}
-    int _idCarreraNuevo = reg.getIdCarrera();
-    if (_archivoCarreras.existeCarrera(_idCarreraNuevo)) {
-        if (_archivoMaterias.agregarRegistro(reg) == 1) {
+    int idCarrera = reg.getIdCarrera();
+
+    if (_archivoCarreras.existeCarrera(idCarrera)) {
+        if (_archivoMaterias.agregarRegistro(reg))
             cout << "\n\tMateria guardada con éxito.\n";
-        } else {
-            cout << "\n\tError al guardar la materia.\n";
-        }
-    } else {
+        else
+            cout << "\n\tError al guardar.\n";
+    }
+    else {
         cout << "\n\tEl ID de Carrera no existe.\n";
     }
-
-
-
-
-    return;
-    /*
-    if (_archivoCarreras.existeCarrera(_idCarreraNuevo)) {
-        if (_archivoMaterias.agregarRegistro(reg) == 1) {
-            cout << "\n\tMateria guardada con éxito.\n";
-        } else {
-            cout << "\n\tError al guardar la materia.\n";
-        }
-    }
-    else
-    {
-        cout << "\n\tEl ID de Materia es incorrecto.";
-    }
-    */
 }
+
+
+/* ============================================================
+                         ACTIVAR
+   ============================================================ */
 
 void ManagerMateria::activar() {
-    int id = Validacion::validarEnteroEnRango("\tIngrese el ID de la materia a activar: ", 1,10000);
+    cout << "\n\t=== Activar Materia ===\n";
 
+    listarMateriasInactivas();
 
-    int pos = buscarPorId(id);
-    if (pos < 0) {
-        cout << "Materia no encontrada.\n";
+    int id = Validacion::validarEntero("\n\tID de la materia a activar: ");
+
+    Materia m;
+    if (!obtenerMateriaValida(id, m) || !m.getEliminado()) {
+        cout << "\n\tLa materia no existe o ya está activa.\n";
         return;
     }
-    if (Validacion::desearAccionar("Desea activar la materia? s/n: ")){
-        if (_archivoMaterias.activarRegistro(pos)){
-            cout << "Materia activada correctamente.\n";
-        }
-        else{
-            cout << "No se pudo activar.\n";
-        }
+
+    if (Validacion::desearAccionar("\t¿Activar? (s/n): ")) {
+        int pos = buscarPorId(id);
+        _archivoMaterias.activarRegistro(pos);
+        cout << "\n\tMateria activada correctamente.\n";
     }
 }
+
+
+/* ============================================================
+                          BAJA
+   ============================================================ */
 
 void ManagerMateria::baja() {
-    int id;
-    cout << "Ingrese el ID de la materia a eliminar: ";
-    cin >> id;
+    cout << "\n\t=== Eliminar Materia ===\n";
 
-    int pos = buscarPorId(id);
-    if (pos < 0) {
-        cout << "Materia no encontrada.\n";
+    listarMateriasActivas();
+
+    int id = Validacion::validarEntero("\n\tID de la materia a eliminar: ");
+
+    Materia m;
+    if (!obtenerMateriaActiva(id, m)) {
+        cout << "\n\tMateria inexistente o ya eliminada.\n";
         return;
     }
 
-    if (Validacion::desearAccionar("Desea borrar la materia? s/n: ")){
-        if (_archivoMaterias.bajaLogica(pos)) {
-            cout << "Materia dada de baja correctamente.\n";
-        }
-        else {
-            cout << "No se pudo eliminar.\n";
-        }
+    if (Validacion::desearAccionar("\t¿Eliminar? (s/n): ")) {
+        int pos = buscarPorId(id);
+        _archivoMaterias.bajaLogica(pos);
+        cout << "\n\tMateria eliminada correctamente.\n";
     }
 }
 
 
-
-
-void ManagerMateria::modificacion() {
-    int id;
-    cout << "Ingrese el ID de la materia a modificar: ";
-    cin >> id;
-
-    int pos = buscarPorId(id);
-    if (pos < 0) {
-        cout << "Materia no encontrada.\n";
-        return;
-    }
-
-    Materia reg = _archivoMaterias.leerRegistro(pos);
-
-    cout << "\n=== DATOS ACTUALES ===\n";
-    reg.mostrar();
-
-    cout << "\n=== INGRESE NUEVOS DATOS ===\n";
-
-    Materia _nuevaMateria;
-    _nuevaMateria.cargar();
-
-    if (Validacion::desearAccionar("\tDesea guardar los datos? s/n: ")){
-        if (_archivoMaterias.modificarRegistro(reg, pos))
-            cout << "Registro modificado correctamente.\n";
-        else
-            cout << "Error al modificar.\n";
-    }
-
-
-
-}
+/* ============================================================
+                      LISTAR TODAS / ACTIVAS / INACTIVAS
+   ============================================================ */
 
 void ManagerMateria::listarTodas() {
-    bool incluirBorrados = Validacion::desearAccionar("\n\t¿Desea incluir los registros borrados? (s/n): ");
 
-    int cantidad = _archivoMaterias.contarRegistros();
-    if (cantidad == 0) {
-        cout << "\n\tNo hay materias registradas.\n";
+    bool incluirEliminadas =
+        Validacion::desearAccionar("\n\t¿Desea incluir materias eliminadas? (s/n): ");
+
+    if (incluirEliminadas)
+        listar(true, true, "LISTADO DE TODAS LAS MATERIAS");
+    else
+        listar(true, false, "LISTADO DE MATERIAS ACTIVAS");
+}
+
+void ManagerMateria::listarMateriasActivas() {
+    listar(true, false, "LISTADO DE MATERIAS ACTIVAS");
+}
+
+void ManagerMateria::listarMateriasInactivas() {
+    listar(false, true, "LISTADO DE MATERIAS INACTIVAS");
+}
+
+
+/* ============================================================
+                        MODIFICACIÓN
+   ============================================================ */
+
+void ManagerMateria::modificacion() {
+    cout << "\n\t=== Modificar Materia ===\n";
+
+    listarMateriasActivas();
+
+    int id = Validacion::validarEntero("\n\tID de materia a modificar: ");
+
+    Materia actual;
+    if (!obtenerMateriaActiva(id, actual)) {
+        cout << "\n\tMateria inexistente o inactiva.\n";
         return;
     }
 
-    cout << "\n\t=== LISTADO DE MATERIAS ===\n";
+    cout << "\n\t=== Nuevos datos ===\n";
 
-    cout << left << setfill(' ');
+    Materia nueva;
+    nueva.setIdMateria(id);
+    nueva.cargar(false);
 
-    // ------- ENCABEZADO -------
-    cout << setw(10) << "Carrera"
-         << setw(5)  << "Id"
-         << setw(38) << "Nombre"
-         << setw(15) << "Cuatrimestre"
-         << setw(10) << "Estado"
-         << setw(10) << "Eliminado"
-         << "\n";
-
-    cout << string(88, '-') << "\n";
-
-    // ------- FILAS -------
-    int contadorMostrados = 0;
-    for (int i = 0; i < cantidad; i++) {
-        Materia reg = _archivoMaterias.leerRegistro(i);
-
-        // Si no se desea incluir borrados y el registro está eliminado, saltar
-        if (!incluirBorrados && reg.getEliminado()) continue;
-
-        cout << setw(10) << reg.getIdCarrera()
-             << setw(5)  << reg.getIdMateria()
-             << setw(38) << quitarAcentos(reg.getNombre())
-             << setw(15) << reg.getCuatrimestre()
-             << setw(10) << reg.getEstado()
-             << setw(10) << (reg.getEliminado() ? "Si" : "No")
-             << "\n";
-
-        contadorMostrados++;
+    if (Validacion::desearAccionar("\n\t¿Guardar cambios? (s/n): ")) {
+        int pos = buscarPorId(id);
+        _archivoMaterias.modificarRegistro(nueva, pos);
+        cout << "\n\tMateria modificada correctamente.\n";
     }
-
-    cout << string(88, '-') << "\n";
-
-    if (contadorMostrados == 0) {
-        cout << "\n\tNo hay materias para mostrar con los filtros aplicados.\n";
-    }
-
-    cin.ignore(10000, '\n');
 }
+
+
+/* ============================================================
+                       VER CORRELATIVAS
+   ============================================================ */
+
+void ManagerMateria::verCorrelativas() {
+    cout << "\n\t=== Ver Correlativas ===\n";
+
+    listarMateriasActivas();
+
+    int idMat = Validacion::validarEntero("\n\tIngrese ID de la materia: ");
+
+    Materia m;
+    if (!obtenerMateriaActiva(idMat, m)) {
+        cout << "\n\tERROR: ID inválido o materia eliminada.\n";
+        return;
+    }
+
+    clearScreen();
+    ArchivoCorrelativa arch("Correlativas.dat");
+    arch.listarDeMateria(idMat);
+
+    cout << "\n";
+    pauseScreen();
+}
+
+
+/* ============================================================
+                BUSCAR Y GENERAR ID
+   ============================================================ */
 
 int ManagerMateria::buscarPorId(int idMateria) {
     return _archivoMaterias.buscarRegistro(idMateria);
@@ -180,12 +241,9 @@ int ManagerMateria::generarIdNuevo() {
     int maxID = 0;
 
     for (int i = 0; i < cant; i++) {
-        Materia reg = _archivoMaterias.leerRegistro(i);
-        if (reg.getIdMateria() > maxID)
-            maxID = reg.getIdMateria();
+        Materia m = _archivoMaterias.leerRegistro(i);
+        if (m.getIdMateria() > maxID)
+            maxID = m.getIdMateria();
     }
-
     return maxID + 1;
 }
-
-
