@@ -58,7 +58,7 @@ int ArchivoComision::buscarRegistro(int idComision) {
         fseek(p, i * _tamanioRegistro, SEEK_SET);
         fread(&reg, _tamanioRegistro, 1, p);
 
-        if (!reg.getEliminado() && reg.getIdComision() == idComision) {
+        if (reg.getIdComision() == idComision) {
             fclose(p);
             return i;
         }
@@ -67,6 +67,8 @@ int ArchivoComision::buscarRegistro(int idComision) {
     fclose(p);
     return -2;
 }
+
+
 
 Comision ArchivoComision::leerRegistro(int pos) {
     Comision reg;
