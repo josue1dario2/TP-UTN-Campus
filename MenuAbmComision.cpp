@@ -12,6 +12,7 @@ MenuAbmComision::MenuAbmComision() {
 
 void MenuAbmComision::mostrar() {
     int opcion;
+
     do {
         clearScreen();
         opcion = seleccionOpcion();
@@ -30,7 +31,7 @@ void MenuAbmComision::mostrar() {
 
 void MenuAbmComision::mostrarOpciones() {
     cout << "\n\tABM COMISIONES\n";
-    cout << "\t--------------------------------\n";
+    cout << "\t------------------------------------------\n";
     cout << "\t1) Alta de Comisión\n";
     cout << "\t2) Modificar Comisión\n";
     cout << "\t3) Baja lógica de Comisión\n";
@@ -42,7 +43,7 @@ void MenuAbmComision::mostrarOpciones() {
 
 int MenuAbmComision::seleccionOpcion() {
     mostrarOpciones();
-    cout << "\t--------------------------------\n";
+    cout << "\t------------------------------------------\n";
     cout << "\tOpción: ";
     return Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
 }
@@ -53,36 +54,26 @@ void MenuAbmComision::ejecutarOpcion(int opcion) {
     switch (opcion) {
 
         case 1:
-            cout << "\n\t=== ALTA DE COMISIÓN ===\n";
-            manager.cargar();
+            manager.alta();
             break;
 
         case 2:
-            cout << "\n\t=== MODIFICAR COMISIÓN ===\n";
             manager.modificar();
             break;
 
         case 3:
-            cout << "\n\t=== BAJA LÓGICA DE COMISIÓN ===\n";
             manager.borrar();
             break;
 
         case 4:
-            cout << "\n\t=== LISTADO DE COMISIONES ===\n";
-            manager.listar();
+            manager.listarComisiones();
             break;
 
-        case 5: {
-            cout << "\n\t=== LISTAR COMISIONES POR MATERIA ===\n";
-            int idMateria = Validacion::validarEnteroEnRango(
-                "\tIngrese el ID de la materia: ", 1, 9999
-            );
-            manager.mostrarComisionesPorMateria(idMateria);
+        case 5:
+            manager.listarPorMateria();
             break;
-        }
 
         case 6:
-            cout << "\n\t=== REACTIVAR COMISIÓN ===\n";
             manager.activar();
             break;
     }
