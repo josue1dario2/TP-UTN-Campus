@@ -17,4 +17,8 @@ int contarMateriasLibres(int legajo);
 int contarInscriptosEnComision(int idComision);
 std::string quitarAcentos(const char* texto);
 std::string validarTelefono(const char* mensaje);
+std::string validarDNI(const char* mensaje);
+bool validarEmail(const std::string& email);
+std::string pedirEmail(const char* mensaje);
+
 
