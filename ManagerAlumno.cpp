@@ -1,3 +1,4 @@
+#include <limits>
 #include "ManagerAlumno.h"
 #include "ArchivoComision.h"
 #include "ManagerCorrelativa.h"
@@ -6,7 +7,6 @@
 #include <iomanip>
 #include <cstring>
 #include <cstdlib>
-#include <limits>
 
 using namespace std;
 
