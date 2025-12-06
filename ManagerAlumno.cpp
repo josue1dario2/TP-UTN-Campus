@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <cstring>
 #include <cstdlib>
+#include <limits>
+
 using namespace std;
 
 ManagerAlumno::ManagerAlumno()
