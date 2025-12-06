@@ -8,7 +8,7 @@
 using namespace std;
 
 MenuAdministrador::MenuAdministrador() {
-    _cantidadOpciones = 7;
+    _cantidadOpciones = 9;
 }
 
 void MenuAdministrador::mostrar() {
@@ -36,6 +36,8 @@ void MenuAdministrador::mostrarOpciones() {
     cout << "\t5) ABM Correlativas\n";
     cout << "\t6) Alta de Alumno\n";
     cout << "\t7) Alta de Docente\n";
+    cout << "\t8) Listar Alumnos\n";
+    cout << "\t9) Listar Docentes\n";
     cout << "\t0) Volver\n";
 }
 
@@ -77,6 +79,14 @@ void MenuAdministrador::ejecutarOpcion(int opcion) {
 
         case 7:
             _managerDocente.registrarDocente();
+            break;
+
+        case 8:
+            _managerAlumno.listarAlumnos();
+            break;
+
+        case 9:
+            _managerDocente.listarDocentes();
             break;
 
         case 0:

@@ -1,5 +1,6 @@
 #include "Persona.h"
 #include "Validacion.h"
+#include "utils.h"
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -79,8 +80,9 @@ void Persona::cargar() {
     strncpy(_apellido, apellido.c_str(), sizeof(_apellido));
 
     //      TELEFONO
-    string telefono =Validacion::pedirEntradaCadena("\tTelefono: ",5,50);
+    std::string telefono = validarTelefono("\tTelefono: ");
     strncpy(_telefono, telefono.c_str(), sizeof(_telefono));
+    _telefono[sizeof(_telefono) - 1] = '\0';
 
     //      EMAIL
     string email =Validacion::pedirEntradaCadena("\tEmail: ",10,50);

@@ -16,6 +16,7 @@ public:
     Fecha getFechaIngreso() const;
     void setFechaIngreso(Fecha fechaIngreso);
 
+    void cargarDatosSinLegajo();
     void cargar();
     void mostrar() const;
 

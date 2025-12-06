@@ -21,8 +21,21 @@ void Docente::setFechaIngreso(Fecha fechaIngreso) { _fechaIngreso = fechaIngreso
 
 void Docente::cargar() {
     cout << "\n\t=== Cargar Docente ===\n";
+
     Persona::cargar();
-    _legajo = Validacion::validarEnteroEnRango("\n\tNum. de legajo: ", 10000, 99999);
+
+    cout << "\tFecha de ingreso:\n";
+    _fechaIngreso.cargar();
+
+    _legajo = 0;
+
+    setEliminado(false);
+}
+
+void Docente::cargarDatosSinLegajo() {
+    cout << "\n\t=== Editar Datos del Docente ===\n";
+
+    Persona::cargar();
 
     cout << "\tFecha de ingreso:\n";
     _fechaIngreso.cargar();

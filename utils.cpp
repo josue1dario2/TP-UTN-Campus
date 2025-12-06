@@ -234,4 +234,33 @@ string quitarAcentos(const char* texto) {
     }
     return r;
 }
+std::string validarTelefono(const char* mensaje) {
+    std::string tel;
 
+    while (true) {
+        std::cout << mensaje;
+        std::getline(std::cin, tel);
+
+        tel.erase(remove(tel.begin(), tel.end(), ' '), tel.end());
+
+        if (tel.length() < 9 || tel.length() > 16) {
+            std::cout << "\tEl teléfono debe tener entre 9 y 16 dígitos.\n";
+            continue;
+        }
+
+        bool esNumerico = true;
+        for (char c : tel) {
+            if (!isdigit(c)) {
+                esNumerico = false;
+                break;
+            }
+        }
+
+        if (!esNumerico) {
+            std::cout << "\tEl teléfono solo puede contener números.\n";
+            continue;
+        }
+
+        return tel;
+    }
+}

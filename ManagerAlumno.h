@@ -56,4 +56,6 @@ public:
     // --- Exámenes y mesas ---
     void verMisMesas(int legajo);
     void bajaInscripcionExamenFinal(int legajo, int idMateria);
+
+    int generarLegajo();
 };
