@@ -265,3 +265,64 @@ std::string validarTelefono(const char* mensaje) {
         return tel;
     }
 }
+std::string validarDNI(const char* mensaje)
+{
+    std::string dni;
+
+    while (true)
+    {
+        std::cout << mensaje;
+        std::getline(std::cin, dni);
+
+        std::string soloNumeros = "";
+        for (char c : dni)
+        {
+            if (isdigit(c))
+                soloNumeros += c;
+        }
+
+        dni = soloNumeros;
+
+        if (dni.length() < 7 || dni.length() > 8)
+        {
+            std::cout << "\tDNI inválido: debe tener entre 7 y 8 dígitos.\n";
+            continue;
+        }
+
+        break;
+    }
+
+    return dni;
+}
+
+bool validarEmail(const std::string& email) {
+    if (email.empty()) return false;
+
+    size_t posArroba = email.find('@');
+    if (posArroba == std::string::npos) return false;
+    if (email.find('@', posArroba + 1) != std::string::npos) return false;
+
+    if (posArroba == 0 || posArroba == email.length() - 1) return false;
+
+    size_t posPunto = email.find('.', posArroba);
+    if (posPunto == std::string::npos) return false;
+    if (posPunto == email.length() - 1) return false;
+
+    return true;
+}
+
+std::string pedirEmail(const char* mensaje) {
+    std::string email;
+
+    while (true) {
+        std::cout << mensaje;
+        std::getline(std::cin, email);
+
+        if (!validarEmail(email)) {
+            std::cout << "\tEmail inválido. Intente nuevamente.\n";
+            continue;
+        }
+
+        return email;
+    }
+}

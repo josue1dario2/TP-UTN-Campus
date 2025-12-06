@@ -1,6 +1,9 @@
 #include "Persona.h"
 #include "Validacion.h"
 #include "utils.h"
+#include <string>
+#include <cstdlib>
+#include <stdexcept>
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -69,7 +72,7 @@ void Persona::cargar() {
     //cout << "\n\t=== Cargar Persona ===\n";
 
     //      DNI
-    _dni = Validacion::validarEnteroEnRango("\tDNI: ", 1000000, 100000000 );
+    _dni = std::stoi(validarDNI("\tDNI: "));
 
     //      NOMBRE
     string nombre =Validacion::pedirEntradaCadena("\tNombre: ",2,50);
@@ -85,8 +88,9 @@ void Persona::cargar() {
     _telefono[sizeof(_telefono) - 1] = '\0';
 
     //      EMAIL
-    string email =Validacion::pedirEntradaCadena("\tEmail: ",10,50);
+    string email = pedirEmail("\tEmail: ");
     strncpy(_email, email.c_str(), sizeof(_email));
+    _email[sizeof(_email) - 1] = '\0';
 
     //      FECHANACIMIENTO
     cout << "\n\t--- Fecha de nacimiento ---\n";
