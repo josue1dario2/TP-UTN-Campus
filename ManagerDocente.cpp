@@ -3,6 +3,7 @@
 #include "Validacion.h"
 #include <fstream>
 #include <iomanip>
+#include <limits>
 
 using namespace std;
 
