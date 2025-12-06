@@ -1,3 +1,4 @@
+#include <limits>
 #include "ManagerCorrelativa.h"
 #include "Validacion.h"
 #include "utils.h"

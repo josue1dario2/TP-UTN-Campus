@@ -17,6 +17,7 @@ public:
 
     void cargar();
     void mostrar() const;
+    void cargarDatosSinLegajo();
 
 private:
     int _legajo;

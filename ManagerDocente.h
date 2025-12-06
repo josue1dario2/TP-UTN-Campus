@@ -21,6 +21,8 @@ private:
     void mostrarRegistro(const Docente& doc);
     void mostrarPie();
 
+    int generarLegajo();
+
 public:
     ManagerDocente();
 

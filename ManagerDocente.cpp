@@ -1,8 +1,10 @@
+#include <limits>
 #include "ManagerDocente.h"
 #include "ManagerInscripcionComision.h"
 #include "Validacion.h"
 #include <fstream>
 #include <iomanip>
+
 
 using namespace std;
 
@@ -19,18 +21,19 @@ ManagerDocente::ManagerDocente()
 // --------------------------------------------------
 void ManagerDocente::registrarDocente() {
     Docente nuevo;
-    nuevo.cargar();
 
-    if (_archivoDocentes.buscarRegistro(nuevo.getLegajo()) != -1) {
-        cout << "\n\tYa existe un docente con ese legajo.\n";
-        return;
-    }
+    nuevo.cargarDatosSinLegajo();
+    int nuevoLegajo = generarLegajo();
+    nuevo.setLegajo(nuevoLegajo);
+
+    cout << "\n\tLegajo asignado automáticamente: " << nuevoLegajo << "\n";
 
     if (_archivoDocentes.agregarRegistro(nuevo))
         cout << "\n\tDocente registrado correctamente.\n";
     else
         cout << "\n\tError al guardar el docente.\n";
 }
+
 
 void ManagerDocente::listarDocentes() {
     int total = _archivoDocentes.contarRegistros();
@@ -39,18 +42,41 @@ void ManagerDocente::listarDocentes() {
         return;
     }
 
+    // Preguntar al usuario
+    char opcion;
+    cout << "\n\t¿Desea incluir también los docentes INACTIVOS? (s/n): ";
+    cin >> opcion;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    bool incluirInactivos = (opcion == 's' || opcion == 'S');
+
     cout << "\n\t=== LISTADO DE DOCENTES ===\n";
     mostrarEncabezado();
 
+    bool hayDatos = false;
+
     for (int i = 0; i < total; i++) {
         Docente doc = _archivoDocentes.leerRegistro(i);
-        if (!doc.getEliminado()) {
-            mostrarRegistro(doc);
+
+        // Si NO quiere ver inactivos → omitir eliminados
+        if (!incluirInactivos && doc.getEliminado()) {
+            continue;
         }
+
+        mostrarRegistro(doc);
+        hayDatos = true;
     }
 
     mostrarPie();
+
+    if (!hayDatos) {
+        if (incluirInactivos)
+            cout << "\n\tNo hay docentes activos ni inactivos registrados.\n";
+        else
+            cout << "\n\tNo hay docentes ACTIVOS registrados.\n";
+    }
 }
+
 
 void ManagerDocente::mostrarDocentePorLegajo(int legajo) {
     int pos = _archivoDocentes.buscarRegistro(legajo);
@@ -163,9 +189,9 @@ void ManagerDocente::editarDocente(int legajo) {
     }
 
     if (_archivoDocentes.modificarRegistro(doc, pos)) {
-        cout << "\n\t✓ Datos actualizados correctamente.\n";
+        cout << "\n\tDatos actualizados correctamente.\n";
     } else {
-        cout << "\n\t✗ Error al actualizar los datos.\n";
+        cout << "\n\tError al actualizar los datos.\n";
     }
 
 }
@@ -187,12 +213,25 @@ void ManagerDocente::solicitarBaja(int legajo) {
 // --------------------------------------------------
 // FUNCIONES ACADÉMICAS
 // --------------------------------------------------
-
 void ManagerDocente::verMisComisiones(int legajo) {
     cout << "\n\t=== MIS COMISIONES ===\n";
 
     int total = _archivoComisiones.contarRegistros();
-    bool tieneComisiones = false;
+    bool tiene = false;
+
+    // Primero verificamos si tiene comisiones
+    for (int i = 0; i < total; i++) {
+        Comision c = _archivoComisiones.leerRegistro(i);
+        if (!c.getEliminado() && c.getLegajoDocente() == legajo) {
+            tiene = true;
+            break;
+        }
+    }
+
+    if (!tiene) {
+        cout << "\tNo se encontraron comisiones asignadas.\n";
+        return;
+    }
 
     cout << "\t+------------+------------+------------+------------+------------+\n";
     cout << "\t| ID Comisión| ID Materia | Turno      | Modalidad  | Año        |\n";
@@ -202,8 +241,6 @@ void ManagerDocente::verMisComisiones(int legajo) {
         Comision c = _archivoComisiones.leerRegistro(i);
 
         if (!c.getEliminado() && c.getLegajoDocente() == legajo) {
-            tieneComisiones = true;
-
             cout << "\t| " << setw(10) << right << c.getIdComision()
                  << " | " << setw(10) << right << c.getIdMateria()
                  << " | " << setw(10) << left  << c.getTurno()
@@ -211,18 +248,28 @@ void ManagerDocente::verMisComisiones(int legajo) {
                  << " | " << setw(10) << right << c.getAnio() << " |\n";
         }
     }
-
     cout << "\t+------------+------------+------------+------------+------------+\n";
-
-    if (!tieneComisiones)
-        cout << "\tNo se encontraron comisiones asignadas.\n";
 }
 
 void ManagerDocente::verAlumnosDeComision(int idComision) {
     cout << "\n\t=== ALUMNOS DE LA COMISIÓN " << idComision << " ===\n";
 
     int total = _archivoInscripciones.contarRegistros();
-    bool hayAlumnos = false;
+    bool hay = false;
+
+    // Primero verificamos si hay alumnos
+    for (int i = 0; i < total; i++) {
+        InscripcionComision ins = _archivoInscripciones.leerRegistro(i);
+        if (ins.getIdComision() == idComision && ins.getEstado() == 0) {
+            hay = true;
+            break;
+        }
+    }
+
+    if (!hay) {
+        cout << "\tNo hay alumnos inscriptos en esta comisión.\n";
+        return;
+    }
 
     cout << "\t+--------------+--------------+\n";
     cout << "\t| Legajo Alumno| Fecha Inscrip|\n";
@@ -232,9 +279,6 @@ void ManagerDocente::verAlumnosDeComision(int idComision) {
         InscripcionComision ins = _archivoInscripciones.leerRegistro(i);
 
         if (ins.getIdComision() == idComision && ins.getEstado() == 0) {
-
-            hayAlumnos = true;
-
             cout << "\t| " << setw(12) << right << ins.getLegajoAlumno()
                  << " | ";
             ins.getFecha().mostrar();
@@ -243,10 +287,8 @@ void ManagerDocente::verAlumnosDeComision(int idComision) {
     }
 
     cout << "\t+--------------+--------------+\n";
-
-    if (!hayAlumnos)
-        cout << "\tNo hay alumnos inscriptos.\n";
 }
+
 
 
 // --------------------------------------------------
@@ -273,7 +315,6 @@ void ManagerDocente::cargarNotasParcialTP(int legajoDocente) {
 
     Comision com = _archivoComisiones.leerRegistro(pos);
 
-    // 🔥 VALIDACIÓN ACTA CERRADA
     if (com.getEliminado()) {
         cout << "\n\tERROR: El ACTA ya está CERRADA. No se pueden cargar parciales.\n";
         return;
@@ -351,7 +392,6 @@ void ManagerDocente::cargarNotasFinal(int legajoDocente) {
 
     Comision com = _archivoComisiones.leerRegistro(pos);
 
-    // 🔥 VALIDACIÓN ACTA CERRADA
     if (com.getEliminado()) {
         cout << "\n\tERROR: ACTA DE CURSADA CERRADA. No se puede cargar FINAL.\n";
         return;
@@ -370,24 +410,23 @@ void ManagerDocente::cargarNotasFinal(int legajoDocente) {
 // --------------------------------------------------
 // PRESENTACIÓN
 // --------------------------------------------------
-
 void ManagerDocente::mostrarEncabezado() {
-    cout << "\t+--------+---------------------------+---------------------------+-------------+---------+\n";
-    cout << "\t| Legajo | Nombre                    | Apellido                  | Teléfono    | Estado  |\n";
-    cout << "\t+--------+---------------------------+---------------------------+-------------+---------+\n";
+    cout << "\t+--------+---------------------------+---------------------------+--------------------+---------+\n";
+    cout << "\t| Legajo | Nombre                    | Apellido                  | Telefono           | Estado  |\n";
+    cout << "\t+--------+---------------------------+---------------------------+--------------------+---------+\n";
 }
 
 void ManagerDocente::mostrarRegistro(const Docente& doc) {
     cout << "\t| " << setw(6) << right << doc.getLegajo()
          << " | " << setw(25) << left << doc.getNombre()
          << " | " << setw(25) << left << doc.getApellido()
-         << " | " << setw(11) << left << doc.getTelefono()
+         << " | " << setw(18) << left << doc.getTelefono()
          << " | " << setw(7) << left << (doc.getEliminado() ? "Baja" : "Activo")
          << " |\n";
 }
 
 void ManagerDocente::mostrarPie() {
-    cout << "\t+--------+---------------------------+---------------------------+-------------+---------+\n";
+    cout << "\t+--------+---------------------------+---------------------------+--------------------+---------+\n";
 }
 
 
@@ -439,7 +478,6 @@ void ManagerDocente::publicarNotasCursada(int legajoDocente) {
     Comision com = _archivoComisiones.leerRegistro(posCom);
     int idMateria = com.getIdMateria();
 
-    // 🔥 3) ACTA CERRADA → NO SE PUEDE PUBLICAR
     if (com.getEliminado()) {
         cout << "\n\tERROR: El ACTA ya fue CERRADA. No se pueden publicar notas.\n";
         return;
@@ -590,7 +628,6 @@ void ManagerDocente::exportarCSV(int legajoDocente) {
     Comision com = _archivoComisiones.leerRegistro(posCom);
     int idMateria = com.getIdMateria();
 
-    // 🔥 3) Archivo destino
     string nombre = "cursada_comision_" + to_string(idComision) + ".csv";
     ofstream file(nombre);
 
@@ -731,4 +768,24 @@ void ManagerDocente::reporteCursada(int idComision) {
     }
 
     cout << "---------------------------------------------------------------\n";
+}
+int ManagerDocente::generarLegajo() {
+    int total = _archivoDocentes.contarRegistros();
+    int maxLegajo = 999;
+
+    for (int i = 0; i < total; i++) {
+        Docente d = _archivoDocentes.leerRegistro(i);
+        if (!d.getEliminado() && d.getLegajo() > maxLegajo) {
+            maxLegajo = d.getLegajo();
+        }
+    }
+
+    int nuevo = maxLegajo + 1;
+
+    if (nuevo > 9999) {
+        cout << "\nERROR: Limite máximo de legajos alcanzado.\n";
+        return -1;
+    }
+
+    return nuevo;
 }

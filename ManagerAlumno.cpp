@@ -1,3 +1,4 @@
+#include <limits>
 #include "ManagerAlumno.h"
 #include "ArchivoComision.h"
 #include "ManagerCorrelativa.h"
@@ -6,6 +7,7 @@
 #include <iomanip>
 #include <cstring>
 #include <cstdlib>
+
 using namespace std;
 
 ManagerAlumno::ManagerAlumno()
@@ -73,30 +75,36 @@ bool ManagerAlumno::cumpleCorrelativas(int legajoAlumno, int idMateriaObjetivo) 
 
 void ManagerAlumno::registrarAlumno() {
     Alumno nuevo;
-    nuevo.cargar();
 
-    int resultadoLegajo = _archivoAlumnos.buscarRegistro(nuevo.getLegajo());
-    int resultadoDni    = _archivoAlumnos.buscarRegistroPorDni(nuevo.getDni());
+    // Carga sin pedir legajo
+    nuevo.cargarDatosSinLegajo();
 
-    // Eliminado el bloqueo por -1: ahora -2 significa “no existe”, se puede continuar.
-    if (resultadoLegajo >= 0 || resultadoDni >= 0) {
-        cout << "\n\tYa existe un alumno con ese "
-             << ((resultadoLegajo >= 0 && resultadoDni >= 0) ? "legajo/dni.\n"
-                 : (resultadoLegajo >= 0 ? "legajo.\n" : "dni.\n"));
+    // Generar legajo automático
+    int nuevoLegajo = generarLegajo();
+    if (nuevoLegajo == -1) return;
+
+    nuevo.setLegajo(nuevoLegajo);
+    cout << "\n\tLegajo asignado automáticamente: " << nuevoLegajo << "\n";
+
+    // Validar DNI repetido
+    if (_archivoAlumnos.buscarRegistroPorDni(nuevo.getDni()) >= 0) {
+        cout << "\n\tERROR: Ya existe un alumno con ese DNI.\n";
         return;
     }
 
+    // Validar fechas
     if (nuevo.getFechaNacimiento() >= nuevo.getFechaIngreso()) {
-        cout << "\n\tHay un problema con las fechas.";
+        cout << "\n\tERROR: La fecha de nacimiento no puede ser posterior a la de ingreso.\n";
         return;
     }
 
-    if (_archivoAlumnos.agregarRegistro(nuevo) == 1) {
+    // Guardar
+    if (_archivoAlumnos.agregarRegistro(nuevo))
         cout << "\n\tAlumno registrado correctamente.\n";
-    } else {
-        cout << "\n\tError al guardar el alumno.\n";
-    }
+    else
+        cout << "\n\tERROR al guardar el alumno.\n";
 }
+
 
 
 void ManagerAlumno::modificarAlumno() {
@@ -165,25 +173,46 @@ void ManagerAlumno::modificarAlumno() {
 
 void ManagerAlumno::listarAlumnos(bool incluirBorrados) {
     int total = _archivoAlumnos.contarRegistros();
+
     if (total <= 0) {
         cout << "\n\tNo hay alumnos registrados.\n";
         return;
     }
 
+    // Preguntar si quiere incluir inactivos
+    char opc;
+    cout << "\n\t¿Desea incluir alumnos inactivos? (s/n): ";
+    cin >> opc;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    bool incluirInactivos = (opc == 's' || opc == 'S');
+
     cout << "\n\t=== LISTADO DE ALUMNOS ===\n";
+
     mostrarEncabezado();
+
+    bool hayDatos = false;
 
     for (int i = 0; i < total; i++) {
         Alumno alu = _archivoAlumnos.leerRegistro(i);
 
-        if (incluirBorrados || !alu.getEliminado()) {
-            mostrarRegistro(alu);
-        }
+        if (!incluirInactivos && alu.getEliminado())
+            continue;
+
+        mostrarRegistro(alu);
+        hayDatos = true;
     }
 
     mostrarPie();
 
+    if (!hayDatos) {
+        if (incluirInactivos)
+            cout << "\n\tNo hay alumnos registrados (ni activos ni inactivos).\n";
+        else
+            cout << "\n\tNo hay alumnos ACTIVOS registrados.\n";
+    }
 }
+
 
 
 void ManagerAlumno::mostrarAlumnoPorLegajo(int legajo) {
@@ -527,24 +556,24 @@ void ManagerAlumno::solicitarBaja(int legajo) {
 // ----------------------------------------------------------
 // PRESENTACIÓN EN TABLA
 // ----------------------------------------------------------
-
 void ManagerAlumno::mostrarEncabezado() {
-    cout << "\t+--------+---------------------------+---------------------------+-------------+---------+\n";
-    cout << "\t| Legajo | Nombre                    | Apellido                  | Teléfono    | Estado  |\n";
-    cout << "\t+--------+---------------------------+---------------------------+-------------+---------+\n";
+    cout << "\t+--------+---------------------------+---------------------------+--------------------+---------+\n";
+    cout << "\t| Legajo | Nombre                    | Apellido                  | Telefono           | Estado  |\n";
+    cout << "\t+--------+---------------------------+---------------------------+--------------------+---------+\n";
 }
 
 void ManagerAlumno::mostrarRegistro(const Alumno& alu) {
     cout << "\t| " << setw(6) << right << alu.getLegajo()
          << " | " << setw(25) << left << alu.getNombre()
          << " | " << setw(25) << left << alu.getApellido()
-         << " | " << setw(11) << left << alu.getTelefono()
+         << " | " << setw(18) << left << alu.getTelefono()
          << " | " << setw(7) << left << (alu.getEliminado() ? "Baja" : "Activo")
          << " |\n";
 }
 
 void ManagerAlumno::mostrarPie() {
-    cout << "\t+--------+---------------------------+---------------------------+-------------+---------+\n";
+    cout << "\t+--------+---------------------------+---------------------------+--------------------+---------+\n";
+
 }
 
 void ManagerAlumno::editarDatos(int legajo) {
@@ -653,4 +682,24 @@ void ManagerAlumno::editarDatos(int legajo) {
     } else {
         cout << "\n\t✗ Error al actualizar los datos.\n";
     }
+}
+int ManagerAlumno::generarLegajo() {
+    int total = _archivoAlumnos.contarRegistros();
+    int maxLegajo = 999;
+
+    for (int i = 0; i < total; i++) {
+        Alumno a = _archivoAlumnos.leerRegistro(i);
+        if (!a.getEliminado() && a.getLegajo() > maxLegajo) {
+            maxLegajo = a.getLegajo();
+        }
+    }
+
+    int nuevo = maxLegajo + 1;
+
+    if (nuevo > 9999) {
+        cout << "\nERROR: Se alcanzó el límite máximo de legajos (9999).\n";
+        return -1;
+    }
+
+    return nuevo;
 }

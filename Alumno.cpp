@@ -37,3 +37,13 @@ void Alumno::mostrar() const {
     _fechaIngreso.mostrar();
     cout << "\n\t---------------------------\n";
 }
+void Alumno::cargarDatosSinLegajo() {
+    cout << "\n\t=== Cargar Alumno ===\n";
+
+    Persona::cargar();
+
+    cout << "\tFecha de ingreso:\n";
+    _fechaIngreso.cargar();
+
+    setEliminado(false);
+}
