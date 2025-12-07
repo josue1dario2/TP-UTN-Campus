@@ -520,19 +520,19 @@ void ManagerAlumno::verMisMesas(int legajo) {
     if (!hay)
         cout << "\tNo estás inscripto en ninguna mesa final.\n";
 }
-void ManagerAlumno::solicitarBaja(int legajo) {
+bool ManagerAlumno::solicitarBaja(int legajo) {
     int pos = _archivoAlumnos.buscarRegistro(legajo);
 
     if (pos == -1 || pos == -2) {
         cout << "\n\tAlumno no encontrado.\n";
-        return;
+        return false;
     }
 
     Alumno alu = _archivoAlumnos.leerRegistro(pos);
 
     if (alu.getEliminado()) {
         cout << "\n\tEl alumno ya está dado de baja.\n";
-        return;
+        return false;
     }
 
     cout << "\n\t¿CONFIRMAR SOLICITUD DE BAJA? (1=Sí / 0=No): ";
@@ -541,16 +541,20 @@ void ManagerAlumno::solicitarBaja(int legajo) {
 
     if (opc != 1) {
         cout << "\n\tOperación cancelada.\n";
-        return;
+        return false;
     }
 
     alu.setEliminado(true);
 
-    if (_archivoAlumnos.modificarRegistro(alu, pos))
+    if (_archivoAlumnos.modificarRegistro(alu, pos)) {
         cout << "\n\tSolicitud de baja procesada correctamente.\n";
-    else
+        return true;
+    } else {
         cout << "\n\tError al procesar la solicitud.\n";
+        return false;
+    }
 }
+
 
 
 // ----------------------------------------------------------

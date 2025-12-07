@@ -196,18 +196,42 @@ void ManagerDocente::editarDocente(int legajo) {
 
 }
 
-void ManagerDocente::solicitarBaja(int legajo) {
+bool ManagerDocente::solicitarBaja(int legajo) {
     int pos = _archivoDocentes.buscarRegistro(legajo);
+
     if (pos < 0) {
         cout << "\n\tDocente no encontrado.\n";
-        return;
+        return false;
     }
 
-    if (_archivoDocentes.bajaLogica(pos))
+    Docente doc = _archivoDocentes.leerRegistro(pos);
+
+    if (doc.getEliminado()) {
+        cout << "\n\tEl docente ya está dado de baja.\n";
+        return false;
+    }
+
+    cout << "\n\t¿CONFIRMAR SOLICITUD DE BAJA? (1=Sí / 0=No): ";
+    int opc;
+    cin >> opc;
+
+    if (opc != 1) {
+        cout << "\n\tOperación cancelada.\n";
+        return false;
+    }
+
+    doc.setEliminado(true);
+
+    if (_archivoDocentes.modificarRegistro(doc, pos)) {
         cout << "\n\tBaja solicitada correctamente.\n";
-    else
+        return true;
+    }
+    else {
         cout << "\n\tError al realizar la baja.\n";
+        return false;
+    }
 }
+
 
 
 // --------------------------------------------------

@@ -10,6 +10,7 @@ private:
     int _legajoAlumno;
     std::string _nombreCompleto;
     ManagerAlumno _alumnoManager;
+    bool _salirDelMenu = false;
 
 public:
     MenuAlumno(int legajoAlumno);

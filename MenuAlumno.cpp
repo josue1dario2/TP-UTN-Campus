@@ -22,19 +22,32 @@ MenuAlumno::MenuAlumno(int legajo) {
 
 void MenuAlumno::mostrar() {
     int opcion;
+    _salirDelMenu = false;
+
     do {
         clearScreen();
         mostrarOpciones();
         opcion = seleccionOpcion();
         clearScreen();
 
+        if (opcion == 10) {
+            if (_alumnoManager.solicitarBaja(_legajoAlumno)) {
+                pauseScreen();
+                return;
+            } else {
+                pauseScreen();
+                continue;
+            }
+        }
+
         if (opcion == 0) return;
 
         ejecutarOpcion(opcion);
         pauseScreen();
 
-    } while (opcion != 0);
+    } while (true);
 }
+
 
 void MenuAlumno::mostrarOpciones() {
     cout << "\n\tMENÚ DEL ALUMNO - " << _nombreCompleto << " (Legajo: " << _legajoAlumno << ")\n";
@@ -107,7 +120,10 @@ void MenuAlumno::ejecutarOpcion(int opcion) {
             break;
 
         case 10:
-            _alumnoManager.solicitarBaja(_legajoAlumno);
+            if (_alumnoManager.solicitarBaja(_legajoAlumno)) {
+                pauseScreen();
+                _salirDelMenu = true;
+            }
             break;
 
         case 11:
