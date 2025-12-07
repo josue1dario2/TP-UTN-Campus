@@ -44,7 +44,7 @@ public:
 
     // --- Acciones académicas ---
     void inscribirseAFinal(int legajo, int idMateria);
-    void solicitarBaja(int legajo);
+    bool solicitarBaja(int legajo);
     void reactivarAlumno(int legajo);
 
     // --- Inscripciones a comisiones ---

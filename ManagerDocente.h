@@ -30,7 +30,7 @@ public:
     void listarDocentes();
     void mostrarDocentePorLegajo(int legajo);
     void editarDocente(int legajo);
-    void solicitarBaja(int legajo);
+    bool solicitarBaja(int legajo);
 
     void verMisComisiones(int legajo);
     void verAlumnosDeComision(int idComision);

@@ -8,6 +8,7 @@ private:
     int _legajoDocente;
     std::string _nombreCompleto;
     ManagerDocente _manager;
+    bool _salirDelMenu = false;
 
 public:
     MenuDocente();

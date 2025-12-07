@@ -32,14 +32,33 @@ MenuDocente::MenuDocente(int legajoDocente) {
 
 void MenuDocente::mostrar() {
     int opcion;
+    _salirDelMenu = false;
+
     do {
         clearScreen();
+        mostrarOpciones();
         opcion = seleccionOpcion();
         clearScreen();
+
+        if (opcion == 9) {
+            if (_manager.solicitarBaja(_legajoDocente)) {
+                pauseScreen();
+                return;
+            } else {
+                pauseScreen();
+                continue;
+            }
+        }
+
+        if (opcion == 0) return;
+
         ejecutarOpcion(opcion);
+
         if (opcion != 0) pauseScreen();
-    } while (opcion != 0);
+
+    } while (true);
 }
+
 
 void MenuDocente::mostrarOpciones() {
     cout << "\n\tMENÚ DEL DOCENTE - " << _nombreCompleto << " (Legajo: " << _legajoDocente << ")\n";
@@ -101,7 +120,10 @@ void MenuDocente::ejecutarOpcion(int opcion) {
             break;
 
         case 9:
-            _manager.solicitarBaja(_legajoDocente);
+            if (_manager.solicitarBaja(_legajoDocente)) {
+                pauseScreen();
+                _salirDelMenu = true;
+            }
             break;
 
         case 10:
