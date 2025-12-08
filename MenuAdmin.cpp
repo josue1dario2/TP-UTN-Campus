@@ -8,7 +8,7 @@
 using namespace std;
 
 MenuAdministrador::MenuAdministrador() {
-    _cantidadOpciones = 9;
+    _cantidadOpciones = 10;
 }
 
 void MenuAdministrador::mostrar() {
@@ -38,6 +38,7 @@ void MenuAdministrador::mostrarOpciones() {
     cout << "\t7) Alta de Docente\n";
     cout << "\t8) Listar Alumnos\n";
     cout << "\t9) Listar Docentes\n";
+    cout << "\t10) Borrar DEFINITIVAMENTE registros\n";
     cout << "\t0) Volver\n";
 }
 
@@ -89,6 +90,10 @@ void MenuAdministrador::ejecutarOpcion(int opcion) {
             _managerDocente.listarDocentes();
             break;
 
+        case 10:
+            menuBorradoDefinitivo();
+            break;
+
         case 0:
             return;
 
@@ -96,4 +101,35 @@ void MenuAdministrador::ejecutarOpcion(int opcion) {
             cout << "Opción inválida.\n";
             break;
     }
+}
+void MenuAdministrador::menuBorradoDefinitivo() {
+
+    int opcion;
+    do {
+        clearScreen();
+        cout << "\n\t=== BORRADO DEFINITIVO ===\n";
+        cout << "\t1) Borrar alumno definitivamente\n";
+        cout << "\t2) Borrar docente definitivamente\n";
+        cout << "\t0) Volver\n";
+        cout << "\t---------------------------\n";
+        cout << "\tOpción: ";
+
+        opcion = Validacion::validarEnteroEnRango("", 0, 2);
+
+        switch (opcion) {
+            case 1:
+                _managerAlumno.borrarDefinitivo();
+                break;
+
+            case 2:
+                _managerDocente.borrarDefinitivo();
+                break;
+
+            case 0:
+                return;
+        }
+
+        pauseScreen();
+
+    } while (opcion != 0);
 }
