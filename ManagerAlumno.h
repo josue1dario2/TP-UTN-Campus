@@ -34,6 +34,7 @@ public:
     int buscarAlumno(int legajo);
     void modificarAlumno();
     void bajaLogicaAlumno();
+    void borrarDefinitivo();
 	void editarDatos(int legajo);
 
     // --- Consultas académicas ---

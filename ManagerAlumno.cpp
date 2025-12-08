@@ -3,6 +3,7 @@
 #include "ArchivoComision.h"
 #include "ManagerCorrelativa.h"
 #include "Validacion.h"
+#include "utils.h"
 #include <iostream>
 #include <iomanip>
 #include <cstring>
@@ -567,9 +568,13 @@ void ManagerAlumno::mostrarEncabezado() {
 }
 
 void ManagerAlumno::mostrarRegistro(const Alumno& alu) {
+
+    string nombre   = quitarAcentos(alu.getNombre());
+    string apellido = quitarAcentos(alu.getApellido());
+
     cout << "\t| " << setw(6) << right << alu.getLegajo()
-         << " | " << setw(25) << left << alu.getNombre()
-         << " | " << setw(25) << left << alu.getApellido()
+         << " | " << setw(25) << left << nombre
+         << " | " << setw(25) << left << apellido
          << " | " << setw(18) << left << alu.getTelefono()
          << " | " << setw(7) << left << (alu.getEliminado() ? "Baja" : "Activo")
          << " |\n";
@@ -693,7 +698,7 @@ int ManagerAlumno::generarLegajo() {
 
     for (int i = 0; i < total; i++) {
         Alumno a = _archivoAlumnos.leerRegistro(i);
-        if (!a.getEliminado() && a.getLegajo() > maxLegajo) {
+        if (a.getLegajo() > maxLegajo) {
             maxLegajo = a.getLegajo();
         }
     }
@@ -707,3 +712,53 @@ int ManagerAlumno::generarLegajo() {
 
     return nuevo;
 }
+void ManagerAlumno::borrarDefinitivo() {
+    cout << "\nIngrese legajo del alumno a borrar definitivamente: ";
+    int legajo;
+    cin >> legajo;
+
+    int total = _archivoAlumnos.contarRegistros();
+    int pos = -1;
+    Alumno encontradoAlu;
+
+    for (int i = 0; i < total; i++) {
+        Alumno a = _archivoAlumnos.leerRegistro(i);
+        if (a.getLegajo() == legajo) {
+            pos = i;
+            encontradoAlu = a;
+            break;
+        }
+    }
+
+    if (pos == -1) {
+        cout << "\nNo existe un alumno con ese legajo.\n";
+        return;
+    }
+
+    cout << "\nATENCIÓN: Está a punto de borrar DEFINITIVAMENTE al alumno:\n";
+    cout << "  Nombre: " << encontradoAlu.getNombre() << " " << encontradoAlu.getApellido() << endl;
+    cout << "  Legajo: " << encontradoAlu.getLegajo() << endl;
+
+    cout << "\n¿Está seguro que desea BORRAR este registro? (S/N): ";
+    char confirm;
+    cin >> confirm;
+
+    if (confirm != 'S' && confirm != 's') {
+        cout << "\nOperación cancelada. No se borró ningún registro.\n";
+        return;
+    }
+
+    ArchivoAlumno temp("Alumnos_temp.dat");
+
+    for (int i = 0; i < total; i++) {
+        if (i == pos) continue;
+        Alumno a = _archivoAlumnos.leerRegistro(i);
+        temp.agregarRegistro(a);
+    }
+
+    remove("Alumnos.dat");
+    rename("Alumnos_temp.dat", "Alumnos.dat");
+
+    cout << "\nAlumno borrado DEFINITIVAMENTE.\n";
+}
+
