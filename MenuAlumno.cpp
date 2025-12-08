@@ -5,7 +5,7 @@
 using namespace std;
 
 MenuAlumno::MenuAlumno(int legajo) {
-    _cantidadOpciones = 11;
+    _cantidadOpciones = 12;
     _legajoAlumno = legajo;
 
     // Obtener nombre del alumno
@@ -63,6 +63,7 @@ void MenuAlumno::mostrarOpciones() {
     cout << "\t9) Ver Historial de Notas\n";
     cout << "\t10) Solicitar Baja del Alumno\n";
     cout << "\t11) Editar mis datos\n";
+    cout << "\t12) Inscribirse a Parcial\n";
     cout << "\t0) Volver\n";
 }
 
@@ -128,6 +129,10 @@ void MenuAlumno::ejecutarOpcion(int opcion) {
 
         case 11:
             _alumnoManager.editarDatos(_legajoAlumno);
+            break;
+
+        case 12:
+            _alumnoManager.inscribirseAParcial(_legajoAlumno);
             break;
 
         default:

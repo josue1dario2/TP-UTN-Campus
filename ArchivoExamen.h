@@ -26,4 +26,5 @@ public:
     // Funciones de negocio
     bool inscribirExamen(Examen &examen);
     bool corregirExamen(int idExamen, int nota);
+    int buscarPendiente(int legajo, int idMateria, const char* tipo);
 };

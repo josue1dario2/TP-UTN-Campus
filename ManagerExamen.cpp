@@ -15,7 +15,6 @@ ManagerExamen::ManagerExamen() : _archivoExamen("Examenes.dat") {}
 // ======================================================================
 void ManagerExamen::cargarParcial(int legajoAlumno, int idComision, int nota) {
 
-    // Obtener materia desde la comisión
     ArchivoComision ac;
     int pos = ac.buscarRegistro(idComision);
     if (pos < 0) {
@@ -23,7 +22,6 @@ void ManagerExamen::cargarParcial(int legajoAlumno, int idComision, int nota) {
         return;
     }
 
-    // Validar que el alumno esté inscrito en la comisión
     ManagerInscripcionComision manInsc;
     if (!manInsc.estaInscripto(legajoAlumno, idComision)) {
         cout << "\nERROR: El alumno NO está inscrito en esta comisión.\n";
@@ -33,45 +31,23 @@ void ManagerExamen::cargarParcial(int legajoAlumno, int idComision, int nota) {
     Comision com = ac.leerRegistro(pos);
     int idMateria = com.getIdMateria();
 
-    // Número de parcial (1 o 2)
-    int numeroParcial = 1;
+    // Buscar EXAMEN PENDIENTE creado por el alumno
+    int posPend = _archivoExamen.buscarPendiente(legajoAlumno, idMateria, "Parcial");
 
-    // Contar parciales existentes
-    int total = _archivoExamen.contarRegistros();
-    int parcialesExistentes = 0;
-
-    for (int i = 0; i < total; i++) {
-        Examen ex = _archivoExamen.leerRegistro(i);
-        if (ex.getLegajoAlumno() == legajoAlumno &&
-            ex.getIdMateria() == idMateria &&
-            strcmp(ex.getTipo(), "Parcial") == 0)
-        {
-            parcialesExistentes++;
-        }
-    }
-
-    if (parcialesExistentes >= 2) {
-        cout << "\nERROR: Ya tiene los 2 parciales cargados.\n";
+    if (posPend < 0) {
+        cout << "\nERROR: No hay parcial pendiente para corregir.\n";
         return;
     }
 
-    numeroParcial = parcialesExistentes + 1;
-
-    Fecha hoy;
-    hoy.cargar();
-
-    Examen ex(0, idMateria, legajoAlumno, "Parcial", numeroParcial, hoy, false);
+    Examen ex = _archivoExamen.leerRegistro(posPend);
     ex.setNota(nota);
     ex.setCorregido(true);
 
-    if (_archivoExamen.agregarRegistro(ex))
-        cout << "\nParcial registrado correctamente.\n";
+    if (_archivoExamen.modificarRegistro(ex,posPend))
+        cout << "\nParcial corregido correctamente.\n";
     else
-        cout << "\nError al registrar el parcial.\n";
+        cout << "\nError al corregir el parcial.\n";
 }
-
-
-
 void ManagerExamen::cargarRecuperatorio(int legajoAlumno, int idComision, int nota) {
 
     ArchivoComision ac;
@@ -81,7 +57,6 @@ void ManagerExamen::cargarRecuperatorio(int legajoAlumno, int idComision, int no
         return;
     }
 
-    // Validar que el alumno esté inscrito en la comisión
     ManagerInscripcionComision manInsc;
     if (!manInsc.estaInscripto(legajoAlumno, idComision)) {
         cout << "\nERROR: El alumno NO está inscrito en esta comisión.\n";
@@ -91,43 +66,23 @@ void ManagerExamen::cargarRecuperatorio(int legajoAlumno, int idComision, int no
     Comision com = ac.leerRegistro(pos);
     int idMateria = com.getIdMateria();
 
-    // Recuperatorio va sobre un parcial existente → recupera el último parcial desaprobado
-    int parcialARecu = -1;
+    // Buscar recuperatorio pendiente
+    int posPend = _archivoExamen.buscarPendiente(legajoAlumno, idMateria, "Recuperatorio");
 
-    int total = _archivoExamen.contarRegistros();
-
-    for (int i = 0; i < total; i++) {
-        Examen ex = _archivoExamen.leerRegistro(i);
-
-        if (ex.getLegajoAlumno() == legajoAlumno &&
-            ex.getIdMateria() == idMateria &&
-            strcmp(ex.getTipo(), "Parcial") == 0 &&
-            ex.getNota() < 4)
-        {
-            parcialARecu = ex.getNumeroParcial();
-        }
-    }
-
-    if (parcialARecu == -1) {
-        cout << "\nERROR: No tiene parciales desaprobados.\n";
+    if (posPend < 0) {
+        cout << "\nERROR: No hay recuperatorio pendiente para corregir.\n";
         return;
     }
 
-    Fecha hoy;
-    hoy.cargar();
-
-    Examen ex(0, idMateria, legajoAlumno, "Recuperatorio", parcialARecu, hoy, false);
+    Examen ex = _archivoExamen.leerRegistro(posPend);
     ex.setNota(nota);
     ex.setCorregido(true);
 
-    if (_archivoExamen.agregarRegistro(ex))
-        cout << "\nRecuperatorio registrado correctamente.\n";
+    if (_archivoExamen.modificarRegistro(ex,posPend))
+        cout << "\nRecuperatorio corregido correctamente.\n";
     else
-        cout << "\nError al registrar el recuperatorio.\n";
+        cout << "\nError al corregir el recuperatorio.\n";
 }
-
-
-
 
 void ManagerExamen::cargarFinal(int legajoAlumno, int idComision, int nota) {
 
@@ -138,7 +93,6 @@ void ManagerExamen::cargarFinal(int legajoAlumno, int idComision, int nota) {
         return;
     }
 
-    // Validar que el alumno esté inscrito en la comisión
     ManagerInscripcionComision manInsc;
     if (!manInsc.estaInscripto(legajoAlumno, idComision)) {
         cout << "\nERROR: El alumno NO está inscrito en esta comisión.\n";
@@ -148,17 +102,21 @@ void ManagerExamen::cargarFinal(int legajoAlumno, int idComision, int nota) {
     Comision com = ac.leerRegistro(pos);
     int idMateria = com.getIdMateria();
 
-    Fecha hoy;
-    hoy.cargar();
+    int posPend = _archivoExamen.buscarPendiente(legajoAlumno, idMateria, "Final");
 
-    Examen ex(0, idMateria, legajoAlumno, "Final", 0, hoy, false);
+    if (posPend < 0) {
+        cout << "\nERROR: No hay final pendiente para corregir.\n";
+        return;
+    }
+
+    Examen ex = _archivoExamen.leerRegistro(posPend);
     ex.setNota(nota);
     ex.setCorregido(true);
 
-    if (_archivoExamen.agregarRegistro(ex))
-        cout << "\nFinal registrado correctamente.\n";
+    if (_archivoExamen.modificarRegistro(ex,posPend))
+        cout << "\nFinal corregido correctamente.\n";
     else
-        cout << "\nError al registrar el final.\n";
+        cout << "\nError al corregir el final.\n";
 }
 
 

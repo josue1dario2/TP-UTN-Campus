@@ -79,41 +79,30 @@ void Examen::corregir(int nota) {
 }
 
 void Examen::cargar() {
-    _idMateria= Validacion::validarEnteroEnRango("\n\tID Materia: ",1,10000);
+    _idMateria = Validacion::validarEnteroEnRango("\n\tID Materia: ",1,10000);
     _legajoAlumno = Validacion::validarEnteroEnRango("\n\tLegajo alumno: ", 10000, 99999);
 
+    int opcion = Validacion::validarEnteroEnRango(
+        "\tTipo de examen (1=Parcial / 2=Recuperatorio / 3=Final): ",1,3);
 
-    int tipoParcial = Validacion::validarEnteroEnRango("\tTurno (1 Parcial/2 Recuperatorio/3 Final): ",1,3);
-    string tipo="";
-    switch (tipoParcial){
-        case 1:
-                tipo = "Manana";
-                break;
-            case 2:
-                tipo = "Tarde";
-                break;
-            case 3:
-                tipo = "Noche";
-                break;
+    if(opcion == 1) strcpy(_tipo, "Parcial");
+    else if(opcion == 2) strcpy(_tipo, "Recuperatorio");
+    else strcpy(_tipo, "Final");
+
+    if(opcion == 1 || opcion == 2){
+        _numeroParcial = Validacion::validarEnteroEnRango(
+            "\n\tNúmero de parcial (1 o 2): ", 1, 2);
     }
-    strncpy(_tipo, tipo.c_str(), sizeof(_tipo));
-
-
-    if (strcmp(_tipo, "Parcial") == 0 || strcmp(_tipo, "Recuperatorio") == 0) {
-        _numeroParcial = Validacion::validarEnteroEnRango("\n\tNúmero de parcial (1 o 2): ", 1, 2);
-        //cout << "Número de parcial (1 o 2): ";
-        //cin >> _numeroParcial;
-    } else {
-        _numeroParcial = 0; // Final => siempre 0
+    else {
+        _numeroParcial = 0;
     }
 
     _fecha.cargar();
-
     cout << "Nota: ";
     cin >> _nota;
-
     _corregido = true;
 }
+
 
 void Examen::mostrar() const {
     cout << "ID Examen: " << _idExamen << endl;

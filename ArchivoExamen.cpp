@@ -138,3 +138,24 @@ bool ArchivoExamen::corregirExamen(int idExamen, int nota) {
 
     return modificarRegistro(reg, pos);
 }
+
+int ArchivoExamen::buscarPendiente(int legajo, int idMateria, const char* tipo) {
+    int total = contarRegistros();
+
+    for (int i = 0; i < total; i++) {
+        Examen ex = leerRegistro(i);
+
+        if (ex.getEliminado()) continue;
+
+        if (ex.getLegajoAlumno() == legajo &&
+            ex.getIdMateria() == idMateria &&
+            strcmp(ex.getTipo(), tipo) == 0)
+        {
+            if (!ex.getCorregido() && ex.getNota() == -1) {
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
