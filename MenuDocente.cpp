@@ -8,14 +8,14 @@ using namespace std;
 
 // Constructor sin parámetros (NECESARIO)
 MenuDocente::MenuDocente() {
-    _cantidadOpciones = 10;
+    _cantidadOpciones = 11;
     _legajoDocente = 0;
     _nombreCompleto = "Sin identificar";
 }
 
 // Constructor con legajo (LOGIN del docente)
 MenuDocente::MenuDocente(int legajoDocente) {
-    _cantidadOpciones = 10;
+    _cantidadOpciones = 11;
     _legajoDocente = legajoDocente;
 
     // Obtener nombre del docente
@@ -73,11 +73,11 @@ void MenuDocente::mostrarOpciones() {
     cout << "\t8) Exportar CSV\n";
     cout << "\t9) Solicitar Baja\n";
     cout << "\t10) Editar Mis Datos\n";
+    cout << "\t11) Corregir parciales\n";
     cout << "\t0) Volver\n";
 }
 
 int MenuDocente::seleccionOpcion() {
-    mostrarOpciones();
     cout << "\tOpción: ";
     return Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
 }
@@ -128,6 +128,10 @@ void MenuDocente::ejecutarOpcion(int opcion) {
 
         case 10:
             _manager.editarDocente(_legajoDocente);
+            break;
+
+        case 11:
+            _manager.corregirParciales(_legajoDocente);
             break;
 
         case 0:

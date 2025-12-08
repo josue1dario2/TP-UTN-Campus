@@ -867,3 +867,90 @@ void ManagerDocente::borrarDefinitivo() {
 
     cout << "\nDocente borrado DEFINITIVAMENTE.\n";
 }
+void ManagerDocente::corregirParciales(int legajoDocente) {
+    ArchivoExamen archEx;
+    ArchivoComision archCom;
+
+    int totalEx = archEx.contarRegistros();
+    bool hayPendientes = false;
+
+    cout << "\n=== EXÁMENES PENDIENTES DE CORRECCIÓN ===\n\n";
+
+    // 1) Mostrar exámenes pendientes del docente
+    for (int i = 0; i < totalEx; i++) {
+        Examen ex = archEx.leerRegistro(i);
+
+        if (ex.getEliminado()) continue;
+        if (ex.getCorregido()) continue;
+
+        // Buscar la comisión asociada a esa materia
+        int idMateria = ex.getIdMateria();
+        int posCom = -1;
+
+        int totalCom = archCom.contarRegistros();
+        for (int c = 0; c < totalCom; c++) {
+            Comision com = archCom.leerRegistro(c);
+
+            if (!com.getEliminado() && com.getIdMateria() == idMateria) {
+                posCom = c;
+                break;
+            }
+        }
+
+        if (posCom < 0) continue;
+
+        Comision com = archCom.leerRegistro(posCom);
+
+        // Validar que el docente sea el dueño de la comisión
+        if (com.getLegajoDocente() != legajoDocente) continue;
+
+        // Mostrar examen pendiente
+        cout << "ID Examen: " << ex.getIdExamen()
+             << " | Alumno: " << ex.getLegajoAlumno()
+             << " | Materia: " << idMateria
+             << " | Tipo: " << ex.getTipo()
+             << " | Parcial Nº: " << ex.getNumeroParcial()
+             << endl;
+
+        hayPendientes = true;
+    }
+
+    if (!hayPendientes) {
+        cout << "\nNo hay exámenes pendientes para sus comisiones.\n";
+        return;
+    }
+
+    // ------------------------------
+    // 2) Elegir examen a corregir
+    // ------------------------------
+    int idExamen;
+    cout << "\nIngrese ID de examen a corregir: ";
+    cin >> idExamen;
+
+    int posEx = archEx.buscarRegistro(idExamen);
+    if (posEx < 0) {
+        cout << "\nERROR: El examen no existe.\n";
+        return;
+    }
+
+    Examen ex = archEx.leerRegistro(posEx);
+
+    int nota;
+    cout << "Ingrese nota (0 a 10): ";
+    cin >> nota;
+
+    if (nota < 0 || nota > 10) {
+        cout << "\nERROR: Nota inválida.\n";
+        return;
+    }
+
+    // Guardar corrección
+    ex.setNota(nota);
+    ex.setCorregido(true);
+
+    if (archEx.modificarRegistro(ex, posEx)) {
+        cout << "\nExamen corregido correctamente.\n";
+    } else {
+        cout << "\nERROR al corregir examen.\n";
+    }
+}

@@ -44,6 +44,7 @@ public:
     void verCondicionMateria(int legajo, int idMateria);
 
     // --- Acciones académicas ---
+    void inscribirseAParcial(int legajoAlumno);
     void inscribirseAFinal(int legajo, int idMateria);
     bool solicitarBaja(int legajo);
     void reactivarAlumno(int legajo);

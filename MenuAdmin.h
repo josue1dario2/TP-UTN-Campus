@@ -16,6 +16,7 @@ protected:
     void mostrarOpciones();
     int seleccionOpcion();
     void ejecutarOpcion(int opcion);
+
     void menuBorradoDefinitivo();
 
 private:

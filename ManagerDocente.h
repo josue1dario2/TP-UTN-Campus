@@ -32,6 +32,8 @@ public:
     void editarDocente(int legajo);
     bool solicitarBaja(int legajo);
     void borrarDefinitivo();
+    void corregirParciales(int legajoDocente);
+
 
     void verMisComisiones(int legajo);
     void verAlumnosDeComision(int idComision);

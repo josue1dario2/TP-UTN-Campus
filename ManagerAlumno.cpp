@@ -761,4 +761,148 @@ void ManagerAlumno::borrarDefinitivo() {
 
     cout << "\nAlumno borrado DEFINITIVAMENTE.\n";
 }
+void ManagerAlumno::inscribirseAParcial(int legajoAlumno) {
+    clearScreen();
+    cout << "\n=== INSCRIPCIÓN A PARCIAL ===\n\n";
+
+    ArchivoInscripcionComision archIns;
+    ArchivoComision archCom;
+    ArchivoExamen archEx;
+
+    // =====================================
+    // 1) Mostrar comisiones donde está inscripto
+    // =====================================
+    int totalIns = archIns.contarRegistros();
+    bool hayComisiones = false;
+
+    cout << "Comisiones donde estas inscripto:\n";
+
+    for (int i = 0; i < totalIns; i++) {
+        InscripcionComision ic = archIns.leerRegistro(i);
+
+        if (ic.getLegajoAlumno() == legajoAlumno && ic.getEstado() != 2) {
+            int posCom = archCom.buscarRegistro(ic.getIdComision());
+            if (posCom >= 0) {
+                Comision c = archCom.leerRegistro(posCom);
+                cout << "  Comisión ID: " << c.getIdComision()
+                     << " | Materia ID: " << c.getIdMateria() << "\n";
+                hayComisiones = true;
+            }
+        }
+    }
+
+    if (!hayComisiones) {
+        cout << "\nNo estás inscripto en ninguna comisión.\n";
+        return;
+    }
+
+    // =====================================
+    // 2) Seleccionar comisión
+    // =====================================
+    int idComision = Validacion::validarEntero("\nIngrese ID de comisión: ");
+    int posCom = archCom.buscarRegistro(idComision);
+
+    if (posCom < 0) {
+        cout << "\nComisión no encontrada.\n";
+        return;
+    }
+
+    Comision com = archCom.leerRegistro(posCom);
+    int idMateria = com.getIdMateria();
+
+    // =====================================
+    // 3) Buscar parciales existentes
+    // =====================================
+    bool tieneP1 = false, tieneP2 = false;
+    bool corrP1 = false, corrP2 = false;
+    int notaP1 = -1, notaP2 = -1;
+
+    int totalEx = archEx.contarRegistros();
+
+    for (int i = 0; i < totalEx; i++) {
+        Examen ex = archEx.leerRegistro(i);
+
+        if (ex.getLegajoAlumno() != legajoAlumno ||
+            ex.getIdMateria()   != idMateria ||
+            ex.getEliminado())
+            continue;
+
+        if (strcmp(ex.getTipo(), "Parcial") == 0) {
+            if (ex.getNumeroParcial() == 1) {
+                tieneP1 = true;
+                corrP1 = ex.getCorregido();
+                notaP1 = ex.getNota();
+            }
+            if (ex.getNumeroParcial() == 2) {
+                tieneP2 = true;
+                corrP2 = ex.getCorregido();
+                notaP2 = ex.getNota();
+            }
+        }
+    }
+
+    // =====================================
+    // 4) Determinar qué puede rendir
+    // =====================================
+    const char* tipo = "";
+    int numero = 0;
+
+    // Caso 1: todavía no tiene parcial 1
+    if (!tieneP1) {
+        cout << "\nTe puedes inscribir a PARCIAL 1.\n";
+        tipo = "Parcial";
+        numero = 1;
+    }
+    // Caso 2: P1 corregido y NO existe P2 → habilitar P2
+    else if (tieneP1 && corrP1 && !tieneP2) {
+        cout << "\nTe puedes inscribir a PARCIAL 2.\n";
+        tipo = "Parcial";
+        numero = 2;
+    }
+    // Caso 3: Ambos parciales corregidos → ver recuperatorios
+    else if (corrP1 && corrP2) {
+
+        if (notaP1 < 4) {
+            cout << "\nTe puedes inscribir a RECUPERATORIO 1.\n";
+            tipo = "Recuperatorio";
+            numero = 1;
+        }
+        else if (notaP2 < 4) {
+            cout << "\nTe puedes inscribir a RECUPERATORIO 2.\n";
+            tipo = "Recuperatorio";
+            numero = 2;
+        }
+        else {
+            cout << "\nNo tienes parciales pendientes.\n";
+            cout << "Puedes rendir el FINAL.\n";
+            return;
+        }
+    }
+    else {
+        cout << "\nNo tienes evaluaciones disponibles para esta materia.\n";
+        return;
+    }
+
+    // =====================================
+    // 5) Crear examen pendiente
+    // =====================================
+    Examen nuevo;
+    nuevo.setIdExamen(totalEx + 1);
+    nuevo.setIdMateria(idMateria);
+    nuevo.setLegajoAlumno(legajoAlumno);
+    nuevo.setTipo(tipo);
+    nuevo.setNumeroParcial(numero);
+    nuevo.setNota(-1);
+    nuevo.setCorregido(false);
+
+    Fecha f;
+    f.cargar();
+    nuevo.setFecha(f);
+
+    if (archEx.agregarRegistro(nuevo))
+        cout << "\nInscripción realizada correctamente.\n";
+    else
+        cout << "\nError al guardar la inscripción.\n";
+}
+
 
