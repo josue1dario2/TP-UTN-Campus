@@ -50,6 +50,7 @@ public:
     void reactivarAlumno(int legajo);
 
     // --- Inscripciones a comisiones ---
+    int buscarComisionDelAlumno(int legajoAlumno, int idMateria);
     void inscribirseAComision(int legajo);
     void verMisComisiones(int legajo);
     void bajaInscripcionComision(int legajo, int idComision);
