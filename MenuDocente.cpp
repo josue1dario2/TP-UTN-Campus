@@ -8,21 +8,20 @@ using namespace std;
 
 // Constructor sin parámetros (NECESARIO)
 MenuDocente::MenuDocente() {
-    _cantidadOpciones = 11;
+    _cantidadOpciones = 9;
     _legajoDocente = 0;
     _nombreCompleto = "Sin identificar";
 }
 
 // Constructor con legajo (LOGIN del docente)
 MenuDocente::MenuDocente(int legajoDocente) {
-    _cantidadOpciones = 11;
+    _cantidadOpciones = 9;
     _legajoDocente = legajoDocente;
 
-    // Obtener nombre del docente
     ArchivoDocente archivoDocentes("Docentes.dat");
     int pos = archivoDocentes.buscarRegistro(legajoDocente);
 
-    if (pos >= 0) {  // Solo posiciones válidas (>= 0)
+    if (pos >= 0) {
         Docente doc = archivoDocentes.leerRegistro(pos);
         _nombreCompleto = string(doc.getNombre()) + " " + string(doc.getApellido());
     } else {
@@ -40,7 +39,7 @@ void MenuDocente::mostrar() {
         opcion = seleccionOpcion();
         clearScreen();
 
-        if (opcion == 9) {
+        if (opcion == 8) {
             if (_manager.solicitarBaja(_legajoDocente)) {
                 pauseScreen();
                 return;
@@ -59,26 +58,32 @@ void MenuDocente::mostrar() {
     } while (true);
 }
 
-
 void MenuDocente::mostrarOpciones() {
-    cout << "\n\tMENÚ DEL DOCENTE - " << _nombreCompleto << " (Legajo: " << _legajoDocente << ")\n";
-    cout << "\t--------------------------------\n";
-    cout << "\t1) Ver Mis Comisiones\n";
-    cout << "\t2) Ver Alumnos de una Comisión\n";
-    cout << "\t3) Cargar Notas (Parcial / TP)\n";
-    cout << "\t4) Publicar Notas de Cursada\n";
-    cout << "\t5) Cerrar Acta de Cursada\n";
-    cout << "\t6) Ver Mis Mesas de Examen\n";
-    cout << "\t7) Cargar Notas de Final\n";
-    cout << "\t8) Exportar CSV\n";
-    cout << "\t9) Solicitar Baja\n";
-    cout << "\t10) Editar Mis Datos\n";
-    cout << "\t11) Corregir parciales\n";
-    cout << "\t0) Volver\n";
+    cout << "\n========== MENÚ DEL DOCENTE ==========\n";
+    cout << "Docente: " << _nombreCompleto << " (Legajo: " << _legajoDocente << ")\n";
+    cout << "-----------------------------------------\n";
+    cout << ">> COMISIONES Y ALUMNOS\n";
+    cout << "  1) Ver Mis Comisiones\n";
+    cout << "  2) Ver Alumnos de una Comisión\n\n";
+
+    cout << ">> EVALUACIONES\n";
+    cout << "  3) Corregir Exámenes (Parciales / Recuperatorios)\n";
+    cout << "  4) Cargar Nota de Examen Final\n\n";
+
+    cout << ">> CURSADA\n";
+    cout << "  5) Publicar Notas de Cursada\n";
+    cout << "  6) Cerrar Acta de Cursada\n\n";
+
+    cout << ">> HERRAMIENTAS\n";
+    cout << "  7) Exportar CSV\n";
+    cout << "  8) Solicitar Baja\n";
+    cout << "  9) Editar Mis Datos\n";
+    cout << "-----------------------------------------\n";
+    cout << "  0) Volver\n\n";
 }
 
 int MenuDocente::seleccionOpcion() {
-    cout << "\tOpción: ";
+    cout << "Opción: ";
     return Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
 }
 
@@ -90,48 +95,37 @@ void MenuDocente::ejecutarOpcion(int opcion) {
             break;
 
         case 2: {
-            int idComision = Validacion::validarEntero("\tIngrese ID de comision: ");
+            int idComision = Validacion::validarEntero("\tIngrese ID de comisión: ");
             _manager.verAlumnosDeComision(idComision);
             break;
         }
 
         case 3:
-            _manager.cargarNotasParcialTP(_legajoDocente);
+            _manager.corregirParciales(_legajoDocente);
             break;
 
         case 4:
-            _manager.publicarNotasCursada(_legajoDocente);
-            break;
-
-        case 5:
-            _manager.cerrarActaCursada(_legajoDocente);
-            break;
-
-        case 6:
-            _manager.verMisComisiones(_legajoDocente);
-            break;
-
-        case 7:
             _manager.cargarNotasFinal(_legajoDocente);
             break;
 
-        case 8:
+        case 5:
+            _manager.publicarNotasCursada(_legajoDocente);
+            break;
+
+        case 6:
+            _manager.cerrarActaCursada(_legajoDocente);
+            break;
+
+        case 7:
             _manager.exportarCSV(_legajoDocente);
             break;
 
+        case 8:
+            // Se maneja arriba en mostrar()
+            break;
+
         case 9:
-            if (_manager.solicitarBaja(_legajoDocente)) {
-                pauseScreen();
-                _salirDelMenu = true;
-            }
-            break;
-
-        case 10:
             _manager.editarDocente(_legajoDocente);
-            break;
-
-        case 11:
-            _manager.corregirParciales(_legajoDocente);
             break;
 
         case 0:

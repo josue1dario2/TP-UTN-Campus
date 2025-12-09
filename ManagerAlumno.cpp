@@ -1,10 +1,12 @@
 #include <limits>
 #include "ManagerAlumno.h"
 #include "ArchivoComision.h"
+#include "ArchivoDocente.h"
 #include "ManagerCorrelativa.h"
 #include "Validacion.h"
 #include "utils.h"
 #include <iostream>
+#include <iomanip>
 #include <iomanip>
 #include <cstring>
 #include <cstdlib>
@@ -235,9 +237,130 @@ int ManagerAlumno::buscarAlumno(int legajo) {
 // ----------------------------------------------------------
 
 void ManagerAlumno::mostrarHistorialNotas(int legajo) {
-    cout << "\n\t=== HISTORIAL DE NOTAS - Legajo " << legajo << " ===\n";
-    _examenManager.mostrarHistorial(legajo);
+
+    ArchivoExamen   archEx("Examenes.dat");
+    ArchivoMateria  archMat("Materias.dat");
+    ArchivoComision archCom("Comisiones.dat");
+    ArchivoDocente  archDoc("Docentes.dat");
+    ArchivoAlumno   archAlu("Alumnos.dat");
+
+    // ============================
+    // DATOS DEL ALUMNO
+    // ============================
+    int posAlu = archAlu.buscarRegistro(legajo);
+    Alumno alu = archAlu.leerRegistro(posAlu);
+
+    string nombre   = quitarAcentos(alu.getNombre());
+    string apellido = quitarAcentos(alu.getApellido());
+
+    // ============================
+    // TÍTULO CENTRADO
+    // ============================
+    string titulo = "HISTORIAL DE EXAMENES - " +
+                    nombre + " " + apellido +
+                    " - Legajo " + to_string(legajo);
+
+    int ancho = 90;
+    int espacios = (ancho - (int)titulo.length()) / 2;
+
+    cout << string(ancho, '=') << "\n";
+    cout << string(espacios, ' ') << titulo << "\n";
+    cout << string(ancho, '=') << "\n\n";
+
+    // ============================
+    // ENCABEZADO TABLA
+    // ============================
+    cout << left
+         << setw(8)  << "ID"
+         << setw(22) << "Materia"
+         << setw(18) << "Tipo"
+         << setw(12) << "Fecha"
+         << setw(10) << "Nota"
+         << setw(20) << "Profesor"
+         << "\n";
+
+    cout << string(ancho, '-') << "\n";
+
+    int total = archEx.contarRegistros();
+    bool hay = false;
+
+    // ============================
+    // RECORRER EXÁMENES
+    // ============================
+    for (int i = 0; i < total; i++) {
+
+        Examen ex = archEx.leerRegistro(i);
+
+        if (ex.getLegajoAlumno() != legajo) continue;
+        if (ex.getEliminado()) continue;
+
+        hay = true;
+
+        // ---- MATERIA ----
+        int posMat = archMat.buscarRegistro(ex.getIdMateria());
+        Materia mat = archMat.leerRegistro(posMat);
+        string nombreMat = quitarAcentos(mat.getNombre());
+
+        // ---- TIPO ----
+        string tipo = ex.getTipo();
+        if (strcmp(ex.getTipo(), "Parcial") == 0 ||
+            strcmp(ex.getTipo(), "Recuperatorio") == 0)
+        {
+            tipo += " (" + to_string(ex.getNumeroParcial()) + ")";
+        }
+
+        // ---- NOTA ----
+        string notaStr = ex.getCorregido() ? to_string(ex.getNota())
+                                           : "Pendiente";
+
+        // ---- FECHA ----
+        Fecha f = ex.getFecha();
+        char fechaStr[11];
+        sprintf(fechaStr, "%02d/%02d/%04d", f.getDia(), f.getMes(), f.getAnio());
+
+        // ============================================
+        // BUSCAR PROFESOR (primer comisión que dicte esa materia)
+        // ============================================
+        string profesor = "N/A";
+
+        int totalCom = archCom.contarRegistros();
+        for (int j = 0; j < totalCom; j++) {
+
+            Comision com = archCom.leerRegistro(j);
+
+            if (!com.getEliminado() && com.getIdMateria() == ex.getIdMateria()) {
+
+                int posDoc = archDoc.buscarRegistro(com.getLegajoDocente());
+                if (posDoc >= 0) {
+                    Docente doc = archDoc.leerRegistro(posDoc);
+
+                    string nombreProf = string(doc.getNombre()) + " " + string(doc.getApellido());
+                    profesor = quitarAcentos(nombreProf.c_str());
+                }
+                break;
+            }
+        }
+
+        // ============================
+        // MOSTRAR FILA
+        // ============================
+        cout << left
+             << setw(8)  << ex.getIdExamen()
+             << setw(22) << nombreMat
+             << setw(18) << tipo
+             << setw(12) << fechaStr
+             << setw(10) << notaStr
+             << setw(20) << profesor
+             << "\n";
+    }
+
+    if (!hay) {
+        cout << "\nNo se encontraron examenes registrados.\n";
+    }
+
+    cout << string(ancho, '-') << "\n";
 }
+
 
 void ManagerAlumno::mostrarMateriasAprobadas(int legajo) {
     cout << "\n\t=== MATERIAS APROBADAS ===\n";
@@ -271,24 +394,55 @@ void ManagerAlumno::verCondicionMateria(int legajo, int idMateria) {
     _examenManager.recalcularCondicion(legajo, idMateria);
 }
 
+
+int ManagerAlumno::buscarComisionDelAlumno(int legajoAlumno, int idMateria) {
+    ArchivoInscripcionComision archIns;
+    ArchivoComision archCom;
+
+    int total = archIns.contarRegistros();
+
+    for (int i = 0; i < total; i++) {
+        InscripcionComision ins = archIns.leerRegistro(i);
+
+        if (ins.getLegajoAlumno() == legajoAlumno && ins.getEstado() == 0) {
+
+            int posCom = archCom.buscarRegistro(ins.getIdComision());
+            if (posCom >= 0) {
+                Comision c = archCom.leerRegistro(posCom);
+
+                if (c.getIdMateria() == idMateria) {
+                    return c.getIdComision();
+                }
+            }
+        }
+    }
+    return -1;
+}
+
 // ----------------------------------------------------------
 // INSCRIPCIÓN A EXAMEN FINAL
 // ----------------------------------------------------------
 
+
 void ManagerAlumno::inscribirseAFinal(int legajo, int idMateria) {
     cout << "\n\t=== INSCRIPCIÓN A EXAMEN FINAL ===\n";
 
-    if (!_examenManager.puedeRendirFinal(legajo, idMateria)) {
-        cout << "\tNo cumple los requisitos (parciales >= 4).\n";
+    int idComision = buscarComisionDelAlumno(legajo, idMateria);
+
+    if (idComision < 0) {
+        cout << "\tERROR: No estás inscripto en ninguna comisión de esta materia.\n";
+        return;
+    }
+
+    if (!_examenManager.puedeRendirFinal(legajo, idComision)) {
+        cout << "\tNo cumple los requisitos para rendir final.\n";
         return;
     }
 
     Fecha hoy;
     hoy.cargar();
 
-    // Constructor corregido (nuevo parámetro numeroParcial = 0)
     Examen examen(0, idMateria, legajo, "Final", 0, hoy, false);
-
 
     ArchivoExamen archEx("Examenes.dat");
 
@@ -297,7 +451,6 @@ void ManagerAlumno::inscribirseAFinal(int legajo, int idMateria) {
     else
         cout << "\tError al registrar la inscripción.\n";
 }
-
 
 void ManagerAlumno::bajaInscripcionExamenFinal(int legajo, int idMateria) {
     ArchivoExamen archEx("Examenes.dat");
@@ -321,7 +474,7 @@ void ManagerAlumno::bajaInscripcionExamenFinal(int legajo, int idMateria) {
 
             encontrado = true;
             break;
-        }
+            }
     }
 
     if (!encontrado)

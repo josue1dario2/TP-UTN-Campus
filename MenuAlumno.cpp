@@ -8,11 +8,10 @@ MenuAlumno::MenuAlumno(int legajo) {
     _cantidadOpciones = 12;
     _legajoAlumno = legajo;
 
-    // Obtener nombre del alumno
     ArchivoAlumno archivoAlumnos("Alumnos.dat");
     int pos = archivoAlumnos.buscarRegistro(legajo);
 
-    if (pos >= 0) {  // Solo posiciones válidas (>= 0)
+    if (pos >= 0) {
         Alumno alu = archivoAlumnos.leerRegistro(pos);
         _nombreCompleto = string(alu.getNombre()) + " " + string(alu.getApellido());
     } else {
@@ -30,7 +29,7 @@ void MenuAlumno::mostrar() {
         opcion = seleccionOpcion();
         clearScreen();
 
-        if (opcion == 10) {
+        if (opcion == 11) {
             if (_alumnoManager.solicitarBaja(_legajoAlumno)) {
                 pauseScreen();
                 return;
@@ -50,26 +49,33 @@ void MenuAlumno::mostrar() {
 
 
 void MenuAlumno::mostrarOpciones() {
-    cout << "\n\tMENÚ DEL ALUMNO - " << _nombreCompleto << " (Legajo: " << _legajoAlumno << ")\n";
-    cout << "\t------------------------------------\n";
-    cout << "\t1) Inscribirse a Materia (Comisión)\n";
-    cout << "\t2) Inscribirse a Examen Final\n";
-    cout << "\t3) Ver Materias Aprobadas\n";
-    cout << "\t4) Ver Materias Pendientes\n";
-    cout << "\t5) Ver Mis Comisiones\n";
-    cout << "\t6) Ver Mis Mesas Finales\n";
-    cout << "\t7) Solicitar Baja de Comisión\n";
-    cout << "\t8) Baja Inscripción a Examen Final\n";
-    cout << "\t9) Ver Historial de Notas\n";
-    cout << "\t10) Solicitar Baja del Alumno\n";
-    cout << "\t11) Editar mis datos\n";
-    cout << "\t12) Inscribirse a Parcial\n";
-    cout << "\t0) Volver\n";
+    cout << "\n========== MENÚ DEL ALUMNO ==========\n";
+    cout << "Alumno: " << _nombreCompleto << " (Legajo: " << _legajoAlumno << ")\n";
+    cout << "-----------------------------------------\n";
+
+    cout << ">> INSCRIPCIONES\n";
+    cout << "  1) Inscribirse a Materia (Comisión)\n";
+    cout << "  2) Inscribirse a Examen Final\n";
+    cout << "  3) Inscribirse a Parcial\n\n";
+
+    cout << ">> CONSULTAS\n";
+    cout << "  4) Ver Mis Comisiones\n";
+    cout << "  5) Ver Mis Mesas Finales\n";
+    cout << "  6) Ver Materias Aprobadas\n";
+    cout << "  7) Ver Materias Pendientes\n";
+    cout << "  8) Ver Historial de Notas\n\n";
+
+    cout << ">> BAJAS Y MODIFICACIONES\n";
+    cout << "  9) Solicitar Baja de Comisión\n";
+    cout << " 10) Baja Inscripción a Examen Final\n";
+    cout << " 11) Solicitar Baja del Alumno\n";
+    cout << " 12) Editar Mis Datos\n";
+    cout << "-----------------------------------------\n";
+    cout << "  0) Volver\n\n";
 }
 
 int MenuAlumno::seleccionOpcion() {
-    cout << "\t------------------------------------\n";
-    cout << "\tOpción: ";
+    cout << "Opción: ";
     return Validacion::validarEnteroEnRango("", 0, _cantidadOpciones);
 }
 
@@ -78,6 +84,7 @@ void MenuAlumno::ejecutarOpcion(int opcion) {
 
     switch (opcion) {
 
+        // *** INSCRIPCIONES ***
         case 1:
             _alumnoManager.inscribirseAComision(_legajoAlumno);
             break;
@@ -89,50 +96,49 @@ void MenuAlumno::ejecutarOpcion(int opcion) {
             break;
 
         case 3:
-            _alumnoManager.mostrarMateriasAprobadas(_legajoAlumno);
+            _alumnoManager.inscribirseAParcial(_legajoAlumno);
             break;
 
+        // *** CONSULTAS ***
         case 4:
-            _alumnoManager.mostrarMateriasPendientes(_legajoAlumno);
-            break;
-
-        case 5:
             _alumnoManager.verMisComisiones(_legajoAlumno);
             break;
 
-        case 6:
+        case 5:
             _alumnoManager.verMisMesas(_legajoAlumno);
             break;
 
+        case 6:
+            _alumnoManager.mostrarMateriasAprobadas(_legajoAlumno);
+            break;
+
         case 7:
+            _alumnoManager.mostrarMateriasPendientes(_legajoAlumno);
+            break;
+
+        case 8:
+            _alumnoManager.mostrarHistorialNotas(_legajoAlumno);
+            break;
+
+        // *** BAJAS Y MODIFICACIONES ***
+        case 9:
             cout << "ID Comisión: ";
             cin >> idComision;
             _alumnoManager.solicitarBajaComision(_legajoAlumno, idComision);
             break;
 
-        case 8:
+        case 10:
             cout << "ID Materia: ";
             cin >> idMateria;
             _alumnoManager.bajaInscripcionExamenFinal(_legajoAlumno, idMateria);
             break;
 
-        case 9:
-            _alumnoManager.mostrarHistorialNotas(_legajoAlumno);
-            break;
-
-        case 10:
-            if (_alumnoManager.solicitarBaja(_legajoAlumno)) {
-                pauseScreen();
-                _salirDelMenu = true;
-            }
-            break;
-
         case 11:
-            _alumnoManager.editarDatos(_legajoAlumno);
+            _alumnoManager.solicitarBaja(_legajoAlumno);
             break;
 
         case 12:
-            _alumnoManager.inscribirseAParcial(_legajoAlumno);
+            _alumnoManager.editarDatos(_legajoAlumno);
             break;
 
         default:
