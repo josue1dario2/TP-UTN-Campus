@@ -84,22 +84,19 @@ void MenuAlumno::ejecutarOpcion(int opcion) {
 
     switch (opcion) {
 
-        // *** INSCRIPCIONES ***
         case 1:
             _alumnoManager.inscribirseAComision(_legajoAlumno);
             break;
 
         case 2:
-            cout << "ID Materia: ";
-            cin >> idMateria;
-            _alumnoManager.inscribirseAFinal(_legajoAlumno, idMateria);
+            _alumnoManager.mostrarMateriasHabilitadasFinal(_legajoAlumno);
             break;
+
 
         case 3:
             _alumnoManager.inscribirseAParcial(_legajoAlumno);
             break;
 
-        // *** CONSULTAS ***
         case 4:
             _alumnoManager.verMisComisiones(_legajoAlumno);
             break;
@@ -120,7 +117,6 @@ void MenuAlumno::ejecutarOpcion(int opcion) {
             _alumnoManager.mostrarHistorialNotas(_legajoAlumno);
             break;
 
-        // *** BAJAS Y MODIFICACIONES ***
         case 9:
             cout << "ID Comisión: ";
             cin >> idComision;
