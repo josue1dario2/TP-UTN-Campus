@@ -55,6 +55,8 @@ public:
     void verMisComisiones(int legajo);
     void bajaInscripcionComision(int legajo, int idComision);
 	void solicitarBajaComision(int legajo, int idComision);
+    int seleccionarMateriaParaFinal(int legajo);
+    void mostrarMateriasHabilitadasFinal(int legajoAlumno);
 
     // --- Exámenes y mesas ---
     void verMisMesas(int legajo);

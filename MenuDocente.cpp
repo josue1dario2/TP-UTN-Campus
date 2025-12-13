@@ -95,8 +95,7 @@ void MenuDocente::ejecutarOpcion(int opcion) {
             break;
 
         case 2: {
-            int idComision = Validacion::validarEntero("\tIngrese ID de comisión: ");
-            _manager.verAlumnosDeComision(idComision);
+            _manager.seleccionarComisionParaVerAlumnos(_legajoDocente);
             break;
         }
 

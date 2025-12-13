@@ -2,8 +2,11 @@
 #include "ManagerDocente.h"
 #include "ManagerInscripcionComision.h"
 #include "Validacion.h"
+#include "ArchivoAlumno.h"
+#include "Alumno.h"
 #include "utils.h"
 #include <fstream>
+#include <vector>
 #include <iomanip>
 
 
@@ -276,13 +279,80 @@ void ManagerDocente::verMisComisiones(int legajo) {
     cout << "\t+------------+------------+------------+------------+------------+\n";
 }
 
+void ManagerDocente::seleccionarComisionParaVerAlumnos(int legajoDocente) {
+    ArchivoComision archCom;
+    ArchivoMateria archMat;
+    ArchivoDocente archDoc;
+
+    vector<int> opciones;   // Guardará los ID reales
+
+    cout << "\n=== MIS COMISIONES ===\n\n";
+
+    cout << "+--------+------------------------------+--------------+--------------+\n";
+    cout << "| OPCION |           MATERIA            |    TURNO     |  MODALIDAD   |\n";
+    cout << "+--------+------------------------------+--------------+--------------+\n";
+
+    int total = archCom.contarRegistros();
+    bool hay = false;
+
+    for (int i = 0; i < total; i++) {
+        Comision c = archCom.leerRegistro(i);
+
+        if (c.getEliminado()) continue;
+        if (c.getLegajoDocente() != legajoDocente) continue;
+
+        hay = true;
+
+        // Guardamos la comisión real
+        opciones.push_back(c.getIdComision());
+        int op = opciones.size();
+
+        // Materia
+        string mat = "N/A";
+        int posMat = archMat.buscarRegistro(c.getIdMateria());
+        if (posMat >= 0) mat = quitarAcentos(archMat.leerRegistro(posMat).getNombre());
+
+        // Turno / Modalidad
+        string turno = quitarAcentos(c.getTurno());
+        string modalidad = quitarAcentos(c.getModalidad());
+
+        cout << "| " << setw(6) << left << op
+             << " | " << setw(28) << left << mat
+             << " | " << setw(12) << left << turno
+             << " | " << setw(12) << left << modalidad
+             << " |\n";
+    }
+
+    cout << "+--------+------------------------------+--------------+--------------+\n";
+
+    if (!hay) {
+        cout << "\nNo tenés comisiones asignadas.\n";
+        return;
+    }
+
+    // Seleccionar opción
+    int seleccion = Validacion::validarEntero("\nSeleccione opción: ");
+
+    if (seleccion < 1 || seleccion > opciones.size()) {
+        cout << "\nERROR: Opción inválida.\n";
+        return;
+    }
+
+    int idReal = opciones[seleccion - 1]; // ID REAL de la comisión
+
+    verAlumnosDeComision(idReal);
+}
+
 void ManagerDocente::verAlumnosDeComision(int idComision) {
-    cout << "\n\t=== ALUMNOS DE LA COMISIÓN " << idComision << " ===\n";
+
+    cout << "\n\t=== ALUMNOS DE LA COMISIÓN " << idComision << " ===\n\n";
+
+    ArchivoAlumno archAlu("Alumnos.dat");
 
     int total = _archivoInscripciones.contarRegistros();
     bool hay = false;
 
-    // Primero verificamos si hay alumnos
+    // Verificar si hay alumnos
     for (int i = 0; i < total; i++) {
         InscripcionComision ins = _archivoInscripciones.leerRegistro(i);
         if (ins.getIdComision() == idComision && ins.getEstado() == 0) {
@@ -296,22 +366,47 @@ void ManagerDocente::verAlumnosDeComision(int idComision) {
         return;
     }
 
-    cout << "\t+--------------+--------------+\n";
-    cout << "\t| Legajo Alumno| Fecha Inscrip|\n";
-    cout << "\t+--------------+--------------+\n";
+    // TABLA
+    cout << "\t+--------+-------------------------------+----------------------+\n";
+    cout << "\t| Legajo | Alumno                        | Fecha Inscripción    |\n";
+    cout << "\t+--------+-------------------------------+----------------------+\n";
 
     for (int i = 0; i < total; i++) {
+
         InscripcionComision ins = _archivoInscripciones.leerRegistro(i);
 
         if (ins.getIdComision() == idComision && ins.getEstado() == 0) {
-            cout << "\t| " << setw(12) << right << ins.getLegajoAlumno()
-                 << " | ";
-            ins.getFecha().mostrar();
-            cout << " |\n";
+
+            // Buscar datos del alumno
+            int posAlu = archAlu.buscarRegistro(ins.getLegajoAlumno());
+            string nombreCompleto = "N/A";
+
+            if (posAlu >= 0) {
+                Alumno a = archAlu.leerRegistro(posAlu);
+                nombreCompleto = string(a.getNombre()) + " " + a.getApellido();
+                nombreCompleto = quitarAcentos(nombreCompleto.c_str());
+            }
+
+            // Fecha sin sprintf → usando strings
+            Fecha f = ins.getFecha();
+
+            auto twoDigits = [](int n) {
+                return (n < 10 ? "0" : "") + to_string(n);
+            };
+
+            string fechaStr = twoDigits(f.getDia()) + "/" +
+                              twoDigits(f.getMes()) + "/" +
+                              to_string(f.getAnio());
+
+            // Mostrar fila
+            cout << "\t| " << setw(6) << left << ins.getLegajoAlumno()
+                 << " | " << setw(29) << left << nombreCompleto
+                 << " | " << setw(20) << left << fechaStr
+                 << " |\n";
         }
     }
 
-    cout << "\t+--------------+--------------+\n";
+    cout << "\t+--------+-------------------------------+----------------------+\n";
 }
 
 
@@ -396,37 +491,137 @@ void ManagerDocente::cargarNotasParcialTP(int legajoDocente) {
 // --------------------------------------------------
 // CARGA DE NOTAS DE FINAL + VALIDACIÓN ACTA CERRADA
 // --------------------------------------------------
-
 void ManagerDocente::cargarNotasFinal(int legajoDocente) {
-    int idComision, legajoAlumno, nota;
-
+    clearScreen();
     cout << "\n\t=== CARGA DE NOTAS FINALES ===\n";
-    cout << "\tID Comisión: ";
-    cin >> idComision;
 
-    if (!dictaComision(legajoDocente, idComision)) {
-        cout << "\n\tERROR: Esta comisión NO pertenece al docente.\n";
+    ArchivoComision archCom;
+    ArchivoMateria archMat;
+    ArchivoInscripcionComision archIns;
+    ArchivoAlumno archAlu;
+
+    int totalCom = archCom.contarRegistros();
+    if (totalCom == 0) {
+        cout << "\nNo hay comisiones registradas.\n";
         return;
     }
 
-    int pos = _archivoComisiones.buscarRegistro(idComision);
-    if (pos < 0) {
-        cout << "\n\tERROR: La comisión no existe.\n";
+    // ============================================
+    // 1) LISTAR COMISIONES DEL DOCENTE
+    // ============================================
+    int* comisiones = new int[totalCom];
+    int cantCom = 0;
+
+    cout << "\n=== COMISIONES QUE DICTA EL DOCENTE ===\n\n";
+
+    cout << "+--------+--------------+-------------------------------------------+\n";
+    cout << "| OPCION | ID COMISION  |                 MATERIA                   |\n";
+    cout << "+--------+--------------+-------------------------------------------+\n";
+
+    for (int i = 0; i < totalCom; i++) {
+        Comision c = archCom.leerRegistro(i);
+
+        if (!c.getEliminado() && c.getLegajoDocente() == legajoDocente) {
+            string mat = "N/A";
+            int posM = archMat.buscarRegistro(c.getIdMateria());
+            if (posM >= 0) mat = quitarAcentos(archMat.leerRegistro(posM).getNombre());
+
+            comisiones[cantCom] = c.getIdComision();
+
+            cout << "| " << setw(6) << left << (cantCom + 1)
+                 << " | " << setw(12) << left << c.getIdComision()
+                 << " | " << setw(41) << left << mat
+                 << " |\n";
+
+            cantCom++;
+        }
+    }
+
+    cout << "+--------+--------------+-------------------------------------------+\n";
+
+    if (cantCom == 0) {
+        cout << "\nNo dictas ninguna comisión.\n";
+        delete[] comisiones;
         return;
     }
 
-    Comision com = _archivoComisiones.leerRegistro(pos);
-
-    if (com.getEliminado()) {
-        cout << "\n\tERROR: ACTA DE CURSADA CERRADA. No se puede cargar FINAL.\n";
+    int opcionC = Validacion::validarEntero("\nSeleccione opción de comisión: ");
+    if (opcionC < 1 || opcionC > cantCom) {
+        cout << "\nOpción inválida.\n";
+        delete[] comisiones;
         return;
     }
 
-    cout << "\tLegajo Alumno: ";
-    cin >> legajoAlumno;
+    int idComision = comisiones[opcionC - 1];
+    delete[] comisiones;
 
-    cout << "\tNota (0-10): ";
-    cin >> nota;
+
+    // ============================================
+    // 2) LISTAR ALUMNOS INSCRIPTOS A EXAMEN FINAL
+    // ============================================
+    int totalIns = archIns.contarRegistros();
+    int* alumnos = new int[totalIns];
+    int cantAlu = 0;
+
+    cout << "\n=== ALUMNOS INSCRIPTOS A FINAL ===\n\n";
+
+    cout << "+--------+--------------+-----------------------------+\n";
+    cout << "| OPCION |   LEGAJO     |         ALUMNO              |\n";
+    cout << "+--------+--------------+-----------------------------+\n";
+
+    ArchivoExamen archEx;
+    int totalEx = archEx.contarRegistros();
+
+    for (int i = 0; i < totalEx; i++) {
+        Examen ex = archEx.leerRegistro(i);
+
+        if (ex.getIdMateria() == archCom.leerRegistro(archCom.buscarRegistro(idComision)).getIdMateria()
+            && strcmp(ex.getTipo(), "Final") == 0
+            && !ex.getEliminado()
+            && !ex.getCorregido())     // SOLO FINALES SIN CORREGIR
+        {
+            int legajo = ex.getLegajoAlumno();
+
+            // Datos del alumno
+            int posA = archAlu.buscarRegistro(legajo);
+            if (posA < 0) continue;
+
+            Alumno a = archAlu.leerRegistro(posA);
+            string nombre = quitarAcentos((string(a.getNombre()) + " " + a.getApellido()).c_str());
+
+            alumnos[cantAlu] = legajo;
+
+            cout << "| " << setw(6) << left << (cantAlu + 1)
+                 << " | " << setw(12) << left << legajo
+                 << " | " << setw(27) << left << nombre
+                 << " |\n";
+
+            cantAlu++;
+        }
+    }
+
+    cout << "+--------+--------------+-----------------------------+\n";
+
+    if (cantAlu == 0) {
+        cout << "\nNo hay alumnos inscriptos a final.\n";
+        delete[] alumnos;
+        return;
+    }
+
+    int opcionA = Validacion::validarEntero("\nSeleccione opción de alumno: ");
+    if (opcionA < 1 || opcionA > cantAlu) {
+        cout << "\nOpción inválida.\n";
+        delete[] alumnos;
+        return;
+    }
+
+    int legajoAlumno = alumnos[opcionA - 1];
+    delete[] alumnos;
+
+    // ============================================
+    // 3) CARGAR NOTA DEL FINAL
+    // ============================================
+    int nota = Validacion::validarEnteroEnRango("\nIngrese Nota Final (0-10): ", 0, 10);
 
     _examenManager.cargarFinal(legajoAlumno, idComision, nota);
 }
@@ -868,89 +1063,193 @@ void ManagerDocente::borrarDefinitivo() {
     cout << "\nDocente borrado DEFINITIVAMENTE.\n";
 }
 void ManagerDocente::corregirParciales(int legajoDocente) {
-    ArchivoExamen archEx;
-    ArchivoComision archCom;
 
-    int totalEx = archEx.contarRegistros();
-    bool hayPendientes = false;
-
+    clearScreen();
     cout << "\n=== EXÁMENES PENDIENTES DE CORRECCIÓN ===\n\n";
 
-    // 1) Mostrar exámenes pendientes del docente
+    ArchivoExamen   archEx("Examenes.dat");
+    ArchivoComision archCom("Comisiones.dat");
+    ArchivoAlumno   archAlu("Alumnos.dat");
+    ArchivoMateria  archMat("Materias.dat");
+
+    int totalEx = archEx.contarRegistros();
+
+    // ======================================================
+    // RESERVA DE MEMORIA DINÁMICA PARA GUARDAR OPCIONES
+    // ======================================================
+    int* opciones = new int[totalEx];
+    int cantidadOpciones = 0;
+
+    // ======================================================
+    // PRIMER PASO: determinar si hay exámenes para mostrar
+    // ======================================================
     for (int i = 0; i < totalEx; i++) {
+
         Examen ex = archEx.leerRegistro(i);
+        if (ex.getEliminado() || ex.getCorregido()) continue;
 
-        if (ex.getEliminado()) continue;
-        if (ex.getCorregido()) continue;
-
-        // Buscar la comisión asociada a esa materia
-        int idMateria = ex.getIdMateria();
-        int posCom = -1;
-
+        bool dicta = false;
         int totalCom = archCom.contarRegistros();
+
         for (int c = 0; c < totalCom; c++) {
             Comision com = archCom.leerRegistro(c);
 
-            if (!com.getEliminado() && com.getIdMateria() == idMateria) {
-                posCom = c;
+            if (!com.getEliminado() &&
+                com.getIdMateria() == ex.getIdMateria() &&
+                com.getLegajoDocente() == legajoDocente)
+            {
+                dicta = true;
                 break;
             }
         }
 
-        if (posCom < 0) continue;
+        if (!dicta) continue;
 
-        Comision com = archCom.leerRegistro(posCom);
-
-        // Validar que el docente sea el dueño de la comisión
-        if (com.getLegajoDocente() != legajoDocente) continue;
-
-        // Mostrar examen pendiente
-        cout << "ID Examen: " << ex.getIdExamen()
-             << " | Alumno: " << ex.getLegajoAlumno()
-             << " | Materia: " << idMateria
-             << " | Tipo: " << ex.getTipo()
-             << " | Parcial Nº: " << ex.getNumeroParcial()
-             << endl;
-
-        hayPendientes = true;
+        cantidadOpciones++;
     }
 
-    if (!hayPendientes) {
-        cout << "\nNo hay exámenes pendientes para sus comisiones.\n";
+    // ======================================================
+    // SI NO HAY EXÁMENES → NO MOSTRAR TABLA VACÍA
+    // ======================================================
+    if (cantidadOpciones == 0) {
+        delete[] opciones;
+        cout << "No hay exámenes pendientes para sus comisiones.\n";
+        pauseScreen();
         return;
     }
 
-    // ------------------------------
-    // 2) Elegir examen a corregir
-    // ------------------------------
-    int idExamen;
-    cout << "\nIngrese ID de examen a corregir: ";
-    cin >> idExamen;
+    // ======================================================
+    // MOSTRAR TABLA SOLO SI HAY EXÁMENES
+    // ======================================================
+    cout << "+--------+---------------------------+------------------------------------+-------------+-------------+\n";
+    cout << "| OPCION |          ALUMNO           |                MATERIA             |    TIPO     |    FECHA    |\n";
+    cout << "+--------+---------------------------+------------------------------------+-------------+-------------+\n";
 
+    cantidadOpciones = 0; // reinicio para el llenado real
+
+    for (int i = 0; i < totalEx; i++) {
+
+        Examen ex = archEx.leerRegistro(i);
+        if (ex.getEliminado() || ex.getCorregido()) continue;
+
+        // Verificar que el docente dicta esa materia
+        bool dicta = false;
+        int totalCom = archCom.contarRegistros();
+
+        for (int c = 0; c < totalCom; c++) {
+            Comision com = archCom.leerRegistro(c);
+
+            if (!com.getEliminado() &&
+                com.getIdMateria() == ex.getIdMateria() &&
+                com.getLegajoDocente() == legajoDocente)
+            {
+                dicta = true;
+                break;
+            }
+        }
+
+        if (!dicta) continue;
+
+        // ================================
+        // Alumno
+        // ================================
+        string alumnoStr = "N/A";
+        int posAlu = archAlu.buscarRegistro(ex.getLegajoAlumno());
+
+        if (posAlu >= 0) {
+            Alumno a = archAlu.leerRegistro(posAlu);
+            alumnoStr = quitarAcentos(a.getNombre());
+            alumnoStr += " ";
+            alumnoStr += quitarAcentos(a.getApellido());
+            alumnoStr += " (";
+            alumnoStr += to_string(a.getLegajo());
+            alumnoStr += ")";
+        }
+
+        // ================================
+        // Materia
+        // ================================
+        string materiaStr = "N/A";
+        int posMat = archMat.buscarRegistro(ex.getIdMateria());
+
+        if (posMat >= 0) {
+            Materia m = archMat.leerRegistro(posMat);
+            materiaStr = quitarAcentos(m.getNombre());
+        }
+
+        // ================================
+        // Tipo
+        // ================================
+        string tipoStr = ex.getTipo();
+        if (strcmp(ex.getTipo(), "Parcial") == 0 ||
+            strcmp(ex.getTipo(), "Recuperatorio") == 0)
+        {
+            tipoStr += " ";
+            tipoStr += to_string(ex.getNumeroParcial());
+        }
+
+        // ================================
+        // Fecha
+        // ================================
+        Fecha f = ex.getFecha();
+        string fechaStr =
+            to_string(f.getDia()) + "/" +
+            to_string(f.getMes()) + "/" +
+            to_string(f.getAnio());
+
+        // Guardamos el ID real en memoria dinámica
+        opciones[cantidadOpciones] = ex.getIdExamen();
+        cantidadOpciones++;
+
+        // Mostrar fila
+        cout << "| " << setw(6) << left << cantidadOpciones
+             << " | " << setw(25) << left << alumnoStr
+             << " | " << setw(34) << left << materiaStr
+             << " | " << setw(11) << left << tipoStr
+             << " | " << setw(11) << left << fechaStr
+             << " |\n";
+    }
+
+    cout << "+--------+---------------------------+------------------------------------+-------------+-------------+\n";
+
+    // ======================================================
+    // SELECCIÓN POR OPCIÓN
+    // ======================================================
+    int opcion = Validacion::validarEntero("\nSeleccione opción: ");
+
+    if (opcion < 1 || opcion > cantidadOpciones) {
+        cout << "\nERROR: opción inválida.\n";
+        delete[] opciones;
+        pauseScreen();
+        return;
+    }
+
+    int idExamen = opciones[opcion - 1];
+
+    delete[] opciones; // liberar memoria
+
+    // ======================================================
+    // CORRECCIÓN
+    // ======================================================
     int posEx = archEx.buscarRegistro(idExamen);
+
     if (posEx < 0) {
-        cout << "\nERROR: El examen no existe.\n";
+        cout << "\nERROR: examen no encontrado.\n";
+        pauseScreen();
         return;
     }
 
     Examen ex = archEx.leerRegistro(posEx);
 
-    int nota;
-    cout << "Ingrese nota (0 a 10): ";
-    cin >> nota;
+    int nota = Validacion::validarEnteroEnRango("Ingrese nota (0–10): ", 0, 10);
 
-    if (nota < 0 || nota > 10) {
-        cout << "\nERROR: Nota inválida.\n";
-        return;
-    }
-
-    // Guardar corrección
     ex.setNota(nota);
     ex.setCorregido(true);
 
-    if (archEx.modificarRegistro(ex, posEx)) {
+    if (archEx.modificarRegistro(ex, posEx))
         cout << "\nExamen corregido correctamente.\n";
-    } else {
-        cout << "\nERROR al corregir examen.\n";
-    }
+    else
+        cout << "\nError al guardar la corrección.\n";
+
+    pauseScreen();
 }

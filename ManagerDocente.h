@@ -37,6 +37,7 @@ public:
 
     void verMisComisiones(int legajo);
     void verAlumnosDeComision(int idComision);
+    void seleccionarComisionParaVerAlumnos(int legajoDocente);
 
     void cargarNotasParcialTP(int legajoDocente);
     void cargarNotasFinal(int legajoDocente);
