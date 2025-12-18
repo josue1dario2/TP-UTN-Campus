@@ -6,7 +6,6 @@
 #include "Alumno.h"
 #include "utils.h"
 #include <fstream>
-#include <vector>
 #include <iomanip>
 
 
@@ -284,8 +283,6 @@ void ManagerDocente::seleccionarComisionParaVerAlumnos(int legajoDocente) {
     ArchivoMateria archMat;
     ArchivoDocente archDoc;
 
-    vector<int> opciones;   // Guardará los ID reales
-
     cout << "\n=== MIS COMISIONES ===\n\n";
 
     cout << "+--------+------------------------------+--------------+--------------+\n";
@@ -295,6 +292,12 @@ void ManagerDocente::seleccionarComisionParaVerAlumnos(int legajoDocente) {
     int total = archCom.contarRegistros();
     bool hay = false;
 
+    // ======================================================
+    // Reservar memoria dinámica
+    // ======================================================
+    int* opciones = new int[total];   // guarda ID reales
+    int cantOpciones = 0;
+
     for (int i = 0; i < total; i++) {
         Comision c = archCom.leerRegistro(i);
 
@@ -303,9 +306,11 @@ void ManagerDocente::seleccionarComisionParaVerAlumnos(int legajoDocente) {
 
         hay = true;
 
-        // Guardamos la comisión real
-        opciones.push_back(c.getIdComision());
-        int op = opciones.size();
+        // Guardamos ID real de la comisión
+        opciones[cantOpciones] = c.getIdComision();
+        cantOpciones++;
+
+        int op = cantOpciones;
 
         // Materia
         string mat = "N/A";
@@ -326,22 +331,29 @@ void ManagerDocente::seleccionarComisionParaVerAlumnos(int legajoDocente) {
     cout << "+--------+------------------------------+--------------+--------------+\n";
 
     if (!hay) {
+        delete[] opciones;
         cout << "\nNo tenés comisiones asignadas.\n";
         return;
     }
 
+    // ======================================================
     // Seleccionar opción
+    // ======================================================
     int seleccion = Validacion::validarEntero("\nSeleccione opción: ");
 
-    if (seleccion < 1 || seleccion > opciones.size()) {
+    if (seleccion < 1 || seleccion > cantOpciones) {
+        delete[] opciones;
         cout << "\nERROR: Opción inválida.\n";
         return;
     }
 
-    int idReal = opciones[seleccion - 1]; // ID REAL de la comisión
+    int idReal = opciones[seleccion - 1];
+
+    delete[] opciones;
 
     verAlumnosDeComision(idReal);
 }
+
 
 void ManagerDocente::verAlumnosDeComision(int idComision) {
 
@@ -1075,18 +1087,27 @@ void ManagerDocente::corregirParciales(int legajoDocente) {
     int totalEx = archEx.contarRegistros();
 
     // ======================================================
-    // RESERVA DE MEMORIA DINÁMICA PARA GUARDAR OPCIONES
+    // RESERVAR MEMORIA PARA OPCIONES
     // ======================================================
     int* opciones = new int[totalEx];
     int cantidadOpciones = 0;
 
     // ======================================================
-    // PRIMER PASO: determinar si hay exámenes para mostrar
+    // PRIMER LOOP: CONTAR EXÁMENES SIN CORREGIR (SOLO PARCIALES)
     // ======================================================
     for (int i = 0; i < totalEx; i++) {
 
         Examen ex = archEx.leerRegistro(i);
-        if (ex.getEliminado() || ex.getCorregido()) continue;
+
+        if (ex.getEliminado()) continue;
+        if (ex.getCorregido()) continue;
+
+        // 🔥 FILTRO: SOLO PARCIALES Y RECUPERATORIOS
+        if (strcmp(ex.getTipo(), "Parcial") != 0 &&
+            strcmp(ex.getTipo(), "Recuperatorio") != 0)
+        {
+            continue;  // saltar Finales u otros tipos
+        }
 
         bool dicta = false;
         int totalCom = archCom.contarRegistros();
@@ -1108,9 +1129,6 @@ void ManagerDocente::corregirParciales(int legajoDocente) {
         cantidadOpciones++;
     }
 
-    // ======================================================
-    // SI NO HAY EXÁMENES → NO MOSTRAR TABLA VACÍA
-    // ======================================================
     if (cantidadOpciones == 0) {
         delete[] opciones;
         cout << "No hay exámenes pendientes para sus comisiones.\n";
@@ -1119,20 +1137,28 @@ void ManagerDocente::corregirParciales(int legajoDocente) {
     }
 
     // ======================================================
-    // MOSTRAR TABLA SOLO SI HAY EXÁMENES
+    // MOSTRAR TABLA DE EXÁMENES PENDIENTES
     // ======================================================
     cout << "+--------+---------------------------+------------------------------------+-------------+-------------+\n";
     cout << "| OPCION |          ALUMNO           |                MATERIA             |    TIPO     |    FECHA    |\n";
     cout << "+--------+---------------------------+------------------------------------+-------------+-------------+\n";
 
-    cantidadOpciones = 0; // reinicio para el llenado real
+    cantidadOpciones = 0;
 
     for (int i = 0; i < totalEx; i++) {
 
         Examen ex = archEx.leerRegistro(i);
-        if (ex.getEliminado() || ex.getCorregido()) continue;
 
-        // Verificar que el docente dicta esa materia
+        if (ex.getEliminado()) continue;
+        if (ex.getCorregido()) continue;
+
+        // 🔥 FILTRO: SOLO PARCIALES Y RECUPERATORIOS
+        if (strcmp(ex.getTipo(), "Parcial") != 0 &&
+            strcmp(ex.getTipo(), "Recuperatorio") != 0)
+        {
+            continue;
+        }
+
         bool dicta = false;
         int totalCom = archCom.contarRegistros();
 
@@ -1197,7 +1223,7 @@ void ManagerDocente::corregirParciales(int legajoDocente) {
             to_string(f.getMes()) + "/" +
             to_string(f.getAnio());
 
-        // Guardamos el ID real en memoria dinámica
+        // Guardar ID de examen
         opciones[cantidadOpciones] = ex.getIdExamen();
         cantidadOpciones++;
 
@@ -1213,7 +1239,7 @@ void ManagerDocente::corregirParciales(int legajoDocente) {
     cout << "+--------+---------------------------+------------------------------------+-------------+-------------+\n";
 
     // ======================================================
-    // SELECCIÓN POR OPCIÓN
+    // SELECCIONAR EXAMEN
     // ======================================================
     int opcion = Validacion::validarEntero("\nSeleccione opción: ");
 
@@ -1225,11 +1251,10 @@ void ManagerDocente::corregirParciales(int legajoDocente) {
     }
 
     int idExamen = opciones[opcion - 1];
-
-    delete[] opciones; // liberar memoria
+    delete[] opciones;
 
     // ======================================================
-    // CORRECCIÓN
+    // CORREGIR EXAMEN
     // ======================================================
     int posEx = archEx.buscarRegistro(idExamen);
 
@@ -1242,7 +1267,6 @@ void ManagerDocente::corregirParciales(int legajoDocente) {
     Examen ex = archEx.leerRegistro(posEx);
 
     int nota = Validacion::validarEnteroEnRango("Ingrese nota (0–10): ", 0, 10);
-
     ex.setNota(nota);
     ex.setCorregido(true);
 
