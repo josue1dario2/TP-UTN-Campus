@@ -3,7 +3,6 @@
 #include "ManagerAlumno.h"
 #include "ManagerInscripcionComision.h"
 #include "ArchivoMateria.h"
-
 #include <iostream>
 #include <iomanip>
 #include <cstring>
@@ -208,6 +207,39 @@ bool ManagerExamen::estaPromocionado(int legajoAlumno, int idComision) {
 
     float prom = (notaP1 + notaP2) / 2.0f;
     return prom >= 7;
+}
+
+bool ManagerExamen::estaPromocionadoPorMateria(int legajoAlumno, int idMateria) {
+    int notaP1 = -1, notaP2 = -1;
+    int rec1 = -1, rec2 = -1;
+
+    int total = _archivoExamen.contarRegistros();
+    for (int i = 0; i < total; i++) {
+        Examen ex = _archivoExamen.leerRegistro(i);
+
+        if (ex.getLegajoAlumno() != legajoAlumno ||
+            ex.getIdMateria() != idMateria) continue;
+
+        if (strcmp(ex.getTipo(), "Parcial") == 0) {
+            if (ex.getNumeroParcial() == 1) notaP1 = ex.getNota();
+            if (ex.getNumeroParcial() == 2) notaP2 = ex.getNota();
+        }
+        if (strcmp(ex.getTipo(), "Recuperatorio") == 0) {
+            if (ex.getNumeroParcial() == 1) rec1 = ex.getNota();
+            if (ex.getNumeroParcial() == 2) rec2 = ex.getNota();
+        }
+    }
+
+    // Si usó algún recuperatorio → NO promociona
+    if (rec1 != -1 || rec2 != -1) return false;
+
+    // Debe tener ambos parciales cargados
+    if (notaP1 < 0 || notaP2 < 0) return false;
+
+    // Promedio de parciales
+    float promedio = (notaP1 + notaP2) / 2.0f;
+
+    return promedio >= 7;
 }
 
 bool ManagerExamen::estaRegular(int legajoAlumno, int idComision) {

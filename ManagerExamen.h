@@ -20,6 +20,7 @@ public:
     // --- VALIDACIONES ---
     bool puedeRendirFinal(int legajoAlumno, int idComision);
     bool estaPromocionado(int legajoAlumno, int idComision);
+    bool estaPromocionadoPorMateria(int legajoAlumno, int idMateria);
     bool estaRegular(int legajoAlumno, int idComision);
     bool estaLibre(int legajoAlumno, int idComision);
 

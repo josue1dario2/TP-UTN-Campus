@@ -8,7 +8,6 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include <vector>
 #include <cstring>
 #include <cstdlib>
 
@@ -294,14 +293,28 @@ void ManagerAlumno::mostrarHistorialNotas(int legajo) {
         if (ex.getLegajoAlumno() != legajo) continue;
         if (ex.getEliminado()) continue;
 
+        // ============================================
+        // SI LA MATERIA ESTÁ APROBADA → NO SE MUESTRA
+        // ============================================
+        int idMateria = ex.getIdMateria();
+
+        bool promo = _examenManager.estaPromocionadoPorMateria(legajo, idMateria);
+        bool finalOk = _examenManager.finalAprobado(legajo, idMateria);
+
+        if (promo || finalOk) continue;
+
         hay = true;
 
-        // ---- MATERIA ----
-        int posMat = archMat.buscarRegistro(ex.getIdMateria());
+        // ============================
+        // OBTENER MATERIA
+        // ============================
+        int posMat = archMat.buscarRegistro(idMateria);
         Materia mat = archMat.leerRegistro(posMat);
         string nombreMat = quitarAcentos(mat.getNombre());
 
-        // ---- TIPO ----
+        // ============================
+        // ARMAR TEXTO DEL TIPO
+        // ============================
         string tipo = ex.getTipo();
         if (strcmp(ex.getTipo(), "Parcial") == 0 ||
             strcmp(ex.getTipo(), "Recuperatorio") == 0)
@@ -309,18 +322,22 @@ void ManagerAlumno::mostrarHistorialNotas(int legajo) {
             tipo += " (" + to_string(ex.getNumeroParcial()) + ")";
         }
 
-        // ---- NOTA ----
+        // ============================
+        // NOTA
+        // ============================
         string notaStr = ex.getCorregido() ? to_string(ex.getNota())
                                            : "Pendiente";
 
-        // ---- FECHA ----
+        // ============================
+        // FECHA
+        // ============================
         Fecha f = ex.getFecha();
         char fechaStr[11];
         sprintf(fechaStr, "%02d/%02d/%04d", f.getDia(), f.getMes(), f.getAnio());
 
-        // ============================================
-        // BUSCAR PROFESOR (mostrar nombre + id)
-        // ============================================
+        // ============================
+        // DOCENTE
+        // ============================
         string profesor = "N/A";
 
         int totalCom = archCom.contarRegistros();
@@ -328,7 +345,7 @@ void ManagerAlumno::mostrarHistorialNotas(int legajo) {
 
             Comision com = archCom.leerRegistro(j);
 
-            if (!com.getEliminado() && com.getIdMateria() == ex.getIdMateria()) {
+            if (!com.getEliminado() && com.getIdMateria() == idMateria) {
 
                 int posDoc = archDoc.buscarRegistro(com.getLegajoDocente());
                 if (posDoc >= 0) {
@@ -337,7 +354,6 @@ void ManagerAlumno::mostrarHistorialNotas(int legajo) {
                     string nombreProf = string(doc.getNombre()) + " " + doc.getApellido();
                     nombreProf = quitarAcentos(nombreProf.c_str());
 
-                    // 💥 Concatenar ID real del docente
                     profesor = nombreProf + " (" + to_string(doc.getLegajo()) + ")";
                 }
                 break;
@@ -357,11 +373,12 @@ void ManagerAlumno::mostrarHistorialNotas(int legajo) {
     }
 
     if (!hay) {
-        cout << "\nNo se encontraron examenes registrados.\n";
+        cout << "\nNo se encontraron examenes pendientes.\n";
     }
 
     cout << string(ancho, '-') << "\n";
 }
+
 
 
 void ManagerAlumno::mostrarMateriasAprobadas(int legajo) {
@@ -375,29 +392,28 @@ void ManagerAlumno::mostrarMateriasAprobadas(int legajo) {
         Materia mat = _archivoMaterias.leerRegistro(i);
         int idMateria = mat.getIdMateria();
 
-        bool promo = _examenManager.estaPromocionado(legajo, idMateria);
+        // 🔥 LÍNEA CORREGIDA AQUÍ 🔥
+        bool promo = _examenManager.estaPromocionadoPorMateria(legajo, idMateria);
+
         bool finalOk = _examenManager.finalAprobado(legajo, idMateria);
 
-        // Solo mostrar si está realmente aprobada
         if (!promo && !finalOk) continue;
-
-        hay = true;
 
         cout << "\t- " << mat.getNombre() << "  -->  ";
 
-        // =====================================
-        // 1) PROMOCIONADO
-        // =====================================
+        // ======== PROMOCIONADA ========
         if (promo) {
             float prom = _examenManager.promedioConReglas(legajo, idMateria);
+
+            if (prom < 6) continue;
+
             cout << "PROMOCIONADO (Promedio: " << prom << ")";
             cout << endl;
+            hay = true;
             continue;
         }
 
-        // =====================================
-        // 2) FINAL APROBADO
-        // =====================================
+        // ======== FINAL APROBADO ========
         ArchivoExamen arch("Examenes.dat");
         int totalEx = arch.contarRegistros();
 
@@ -409,7 +425,8 @@ void ManagerAlumno::mostrarMateriasAprobadas(int legajo) {
                 strcmp(ex.getTipo(), "Final") == 0 &&
                 ex.getNota() >= 4)
             {
-                cout << "FINAL APROBADO (Nota: " << ex.getNota() << ")";
+                cout << "FINAL (Nota: " << ex.getNota() << ")";
+                hay = true;
                 break;
             }
         }
@@ -421,6 +438,7 @@ void ManagerAlumno::mostrarMateriasAprobadas(int legajo) {
         cout << "\n\tNo tienes materias aprobadas.\n";
     }
 }
+
 
 
 void ManagerAlumno::mostrarMateriasPendientes(int legajo) {
@@ -1117,6 +1135,7 @@ void ManagerAlumno::borrarDefinitivo() {
 
     cout << "\nAlumno borrado DEFINITIVAMENTE.\n";
 }
+
 void ManagerAlumno::inscribirseAParcial(int legajoAlumno) {
 
     clearScreen();
@@ -1130,9 +1149,9 @@ void ManagerAlumno::inscribirseAParcial(int legajoAlumno) {
 
     int totalIns = archIns.contarRegistros();
 
-    // ========================================
-    // ARREGLO DINÁMICO para comisiones válidas
-    // ========================================
+    // ======================================================
+    // ARREGLO DINÁMICO con comisiones válidas
+    // ======================================================
     int* comisionesValidas = new int[totalIns];
     int cantCom = 0;
 
@@ -1154,10 +1173,21 @@ void ManagerAlumno::inscribirseAParcial(int legajoAlumno) {
         if (posCom < 0) continue;
 
         Comision c = archCom.leerRegistro(posCom);
+        int idMateria = c.getIdMateria();
+
+        // ======================================================
+        // FILTRO CORRECTO → SI YA ESTÁ APROBADA NO SE MUESTRA
+        // ======================================================
+        if (
+            _examenManager.finalAprobado(legajoAlumno, idMateria) ||
+            _examenManager.estaPromocionadoPorMateria(legajoAlumno, idMateria)
+        ) {
+            continue; // 🔥 MATERIA APROBADA → NO LISTAR
+        }
 
         // ------ materia ------
         string nombreMat = "N/A";
-        int posMat = archMat.buscarRegistro(c.getIdMateria());
+        int posMat = archMat.buscarRegistro(idMateria);
         if (posMat >= 0) {
             Materia m = archMat.leerRegistro(posMat);
             nombreMat = quitarAcentos(m.getNombre());
@@ -1168,13 +1198,16 @@ void ManagerAlumno::inscribirseAParcial(int legajoAlumno) {
         int posDoc = archDoc.buscarRegistro(c.getLegajoDocente());
         if (posDoc >= 0) {
             Docente d = archDoc.leerRegistro(posDoc);
-            docente = quitarAcentos((string(d.getNombre()) + " " + d.getApellido() +
-                                    " (" + to_string(d.getLegajo()) + ")").c_str());
+            docente = quitarAcentos(
+                (string(d.getNombre()) + " " + d.getApellido() +
+                 " (" + to_string(d.getLegajo()) + ")").c_str()
+            );
         }
 
-        int opcion = cantCom + 1;
         comisionesValidas[cantCom] = c.getIdComision();
         cantCom++;
+
+        int opcion = cantCom;
 
         cout << "| " << setw(6) << left << opcion
              << " | " << setw(40) << left << nombreMat
@@ -1190,10 +1223,13 @@ void ManagerAlumno::inscribirseAParcial(int legajoAlumno) {
 
     if (!hay) {
         delete[] comisionesValidas;
-        cout << "\nNo estas inscripto en ninguna comision.\n";
+        cout << "\nNo hay comisiones disponibles para rendir parciales.\n";
         return;
     }
 
+    // ===============================
+    // SELECCIONAR COMISION
+    // ===============================
     int seleccion = Validacion::validarEntero("\nIngrese numero de opcion: ");
 
     if (seleccion < 1 || seleccion > cantCom) {
@@ -1213,7 +1249,6 @@ void ManagerAlumno::inscribirseAParcial(int legajoAlumno) {
 
     Comision com = archCom.leerRegistro(posC);
     int idMateria = com.getIdMateria();
-
 
     // ======================================================
     // BUSCAR PARCIALES Y RECUPERATORIOS DEL ALUMNO
@@ -1254,11 +1289,9 @@ void ManagerAlumno::inscribirseAParcial(int legajoAlumno) {
         }
     }
 
-
     // ======================================================
-    // DETERMINAR QUE PUEDE RENDIR
+    // DETERMINAR QUÉ PUEDE RENDIR
     // ======================================================
-
     const char* tipo = "";
     int numero = 0;
 
@@ -1302,11 +1335,9 @@ void ManagerAlumno::inscribirseAParcial(int legajoAlumno) {
         return;
     }
 
-
     // ======================================================
-    // CREAR EXAMEN
+    // CREAR REGISTRO DE EXAMEN
     // ======================================================
-
     Examen nuevo;
     nuevo.setIdExamen(totalEx + 1);
     nuevo.setIdMateria(idMateria);
@@ -1316,12 +1347,17 @@ void ManagerAlumno::inscribirseAParcial(int legajoAlumno) {
     nuevo.setNota(-1);
     nuevo.setCorregido(false);
 
-    // Fecha
     int mes, dia;
-    cout << "\nIngrese mes (1-12): ";
-    cin >> mes;
-    cout << "Ingrese dia (1-31): ";
-    cin >> dia;
+
+    do {
+        cout << "\nIngrese mes (1-12): ";
+        cin >> mes;
+    } while (mes < 1 || mes > 12);
+
+    do {
+        cout << "Ingrese dia (1-31): ";
+        cin >> dia;
+    } while (dia < 1 || dia > 31);
 
     Fecha f;
     f.setDia(dia);
